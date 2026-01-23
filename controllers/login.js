@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const Citizen = require("../models/citizen");
 const Government = require("../models/government");
 const Court = require("../models/court");
+const Hospital = require("../models/hospital");
 
 async function login_user(req, res)
 {
@@ -71,6 +72,29 @@ async function login_user(req, res)
 
             req.session.court = court;
             return res.redirect("/court");
+        });
+
+        return;
+    }
+
+    // ===== HOSPITAL LOGIN =====
+    if(role === "admin" && department === "hospital")
+    {
+        Hospital.findByEmail(email, (err, hospital) =>
+        {
+            if(err || !hospital)
+            {
+                return res.render("login_page", { error: "Invalid credentials" });
+            }
+
+            const match = bcrypt.compareSync(password, hospital.password);
+            if(!match)
+            {
+                return res.render("login_page", { error: "Invalid credentials" });
+            }
+
+            req.session.hospital = hospital;
+            return res.redirect("/hospital");
         });
 
         return;
