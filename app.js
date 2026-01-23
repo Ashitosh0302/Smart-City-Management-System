@@ -2,11 +2,21 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
+const MySQL=require("./config/db")
+const session=require("express-session")
 
 dotenv.config();
 
 const app = express();
 const PORT= process.env.PORT || 3070
+
+//session
+app.use(session({
+    secret: "your-secret-key", // change this to a secure random string
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 } // 1 hour
+}));
 
 //routes import
 const home_route=require("./routes/home")
@@ -15,6 +25,7 @@ const government_route=require("./routes/government")
 const hospital_route=require("./routes/hospital")
 const court_route=require("./routes/court")
 const transport_route=require("./routes/transpose")
+const login_route=require("./routes/login")
 
 //error handling middlwares
 const { ERROR_HANDLER } = require("./middlewares/error_middlewares");
@@ -46,6 +57,7 @@ app.use(ERROR_HANDLER)
 
 //routes
 app.use("/",home_route)
+app.use("/login",login_route)
 app.use("/citizen",citizen_route)
 app.use("/government",government_route)
 app.use("/hospital",hospital_route)
