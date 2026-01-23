@@ -16,7 +16,7 @@ function createCitizen(data, callback)
             data.username,
             data.email,
             data.phone_number,
-            data.password_hash,
+            data.password,
             data.gender,
             data.city
         ],

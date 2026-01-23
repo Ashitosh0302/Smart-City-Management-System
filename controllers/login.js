@@ -1,51 +1,60 @@
 const bcrypt = require("bcryptjs");
 const Citizen = require("../models/citizen");
+const Government = require("../models/government");
 
 async function login_user(req, res)
 {
-    const { role, email, password } = req.body;
+    const { role, department, email, password } = req.body;
 
-    if (role === "citizen")
+    // ===== CITIZEN LOGIN =====
+    if(role === "citizen")
     {
-        Citizen.findByEmailOrUsername(email, (error, user) =>
+        // use existing function
+        Citizen.findByEmailOrUsername(email, (err, citizen) =>
         {
-            if (error || !user)
+            if(err || !citizen)
             {
-                return res.render("login_page", {
-                    error: "Invalid Email or Password"
-                });
+                return res.render("login_page", { error: "Invalid credentials" });
             }
 
-            // 🔐 compare plain password with HASHED password
-            const is_match = bcrypt.compareSync(
-                password,
-                user.password
-            );
-
-            if (!is_match)
+            const match = bcrypt.compareSync(password, citizen.password);
+            if(!match)
             {
-                return res.render("login_page", {
-                    error: "Invalid Email or Password"
-                });
+                return res.render("login_page", { error: "Invalid credentials" });
             }
 
-            req.session.citizen = {
-                id: user.id,
-                full_name: user.full_name,
-                username: user.username,
-                email: user.email
-            };
-
-            // ✅ SUCCESS → SHOW CITIZEN PAGE
-            return res.redirect("/citizen")
+            req.session.citizen = citizen;
+            return res.redirect("/citizen"); // successful login
         });
+
+        return; // exit function to prevent further execution
     }
-    else
+
+    // ===== ADMIN LOGIN =====
+    if(role === "admin" && department === "government")
     {
-        return res.render("login_page", {
-            error: "Only citizen login supported"
+        Government.findByEmail(email, (err, gov) =>
+        {
+            if(err || !gov)
+            {
+                return res.render("login_page", { error: "Invalid credentials" });
+            }
+
+            const match = bcrypt.compareSync(password, gov.password);
+            if(!match)
+            {
+                return res.render("login_page", { error: "Invalid credentials" });
+            }
+
+            req.session.government = gov;
+            return res.redirect("/government"); // successful login
         });
+
+        return;
     }
+
+    // fallback for wrong role/department
+    return res.render("login_page", { error: "Invalid login" });
 }
 
 module.exports = {
