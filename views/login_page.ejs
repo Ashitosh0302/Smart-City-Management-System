@@ -1,132 +1,143 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>CityZen Login</title>
+    <title>CityZen Login</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body
-{
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-font-family:Arial, sans-serif;
-}
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: Arial, sans-serif;
+        }
 
-.card
-{
-border-radius:15px;
-}
+        .card {
+            border-radius: 15px;
+        }
 
-.role-box
-{
-cursor:pointer;
-border:2px solid #dee2e6;
-border-radius:10px;
-padding:15px;
-text-align:center;
-transition:0.3s;
-}
+        .role-box {
+            cursor: pointer;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: 0.3s;
+        }
 
-.role-box:hover
-{
-border-color:#0d6efd;
-background:#f8f9fa;
-}
+        .role-box:hover {
+            border-color: #0d6efd;
+            background: #f8f9fa;
+        }
 
-.active-role
-{
-border-color:#0d6efd;
-background:#e9f2ff;
-}
-</style>
+        .active-role {
+            border-color: #0d6efd;
+            background: #e9f2ff;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-<div class="card shadow p-4" style="width:420px;">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow p-4" style="width:420px;">
 
-<h4 class="text-center mb-3 text-primary">🔐 CityZen Login</h4>
+            <h4 class="text-center mb-3 text-primary">🔐 CityZen Login</h4>
 
-<!-- ROLE SELECTION -->
-<div class="mb-3">
-<label class="fw-bold mb-2">Login As</label>
+            <!-- ROLE SELECTION -->
+            <div class="mb-3">
+                <label class="fw-bold mb-2">Login As</label>
 
-<div class="row g-2">
-<div class="col-6">
-<div class="role-box active-role" onclick="setRole('citizen')" id="citizenBox">
-👤 Citizen
-</div>
-</div>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="role-box active-role" onclick="setRole('citizen')" id="citizenBox">
+                            👤 Citizen
+                        </div>
+                    </div>
 
-<div class="col-6">
-<div class="role-box" onclick="setRole('admin')" id="adminBox">
-🏛 Authority
-</div>
-</div>
-</div>
-</div>
+                    <div class="col-6">
+                        <div class="role-box" onclick="setRole('admin')" id="adminBox">
+                            🏛 Authority
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<form method="post" action="/login">
+            <form method="post" action="/login">
 
-<input type="hidden" name="role" id="role" value="citizen">
+                <input type="hidden" name="role" id="role" value="citizen">
 
-<!-- ADMIN TYPE -->
-<div class="mb-3" id="adminType" style="display:none;">
-<label>Department</label>
-<select name="department" class="form-select">
-<option value="">Select Department</option>
-<option value="government">Government</option>
-<option value="court">Court</option>
-<option value="hospital">Hospital</option>
-</select>
-</div>
+                <!-- ADMIN TYPE -->
+                <div class="mb-3" id="adminType" style="display:none;">
+                    <label>Department</label>
+                    <select name="department" class="form-select">
+                        <option value="">Select Department</option>
+                        <option value="government">Government</option>
+                        <option value="court">Court</option>
+                        <option value="hospital">Hospital</option>
+                        <option value="transport">Transport</option>
+                    </select>
+                </div>
 
-<div class="mb-3">
-<label>Email / Username</label>
-<input type="text" name="email" class="form-control" required>
-</div>
+                <div class="mb-3">
+                    <label>Email / Username</label>
+                    <input type="text" name="email" class="form-control" required>
+                </div>
 
-<div class="mb-3">
-<label>Password</label>
-<input type="password" name="password" class="form-control" required>
-</div>
+                <div class="mb-3">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
 
-<button class="btn btn-primary w-100">Login</button>
+                <button class="btn btn-primary w-100">Login</button>
 
-</form>
+            </form>
 
-<div class="text-center mt-3" id="registerLink">
-New Citizen? <a href="/citizen/register">Register here</a>
-</div>
+            <div class="text-center mt-3" id="registerLink">
+                New Citizen? <a href="/citizen/citizen_register">Register here</a>
+            </div>
 
-</div>
-</div>
+            <div class="text-center mt-3" id="registerLink">
+                Government registartion <a href="/government/government_register">Government</a>
+            </div>
 
-<script>
-function setRole(role)
-{
-document.getElementById("role").value = role;
+            <div class="text-center mt-3" id="registerLink">
+                Court registration <a href="/court/court_register">Court</a>
+            </div>
 
-document.getElementById("citizenBox").classList.remove("active-role");
-document.getElementById("adminBox").classList.remove("active-role");
+            <div class="text-center mt-3" id="registerLink">
+                Hospital registartion <a href="/hospital/hospital_register">Hospital</a>
+            </div>
 
-if(role === "citizen")
-{
-document.getElementById("citizenBox").classList.add("active-role");
-document.getElementById("adminBox").classList.remove("active-role");
-document.getElementById("adminType").style.display = "none";
-document.getElementById("registerLink").style.display = "block";
-}
-else
-{
-document.getElementById("adminBox").classList.add("active-role");
-document.getElementById("citizenBox").classList.remove("active-role");
-document.getElementById("adminType").style.display = "block";
-document.getElementById("registerLink").style.display = "none";
-}
-}
-</script>
+            <div class="text-center mt-3">
+                Transport registration <a href="/transport/transpose_register">Transport</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function setRole(role) {
+            document.getElementById("role").value = role;
+
+            document.getElementById("citizenBox").classList.remove("active-role");
+            document.getElementById("adminBox").classList.remove("active-role");
+
+            if (role === "citizen") {
+                document.getElementById("citizenBox").classList.add("active-role");
+                document.getElementById("adminBox").classList.remove("active-role");
+                document.getElementById("adminType").style.display = "none";
+                document.getElementById("registerLink").style.display = "block";
+            }
+            else {
+                document.getElementById("adminBox").classList.add("active-role");
+                document.getElementById("citizenBox").classList.remove("active-role");
+                document.getElementById("adminType").style.display = "block";
+                document.getElementById("registerLink").style.display = "none";
+            }
+        }
+    </script>
 
 </body>
+
 </html>

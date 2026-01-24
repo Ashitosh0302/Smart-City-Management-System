@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Complaint | Smart City</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e67e22;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Simple Animation */
+        .road-dot {
+            position: fixed;
+            background: #f39c12;
+            border-radius: 50%;
+            animation: float 3s infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 0.6; }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Form */
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        /* GPS Section */
+        .gps-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .location-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .location-btn:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+            transition: all 0.3s;
+        }
+
+        /* Issue Cards */
+        .issue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .issue-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .issue-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .issue-card.active {
+            background: rgba(230, 126, 34, 0.1);
+            border-color: var(--primary);
+        }
+
+        .issue-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* Security Cards */
+        .security-cards {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .security-card {
+            flex: 1;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .security-card.minor {
+            border-color: #27ae60;
+        }
+
+        .security-card.moderate {
+            border-color: #f39c12;
+        }
+
+        .security-card.dangerous {
+            border-color: #e74c3c;
+        }
+
+        .security-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Upload */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            background: #e9ecef;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #d35400;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .success-modal.show {
+            display: flex;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        /* Media Preview */
+        .media-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .media-item {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .issue-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .security-cards {
+                flex-direction: column;
+            }
+            
+            .form-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Create animation dots -->
+    <div id="animationContainer"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-road"></i>
+            Road Complaint Portal
+        </div>
+        <p>Report road issues. Help make our roads safer.</p>
+    </div>
+
+    <!-- Main Form -->
+    <div class="form-container">
+        <div class="form-card">
+            <form id="roadComplaintForm">
+                <!-- Location Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Location Details
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Road/Street Name *</label>
+                            <input type="text" class="form-control" name="roadName" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Area/Locality *</label>
+                            <input type="text" class="form-control" name="area" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Ward/Zone *</label>
+                            <select class="form-select" name="ward" required>
+                                <option value="">Select</option>
+                                <option>Ward 1</option>
+                                <option>Ward 2</option>
+                                <option>Ward 3</option>
+                                <option>Ward 4</option>
+                                <option>Zone A</option>
+                                <option>Zone B</option>
+                                <option>Zone C</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">City *</label>
+                            <input type="text" class="form-control" name="city" value="Mumbai" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Pincode *</label>
+                            <input type="text" class="form-control" name="pincode" pattern="[0-9]{6}" required>
+                        </div>
+                    </div>
+
+                    <!-- GPS Location -->
+                    <div class="gps-section">
+                        <div class="mb-3">
+                            <label class="form-label">GPS Location *</label>
+                            <button type="button" class="location-btn" onclick="getGPSLocation()">
+                                <i class="fas fa-location-arrow"></i>
+                                Get Current Location
+                            </button>
+                            <span id="locationStatus" class="ms-3">Click to get location</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control mb-2" id="latitude" 
+                                       name="latitude" placeholder="Latitude" readonly required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control mb-2" id="longitude" 
+                                       name="longitude" placeholder="Longitude" readonly required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Road Issue Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Road Issue Details
+                    </h3>
+
+                    <div class="mb-4">
+                        <label class="form-label">Type of Road Issue *</label>
+                        <div class="issue-grid">
+                            <div class="issue-card active" onclick="selectIssue('potholes')">
+                                <i class="fas fa-crutch issue-icon"></i>
+                                <div>Potholes</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('damaged_road')">
+                                <i class="fas fa-road issue-icon"></i>
+                                <div>Damaged Road</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('waterlogging')">
+                                <i class="fas fa-water issue-icon"></i>
+                                <div>Waterlogging</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('uneven_surface')">
+                                <i class="fas fa-mountain issue-icon"></i>
+                                <div>Uneven Surface</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('open_manhole')">
+                                <i class="fas fa-person-falling issue-icon"></i>
+                                <div>Open Manhole</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('road_dug')">
+                                <i class="fas fa-dig issue-icon"></i>
+                                <div>Road Dug & Not Repaired</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('poor_markings')">
+                                <i class="fas fa-paint-roller issue-icon"></i>
+                                <div>Poor Road Markings</div>
+                            </div>
+                            
+                            <div class="issue-card" onclick="selectIssue('broken_footpath')">
+                                <i class="fas fa-walking issue-icon"></i>
+                                <div>Broken Footpath</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="issueType" id="issueType" value="potholes">
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Security Level *</label>
+                            <div class="security-cards">
+                                <div class="security-card minor" onclick="selectSecurity('minor')">
+                                    <i class="fas fa-check-circle" style="color:#27ae60;"></i>
+                                    <div>Minor</div>
+                                </div>
+                                
+                                <div class="security-card moderate active" onclick="selectSecurity('moderate')">
+                                    <i class="fas fa-exclamation-triangle" style="color:#f39c12;"></i>
+                                    <div>Moderate</div>
+                                </div>
+                                
+                                <div class="security-card dangerous" onclick="selectSecurity('dangerous')">
+                                    <i class="fas fa-skull-crossbones" style="color:#e74c3c;"></i>
+                                    <div>Dangerous</div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="securityLevel" id="securityLevel" value="moderate">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label">Affected Area *</label>
+                            <div class="security-cards">
+                                <div class="security-card active" onclick="selectArea('small')">
+                                    <i class="fas fa-square" style="color:#27ae60;"></i>
+                                    <div>Small Patch</div>
+                                </div>
+                                
+                                <div class="security-card" onclick="selectArea('large')">
+                                    <i class="fas fa-road" style="color:#e74c3c;"></i>
+                                    <div>Entire Road</div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="affectedArea" id="affectedArea" value="small">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Since When? *</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" class="form-control" name="durationValue" min="1" value="1" required>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" name="durationUnit" required>
+                                        <option value="days">Days</option>
+                                        <option value="weeks">Weeks</option>
+                                        <option value="months">Months</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                <i class="fas fa-cloud-rain"></i>
+                                Monsoon Related Issue
+                            </label>
+                            <select class="form-select" name="monsoonIssue">
+                                <option value="">Not related</option>
+                                <option value="rainwater">Rainwater Accumulation</option>
+                                <option value="mud">Mud on Road</option>
+                                <option value="slippery">Slippery Surface</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Additional Remarks</label>
+                        <textarea class="form-control" name="remarks" rows="3" placeholder="Any special instructions..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Photo & Video -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-camera"></i>
+                        Photo & Video Evidence
+                    </h3>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Date of Capture *</label>
+                            <input type="date" class="form-control" name="captureDate" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label">Time of Capture *</label>
+                            <input type="time" class="form-control" name="captureTime" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Upload Photos/Videos (Optional)</label>
+                        <div class="upload-area" onclick="document.getElementById('mediaInput').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary);"></i>
+                            <p>Click to upload files</p>
+                            <small>Max 5 files, 10MB each</small>
+                        </div>
+                        <input type="file" id="mediaInput" multiple accept="image/*,video/*" 
+                               class="d-none" onchange="handleMediaUpload(event)">
+                        
+                        <div id="mediaPreview" class="media-preview"></div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-center">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Complaint
+                    </button>
+                    <p class="text-muted mt-3">
+                        <i class="fas fa-info-circle"></i>
+                        Complaint will be addressed within 72 hours
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h4>Complaint Submitted!</h4>
+            <p>Your complaint ID: <strong id="complaintId">RC-<%= Date.now().toString().slice(-6) %></strong></p>
+            <p class="text-muted">Road repair team will inspect within 72 hours</p>
+            <button class="btn btn-primary mt-3" onclick="resetForm()">
+                <i class="fas fa-redo me-2"></i>Submit Another
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Create simple animation
+        function createAnimation() {
+            const container = document.getElementById('animationContainer');
+            for(let i = 0; i < 20; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'road-dot';
+                dot.style.width = dot.style.height = Math.random() * 10 + 5 + 'px';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(dot);
+            }
+        }
+
+        // Select road issue
+        function selectIssue(type) {
+            document.getElementById('issueType').value = type;
+            document.querySelectorAll('.issue-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        // Select security level
+        function selectSecurity(level) {
+            document.getElementById('securityLevel').value = level;
+            document.querySelectorAll('.security-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        // Select affected area
+        function selectArea(area) {
+            document.getElementById('affectedArea').value = area;
+            document.querySelectorAll('.security-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        // Get GPS Location
+        function getGPSLocation() {
+            const status = document.getElementById('locationStatus');
+            const latitude = document.getElementById('latitude');
+            const longitude = document.getElementById('longitude');
+            const btn = event.currentTarget;
+            
+            if(!navigator.geolocation) {
+                status.textContent = 'Browser not supported';
+                return;
+            }
+            
+            status.textContent = 'Getting location...';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+            
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    latitude.value = position.coords.latitude.toFixed(6);
+                    longitude.value = position.coords.longitude.toFixed(6);
+                    status.textContent = 'Location captured!';
+                    status.style.color = 'green';
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                },
+                (error) => {
+                    status.textContent = 'Failed to get location';
+                    status.style.color = 'red';
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                    alert('Please allow location access or enter manually');
+                }
+            );
+        }
+
+        // Handle media upload
+        let uploadedFiles = [];
+
+        function handleMediaUpload(event) {
+            const files = Array.from(event.target.files);
+            const preview = document.getElementById('mediaPreview');
+            
+            if(uploadedFiles.length + files.length > 5) {
+                alert('Maximum 5 files allowed');
+                return;
+            }
+            
+            files.forEach(file => {
+                if(file.size > 10 * 1024 * 1024) {
+                    alert(`File ${file.name} is too large`);
+                    return;
+                }
+                
+                uploadedFiles.push(file);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const mediaItem = document.createElement('div');
+                    mediaItem.className = 'media-item';
+                    
+                    if(file.type.startsWith('image/')) {
+                        mediaItem.innerHTML = `
+                            <img src="${e.target.result}">
+                            <button class="remove-btn" onclick="removeMedia(this)">×</button>
+                        `;
+                    } else {
+                        mediaItem.innerHTML = `
+                            <video src="${e.target.result}" controls></video>
+                            <button class="remove-btn" onclick="removeMedia(this)">×</button>
+                        `;
+                    }
+                    
+                    mediaItem.dataset.name = file.name;
+                    preview.appendChild(mediaItem);
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            event.target.value = '';
+        }
+
+        // Remove media
+        function removeMedia(btn) {
+            const mediaItem = btn.parentElement;
+            const fileName = mediaItem.dataset.name;
+            uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+            mediaItem.remove();
+        }
+
+        // Form submission
+        document.getElementById('roadComplaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const lat = document.getElementById('latitude').value;
+            const lng = document.getElementById('longitude').value;
+            
+            if(!lat || !lng) {
+                alert('Please get GPS location first');
+                return;
+            }
+            
+            // Generate complaint ID
+            const complaintId = 'RC-' + Date.now().toString().slice(-6);
+            document.getElementById('complaintId').textContent = complaintId;
+            
+            // Show success modal
+            document.getElementById('successModal').classList.add('show');
+            
+            // In real app, send data to server here
+            console.log('Form submitted:', complaintId);
+        });
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('successModal').classList.remove('show');
+            document.getElementById('roadComplaintForm').reset();
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            document.getElementById('locationStatus').textContent = 'Click to get location';
+            document.getElementById('locationStatus').style.color = '';
+            
+            // Reset selections
+            selectIssue('potholes');
+            selectSecurity('moderate');
+            selectArea('small');
+            
+            // Clear media
+            uploadedFiles = [];
+            document.getElementById('mediaPreview').innerHTML = '';
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="captureDate"]').value = today;
+            
+            // Set current time
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2, '0') + ':' + 
+                         now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('input[name="captureTime"]').value = time;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createAnimation();
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="captureDate"]').value = today;
+            
+            // Set current time
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2, '0') + ':' + 
+                         now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('input[name="captureTime"]').value = time;
+        });
+    </script>
+</body>
+</html>
