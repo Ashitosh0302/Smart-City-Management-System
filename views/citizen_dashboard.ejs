@@ -1,171 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Citizen Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Citizen Dashboard</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body
-{
-background:#f4f6f9;
-}
+    <style>
+        body {
+            background: #f4f6f9;
+        }
 
-.card
-{
-transition:0.3s;
-border-radius:10px;
-}
+        .card {
+            transition: 0.3s;
+            border-radius: 10px;
+        }
 
-.card:hover
-{
-transform:scale(1.03);
-cursor:pointer;
-}
+        .card:hover {
+            transform: scale(1.03);
+            cursor: pointer;
+        }
 
-.alert-red
-{
-background:#ffebee;
-border-left:5px solid #e53935;
-}
+        .alert-red {
+            background: #ffebee;
+            border-left: 5px solid #e53935;
+        }
 
-.alert-yellow
-{
-background:#fffde7;
-border-left:5px solid #fbc02d;
-}
+        .alert-yellow {
+            background: #fffde7;
+            border-left: 5px solid #fbc02d;
+        }
 
-.alert-green
-{
-background:#e8f5e9;
-border-left:5px solid #43a047;
-}
+        .alert-green {
+            background: #e8f5e9;
+            border-left: 5px solid #43a047;
+        }
 
-a
-{
-text-decoration:none;
-color:inherit;
-}
-</style>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container py-4">
+    <div class="container py-4">
 
-<h3 class="mb-4 text-center">🏙 Smart City – Citizen Dashboard</h3>
+        <h3 class="mb-4 text-center">🏙 Smart City – Citizen Dashboard</h3>
 
-<!-- ALERTS -->
-<div class="mb-4">
-<h5>🔔 City Alerts</h5>
-<div class="row g-3">
-<div class="col-md-4">
-<a href="/citizen/alerts/traffic">
-<div class="card alert-red p-3">
-<h6>Traffic Alert</h6>
-<p>Heavy traffic in City Center</p>
-</div>
-</a>
-</div>
+        <!-- ALERTS -->
+        <div class="mb-4">
+            <h5>🔔 City Alerts</h5>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <a href="/citizen/alerts/traffic">
+                        <div class="card alert-red p-3">
+                            <h6>Traffic Alert</h6>
+                            <p>Heavy traffic in City Center</p>
+                        </div>
+                    </a>
+                </div>
 
-<div class="col-md-4">
-<a href="/citizen/alerts/weather">
-<div class="card alert-yellow p-3">
-<h6>Weather Alert</h6>
-<p>Moderate rainfall expected</p>
-</div>
-</a>
-</div>
+                <div class="col-md-4">
+                    <a href="/citizen/alerts/weather">
+                        <div class="card alert-yellow p-3">
+                            <h6>Weather Alert</h6>
+                            <p>Moderate rainfall expected</p>
+                        </div>
+                    </a>
+                </div>
 
-<div class="col-md-4">
-<a href="/citizen/alerts/status">
-<div class="card alert-green p-3">
-<h6>Traffic Status</h6>
-<p>Smooth traffic in suburbs</p>
-</div>
-</a>
-</div>
-</div>
-</div>
+                <div class="col-md-4">
+                    <a href="/citizen/alerts/status">
+                        <div class="card alert-green p-3">
+                            <h6>Traffic Status</h6>
+                            <p>Smooth traffic in suburbs</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-<!-- COMPLAINTS -->
-<div class="mb-4">
-<h5>📝 Raised Complaints</h5>
-<div class="row g-3">
-<div class="col-md-3"><a href="/citizen/complaints/water"><div class="card p-3 text-center">💧 Water</div></a></div>
-<div class="col-md-3"><a href="/citizen/complaints/garbage"><div class="card p-3 text-center">🗑 Garbage</div></a></div>
-<div class="col-md-3"><a href="/citizen/complaints/electricity"><div class="card p-3 text-center">⚡ Electricity</div></a></div>
-<div class="col-md-3"><a href="/citizen/complaints/roads"><div class="card p-3 text-center">🛣 Roads</div></a></div>
-</div>
-</div>
+        <!-- COMPLAINTS -->
+        <div class="mb-4">
+            <h5>📝 Raised Complaints</h5>
+            <div class="row g-3">
+                <div class="col-md-3"><a href="/citizen/complaints/water">
+                        <div class="card p-3 text-center">💧 Water</div>
+                    </a></div>
+                <div class="col-md-3"><a href="/citizen/complaints/garbage">
+                        <div class="card p-3 text-center">🗑 Garbage</div>
+                    </a></div>
+                <div class="col-md-3"><a href="/citizen/complaints/electricity">
+                        <div class="card p-3 text-center">⚡ Electricity</div>
+                    </a></div>
+                <div class="col-md-3"><a href="/citizen/complaints/roads">
+                        <div class="card p-3 text-center">🛣 Roads</div>
+                    </a></div>
+            </div>
+        </div>
 
-<!-- APPOINTMENTS -->
-<div class="mb-4">
-<h5>📅 Booked Appointments</h5>
-<div class="row g-3">
-<div class="col-md-4">
-<a href="/citizen/appointments/hospital">
-<div class="card p-3">
-🏥 City Hospital OPD<br>
-<small class="text-success">Confirmed</small>
-</div>
-</a>
-</div>
+        <!-- APPOINTMENTS -->
+        <div class="mb-4">
+            <h5>📅 Booked Appointments</h5>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <a href="/citizen/appointments/hospital">
+                        <div class="card p-3">
+                            🏥 City Hospital OPD<br>
+                            <small class="text-success">Confirmed</small>
+                        </div>
+                    </a>
+                </div>
 
-<div class="col-md-4">
-<a href="/citizen/appointments/esetu">
-<div class="card p-3">
-🏛 E-Setu Appointment<br>
-<small class="text-warning">Reschedule Available</small>
-</div>
-</a>
-</div>
+                <div class="col-md-4">
+                    <a href="/citizen/appointments/esetu">
+                        <div class="card p-3">
+                            🏛 E-Setu Appointment<br>
+                            <small class="text-warning">Reschedule Available</small>
+                        </div>
+                    </a>
+                </div>
 
-<div class="col-md-4">
-<a href="/citizen/appointments/court">
-<div class="card p-3">
-⚖ Court Appointment<br>
-<small class="text-primary">Upcoming</small>
-</div>
-</a>
-</div>
-</div>
-</div>
+                <div class="col-md-4">
+                    <a href="/citizen/appointments/court">
+                        <div class="card p-3">
+                            ⚖ Court Appointment<br>
+                            <small class="text-primary">Upcoming</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-<!-- EMERGENCY -->
-<div class="mb-4">
-<h5>🚨 Emergency Services</h5>
-<div class="row g-3">
-<div class="col-md-3"><a href="/citizen/emergency/police"><button class="btn btn-danger w-100">🚓 Police</button></a></div>
-<div class="col-md-3"><a href="/citizen/emergency/ambulance"><button class="btn btn-danger w-100">🚑 Ambulance</button></a></div>
-<div class="col-md-3"><a href="/citizen/emergency/fire"><button class="btn btn-danger w-100">🚒 Fire</button></a></div>
-<div class="col-md-3"><a href="/citizen/emergency/robbery"><button class="btn btn-danger w-100">🚨 Robbery</button></a></div>
-</div>
-</div>
+        <!-- EMERGENCY -->
+        <div class="mb-4">
+            <h5>🚨 Emergency Services</h5>
+            <div class="row g-3">
+                <div class="col-md-3"><a href="/citizen/emergency/police"><button class="btn btn-danger w-100">🚓
+                            Police</button></a></div>
+                <div class="col-md-3"><a href="/citizen/emergency/ambulance"><button class="btn btn-danger w-100">🚑
+                            Ambulance</button></a></div>
+                <div class="col-md-3"><a href="/citizen/emergency/fire"><button class="btn btn-danger w-100">🚒
+                            Fire</button></a></div>
+                <div class="col-md-3"><a href="/citizen/emergency/robbery"><button class="btn btn-danger w-100">🚨
+                            Robbery</button></a></div>
+            </div>
+        </div>
 
-<!-- TRANSPORT -->
-<div class="mb-4">
-<h5>🚌 Transport Services</h5>
-<div class="row g-3">
-<div class="col-md-4"><a href="/citizen/transport/bus"><div class="card p-3 text-center">City Bus Ticket</div></a></div>
-<div class="col-md-4"><a href="/citizen/transport/train"><div class="card p-3 text-center">City Train Ticket</div></a></div>
-<div class="col-md-4"><a href="/citizen/transport/metro"><div class="card p-3 text-center">Metro Ticket</div></a></div>
-</div>
-</div>
+        <!-- TRANSPORT -->
+        <div class="mb-4">
+            <h5>🚌 Transport Services</h5>
+            <div class="row g-3">
+                <div class="col-md-4"><a href="/citizen/transport/bus">
+                        <div class="card p-3 text-center">City Bus Ticket</div>
+                    </a></div>
+                <div class="col-md-4"><a href="/citizen/transport/train">
+                        <div class="card p-3 text-center">City Train Ticket</div>
+                    </a></div>
+                <div class="col-md-4"><a href="/citizen/transport/metro">
+                        <div class="card p-3 text-center">Metro Ticket</div>
+                    </a></div>
+            </div>
+        </div>
 
-<!-- LOCATOR -->
-<div class="mb-4">
-<h5>📍 Locate Nearest Facility</h5>
-<div class="row g-3">
-<div class="col-md-3"><a href="/citizen/locator/park"><div class="card p-3 text-center">🌳 Park</div></a></div>
-<div class="col-md-3"><a href="/citizen/locator/ground"><div class="card p-3 text-center">🏟 Ground</div></a></div>
-<div class="col-md-3"><a href="/citizen/locator/swimming"><div class="card p-3 text-center">🏊 Swimming Pool</div></a></div>
-<div class="col-md-3"><a href="/citizen/locator/housing"><div class="card p-3 text-center">🏠 Housing</div></a></div>
-</div>
-</div>
+        <!-- LOCATOR -->
+        <div class="mb-4">
+            <h5>📍 Locate Nearest Facility</h5>
+            <div class="row g-3">
+                <div class="col-md-3"><a href="/citizen/locator/park">
+                        <div class="card p-3 text-center">🌳 Park</div>
+                    </a></div>
+                <div class="col-md-3"><a href="/citizen/locator/ground">
+                        <div class="card p-3 text-center">🏟 Ground</div>
+                    </a></div>
+                <div class="col-md-3"><a href="/citizen/locator/swimming">
+                        <div class="card p-3 text-center">🏊 Swimming Pool</div>
+                    </a></div>
+                <div class="col-md-3"><a href="/citizen/locator/housing">
+                        <div class="card p-3 text-center">🏠 Housing</div>
+                    </a></div>
+            </div>
+        </div>
 
-</div>
+    </div>
 
 </body>
+
 </html>
