@@ -70,8 +70,14 @@ async function citizen_register(req, res)
     );
 }
 
+//water complaints
+async function Water_Complaints(req,res) {
+    return res.send("Hello")
+}
+
 module.exports = {
     citizen_home,
     citizen_register_page,
-    citizen_register
+    citizen_register,
+    Water_Complaints
 };
