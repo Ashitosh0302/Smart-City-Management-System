@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garbage Complaint | Smart City</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #27ae60;
+            --secondary: #2ecc71;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50, #27ae60);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Garbage Animation Background */
+        .garbage-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .trash-bag {
+            position: absolute;
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            border-radius: 50% 50% 30% 30%;
+            animation: floatDown 6s infinite ease-in;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .trash-bag::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 25%;
+            width: 50%;
+            height: 15%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .leaf {
+            position: absolute;
+            background: #27ae60;
+            border-radius: 50% 0 50% 0;
+            animation: leafFall 8s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes floatDown {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes leafFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo i {
+            animation: trashShake 2s infinite ease-in-out;
+        }
+
+        @keyframes trashShake {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg); 
+            }
+            25% { 
+                transform: translateY(-5px) rotate(-10deg); 
+            }
+            75% { 
+                transform: translateY(-5px) rotate(10deg); 
+            }
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Form Sections */
+        .form-section {
+            padding: 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .section-title {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .required::after {
+            content: '*';
+            color: var(--danger);
+            margin-left: 4px;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select, textarea {
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-control:focus, .form-select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 3px rgba(39, 174, 96, 0.1),
+                0 5px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Category Cards */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .category-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .category-card.active {
+            background: rgba(39, 174, 96, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Quantity Cards */
+        .quantity-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-card {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .quantity-card.active {
+            background: rgba(39, 174, 96, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Other Input */
+        .other-input {
+            margin-top: 15px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* GPS Location */
+        .gps-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 2px solid #dee2e6;
+        }
+
+        .location-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .location-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .location-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* File Upload */
+        .upload-area {
+            border: 3px dashed var(--primary);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .upload-area:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            transform: scale(1.02);
+            border-style: solid;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Media Preview */
+        .media-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .media-item {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .remove-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(39, 174, 96, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .success-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.8);
+            animation: popIn 0.5s ease forwards;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: successBounce 1s ease;
+        }
+
+        @keyframes successBounce {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.3); }
+            60% { transform: scale(0.95); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quantity-cards {
+                flex-direction: column;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Garbage Animation Background -->
+    <div class="garbage-animation" id="garbageAnimation"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-trash-alt"></i>
+            Garbage Complaint
+        </div>
+        <p class="subtitle">Report garbage issues in your area. Help keep our city clean.</p>
+    </div>
+
+    <!-- Main Form -->
+    <div class="form-container">
+        <div class="form-card">
+            <form id="garbageComplaintForm">
+                <!-- Location Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Location Details
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-road"></i>
+                                    Street/Area/Locality Name
+                                </label>
+                                <input type="text" class="form-control" name="street" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-map-signs"></i>
+                                    Ward Number
+                                </label>
+                                <select class="form-select" name="ward" required>
+                                    <option value="">Select Ward</option>
+                                    <option>Ward 1</option>
+                                    <option>Ward 2</option>
+                                    <option>Ward 3</option>
+                                    <option>Ward 4</option>
+                                    <option>Ward 5</option>
+                                    <option>Ward 6</option>
+                                    <option>Ward 7</option>
+                                    <option>Ward 8</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPS Location -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-location-crosshairs"></i>
+                            GPS Location
+                        </label>
+                        <div class="gps-section">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <button type="button" class="location-btn" id="gpsButton" onclick="getGPSLocation()">
+                                    <i class="fas fa-location-arrow"></i>
+                                    Get Current Location
+                                </button>
+                                <span id="locationStatus">Click to get your location</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2" id="latitude" 
+                                           name="latitude" placeholder="Latitude" readonly required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-2" id="longitude" 
+                                           name="longitude" placeholder="Longitude" readonly required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garbage Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-trash"></i>
+                        Garbage Details
+                    </h3>
+
+                    <!-- Type of Garbage -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-list"></i>
+                            Type of Garbage
+                        </label>
+                        <div class="category-grid">
+                            <!-- 5 Garbage Types -->
+                            <div class="category-card active" onclick="selectGarbageType('household')">
+                                <i class="fas fa-home category-icon" style="color: #3498db;"></i>
+                                <div class="category-name">Household Waste</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectGarbageType('construction')">
+                                <i class="fas fa-hard-hat category-icon" style="color: #e67e22;"></i>
+                                <div class="category-name">Construction Debris</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectGarbageType('plastic')">
+                                <i class="fas fa-recycle category-icon" style="color: #9b59b6;"></i>
+                                <div class="category-name">Plastic/Dry Waste</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectGarbageType('wet')">
+                                <i class="fas fa-apple-alt category-icon" style="color: #e74c3c;"></i>
+                                <div class="category-name">Wet Waste</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectGarbageType('overflowing')">
+                                <i class="fas fa-trash-restore category-icon" style="color: #f39c12;"></i>
+                                <div class="category-name">Overflowing Dustbin</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectGarbageType('other')">
+                                <i class="fas fa-ellipsis-h category-icon" style="color: #7f8c8d;"></i>
+                                <div class="category-name">Other Type</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="garbageType" id="garbageType" value="household">
+                        
+                        <!-- Other Garbage Input -->
+                        <div id="otherGarbageInput" class="other-input" style="display: none;">
+                            <label class="form-label">
+                                <i class="fas fa-edit"></i>
+                                Specify Other Garbage Type
+                            </label>
+                            <input type="text" class="form-control" id="otherGarbage" 
+                                   placeholder="Please describe the garbage type">
+                        </div>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-weight"></i>
+                            Quantity
+                        </label>
+                        <div class="quantity-cards">
+                            <div class="quantity-card active" onclick="selectQuantity('small')">
+                                <i class="fas fa-dumpster" style="color: #2ecc71; font-size: 2rem; margin-bottom: 10px;"></i>
+                                <div class="category-name">Small Pile</div>
+                                <small class="text-muted">Less than 1 meter</small>
+                            </div>
+
+                            <div class="quantity-card" onclick="selectQuantity('large')">
+                                <i class="fas fa-dumpster-fire" style="color: #e74c3c; font-size: 2rem; margin-bottom: 10px;"></i>
+                                <div class="category-name">Large Heap</div>
+                                <small class="text-muted">More than 1 meter</small>
+                            </div>
+
+                            <div class="quantity-card" onclick="selectQuantity('spread')">
+                                <i class="fas fa-road" style="color: #f39c12; font-size: 2rem; margin-bottom: 10px;"></i>
+                                <div class="category-name">Spread Across Road</div>
+                                <small class="text-muted">Covering road area</small>
+                            </div>
+                        </div>
+                        <input type="hidden" name="quantity" id="quantity" value="small">
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-clock"></i>
+                            Duration (Days)
+                        </label>
+                        <select class="form-select" name="duration" required>
+                            <option value="">Select Duration</option>
+                            <option value="1">1 Day</option>
+                            <option value="2">2 Days</option>
+                            <option value="3">3 Days</option>
+                            <option value="4">4 Days</option>
+                            <option value="5">5 Days</option>
+                            <option value="6">6 Days</option>
+                            <option value="7">1 Week</option>
+                            <option value="14">2 Weeks</option>
+                            <option value="30">1 Month</option>
+                            <option value="more">More than 1 Month</option>
+                        </select>
+                        <small class="form-text text-muted">Since how many days garbage is lying there?</small>
+                    </div>
+
+                    <!-- Issue Type -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Issue Type
+                        </label>
+                        <div class="category-grid">
+                            <div class="category-card active" onclick="selectIssueType('not_collected')">
+                                <i class="fas fa-truck-loading category-icon" style="color: #3498db;"></i>
+                                <div class="category-name">Garbage Not Collected</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectIssueType('irregular')">
+                                <i class="fas fa-calendar-times category-icon" style="color: #e67e22;"></i>
+                                <div class="category-name">Irregular Collection</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectIssueType('illegal')">
+                                <i class="fas fa-ban category-icon" style="color: #e74c3c;"></i>
+                                <div class="category-name">Illegal Dumping</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectIssueType('smell')">
+                                <i class="fas fa-skull-crossbones category-icon" style="color: #8e44ad;"></i>
+                                <div class="category-name">Bad Smell/Health Risk</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="issueType" id="issueType" value="not_collected">
+                    </div>
+                </div>
+
+                <!-- Media Upload -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-camera"></i>
+                        Photo/Video Evidence
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-calendar"></i>
+                                    Date Photo Taken
+                                </label>
+                                <input type="date" class="form-control" name="photoDate" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-clock"></i>
+                                    Time Photo Taken
+                                </label>
+                                <input type="time" class="form-control" name="photoTime" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Upload Photo/Video (Optional)
+                        </label>
+                        <div class="upload-area" onclick="document.getElementById('mediaInput').click()">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h5>Click to Upload</h5>
+                            <p class="text-muted mb-0">Upload photos or videos of the garbage</p>
+                            <small class="text-muted">Maximum 5 files, 10MB each</small>
+                        </div>
+                        <input type="file" id="mediaInput" multiple accept="image/*,video/*" 
+                               class="d-none" onchange="handleMediaUpload(event)">
+                        
+                        <div id="mediaPreview" class="media-preview"></div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-section text-center">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Complaint
+                    </button>
+                    <p class="text-muted mt-3 mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        We'll resolve your complaint within 48 hours
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h4>Complaint Submitted!</h4>
+            <p>Your complaint ID: <strong id="complaintId"></strong></p>
+            <p class="text-muted mb-3">We'll clean the area within 48 hours</p>
+            <button class="btn btn-primary" onclick="resetForm()">
+                <i class="fas fa-redo me-2"></i>Submit Another
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Create garbage animation
+        function createGarbageAnimation() {
+            const container = document.getElementById('garbageAnimation');
+            
+            // Create trash bags
+            for (let i = 0; i < 15; i++) {
+                const bag = document.createElement('div');
+                bag.className = 'trash-bag';
+                
+                // Random size
+                const size = Math.random() * 50 + 30;
+                bag.style.width = `${size}px`;
+                bag.style.height = `${size * 1.2}px`;
+                
+                // Random position
+                bag.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation
+                bag.style.animationDelay = `${Math.random() * 6}s`;
+                bag.style.animationDuration = `${Math.random() * 4 + 4}s`;
+                
+                container.appendChild(bag);
+            }
+            
+            // Create leaves
+            for (let i = 0; i < 10; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                
+                // Random size
+                const size = Math.random() * 30 + 10;
+                leaf.style.width = `${size}px`;
+                leaf.style.height = `${size}px`;
+                
+                // Random position
+                leaf.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation
+                leaf.style.animationDelay = `${Math.random() * 8}s`;
+                leaf.style.animationDuration = `${Math.random() * 4 + 6}s`;
+                
+                container.appendChild(leaf);
+            }
+        }
+
+        // Select garbage type
+        function selectGarbageType(type) {
+            document.getElementById('garbageType').value = type;
+            
+            // Remove active class from all cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            event.currentTarget.classList.add('active');
+            
+            // Show/hide other garbage input
+            const otherInput = document.getElementById('otherGarbageInput');
+            const otherGarbage = document.getElementById('otherGarbage');
+            if (type === 'other') {
+                otherInput.style.display = 'block';
+                otherGarbage.required = true;
+            } else {
+                otherInput.style.display = 'none';
+                otherGarbage.required = false;
+            }
+        }
+
+        // Select quantity
+        function selectQuantity(type) {
+            document.getElementById('quantity').value = type;
+            
+            // Remove active class from all cards
+            document.querySelectorAll('.quantity-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            event.currentTarget.classList.add('active');
+        }
+
+        // Select issue type
+        function selectIssueType(type) {
+            document.getElementById('issueType').value = type;
+            
+            // Remove active class from all cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            event.currentTarget.classList.add('active');
+        }
+
+        // Get GPS Location - WORKING VERSION
+        function getGPSLocation() {
+            const status = document.getElementById('locationStatus');
+            const latitude = document.getElementById('latitude');
+            const longitude = document.getElementById('longitude');
+            const gpsButton = document.getElementById('gpsButton');
+            
+            // Check if browser supports geolocation
+            if (!navigator.geolocation) {
+                status.textContent = 'Geolocation is not supported by your browser';
+                status.style.color = '#e74c3c';
+                return;
+            }
+            
+            // Show loading state
+            status.textContent = 'Getting location... Please allow permission if prompted';
+            status.style.color = '#f39c12';
+            gpsButton.disabled = true;
+            gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+            
+            // Geolocation options
+            const options = {
+                enableHighAccuracy: true, // Try to get precise location
+                timeout: 15000, // 15 seconds timeout
+                maximumAge: 0 // Don't use cached location
+            };
+            
+            navigator.geolocation.getCurrentPosition(
+                // Success callback
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    // Update form fields
+                    latitude.value = lat.toFixed(6);
+                    longitude.value = lng.toFixed(6);
+                    
+                    // Update status
+                    status.textContent = 'Location captured successfully!';
+                    status.style.color = '#27ae60';
+                    
+                    // Reset button
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                    
+                    // Show success message for 3 seconds
+                    setTimeout(() => {
+                        if (status.textContent === 'Location captured successfully!') {
+                            status.textContent = 'Location ready for submission';
+                            status.style.color = '';
+                        }
+                    }, 3000);
+                    
+                    // Optional: Show in console for debugging
+                    console.log('Location captured:', lat, lng);
+                },
+                // Error callback
+                (error) => {
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                    
+                    let errorMessage = 'Unable to get location. ';
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage += 'You denied location permission. Please allow location access in browser settings.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage += 'Location information is unavailable. Check your GPS/internet connection.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage += 'Location request timed out. Please try again.';
+                            break;
+                        default:
+                            errorMessage += 'An unknown error occurred. Error code: ' + error.code;
+                            break;
+                    }
+                    
+                    status.textContent = errorMessage;
+                    status.style.color = '#e74c3c';
+                    
+                    // Show manual location option
+                    setTimeout(() => {
+                        if (confirm(errorMessage + '\n\nWould you like to enter coordinates manually?')) {
+                            enableManualLocationInput();
+                        }
+                    }, 1000);
+                },
+                options
+            );
+        }
+
+        // Fallback: Enable manual location input
+        function enableManualLocationInput() {
+            const status = document.getElementById('locationStatus');
+            const latitude = document.getElementById('latitude');
+            const longitude = document.getElementById('longitude');
+            
+            status.textContent = 'Enter coordinates manually:';
+            status.style.color = '';
+            
+            // Remove readonly attribute
+            latitude.removeAttribute('readonly');
+            longitude.removeAttribute('readonly');
+            
+            // Change placeholder
+            latitude.placeholder = 'Enter latitude (e.g., 12.345678)';
+            longitude.placeholder = 'Enter longitude (e.g., 98.765432)';
+            
+            // Focus on latitude field
+            latitude.focus();
+            
+            // Add validation hint
+            setTimeout(() => {
+                alert('Please enter valid coordinates:\n• Latitude: -90 to 90\n• Longitude: -180 to 180\nExample: 28.6139, 77.2090 (New Delhi)');
+            }, 500);
+        }
+
+        // Handle media upload
+        let uploadedMedia = [];
+
+        function handleMediaUpload(event) {
+            const files = Array.from(event.target.files);
+            const preview = document.getElementById('mediaPreview');
+            
+            // Check total files
+            if (uploadedMedia.length + files.length > 5) {
+                alert('Maximum 5 files allowed!');
+                return;
+            }
+            
+            // Process each file
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`"${file.name}" is too large (max 10MB)`);
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                    alert(`"${file.name}" is not an image or video file`);
+                    return;
+                }
+                
+                uploadedMedia.push(file);
+                displayMediaPreview(file);
+            });
+            
+            event.target.value = '';
+        }
+
+        // Display media preview
+        function displayMediaPreview(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('mediaPreview');
+                const mediaId = `media-${Date.now()}`;
+                
+                const mediaItem = document.createElement('div');
+                mediaItem.className = 'media-item';
+                mediaItem.id = mediaId;
+                
+                if (file.type.startsWith('image/')) {
+                    mediaItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Photo">
+                        <button class="remove-btn" onclick="removeMedia('${mediaId}')">×</button>
+                    `;
+                } else {
+                    mediaItem.innerHTML = `
+                        <video src="${e.target.result}" controls></video>
+                        <button class="remove-btn" onclick="removeMedia('${mediaId}')">×</button>
+                    `;
+                }
+                
+                mediaItem.dataset.filename = file.name;
+                preview.appendChild(mediaItem);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove media
+        function removeMedia(mediaId) {
+            const mediaItem = document.getElementById(mediaId);
+            const filename = mediaItem.dataset.filename;
+            
+            // Remove from uploadedMedia array
+            uploadedMedia = uploadedMedia.filter(file => file.name !== filename);
+            
+            // Remove from DOM
+            mediaItem.remove();
+        }
+
+        // Coordinate validation function
+        function isValidCoordinate(lat, lng) {
+            const latNum = parseFloat(lat);
+            const lngNum = parseFloat(lng);
+            
+            return !isNaN(latNum) && !isNaN(lngNum) &&
+                   latNum >= -90 && latNum <= 90 &&
+                   lngNum >= -180 && lngNum <= 180;
+        }
+
+        // Form Submission with Location Validation
+        document.getElementById('garbageComplaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const latitude = document.getElementById('latitude').value;
+            const longitude = document.getElementById('longitude').value;
+            
+            // Validate location
+            if (!latitude || !longitude) {
+                alert('Please get your location first!');
+                document.getElementById('locationStatus').style.color = '#e74c3c';
+                document.getElementById('locationStatus').textContent = 'Location is required!';
+                return;
+            }
+            
+            // Validate coordinate format
+            if (!isValidCoordinate(latitude, longitude)) {
+                alert('Please enter valid coordinates!\n\nLatitude: -90 to 90\nLongitude: -180 to 180');
+                return;
+            }
+            
+            // If other garbage type is selected, validate
+            const garbageType = document.getElementById('garbageType').value;
+            if (garbageType === 'other') {
+                const otherGarbage = document.getElementById('otherGarbage').value;
+                if (!otherGarbage.trim()) {
+                    alert('Please specify the garbage type');
+                    return;
+                }
+            }
+            
+            // If all validations pass, show success
+            submitComplaint();
+        });
+
+        // Submit complaint function
+        function submitComplaint() {
+            // Generate complaint ID
+            const complaintId = 'GC-' + Date.now().toString().slice(-8);
+            document.getElementById('complaintId').textContent = complaintId;
+            
+            // Show success modal
+            document.getElementById('successModal').classList.add('show');
+            
+            // Here you would normally send data to server
+            const formData = new FormData(document.getElementById('garbageComplaintForm'));
+            
+            // Add uploaded files to form data
+            uploadedMedia.forEach(file => {
+                formData.append('media[]', file);
+            });
+            
+            console.log('Complaint submitted with ID:', complaintId);
+            console.log('Form data collected, ready to send to server');
+            
+            // In real implementation, you would send formData to your backend
+            // fetch('/submit-complaint', { method: 'POST', body: formData })
+            //   .then(response => response.json())
+            //   .then(data => console.log('Success:', data))
+            //   .catch(error => console.error('Error:', error));
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('successModal').classList.remove('show');
+            document.getElementById('garbageComplaintForm').reset();
+            
+            // Reset location
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            document.getElementById('locationStatus').textContent = 'Click to get your location';
+            document.getElementById('locationStatus').style.color = '';
+            
+            // Reset selections
+            selectGarbageType('household');
+            selectQuantity('small');
+            selectIssueType('not_collected');
+            
+            // Clear media
+            uploadedMedia = [];
+            document.getElementById('mediaPreview').innerHTML = '';
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="photoDate"]').value = today;
+            
+            // Set current time
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('input[name="photoTime"]').value = timeString;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize animation and form
+        document.addEventListener('DOMContentLoaded', function() {
+            createGarbageAnimation();
+            
+            // Set today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="photoDate"]').value = today;
+            
+            // Set current time
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('input[name="photoTime"]').value = timeString;
+            
+            // Add click event for location button (alternative)
+            document.getElementById('gpsButton').addEventListener('click', getGPSLocation);
+            
+            // Test location button on load
+            console.log('Geolocation supported:', !!navigator.geolocation);
+        });
+    </script>
+</body>
+</html>

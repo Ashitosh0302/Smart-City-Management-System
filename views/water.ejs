@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Supply Complaint | Smart City</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2196f3;
+            --secondary: #1976d2;
+            --light: #e3f2fd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Beautiful Water Animation Background */
+        .water-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .water-drop {
+            position: absolute;
+            background: linear-gradient(180deg, rgba(33, 150, 243, 0.6), rgba(33, 150, 243, 0.3));
+            border-radius: 50% 50% 40% 40%;
+            animation: dropFall 4s infinite ease-in;
+            box-shadow: 
+                0 0 20px rgba(33, 150, 243, 0.5),
+                inset 0 -5px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .water-drop::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 30%;
+            width: 15%;
+            height: 15%;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+        }
+
+        .water-splash {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            background: rgba(33, 150, 243, 0.2);
+            border-radius: 50%;
+            animation: splash 1.5s infinite ease-out;
+            opacity: 0;
+        }
+
+        @keyframes dropFall {
+            0% {
+                transform: translateY(-100px) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes splash {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .water-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(33, 150, 243, 0.1));
+            animation: wave 8s infinite linear;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo i {
+            animation: waterBounce 2s infinite ease-in-out;
+        }
+
+        @keyframes waterBounce {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg); 
+            }
+            25% { 
+                transform: translateY(-8px) rotate(-5deg); 
+            }
+            75% { 
+                transform: translateY(-8px) rotate(5deg); 
+            }
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Form Sections */
+        .form-section {
+            padding: 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .required::after {
+            content: '*';
+            color: #e74c3c;
+            margin-left: 4px;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select, textarea {
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-control:focus, .form-select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 3px rgba(33, 150, 243, 0.1),
+                0 5px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Complaint Categories */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .category-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .category-card.active {
+            background: var(--light);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.2);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Other Issue Input */
+        .other-input {
+            margin-top: 15px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* GPS Location */
+        .gps-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 2px solid #dee2e6;
+        }
+
+        .location-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .location-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+        }
+
+        /* File Upload */
+        .upload-area {
+            border: 3px dashed var(--primary);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .upload-area:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            transform: scale(1.02);
+            border-style: solid;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Media Preview */
+        .media-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .media-item {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .remove-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(33, 150, 243, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .success-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.8);
+            animation: popIn 0.5s ease forwards;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #27ae60;
+            margin-bottom: 20px;
+            animation: successBounce 1s ease;
+        }
+
+        @keyframes successBounce {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.3); }
+            60% { transform: scale(0.95); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Beautiful Water Animation Background -->
+    <div class="water-animation" id="waterAnimation">
+        <div class="water-wave"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-water"></i>
+            Water Supply Complaint
+        </div>
+        <p class="subtitle">Report water issues in your area. Help us serve you better.</p>
+    </div>
+
+    <!-- Main Form -->
+    <div class="form-container">
+        <div class="form-card">
+            <form id="waterComplaintForm">
+                <!-- Location Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Location Details
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-home"></i>
+                                    House/Flat No.
+                                </label>
+                                <input type="text" class="form-control" name="houseNo" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-road"></i>
+                                    Street/Area/Colony
+                                </label>
+                                <input type="text" class="form-control" name="street" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-map-signs"></i>
+                                    Ward No./Zone
+                                </label>
+                                <select class="form-select" name="ward" required>
+                                    <option value="">Select Ward/Zone</option>
+                                    <option>Ward 1</option>
+                                    <option>Ward 2</option>
+                                    <option>Ward 3</option>
+                                    <option>Ward 4</option>
+                                    <option>Ward 5</option>
+                                    <option>Ward 6</option>
+                                    <option>Ward 7</option>
+                                    <option>Ward 8</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-city"></i>
+                                    City
+                                </label>
+                                <input type="text" class="form-control" name="city" value="Smart City" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-mail-bulk"></i>
+                                    Pin Code
+                                </label>
+                                <input type="text" class="form-control" name="pincode" pattern="[0-9]{6}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-map-pin"></i>
+                                    Landmark (Optional)
+                                </label>
+                                <input type="text" class="form-control" name="landmark">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPS Location -->
+                <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-location-crosshairs"></i>
+                            GPS Location
+                        </label>
+                        <div class="gps-section">
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <button type="button" class="location-btn" onclick="getGPSLocation()">
+                                        <i class="fas fa-location-arrow"></i>
+                                        Get Current Location
+                                    </button>
+                                    <span id="locationStatus">Click to get your current location</span>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control mb-2" id="latitude" 
+                                               name="latitude" placeholder="Latitude" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control mb-2" id="longitude" 
+                                               name="longitude" placeholder="Longitude" readonly>
+                                    </div>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Complaint Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Complaint Details
+                    </h3>
+
+                    <!-- Complaint Categories -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-list"></i>
+                            Complaint Category
+                        </label>
+                        <div class="category-grid">
+                            <!-- 10 Complaint Categories -->
+                            <div class="category-card active" onclick="selectCategory('no_water')">
+                                <i class="fas fa-tint-slash category-icon text-danger"></i>
+                                <div class="category-name">No Water Supply</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('low_pressure')">
+                                <i class="fas fa-tachometer-alt category-icon text-warning"></i>
+                                <div class="category-name">Low Water Pressure</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('irregular')">
+                                <i class="fas fa-clock category-icon text-info"></i>
+                                <div class="category-name">Irregular Water Supply</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('dirty')">
+                                <i class="fas fa-filter category-icon text-success"></i>
+                                <div class="category-name">Dirty/Muddy Water</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('leakage')">
+                                <i class="fas fa-faucet-drip category-icon text-primary"></i>
+                                <div class="category-name">Water Leakage on Road</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('pipe_burst')">
+                                <i class="fas fa-wrench category-icon text-danger"></i>
+                                <div class="category-name">Pipe Burst</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('overflow')">
+                                <i class="fas fa-flood category-icon text-info"></i>
+                                <div class="category-name">Overflowing Water Tank</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('meter')">
+                                <i class="fas fa-tachometer-alt category-icon text-warning"></i>
+                                <div class="category-name">Meter Related Issue</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('theft')">
+                                <i class="fas fa-user-secret category-icon text-danger"></i>
+                                <div class="category-name">Water Theft/Illegal Connection</div>
+                            </div>
+
+                            <div class="category-card" onclick="selectCategory('other')">
+                                <i class="fas fa-ellipsis-h category-icon text-secondary"></i>
+                                <div class="category-name">Other Issue</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="category" id="category" value="no_water">
+                        
+                        <!-- Other Issue Input -->
+                        <div id="otherInput" class="other-input" style="display: none;">
+                            <label class="form-label">
+                                <i class="fas fa-edit"></i>
+                                Specify Other Issue
+                            </label>
+                            <input type="text" class="form-control" id="otherIssue" 
+                                   placeholder="Please describe your issue">
+                        </div>
+                    </div>
+
+                    <!-- Complaint Description -->
+                    <div class="form-group">
+                        <label class="form-label required">
+                            <i class="fas fa-edit"></i>
+                            Complaint Description
+                        </label>
+                        <textarea class="form-control" name="description" required></textarea>
+                    </div>
+
+                    <!-- Date and Time -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-calendar"></i>
+                                    Date of Issue
+                                </label>
+                                <input type="date" class="form-control" name="issueDate" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-clock"></i>
+                                    Time of Issue
+                                </label>
+                                <input type="time" class="form-control" name="issueTime" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Upload -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-camera"></i>
+                        Upload Photo/Video
+                    </h3>
+
+                    <div class="form-group">
+                        <div class="upload-area" onclick="document.getElementById('mediaInput').click()">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h5>Click to Upload</h5>
+                            <p class="text-muted mb-0">Upload photos or videos of the issue</p>
+                        </div>
+                        <input type="file" id="mediaInput" multiple accept="image/*,video/*" 
+                               class="d-none" onchange="handleMediaUpload(event)">
+                        
+                        <div id="mediaPreview" class="media-preview"></div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-section text-center">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Complaint
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h4>Complaint Submitted!</h4>
+            <p>Your complaint ID: <strong id="complaintId"></strong></p>
+            <p class="text-muted mb-3">We'll contact you within 24 hours</p>
+            <button class="btn btn-primary" onclick="resetForm()">
+                <i class="fas fa-redo me-2"></i>Submit Another
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Create beautiful water drop animation
+        function createWaterAnimation() {
+            const container = document.getElementById('waterAnimation');
+            
+            // Create multiple water drops
+            for (let i = 0; i < 25; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'water-drop';
+                
+                // Random size
+                const size = Math.random() * 40 + 20;
+                drop.style.width = `${size}px`;
+                drop.style.height = `${size * 1.5}px`;
+                
+                // Random position
+                drop.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation delay and duration
+                drop.style.animationDelay = `${Math.random() * 5}s`;
+                drop.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                
+                container.appendChild(drop);
+                
+                // Create splash effect at random intervals
+                setTimeout(() => {
+                    createSplash(drop);
+                }, Math.random() * 4000 + 1000);
+            }
+        }
+        
+        // Create splash effect
+        function createSplash(drop) {
+            const container = document.getElementById('waterAnimation');
+            const splash = document.createElement('div');
+            splash.className = 'water-splash';
+            
+            // Get drop position
+            const rect = drop.getBoundingClientRect();
+            splash.style.left = `${rect.left + rect.width / 2}px`;
+            splash.style.top = `${rect.top + rect.height}px`;
+            
+            container.appendChild(splash);
+            
+            // Remove splash after animation
+            setTimeout(() => {
+                splash.remove();
+            }, 1500);
+            
+            // Schedule next splash
+            setTimeout(() => {
+                createSplash(drop);
+            }, Math.random() * 3000 + 2000);
+        }
+
+        // Select complaint category
+        function selectCategory(category) {
+            document.getElementById('category').value = category;
+            
+            // Remove active class from all cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            event.currentTarget.classList.add('active');
+            
+            // Show/hide other issue input
+            const otherInput = document.getElementById('otherInput');
+            const otherIssue = document.getElementById('otherIssue');
+            if (category === 'other') {
+                otherInput.style.display = 'block';
+                otherIssue.required = true;
+            } else {
+                otherInput.style.display = 'none';
+                otherIssue.required = false;
+            }
+        }
+
+        // Get GPS Location
+       
+ function getGPSLocation() {
+            const status = document.getElementById('locationStatus');
+            const latitude = document.getElementById('latitude');
+            const longitude = document.getElementById('longitude');
+            const button = event.target.closest('.location-btn');
+            
+            if (navigator.geolocation) {
+                status.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Getting location...';
+                button.disabled = true;
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        latitude.value = lat.toFixed(6);
+                        longitude.value = lng.toFixed(6);
+                          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.display_name) {
+                                    status.textContent = data.display_name;
+                                } else {
+                                    status.textContent = 'Location captured successfully';
+                                }
+                            })
+                            .catch(() => {
+                                status.textContent = 'Location captured successfully';
+                            });
+                             button.innerHTML = '<i class="fas fa-check me-2"></i>Location Captured';
+                        button.style.background = '#4caf50';
+                        button.style.borderColor = '#4caf50';
+                        
+                        // Reset button after 3 seconds
+                        setTimeout(() => {
+                            button.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                            button.disabled = false;
+                            button.style.background = '';
+                            button.style.borderColor = '';
+                        }, 3000);
+                    },
+                     (error) => {
+                        status.textContent = 'Unable to get location. Please enable GPS.';
+                        button.disabled = false;
+                    }
+                );
+            } else {
+                status.textContent = 'Geolocation not supported by your browser';
+            }
+        }
+        // Handle media upload
+        let uploadedMedia = [];
+
+        function handleMediaUpload(event) {
+            const files = Array.from(event.target.files);
+            const preview = document.getElementById('mediaPreview');
+            
+            // Check total files
+            if (uploadedMedia.length + files.length > 5) {
+                alert('Maximum 5 files allowed!');
+                return;
+            }
+            
+            // Process each file
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`"${file.name}" is too large (max 10MB)`);
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                    alert(`"${file.name}" is not an image or video file`);
+                    return;
+                }
+                
+                uploadedMedia.push(file);
+                displayMediaPreview(file);
+            });
+            
+            event.target.value = '';
+        }
+
+        // Display media preview
+        function displayMediaPreview(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('mediaPreview');
+                const mediaId = `media-${Date.now()}`;
+                
+                const mediaItem = document.createElement('div');
+                mediaItem.className = 'media-item';
+                mediaItem.id = mediaId;
+                
+                if (file.type.startsWith('image/')) {
+                    mediaItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Photo">
+                        <button class="remove-btn" onclick="removeMedia('${mediaId}')">×</button>
+                    `;
+                } else {
+                    mediaItem.innerHTML = `
+                        <video src="${e.target.result}" controls></video>
+                        <button class="remove-btn" onclick="removeMedia('${mediaId}')">×</button>
+                    `;
+                }
+                
+                mediaItem.dataset.filename = file.name;
+                preview.appendChild(mediaItem);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove media
+        function removeMedia(mediaId) {
+            const mediaItem = document.getElementById(mediaId);
+            const filename = mediaItem.dataset.filename;
+            
+            // Remove from array
+            uploadedMedia = uploadedMedia.filter(media => media.name !== filename);
+            
+            // Remove from DOM
+            mediaItem.remove();
+        }
+
+        // Form submission
+        document.getElementById('waterComplaintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+            
+            // Generate complaint ID
+            const complaintId = 'WTR-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            document.getElementById('complaintId').textContent = complaintId;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Show success modal
+                document.getElementById('successModal').classList.add('show');
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+
+        // Reset form
+        function resetForm() {
+            const form = document.getElementById('waterComplaintForm');
+            const successModal = document.getElementById('successModal');
+            
+            // Hide success modal
+            successModal.classList.remove('show');
+            
+            // Reset form
+            form.reset();
+            uploadedMedia = [];
+            document.getElementById('mediaPreview').innerHTML = '';
+            document.getElementById('locationStatus').textContent = 'Click to get your location';
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            document.getElementById('otherInput').style.display = 'none';
+            
+            // Reset category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector('.category-card').classList.add('active');
+            document.getElementById('category').value = 'no_water';
+            
+            // Set current date and time
+            const now = new Date();
+            const today = now.toISOString().split('T')[0];
+            const time = now.toTimeString().split(' ')[0].substring(0, 5);
+            
+            document.querySelector('input[name="issueDate"]').value = today;
+            document.querySelector('input[name="issueTime"]').value = time;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createWaterAnimation();
+            
+            // Set current date and time
+            const now = new Date();
+            const today = now.toISOString().split('T')[0];
+            const time = now.toTimeString().split(' ')[0].substring(0, 5);
+            
+            document.querySelector('input[name="issueDate"]').value = today;
+            document.querySelector('input[name="issueTime"]').value = time;
+        });
+    </script>
+</body>
+</html>
