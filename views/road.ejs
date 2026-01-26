@@ -14,6 +14,7 @@
             --warning: #f39c12;
             --danger: #e74c3c;
             --success: #27ae60;
+            --dark: #2c3e50;
         }
 
         body {
@@ -21,20 +22,33 @@
             background: linear-gradient(135deg, #2c3e50, #34495e);
             min-height: 100vh;
             padding: 20px;
+            color: #333;
         }
 
-        /* Simple Animation */
-        .road-dot {
+        /* Animation */
+        .road-animation {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .road-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
             background: #f39c12;
             border-radius: 50%;
-            animation: float 3s infinite;
-            z-index: -1;
+            animation: float 4s infinite ease-in-out;
+            opacity: 0.5;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-            50% { transform: translateY(-20px) scale(1.2); opacity: 0.6; }
+            50% { transform: translateY(-20px) scale(1.3); opacity: 0.6; }
         }
 
         /* Header */
@@ -55,6 +69,7 @@
 
         .logo i {
             animation: bounce 2s infinite;
+            color: #f1c40f;
         }
 
         @keyframes bounce {
@@ -69,7 +84,7 @@
         }
 
         .form-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -82,20 +97,66 @@
         }
 
         .section-title {
-            color: #2c3e50;
+            color: var(--dark);
             font-weight: 600;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.3rem;
         }
 
         .section-title i {
             color: var(--primary);
         }
 
+        /* Location Options */
+        .location-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.active {
+            background: rgba(230, 126, 34, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .option-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
         /* GPS Section */
-        .gps-section {
+        .location-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .location-section.active {
+            display: block;
+        }
+
+        .gps-box {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
@@ -113,12 +174,36 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .location-btn:hover {
             background: #d35400;
             transform: translateY(-2px);
-            transition: all 0.3s;
+        }
+
+        .location-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .location-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #dee2e6;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .location-display.success {
+            border-color: var(--success);
+            background: rgba(39, 174, 96, 0.05);
         }
 
         /* Issue Cards */
@@ -191,7 +276,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Upload */
+        /* Upload Area */
         .upload-area {
             border: 2px dashed var(--primary);
             border-radius: 10px;
@@ -199,11 +284,18 @@
             text-align: center;
             cursor: pointer;
             background: #f8f9fa;
+            margin-bottom: 20px;
             transition: all 0.3s;
         }
 
         .upload-area:hover {
             background: #e9ecef;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
         }
 
         /* Submit Button */
@@ -244,6 +336,7 @@
 
         .success-modal.show {
             display: flex;
+            animation: fadeIn 0.3s ease;
         }
 
         .success-card {
@@ -253,12 +346,19 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .success-icon {
             font-size: 4rem;
             color: var(--success);
             margin-bottom: 20px;
+            animation: bounce 1s ease;
         }
 
         /* Media Preview */
@@ -295,6 +395,9 @@
             border-radius: 50%;
             font-size: 12px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Responsive */
@@ -310,12 +413,26 @@
             .form-card {
                 padding: 20px;
             }
+            
+            .location-options {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .issue-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Create animation dots -->
-    <div id="animationContainer"></div>
+    <!-- Animation Container -->
+    <div class="road-animation" id="roadAnimation"></div>
 
     <!-- Header -->
     <div class="header">
@@ -323,7 +440,7 @@
             <i class="fas fa-road"></i>
             Road Complaint Portal
         </div>
-        <p>Report road issues. Help make our roads safer.</p>
+        <p class="subtitle">Report road issues. Help make our roads safer.</p>
     </div>
 
     <!-- Main Form -->
@@ -337,63 +454,79 @@
                         Location Details
                     </h3>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Road/Street Name *</label>
-                            <input type="text" class="form-control" name="roadName" required>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Area/Locality *</label>
-                            <input type="text" class="form-control" name="area" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Ward/Zone *</label>
-                            <select class="form-select" name="ward" required>
-                                <option value="">Select</option>
-                                <option>Ward 1</option>
-                                <option>Ward 2</option>
-                                <option>Ward 3</option>
-                                <option>Ward 4</option>
-                                <option>Zone A</option>
-                                <option>Zone B</option>
-                                <option>Zone C</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">City *</label>
-                            <input type="text" class="form-control" name="city" value="Mumbai" required>
-                        </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Pincode *</label>
-                            <input type="text" class="form-control" name="pincode" pattern="[0-9]{6}" required>
-                        </div>
-                    </div>
-
-                    <!-- GPS Location -->
-                    <div class="gps-section">
-                        <div class="mb-3">
-                            <label class="form-label">GPS Location *</label>
-                            <button type="button" class="location-btn" onclick="getGPSLocation()">
-                                <i class="fas fa-location-arrow"></i>
-                                Get Current Location
-                            </button>
-                            <span id="locationStatus" class="ms-3">Click to get location</span>
-                        </div>
+                    <!-- Basic Address - ALWAYS SHOW THIS -->
+                    <div class="mb-4">
+                        <h5 class="mb-3">Enter Address Details *</h5>
                         <div class="row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control mb-2" id="latitude" 
-                                       name="latitude" placeholder="Latitude" readonly required>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Road/Street Name *</label>
+                                <input type="text" class="form-control" name="roadName" required 
+                                       placeholder="Enter road/street name" id="roadName">
                             </div>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control mb-2" id="longitude" 
-                                       name="longitude" placeholder="Longitude" readonly required>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Area/Locality *</label>
+                                <input type="text" class="form-control" name="area" required 
+                                       placeholder="Enter locality/area" id="area">
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Ward/Zone *</label>
+                                <select class="form-select" name="ward" required id="ward">
+                                    <option value="">Select Ward/Zone</option>
+                                    <option>Ward 1</option>
+                                    <option>Ward 2</option>
+                                    <option>Ward 3</option>
+                                    <option>Ward 4</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">City *</label>
+                                <input type="text" class="form-control" name="city" value="Mumbai" required id="city">
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Pincode *</label>
+                                <input type="text" class="form-control" name="pincode" pattern="[0-9]{6}" required 
+                                       placeholder="6-digit pincode" id="pincode">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Options -->
+                    <div class="mt-4">
+                        <label class="form-label">Additional Location Method (Optional)</label>
+                        <div class="location-options">
+                            <div class="option-btn active" onclick="selectLocationMethod('address')" id="addressBtn">
+                                <i class="fas fa-home"></i> Use Address Only
+                            </div>
+                            <div class="option-btn" onclick="selectLocationMethod('gps')" id="gpsBtn">
+                                <i class="fas fa-location-arrow"></i> Add GPS Location
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPS Section -->
+                    <div id="gpsSection" class="location-section">
+                        <div class="gps-box">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <button type="button" class="location-btn" id="gpsButton" onclick="getGPSLocation()">
+                                    <i class="fas fa-location-arrow"></i>
+                                    Get Current Location
+                                </button>
+                                <span id="locationStatus">Click to get location</span>
+                            </div>
+                            
+                            <div id="locationDisplay" class="location-display">
+                                <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                <span>GPS location will appear here</span>
+                            </div>
+                            <p class="text-muted mt-2 mb-0">
+                                <small><i class="fas fa-info-circle"></i> GPS helps us pinpoint exact location</small>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -405,6 +538,7 @@
                         Road Issue Details
                     </h3>
 
+                    <!-- Issue Type -->
                     <div class="mb-4">
                         <label class="form-label">Type of Road Issue *</label>
                         <div class="issue-grid">
@@ -435,22 +569,13 @@
                             
                             <div class="issue-card" onclick="selectIssue('road_dug')">
                                 <i class="fas fa-dig issue-icon"></i>
-                                <div>Road Dug & Not Repaired</div>
-                            </div>
-                            
-                            <div class="issue-card" onclick="selectIssue('poor_markings')">
-                                <i class="fas fa-paint-roller issue-icon"></i>
-                                <div>Poor Road Markings</div>
-                            </div>
-                            
-                            <div class="issue-card" onclick="selectIssue('broken_footpath')">
-                                <i class="fas fa-walking issue-icon"></i>
-                                <div>Broken Footpath</div>
+                                <div>Road Dug Up</div>
                             </div>
                         </div>
                         <input type="hidden" name="issueType" id="issueType" value="potholes">
                     </div>
 
+                    <!-- Security Level & Area -->
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Security Level *</label>
@@ -483,13 +608,14 @@
                                 
                                 <div class="security-card" onclick="selectArea('large')">
                                     <i class="fas fa-road" style="color:#e74c3c;"></i>
-                                    <div>Entire Road</div>
+                                    <div>Large Area</div>
                                 </div>
                             </div>
                             <input type="hidden" name="affectedArea" id="affectedArea" value="small">
                         </div>
                     </div>
 
+                    <!-- Duration & Weather -->
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Since When? *</label>
@@ -510,7 +636,7 @@
                         <div class="col-md-6">
                             <label class="form-label">
                                 <i class="fas fa-cloud-rain"></i>
-                                Monsoon Related Issue
+                                Weather Related
                             </label>
                             <select class="form-select" name="monsoonIssue">
                                 <option value="">Not related</option>
@@ -521,19 +647,22 @@
                         </div>
                     </div>
 
+                    <!-- Remarks -->
                     <div class="mb-3">
-                        <label class="form-label">Additional Remarks</label>
-                        <textarea class="form-control" name="remarks" rows="3" placeholder="Any special instructions..."></textarea>
+                        <label class="form-label">Additional Details</label>
+                        <textarea class="form-control" name="remarks" rows="3" 
+                                  placeholder="Any special instructions or landmarks..."></textarea>
                     </div>
                 </div>
 
-                <!-- Photo & Video -->
+                <!-- Photo & Video Evidence -->
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-camera"></i>
                         Photo & Video Evidence
                     </h3>
 
+                    <!-- Capture Date & Time -->
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Date of Capture *</label>
@@ -546,10 +675,11 @@
                         </div>
                     </div>
 
+                    <!-- Upload Area -->
                     <div class="mb-4">
                         <label class="form-label">Upload Photos/Videos (Optional)</label>
                         <div class="upload-area" onclick="document.getElementById('mediaInput').click()">
-                            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary);"></i>
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
                             <p>Click to upload files</p>
                             <small>Max 5 files, 10MB each</small>
                         </div>
@@ -560,7 +690,7 @@
                     </div>
                 </div>
 
-                <!-- Submit -->
+                <!-- Submit Button -->
                 <div class="text-center">
                     <button type="submit" class="submit-btn">
                         <i class="fas fa-paper-plane"></i>
@@ -582,7 +712,7 @@
                 <i class="fas fa-check-circle"></i>
             </div>
             <h4>Complaint Submitted!</h4>
-            <p>Your complaint ID: <strong id="complaintId">RC-<%= Date.now().toString().slice(-6) %></strong></p>
+            <p>Your complaint ID: <strong id="complaintId">RC-XXXXXX</strong></p>
             <p class="text-muted">Road repair team will inspect within 72 hours</p>
             <button class="btn btn-primary mt-3" onclick="resetForm()">
                 <i class="fas fa-redo me-2"></i>Submit Another
@@ -591,9 +721,14 @@
     </div>
 
     <script>
+        // Global variables
+        let uploadedFiles = [];
+        let locationMethod = 'address'; // 'address' or 'gps'
+        let gpsLocation = null;
+
         // Create simple animation
         function createAnimation() {
-            const container = document.getElementById('animationContainer');
+            const container = document.getElementById('roadAnimation');
             for(let i = 0; i < 20; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'road-dot';
@@ -602,6 +737,163 @@
                 dot.style.top = Math.random() * 100 + '%';
                 dot.style.animationDelay = Math.random() * 3 + 's';
                 container.appendChild(dot);
+            }
+        }
+
+        // Select location method
+        function selectLocationMethod(method) {
+            locationMethod = method;
+            
+            // Update button states
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Show/hide GPS section
+            const gpsSection = document.getElementById('gpsSection');
+            if (method === 'gps') {
+                gpsSection.classList.add('active');
+            } else {
+                gpsSection.classList.remove('active');
+                // Reset GPS display when switching back to address only
+                document.getElementById('locationDisplay').innerHTML = 
+                    '<i class="fas fa-map-marker-alt text-muted me-2"></i><span>GPS location will appear here</span>';
+                document.getElementById('locationDisplay').classList.remove('success');
+                document.getElementById('locationStatus').textContent = 'Click to get location';
+                document.getElementById('locationStatus').style.color = '';
+                gpsLocation = null;
+            }
+        }
+
+        // Get GPS Location - FIXED VERSION
+        function getGPSLocation() {
+            const status = document.getElementById('locationStatus');
+            const gpsButton = document.getElementById('gpsButton');
+            const locationDisplay = document.getElementById('locationDisplay');
+            
+            // Check if browser supports geolocation
+            if (!navigator.geolocation) {
+                status.textContent = 'GPS not supported by browser';
+                status.style.color = '#e74c3c';
+                return;
+            }
+            
+            // Show loading state
+            status.textContent = 'Getting location...';
+            status.style.color = '#f39c12';
+            gpsButton.disabled = true;
+            gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+            
+            // Clear previous display
+            locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin text-primary me-2"></i><span>Detecting location...</span>';
+            
+            // Get current position
+            navigator.geolocation.getCurrentPosition(
+                // Success callback
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const accuracy = position.coords.accuracy;
+                    
+                    // Store GPS data
+                    gpsLocation = {
+                        lat: lat,
+                        lng: lng,
+                        accuracy: accuracy
+                    };
+                    
+                    // Update UI
+                    status.textContent = 'Location captured!';
+                    status.style.color = '#27ae60';
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                    
+                    // Show location in display
+                    locationDisplay.innerHTML = `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <div><strong>GPS Location Captured</strong></div>
+                            <small class="text-muted">${lat.toFixed(6)}, ${lng.toFixed(6)}</small>
+                        </div>
+                    `;
+                    locationDisplay.classList.add('success');
+                    
+                    // Try to get address from coordinates
+                    getAddressFromCoords(lat, lng);
+                    
+                    console.log('GPS Location:', gpsLocation);
+                },
+                // Error callback
+                function(error) {
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                    
+                    let errorMessage = '';
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Location permission denied. Please allow location access.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Location unavailable. Check GPS/internet.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'Location request timed out. Try again.';
+                            break;
+                        default:
+                            errorMessage = 'Unable to get location. Please try again.';
+                            break;
+                    }
+                    
+                    status.textContent = errorMessage;
+                    status.style.color = '#e74c3c';
+                    
+                    locationDisplay.innerHTML = `
+                        <div class="text-center text-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span>${errorMessage}</span>
+                        </div>
+                    `;
+                    locationDisplay.classList.remove('success');
+                    
+                    alert('GPS location failed. You can still submit using address only.');
+                },
+                // Options
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        // Get address from coordinates (optional feature)
+        async function getAddressFromCoords(lat, lng) {
+            const locationDisplay = document.getElementById('locationDisplay');
+            
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.display_name) {
+                        let address = data.display_name;
+                        if (address.length > 80) {
+                            address = address.substring(0, 80) + '...';
+                        }
+                        locationDisplay.innerHTML = `
+                            <div class="text-start">
+                                <i class="fas fa-map-marker-alt text-success me-2"></i>
+                                <div><strong>Address Found:</strong></div>
+                                <small>${address}</small>
+                            </div>
+                        `;
+                        locationDisplay.classList.add('success');
+                    }
+                }
+            } catch (error) {
+                // If address fetch fails, we already have coordinates displayed
+                console.log('Address fetch failed, coordinates displayed instead');
             }
         }
 
@@ -632,56 +924,19 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Get GPS Location
-        function getGPSLocation() {
-            const status = document.getElementById('locationStatus');
-            const latitude = document.getElementById('latitude');
-            const longitude = document.getElementById('longitude');
-            const btn = event.currentTarget;
-            
-            if(!navigator.geolocation) {
-                status.textContent = 'Browser not supported';
-                return;
-            }
-            
-            status.textContent = 'Getting location...';
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
-            
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    latitude.value = position.coords.latitude.toFixed(6);
-                    longitude.value = position.coords.longitude.toFixed(6);
-                    status.textContent = 'Location captured!';
-                    status.style.color = 'green';
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-                },
-                (error) => {
-                    status.textContent = 'Failed to get location';
-                    status.style.color = 'red';
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-                    alert('Please allow location access or enter manually');
-                }
-            );
-        }
-
         // Handle media upload
-        let uploadedFiles = [];
-
         function handleMediaUpload(event) {
             const files = Array.from(event.target.files);
             const preview = document.getElementById('mediaPreview');
             
-            if(uploadedFiles.length + files.length > 5) {
+            if (uploadedFiles.length + files.length > 5) {
                 alert('Maximum 5 files allowed');
                 return;
             }
             
             files.forEach(file => {
-                if(file.size > 10 * 1024 * 1024) {
-                    alert(`File ${file.name} is too large`);
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`"${file.name}" is too large (max 10MB)`);
                     return;
                 }
                 
@@ -691,9 +946,9 @@
                     const mediaItem = document.createElement('div');
                     mediaItem.className = 'media-item';
                     
-                    if(file.type.startsWith('image/')) {
+                    if (file.type.startsWith('image/')) {
                         mediaItem.innerHTML = `
-                            <img src="${e.target.result}">
+                            <img src="${e.target.result}" alt="Evidence">
                             <button class="remove-btn" onclick="removeMedia(this)">×</button>
                         `;
                     } else {
@@ -724,55 +979,91 @@
         document.getElementById('roadComplaintForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const lat = document.getElementById('latitude').value;
-            const lng = document.getElementById('longitude').value;
+            // Basic form validation
+            const requiredFields = ['roadName', 'area', 'ward', 'city', 'pincode'];
+            let isValid = true;
             
-            if(!lat || !lng) {
-                alert('Please get GPS location first');
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    isValid = false;
+                    element.style.borderColor = '#e74c3c';
+                    setTimeout(() => {
+                        element.style.borderColor = '';
+                    }, 2000);
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill all required fields marked with *');
                 return;
             }
             
             // Generate complaint ID
-            const complaintId = 'RC-' + Date.now().toString().slice(-6);
+            const complaintId = 'RC-' + Date.now().toString().slice(-8);
             document.getElementById('complaintId').textContent = complaintId;
             
             // Show success modal
             document.getElementById('successModal').classList.add('show');
             
-            // In real app, send data to server here
-            console.log('Form submitted:', complaintId);
+            // Prepare form data
+            const formData = {
+                complaintId: complaintId,
+                address: {
+                    roadName: document.getElementById('roadName').value,
+                    area: document.getElementById('area').value,
+                    ward: document.getElementById('ward').value,
+                    city: document.getElementById('city').value,
+                    pincode: document.getElementById('pincode').value
+                },
+                locationMethod: locationMethod,
+                gpsLocation: gpsLocation,
+                issueType: document.getElementById('issueType').value,
+                securityLevel: document.getElementById('securityLevel').value,
+                filesCount: uploadedFiles.length
+            };
+            
+            console.log('Complaint submitted:', formData);
         });
 
         // Reset form
         function resetForm() {
             document.getElementById('successModal').classList.remove('show');
             document.getElementById('roadComplaintForm').reset();
-            document.getElementById('latitude').value = '';
-            document.getElementById('longitude').value = '';
+            
+            // Reset location
             document.getElementById('locationStatus').textContent = 'Click to get location';
             document.getElementById('locationStatus').style.color = '';
+            document.getElementById('locationDisplay').innerHTML = 
+                '<i class="fas fa-map-marker-alt text-muted me-2"></i><span>GPS location will appear here</span>';
+            document.getElementById('locationDisplay').classList.remove('success');
+            
+            gpsLocation = null;
             
             // Reset selections
             selectIssue('potholes');
             selectSecurity('moderate');
             selectArea('small');
+            selectLocationMethod('address');
             
             // Clear media
             uploadedFiles = [];
             document.getElementById('mediaPreview').innerHTML = '';
             
-            // Set today's date
+            // Set today's date and time
             const today = new Date().toISOString().split('T')[0];
             document.querySelector('input[name="captureDate"]').value = today;
             
-            // Set current time
             const now = new Date();
             const time = now.getHours().toString().padStart(2, '0') + ':' + 
                          now.getMinutes().toString().padStart(2, '0');
             document.querySelector('input[name="captureTime"]').value = time;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Initialize
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             createAnimation();
             
@@ -785,6 +1076,19 @@
             const time = now.getHours().toString().padStart(2, '0') + ':' + 
                          now.getMinutes().toString().padStart(2, '0');
             document.querySelector('input[name="captureTime"]').value = time;
+            
+            // Initialize location method
+            selectLocationMethod('address');
+            
+            // Test if geolocation is available
+            if (!navigator.geolocation) {
+                console.log('Geolocation is not supported by this browser');
+                const gpsBtn = document.getElementById('gpsBtn');
+                gpsBtn.style.opacity = '0.6';
+                gpsBtn.style.cursor = 'not-allowed';
+                gpsBtn.onclick = null;
+                gpsBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> GPS Not Supported';
+            }
         });
     </script>
 </body>
