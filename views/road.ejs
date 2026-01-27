@@ -110,102 +110,6 @@
             color: var(--primary);
         }
 
-        /* Location Options */
-        .location-options {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .option-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .option-btn:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .option-btn.active {
-            background: rgba(230, 126, 34, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .option-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* GPS Section */
-        .location-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .location-section.active {
-            display: block;
-        }
-
-        .gps-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-
-        .location-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .location-btn:hover {
-            background: #d35400;
-            transform: translateY(-2px);
-        }
-
-        .location-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .location-display {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border: 1px solid #dee2e6;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .location-display.success {
-            border-color: var(--success);
-            background: rgba(39, 174, 96, 0.05);
-        }
-
         /* Issue Cards */
         .issue-grid {
             display: grid;
@@ -413,10 +317,6 @@
             .form-card {
                 padding: 20px;
             }
-            
-            .location-options {
-                flex-direction: column;
-            }
         }
 
         @media (max-width: 576px) {
@@ -446,7 +346,7 @@
     <!-- Main Form -->
     <div class="form-container">
         <div class="form-card">
-            <form id="roadComplaintForm">
+            <form id="roadComplaintForm" enctype="multipart/form-data" method="POST" action="/api/road-complaints">
                 <!-- Location Details -->
                 <div class="form-section">
                     <h3 class="section-title">
@@ -454,7 +354,7 @@
                         Location Details
                     </h3>
 
-                    <!-- Basic Address - ALWAYS SHOW THIS -->
+                    <!-- Basic Address -->
                     <div class="mb-4">
                         <h5 class="mb-3">Enter Address Details *</h5>
                         <div class="row">
@@ -494,39 +394,12 @@
                                        placeholder="6-digit pincode" id="pincode">
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Location Options -->
-                    <div class="mt-4">
-                        <label class="form-label">Additional Location Method (Optional)</label>
-                        <div class="location-options">
-                            <div class="option-btn active" onclick="selectLocationMethod('address')" id="addressBtn">
-                                <i class="fas fa-home"></i> Use Address Only
-                            </div>
-                            <div class="option-btn" onclick="selectLocationMethod('gps')" id="gpsBtn">
-                                <i class="fas fa-location-arrow"></i> Add GPS Location
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GPS Section -->
-                    <div id="gpsSection" class="location-section">
-                        <div class="gps-box">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <button type="button" class="location-btn" id="gpsButton" onclick="getGPSLocation()">
-                                    <i class="fas fa-location-arrow"></i>
-                                    Get Current Location
-                                </button>
-                                <span id="locationStatus">Click to get location</span>
-                            </div>
-                            
-                            <div id="locationDisplay" class="location-display">
-                                <i class="fas fa-map-marker-alt text-muted me-2"></i>
-                                <span>GPS location will appear here</span>
-                            </div>
-                            <p class="text-muted mt-2 mb-0">
-                                <small><i class="fas fa-info-circle"></i> GPS helps us pinpoint exact location</small>
-                            </p>
+                        
+                        <!-- Landmark Input (Optional) -->
+                        <div class="mb-3">
+                            <label class="form-label">Nearest Landmark (Optional)</label>
+                            <input type="text" class="form-control" name="landmark" 
+                                   placeholder="e.g., Near Main Market, Opposite School etc.">
                         </div>
                     </div>
                 </div>
@@ -651,7 +524,7 @@
                     <div class="mb-3">
                         <label class="form-label">Additional Details</label>
                         <textarea class="form-control" name="remarks" rows="3" 
-                                  placeholder="Any special instructions or landmarks..."></textarea>
+                                  placeholder="Any special instructions, exact location description, or additional information..."></textarea>
                     </div>
                 </div>
 
@@ -684,7 +557,7 @@
                             <small>Max 5 files, 10MB each</small>
                         </div>
                         <input type="file" id="mediaInput" multiple accept="image/*,video/*" 
-                               class="d-none" onchange="handleMediaUpload(event)">
+                               class="d-none" name="media" onchange="handleMediaUpload(event)">
                         
                         <div id="mediaPreview" class="media-preview"></div>
                     </div>
@@ -723,8 +596,6 @@
     <script>
         // Global variables
         let uploadedFiles = [];
-        let locationMethod = 'address'; // 'address' or 'gps'
-        let gpsLocation = null;
 
         // Create simple animation
         function createAnimation() {
@@ -737,163 +608,6 @@
                 dot.style.top = Math.random() * 100 + '%';
                 dot.style.animationDelay = Math.random() * 3 + 's';
                 container.appendChild(dot);
-            }
-        }
-
-        // Select location method
-        function selectLocationMethod(method) {
-            locationMethod = method;
-            
-            // Update button states
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-            
-            // Show/hide GPS section
-            const gpsSection = document.getElementById('gpsSection');
-            if (method === 'gps') {
-                gpsSection.classList.add('active');
-            } else {
-                gpsSection.classList.remove('active');
-                // Reset GPS display when switching back to address only
-                document.getElementById('locationDisplay').innerHTML = 
-                    '<i class="fas fa-map-marker-alt text-muted me-2"></i><span>GPS location will appear here</span>';
-                document.getElementById('locationDisplay').classList.remove('success');
-                document.getElementById('locationStatus').textContent = 'Click to get location';
-                document.getElementById('locationStatus').style.color = '';
-                gpsLocation = null;
-            }
-        }
-
-        // Get GPS Location - FIXED VERSION
-        function getGPSLocation() {
-            const status = document.getElementById('locationStatus');
-            const gpsButton = document.getElementById('gpsButton');
-            const locationDisplay = document.getElementById('locationDisplay');
-            
-            // Check if browser supports geolocation
-            if (!navigator.geolocation) {
-                status.textContent = 'GPS not supported by browser';
-                status.style.color = '#e74c3c';
-                return;
-            }
-            
-            // Show loading state
-            status.textContent = 'Getting location...';
-            status.style.color = '#f39c12';
-            gpsButton.disabled = true;
-            gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
-            
-            // Clear previous display
-            locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin text-primary me-2"></i><span>Detecting location...</span>';
-            
-            // Get current position
-            navigator.geolocation.getCurrentPosition(
-                // Success callback
-                function(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const accuracy = position.coords.accuracy;
-                    
-                    // Store GPS data
-                    gpsLocation = {
-                        lat: lat,
-                        lng: lng,
-                        accuracy: accuracy
-                    };
-                    
-                    // Update UI
-                    status.textContent = 'Location captured!';
-                    status.style.color = '#27ae60';
-                    gpsButton.disabled = false;
-                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-                    
-                    // Show location in display
-                    locationDisplay.innerHTML = `
-                        <div class="text-center">
-                            <i class="fas fa-check-circle text-success me-2"></i>
-                            <div><strong>GPS Location Captured</strong></div>
-                            <small class="text-muted">${lat.toFixed(6)}, ${lng.toFixed(6)}</small>
-                        </div>
-                    `;
-                    locationDisplay.classList.add('success');
-                    
-                    // Try to get address from coordinates
-                    getAddressFromCoords(lat, lng);
-                    
-                    console.log('GPS Location:', gpsLocation);
-                },
-                // Error callback
-                function(error) {
-                    gpsButton.disabled = false;
-                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-                    
-                    let errorMessage = '';
-                    
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMessage = 'Location permission denied. Please allow location access.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMessage = 'Location unavailable. Check GPS/internet.';
-                            break;
-                        case error.TIMEOUT:
-                            errorMessage = 'Location request timed out. Try again.';
-                            break;
-                        default:
-                            errorMessage = 'Unable to get location. Please try again.';
-                            break;
-                    }
-                    
-                    status.textContent = errorMessage;
-                    status.style.color = '#e74c3c';
-                    
-                    locationDisplay.innerHTML = `
-                        <div class="text-center text-danger">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            <span>${errorMessage}</span>
-                        </div>
-                    `;
-                    locationDisplay.classList.remove('success');
-                    
-                    alert('GPS location failed. You can still submit using address only.');
-                },
-                // Options
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        }
-
-        // Get address from coordinates (optional feature)
-        async function getAddressFromCoords(lat, lng) {
-            const locationDisplay = document.getElementById('locationDisplay');
-            
-            try {
-                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.display_name) {
-                        let address = data.display_name;
-                        if (address.length > 80) {
-                            address = address.substring(0, 80) + '...';
-                        }
-                        locationDisplay.innerHTML = `
-                            <div class="text-start">
-                                <i class="fas fa-map-marker-alt text-success me-2"></i>
-                                <div><strong>Address Found:</strong></div>
-                                <small>${address}</small>
-                            </div>
-                        `;
-                        locationDisplay.classList.add('success');
-                    }
-                }
-            } catch (error) {
-                // If address fetch fails, we already have coordinates displayed
-                console.log('Address fetch failed, coordinates displayed instead');
             }
         }
 
@@ -976,7 +690,7 @@
         }
 
         // Form submission
-        document.getElementById('roadComplaintForm').addEventListener('submit', function(e) {
+        document.getElementById('roadComplaintForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Basic form validation
@@ -1001,29 +715,66 @@
             
             // Generate complaint ID
             const complaintId = 'RC-' + Date.now().toString().slice(-8);
-            document.getElementById('complaintId').textContent = complaintId;
             
-            // Show success modal
-            document.getElementById('successModal').classList.add('show');
-            
-            // Prepare form data
-            const formData = {
-                complaintId: complaintId,
-                address: {
-                    roadName: document.getElementById('roadName').value,
-                    area: document.getElementById('area').value,
-                    ward: document.getElementById('ward').value,
-                    city: document.getElementById('city').value,
-                    pincode: document.getElementById('pincode').value
-                },
-                locationMethod: locationMethod,
-                gpsLocation: gpsLocation,
-                issueType: document.getElementById('issueType').value,
-                securityLevel: document.getElementById('securityLevel').value,
-                filesCount: uploadedFiles.length
-            };
-            
-            console.log('Complaint submitted:', formData);
+            try {
+                // Create FormData object
+                const formData = new FormData();
+                
+                // Add complaint ID
+                formData.append('complaintId', complaintId);
+                
+                // Add address fields
+                formData.append('roadName', document.getElementById('roadName').value);
+                formData.append('area', document.getElementById('area').value);
+                formData.append('ward', document.getElementById('ward').value);
+                formData.append('city', document.getElementById('city').value);
+                formData.append('pincode', document.getElementById('pincode').value);
+                formData.append('landmark', document.querySelector('input[name="landmark"]').value || '');
+                
+                // Add issue fields
+                formData.append('issueType', document.getElementById('issueType').value);
+                formData.append('securityLevel', document.getElementById('securityLevel').value);
+                formData.append('affectedArea', document.getElementById('affectedArea').value);
+                formData.append('durationValue', document.querySelector('input[name="durationValue"]').value);
+                formData.append('durationUnit', document.querySelector('select[name="durationUnit"]').value);
+                formData.append('monsoonIssue', document.querySelector('select[name="monsoonIssue"]').value || '');
+                formData.append('remarks', document.querySelector('textarea[name="remarks"]').value || '');
+                
+                // Add capture fields
+                formData.append('captureDate', document.querySelector('input[name="captureDate"]').value);
+                formData.append('captureTime', document.querySelector('input[name="captureTime"]').value);
+                
+                // Add media files
+                const mediaInput = document.getElementById('mediaInput');
+                for (let i = 0; i < mediaInput.files.length; i++) {
+                    formData.append('media', mediaInput.files[i]);
+                }
+                
+                // Send data to server
+                const response = await fetch('/citizen/complaints/roads', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Server error');
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success modal with actual complaint ID from server
+                    document.getElementById('complaintId').textContent = result.complaintId || complaintId;
+                    document.getElementById('successModal').classList.add('show');
+                    
+                    console.log('Complaint submitted successfully:', result);
+                } else {
+                    alert('Failed to submit complaint: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Failed to submit complaint. Please try again.');
+            }
         });
 
         // Reset form
@@ -1031,20 +782,10 @@
             document.getElementById('successModal').classList.remove('show');
             document.getElementById('roadComplaintForm').reset();
             
-            // Reset location
-            document.getElementById('locationStatus').textContent = 'Click to get location';
-            document.getElementById('locationStatus').style.color = '';
-            document.getElementById('locationDisplay').innerHTML = 
-                '<i class="fas fa-map-marker-alt text-muted me-2"></i><span>GPS location will appear here</span>';
-            document.getElementById('locationDisplay').classList.remove('success');
-            
-            gpsLocation = null;
-            
             // Reset selections
             selectIssue('potholes');
             selectSecurity('moderate');
             selectArea('small');
-            selectLocationMethod('address');
             
             // Clear media
             uploadedFiles = [];
@@ -1076,19 +817,6 @@
             const time = now.getHours().toString().padStart(2, '0') + ':' + 
                          now.getMinutes().toString().padStart(2, '0');
             document.querySelector('input[name="captureTime"]').value = time;
-            
-            // Initialize location method
-            selectLocationMethod('address');
-            
-            // Test if geolocation is available
-            if (!navigator.geolocation) {
-                console.log('Geolocation is not supported by this browser');
-                const gpsBtn = document.getElementById('gpsBtn');
-                gpsBtn.style.opacity = '0.6';
-                gpsBtn.style.cursor = 'not-allowed';
-                gpsBtn.onclick = null;
-                gpsBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> GPS Not Supported';
-            }
         });
     </script>
 </body>
