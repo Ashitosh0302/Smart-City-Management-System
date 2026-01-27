@@ -387,24 +387,6 @@
             50% { box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); }
         }
 
-        /* Form Controls */
-        .form-control, .form-select, textarea {
-            border: 2px solid #dfe6e9;
-            border-radius: 10px;
-            padding: 12px 15px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .form-control:focus, .form-select:focus, textarea:focus {
-            border-color: var(--primary);
-            box-shadow: 
-                0 0 0 3px rgba(39, 174, 96, 0.1),
-                0 5px 15px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
         /* Category Cards */
         .category-grid {
             display: grid;
@@ -436,6 +418,164 @@
             border-color: var(--primary);
             transform: translateY(-5px);
             box-shadow: 0 5px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .category-card.active::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Quantity Cards */
+        .quantity-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quantity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .quantity-card.active {
+            background: rgba(39, 174, 96, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.2);
+        }
+
+        .quantity-card.active::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select, textarea {
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus, .form-select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 3px rgba(39, 174, 96, 0.1),
+                0 5px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Media Upload */
+        .upload-area {
+            border: 3px dashed #b2bec3;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(39, 174, 96, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #b2bec3;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .media-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .media-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 150px;
+        }
+
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .media-item:hover .remove-btn {
+            opacity: 1;
         }
 
         /* Submit Button */
@@ -517,6 +657,18 @@
             }
         }
 
+        .success-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: successPulse 2s infinite;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
         /* Floating Notification */
         .notification {
             position: fixed;
@@ -538,10 +690,20 @@
             transform: translateX(0);
         }
 
+        /* Required Field Indicator */
+        .required::after {
+            content: ' *';
+            color: var(--danger);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .category-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quantity-cards {
+                grid-template-columns: 1fr;
             }
             
             .location-method-selector {
@@ -562,8 +724,16 @@
                 grid-template-columns: 1fr;
             }
             
+            .quantity-cards {
+                grid-template-columns: 1fr;
+            }
+            
             body {
                 padding: 10px;
+            }
+            
+            .media-preview {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -693,7 +863,7 @@
                     </div>
                 </div>
 
-                <!-- Garbage Details Section (Same as before) -->
+                <!-- Garbage Details Section -->
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-trash"></i>
@@ -820,7 +990,7 @@
                     </div>
                 </div>
 
-                <!-- Media Upload Section (Same as before) -->
+                <!-- Media Upload Section -->
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-camera"></i>
@@ -963,14 +1133,48 @@
             }
         }
 
-        // Select location method
+        // Select location method - FIXED
         function selectLocationMethod(method) {
             locationMethod = method;
+            
+            // Reset location status when switching methods
+            const locationDisplay = document.getElementById('locationDisplay');
+            const locationStatus = document.getElementById('locationStatus');
+            
+            // Reset GPS section
+            if (method === 'gps') {
+                locationStatus.textContent = 'Click to get your location';
+                locationStatus.style.color = '';
+                locationDisplay.innerHTML = 
+                    '<i class="fas fa-map-marker-alt text-muted"></i> Location will appear here after scanning';
+                locationDisplay.classList.remove('active');
+                
+                // Hide map if it exists
+                if (map) {
+                    document.getElementById('locationMap').style.display = 'none';
+                }
+                
+                // Reset GPS button
+                const gpsButton = document.getElementById('gpsButton');
+                gpsButton.disabled = false;
+                gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+            }
+            
+            // Reset address section
+            if (method === 'address') {
+                document.getElementById('streetAddress').value = '';
+                document.getElementById('city').value = '';
+                document.getElementById('zipCode').value = '';
+                document.getElementById('ward').value = '';
+                document.getElementById('locationDetails').value = '';
+            }
             
             // Update button states
             document.querySelectorAll('.method-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
+            
+            // Add active class to clicked button
             event.currentTarget.classList.add('active');
             
             // Show/hide sections
@@ -978,12 +1182,15 @@
             document.getElementById('addressSection').classList.remove('active');
             document.getElementById(method + 'Section').classList.add('active');
             
-            // Reset validation
-            document.getElementById('gpsSection').required = method === 'gps';
-            document.getElementById('addressSection').required = method === 'address';
+            // Show notification
+            if (method === 'gps') {
+                showNotification('Click "Get Current Location" to use your GPS', 'info');
+            } else {
+                showNotification('Please fill in the address details below', 'info');
+            }
         }
 
-        // Get GPS Location - Enhanced Version
+        // Get GPS Location - FIXED
         function getGPSLocation() {
             const status = document.getElementById('locationStatus');
             const gpsButton = document.getElementById('gpsButton');
@@ -991,7 +1198,9 @@
             
             // Check if browser supports geolocation
             if (!navigator.geolocation) {
-                showNotification('Geolocation is not supported by your browser', 'error');
+                showNotification('Geolocation is not supported by your browser. Please use address method.', 'error');
+                locationDisplay.innerHTML = 
+                    '<i class="fas fa-exclamation-triangle text-danger"></i> GPS not supported. Please use address method.';
                 return;
             }
             
@@ -1001,6 +1210,7 @@
             gpsButton.disabled = true;
             gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
             locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning location...';
+            locationDisplay.classList.add('active');
             
             // Geolocation options
             const options = {
@@ -1033,9 +1243,6 @@
                     
                     // Show success notification
                     showNotification('Location captured successfully!', 'success');
-                    
-                    // Log for debugging
-                    console.log('GPS Location captured:', { lat, lng, accuracy });
                 },
                 // Error callback
                 (error) => {
@@ -1048,22 +1255,34 @@
                         case error.PERMISSION_DENIED:
                             errorMessage = 'Location permission denied. Please allow access in browser settings.';
                             showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = '<i class="fas fa-exclamation-triangle text-warning"></i> ' + errorMessage;
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-exclamation-triangle text-warning"></i> Location permission denied.<br>' +
+                                '<small class="text-muted">Please allow location access in your browser settings or use address method.</small>';
+                            locationDisplay.classList.add('active');
                             break;
                         case error.POSITION_UNAVAILABLE:
                             errorMessage = 'Location unavailable. Check GPS/internet connection.';
                             showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = '<i class="fas fa-wifi-slash text-danger"></i> ' + errorMessage;
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-wifi-slash text-danger"></i> Location unavailable.<br>' +
+                                '<small class="text-muted">Please check your GPS/internet connection.</small>';
+                            locationDisplay.classList.add('active');
                             break;
                         case error.TIMEOUT:
                             errorMessage = 'Location request timed out. Please try again.';
                             showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = '<i class="fas fa-clock text-danger"></i> ' + errorMessage;
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-clock text-danger"></i> Location request timed out.<br>' +
+                                '<small class="text-muted">Please try again or use address method.</small>';
+                            locationDisplay.classList.add('active');
                             break;
                         default:
                             errorMessage = 'Location error. Please try again.';
                             showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = '<i class="fas fa-exclamation-circle text-danger"></i> ' + errorMessage;
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-exclamation-circle text-danger"></i> Location error.<br>' +
+                                '<small class="text-muted">Please try again or use address method.</small>';
+                            locationDisplay.classList.add('active');
                             break;
                     }
                     
@@ -1316,14 +1535,14 @@
             showNotification('File removed', 'info');
         }
 
-        // Form submission
+        // Form submission - FIXED
         document.getElementById('garbageComplaintForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Validate location based on selected method
             if (locationMethod === 'gps') {
                 if (!gpsCoordinates) {
-                    showNotification('Please get your location first!', 'error');
+                    showNotification('Please get your location first! Click "Get Current Location".', 'error');
                     document.getElementById('locationStatus').style.color = '#e74c3c';
                     document.getElementById('locationStatus').textContent = 'Location is required!';
                     document.getElementById('gpsButton').focus();
@@ -1334,9 +1553,29 @@
                 const streetAddress = document.getElementById('streetAddress').value.trim();
                 const city = document.getElementById('city').value.trim();
                 const zipCode = document.getElementById('zipCode').value.trim();
+                const ward = document.getElementById('ward').value;
                 
-                if (!streetAddress || !city || !zipCode) {
-                    showNotification('Please fill all address fields!', 'error');
+                if (!streetAddress) {
+                    showNotification('Please enter street address!', 'error');
+                    document.getElementById('streetAddress').focus();
+                    return;
+                }
+                
+                if (!city) {
+                    showNotification('Please enter city!', 'error');
+                    document.getElementById('city').focus();
+                    return;
+                }
+                
+                if (!zipCode) {
+                    showNotification('Please enter ZIP code!', 'error');
+                    document.getElementById('zipCode').focus();
+                    return;
+                }
+                
+                if (!ward) {
+                    showNotification('Please select ward number!', 'error');
+                    document.getElementById('ward').focus();
                     return;
                 }
             }
@@ -1347,6 +1586,7 @@
                 const otherGarbage = document.getElementById('otherGarbage').value.trim();
                 if (!otherGarbage) {
                     showNotification('Please specify the garbage type', 'error');
+                    document.getElementById('otherGarbage').focus();
                     return;
                 }
             }
@@ -1364,80 +1604,56 @@
             // Show success modal
             document.getElementById('successModal').classList.add('show');
             
-            // Prepare form data
-            const formData = new FormData();
+            // Prepare form data for demo (in real app, send to server)
+            console.log('Complaint submitted successfully!');
+            console.log('Complaint ID:', complaintId);
             
-            // Add location data
             if (locationMethod === 'gps') {
-                formData.append('locationMethod', 'gps');
-                formData.append('latitude', gpsCoordinates.lat);
-                formData.append('longitude', gpsCoordinates.lng);
-                formData.append('accuracy', gpsCoordinates.accuracy);
-                
-                // Get address from display
-                const locationText = document.getElementById('locationDisplay').innerText;
-                formData.append('locationText', locationText);
+                console.log('Location from GPS:', gpsCoordinates);
             } else {
-                formData.append('locationMethod', 'address');
-                formData.append('streetAddress', document.getElementById('streetAddress').value);
-                formData.append('city', document.getElementById('city').value);
-                formData.append('zipCode', document.getElementById('zipCode').value);
-                formData.append('ward', document.getElementById('ward').value);
-                formData.append('locationDetails', document.getElementById('locationDetails').value);
+                console.log('Address entered:', {
+                    street: document.getElementById('streetAddress').value,
+                    city: document.getElementById('city').value,
+                    zip: document.getElementById('zipCode').value,
+                    ward: document.getElementById('ward').value
+                });
             }
-            
-            // Add other form data
-            formData.append('garbageType', document.getElementById('garbageType').value);
-            if (document.getElementById('garbageType').value === 'other') {
-                formData.append('otherGarbage', document.getElementById('otherGarbage').value);
-            }
-            formData.append('quantity', document.getElementById('quantity').value);
-            formData.append('issueType', document.getElementById('issueType').value);
-            
-            // Add uploaded files
-            uploadedMedia.forEach(file => {
-                formData.append('media[]', file);
-            });
-            
-            // Log for demo
-            console.log('Complaint submitted with ID:', complaintId);
-            console.log('Form data prepared for server');
             
             // Show notification
-            showNotification('Complaint submitted successfully!', 'success');
-            
-            // In real implementation, send to server
-            // fetch('/api/submit-complaint', {
-            //     method: 'POST',
-            //     body: formData
-            // }).then(response => {
-            //     if (response.ok) {
-            //         showNotification('Complaint submitted successfully!', 'success');
-            //     } else {
-            //         showNotification('Submission failed. Please try again.', 'error');
-            //     }
-            // });
+            showNotification('Complaint submitted successfully! Tracking ID: ' + complaintId, 'success');
         }
 
-        // Reset form
+        // Reset form - FIXED
         function resetForm() {
             document.getElementById('successModal').classList.remove('show');
             document.getElementById('garbageComplaintForm').reset();
             
-            // Reset location
+            // Reset location sections
             document.getElementById('locationStatus').textContent = 'Click to get your location';
             document.getElementById('locationStatus').style.color = '';
             document.getElementById('locationDisplay').innerHTML = 
                 '<i class="fas fa-map-marker-alt text-muted"></i> Location will appear here after scanning';
             document.getElementById('locationDisplay').classList.remove('active');
             
+            // Reset GPS section
             if (map) {
                 document.getElementById('locationMap').style.display = 'none';
                 map = null;
                 marker = null;
             }
             
+            const gpsButton = document.getElementById('gpsButton');
+            gpsButton.disabled = false;
+            gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+            
             gpsCoordinates = null;
+            
+            // Reset address section
+            document.getElementById('streetAddress').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('zipCode').value = '';
+            document.getElementById('ward').value = '';
+            document.getElementById('locationDetails').value = '';
             
             // Reset selections
             selectGarbageType('household');
@@ -1461,33 +1677,8 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            showNotification('Form reset successfully', 'info');
+            showNotification('Form reset successfully. Ready for new complaint.', 'info');
         }
 
         // Initialize on load
-        document.addEventListener('DOMContentLoaded', function() {
-            createGarbageAnimation();
-            
-            // Set today's date and time
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="photoDate"]').value = today;
-            
-            const now = new Date();
-            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
-                              now.getMinutes().toString().padStart(2, '0');
-            document.querySelector('input[name="photoTime"]').value = timeString;
-            
-            // Test geolocation support
-            if (navigator.geolocation) {
-                console.log('Geolocation is supported by this browser');
-            } else {
-                console.log('Geolocation is NOT supported by this browser');
-                showNotification('Your browser does not support GPS location. Please use address input.', 'warning');
-            }
-            
-            // Set default location method
-            selectLocationMethod('gps');
-        });
-    </script>
-</body>
-</html>
+        document.addEventL
