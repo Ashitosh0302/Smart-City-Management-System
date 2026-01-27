@@ -50,7 +50,6 @@ async function court_register(req, res)
     );
 }
 
-
 module.exports={
     court_home,
     court_register_page,

@@ -72,12 +72,30 @@ async function citizen_register(req, res)
 
 //water complaints
 async function Water_Complaints(req,res) {
-    return res.send("Hello")
+    return res.render("water");
+}
+
+//garbage complaints
+async function garbage_complaint(req,res) {
+    return res.render("garbage");
+}
+
+//electricity complaints
+async function electricity_complaint(req,res) {
+    return res.render("electricity");
+}
+
+//road complaints
+async function road_complaint(req,res) {
+    return res.render("road");
 }
 
 module.exports = {
     citizen_home,
     citizen_register_page,
     citizen_register,
-    Water_Complaints
+    Water_Complaints,
+    garbage_complaint,
+    electricity_complaint,
+    road_complaint
 };

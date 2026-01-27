@@ -4,11 +4,15 @@ const dotenv = require("dotenv");
 const path = require("path");
 const MySQL=require("./config/db")
 const session=require("express-session")
+const CONNECT_MONGO=require("./config/mongo")
 
 dotenv.config();
 
 const app = express();
-const PORT= process.env.PORT || 3070
+const PORT= process.env.PORT || 
+
+//connect mongo
+CONNECT_MONGO();
 
 //session
 app.use(session({
