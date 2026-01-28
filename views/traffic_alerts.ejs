@@ -1,820 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Alerts Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
-            --success-color: #10b981;
-            --info-color: #3b82f6;
-            --dark-color: #1f2937;
-            --light-color: #f9fafb;
-            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            min-height: 100vh;
-            padding-bottom: 40px;
-            color: var(--dark-color);
-        }
-        
-        /* Header Styles */
-        .header {
-            background: linear-gradient(90deg, var(--primary-color) 0%, #1d4ed8 100%);
-            color: white;
-            padding: 25px 0;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.1;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .back-btn {
-            color: white;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            transition: var(--transition);
-            opacity: 0.9;
-        }
-        
-        .back-btn:hover {
-            opacity: 1;
-            transform: translateX(-5px);
-        }
-        
-        .header-title {
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .header-title i {
-            font-size: 2.2rem;
-            background: rgba(255, 255, 255, 0.2);
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .header-subtitle {
-            font-weight: 400;
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-        
-        /* Alert Cards */
-        .alert-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: var(--card-shadow);
-            border-left: 6px solid var(--danger-color);
-            transition: var(--transition);
-            transform: translateY(0);
-            opacity: 0;
-            animation: fadeInUp 0.6s forwards;
-        }
-        
-        .alert-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-        
-        .alert-card.warning {
-            border-left-color: var(--warning-color);
-        }
-        
-        .alert-card.info {
-            border-left-color: var(--info-color);
-        }
-        
-        .alert-card.success {
-            border-left-color: var(--success-color);
-        }
-        
-        .alert-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        
-        .alert-title {
-            font-weight: 700;
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-        }
-        
-        .alert-badge {
-            padding: 6px 15px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-        
-        .badge-high {
-            background: #fee2e2;
-            color: var(--danger-color);
-        }
-        
-        .badge-medium {
-            background: #fef3c7;
-            color: var(--warning-color);
-        }
-        
-        .badge-low {
-            background: #d1fae5;
-            color: var(--success-color);
-        }
-        
-        .alert-time {
-            color: #6b7280;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .alert-content {
-            margin-bottom: 20px;
-        }
-        
-        .alert-detail {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-        
-        .alert-detail i {
-            width: 24px;
-            color: var(--primary-color);
-            margin-right: 12px;
-        }
-        
-        .alert-map {
-            height: 200px;
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-            border-radius: 10px;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .alert-map::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23cbd5e1'/%3E%3Cpath d='M0,200 Q200,100 400,200 T800,200' stroke='%2394a3b8' stroke-width='4' fill='none'/%3E%3Ccircle cx='200' cy='150' r='15' fill='%23ef4444'/%3E%3Ccircle cx='500' cy='250' r='12' fill='%23f59e0b'/%3E%3Ccircle cx='350' cy='180' r='10' fill='%2310b981'/%3E%3C/g%3E%3C/svg%3E");
-            background-size: cover;
-        }
-        
-        .alert-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        
-        .action-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: var(--transition);
-            border: none;
-        }
-        
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
-        }
-        
-        /* Stats Section */
-        .stats-container {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            animation: fadeIn 0.8s forwards;
-            animation-delay: 0.2s;
-            opacity: 0;
-        }
-        
-        .stats-title {
-            font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .stat-card {
-            background: var(--light-color);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: var(--transition);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            background: #f0f4f8;
-        }
-        
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-        
-        .stat-high {
-            color: var(--danger-color);
-        }
-        
-        .stat-medium {
-            color: var(--warning-color);
-        }
-        
-        .stat-low {
-            color: var(--success-color);
-        }
-        
-        /* Filter Section */
-        .filter-container {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            animation: fadeIn 0.8s forwards;
-            animation-delay: 0.4s;
-            opacity: 0;
-        }
-        
-        .filter-title {
-            font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-        }
-        
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        
-        .filter-btn {
-            padding: 10px 20px;
-            border-radius: 30px;
-            border: 2px solid #e5e7eb;
-            background: white;
-            font-weight: 600;
-            color: #6b7280;
-            transition: var(--transition);
-        }
-        
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        /* Live Indicator */
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--danger-color);
-            font-weight: 600;
-            animation: pulse 2s infinite;
-        }
-        
-        .live-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--danger-color);
-            border-radius: 50%;
-        }
-        
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        
-        /* Delay animations for cards */
-        .alert-card:nth-child(1) { animation-delay: 0.1s; }
-        .alert-card:nth-child(2) { animation-delay: 0.2s; }
-        .alert-card:nth-child(3) { animation-delay: 0.3s; }
-        .alert-card:nth-child(4) { animation-delay: 0.4s; }
-        .alert-card:nth-child(5) { animation-delay: 0.5s; }
-        .alert-card:nth-child(6) { animation-delay: 0.6s; }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-title {
-                font-size: 2rem;
-            }
-            
-            .header-title i {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
-            }
-            
-            .alert-actions {
-                flex-direction: column;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Smart Traffic Alerts Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #eef2f7;
+    overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+header {
+    background:
+        linear-gradient(-45deg, rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+        url("https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80");
+    background-size: cover;
+    background-position: center;
+    padding: 90px 20px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    min-height: 300px;
+}
+
+/* Add overlay for better text visibility */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
+    z-index: 1;
+}
+
+header h1, header p {
+    position: relative;
+    z-index: 2;
+}
+
+header h1 {
+    font-size: 38px;
+    animation: slideDown 1s ease;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+header p {
+    opacity: 0.9;
+    animation: slideUp 1s ease;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== LOCATION BOX ===== */
+.location-box {
+    background: #fff;
+    width: 90%;
+    max-width: 600px;
+    margin: -40px auto 30px;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.15);
+    animation: popIn 0.9s ease;
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+select {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0b3c5d;
+    box-shadow: 0 0 0 3px rgba(11, 60, 93, 0.1);
+}
+
+/* ===== MAIN ===== */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+/* ===== PLACEHOLDER ===== */
+.placeholder {
+    text-align: center;
+    color: #555;
+    margin-top: 60px;
+    font-size: 16px;
+    animation: pulse 2s infinite;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px dashed #ccc;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+/* ===== ALERTS GRID ===== */
+.alerts {
+    display: none;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* ===== ALERT CARD ===== */
+.alert-card {
+    background: #fff;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: translateY(40px);
+    animation: reveal 0.7s ease forwards;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border-left: 5px solid #0b3c5d;
+}
+
+.alert-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+@keyframes reveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-type {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.location {
+    color: #555;
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.time {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.severity {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.low { background: #d4edda; color: #155724; }
+.medium { background: #fff3cd; color: #856404; }
+.high { background: #f8d7da; color: #721c24; }
+
+/* ===== SAFETY ===== */
+.safety {
+    margin: 70px 0;
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.safety h2 {
+    color: #0b3c5d;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.tips {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.tip {
+    background: #eef3ff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    animation: float 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.tip:hover {
+    background: #dce4ff;
+    border-color: #0b3c5d;
+}
+
+.tip:nth-child(even) {
+    animation-delay: 1.5s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: #0b3c5d;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+</style>
 </head>
+
 <body>
-    <!-- Header Section -->
-    <div class="header">
-        <div class="container header-content">
-            <a href="/citizen/dashboard" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="header-title">
-                        <i class="fas fa-traffic-light"></i>
-                        Traffic Alerts & Updates
-                    </h1>
-                    <p class="header-subtitle">Real-time traffic incidents, road closures, and congestion reports for Smart City</p>
-                </div>
-                <div class="live-indicator">
-                    <div class="live-dot"></div>
-                    <span>LIVE UPDATES</span>
-                </div>
-            </div>
+
+<header>
+    <h1>Smart Traffic Alerts Portal</h1>
+    <p>Government Verified Traffic Updates</p>
+</header>
+
+<div class="location-box">
+    <label><strong>Select City</strong></label>
+    <select onchange="loadAlerts(this.value)">
+        <option value="">-- Choose City --</option>
+        <option value="Pune">Pune</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+    </select>
+</div>
+
+<div class="container">
+
+    <div class="placeholder" id="placeholder">
+        📍 Please select a city to view active traffic alerts
+    </div>
+
+    <div class="alerts" id="alerts"></div>
+
+    <div class="safety">
+        <h2>🛑 Traffic Rules & Safety Tips</h2>
+        <div class="tips">
+            <div class="tip">🪖 Helmet is mandatory</div>
+            <div class="tip">💺 Always wear seat belt</div>
+            <div class="tip">⚡ Follow speed limits</div>
+            <div class="tip">📵 No mobile while driving</div>
+            <div class="tip">🚶 Pedestrian first</div>
+            <div class="tip">🌧️ Drive slow in rain</div>
         </div>
     </div>
-    
-    <div class="container">
-        <!-- Stats Overview -->
-        <div class="stats-container">
-            <h3 class="stats-title"><i class="fas fa-chart-bar"></i> Traffic Overview</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value stat-high">12</div>
-                    <div class="stat-label">Active Incidents</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value stat-medium">6</div>
-                    <div class="stat-label">Moderate Congestion</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">45-60 min</div>
-                    <div class="stat-label">Avg. Delay Time</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value stat-low">24</div>
-                    <div class="stat-label">Resolved Today</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Filter Section -->
-        <div class="filter-container">
-            <h3 class="filter-title"><i class="fas fa-filter"></i> Filter Alerts</h3>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All Alerts</button>
-                <button class="filter-btn" data-filter="high">High Priority</button>
-                <button class="filter-btn" data-filter="medium">Medium Priority</button>
-                <button class="filter-btn" data-filter="low">Low Priority</button>
-                <button class="filter-btn" data-filter="accident">Accidents</button>
-                <button class="filter-btn" data-filter="construction">Construction</button>
-                <button class="filter-btn" data-filter="event">Events</button>
-            </div>
-        </div>
-        
-        <!-- Alert Cards -->
-        <h3 class="mb-4"><i class="fas fa-exclamation-triangle"></i> Current Traffic Alerts</h3>
-        
-        <!-- High Priority Alert -->
-        <div class="alert-card" data-priority="high" data-type="accident">
-            <div class="alert-header">
-                <div>
-                    <h4 class="alert-title">Major Accident - Lane Blockage</h4>
-                    <span class="alert-badge badge-high">HIGH PRIORITY</span>
-                </div>
-                <div class="alert-time">
-                    <i class="far fa-clock"></i> Updated 15 min ago
-                </div>
-            </div>
-            
-            <div class="alert-content">
-                <div class="alert-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span><strong>Location:</strong> Main Street & 5th Avenue, Downtown</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-car-crash"></i>
-                    <span><strong>Incident:</strong> Multi-vehicle collision involving 3 cars</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-road"></i>
-                    <span><strong>Impact:</strong> 2 left lanes blocked, right lane open</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-clock"></i>
-                    <span><strong>Expected Clearance:</strong> 45-60 minutes</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-shield-alt"></i>
-                    <span><strong>Emergency Services:</strong> Police, Ambulance, Tow trucks on scene</span>
-                </div>
-            </div>
-            
-            <div class="alert-map"></div>
-            
-            <div class="alert-actions">
-                <button class="action-btn btn-primary">
-                    <i class="fas fa-map-marked-alt"></i> View Alternate Route
-                </button>
-                <button class="action-btn btn-outline">
-                    <i class="far fa-bell"></i> Get Notifications
-                </button>
-                <button class="action-btn btn-outline">
-                    <i class="fas fa-camera"></i> View Traffic Cam
-                </button>
-            </div>
-        </div>
-        
-        <!-- Medium Priority Alert -->
-        <div class="alert-card warning" data-priority="medium" data-type="construction">
-            <div class="alert-header">
-                <div>
-                    <h4 class="alert-title">Road Construction - Lane Closure</h4>
-                    <span class="alert-badge badge-medium">MEDIUM PRIORITY</span>
-                </div>
-                <div class="alert-time">
-                    <i class="far fa-clock"></i> Updated 1 hour ago
-                </div>
-            </div>
-            
-            <div class="alert-content">
-                <div class="alert-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span><strong>Location:</strong> Highway 101 between Exit 42 and 44</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-hard-hat"></i>
-                    <span><strong>Work Type:</strong> Asphalt resurfacing</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-road"></i>
-                    <span><strong>Impact:</strong> Right lane closed for 2 miles</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-clock"></i>
-                    <span><strong>Duration:</strong> Today 9 AM - 5 PM (Daily until Friday)</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-car-side"></i>
-                    <span><strong>Expected Delay:</strong> 20-30 minutes during peak hours</span>
-                </div>
-            </div>
-            
-            <div class="alert-actions">
-                <button class="action-btn btn-primary">
-                    <i class="fas fa-map-marked-alt"></i> View Detour Route
-                </button>
-                <button class="action-btn btn-outline">
-                    <i class="fas fa-calendar-alt"></i> View Schedule
-                </button>
-            </div>
-        </div>
-        
-        <!-- Low Priority Alert -->
-        <div class="alert-card info" data-priority="low" data-type="event">
-            <div class="alert-header">
-                <div>
-                    <h4 class="alert-title">Special Event - Increased Traffic</h4>
-                    <span class="alert-badge badge-low">LOW PRIORITY</span>
-                </div>
-                <div class="alert-time">
-                    <i class="far fa-clock"></i> Updated 2 hours ago
-                </div>
-            </div>
-            
-            <div class="alert-content">
-                <div class="alert-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span><strong>Location:</strong> Central Park & Surrounding Streets</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-calendar-day"></i>
-                    <span><strong>Event:</strong> Annual City Marathon</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-road"></i>
-                    <span><strong>Road Closures:</strong> Main Street (6 AM - 2 PM), Park Ave (6 AM - 12 PM)</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-clock"></i>
-                    <span><strong>Duration:</strong> Sunday, 6:00 AM - 2:00 PM</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-traffic-light"></i>
-                    <span><strong>Traffic Impact:</strong> Expect congestion on alternate routes</span>
-                </div>
-            </div>
-            
-            <div class="alert-actions">
-                <button class="action-btn btn-primary">
-                    <i class="fas fa-map-marked-alt"></i> View Event Map
-                </button>
-                <button class="action-btn btn-outline">
-                    <i class="fas fa-subway"></i> Public Transport Options
-                </button>
-            </div>
-        </div>
-        
-        <!-- Additional Alert -->
-        <div class="alert-card success" data-priority="low" data-type="cleared">
-            <div class="alert-header">
-                <div>
-                    <h4 class="alert-title">Previous Incident Cleared</h4>
-                    <span class="alert-badge badge-low">CLEARED</span>
-                </div>
-                <div class="alert-time">
-                    <i class="far fa-clock"></i> Cleared 30 min ago
-                </div>
-            </div>
-            
-            <div class="alert-content">
-                <div class="alert-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span><strong>Location:</strong> Oak Street Bridge</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-check-circle"></i>
-                    <span><strong>Status:</strong> All lanes now open, traffic flowing normally</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-clock"></i>
-                    <span><strong>Cleared At:</strong> 10:45 AM</span>
-                </div>
-                <div class="alert-detail">
-                    <i class="fas fa-car-side"></i>
-                    <span><strong>Current Traffic:</strong> Light, normal speeds</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Filter functionality
-        document.querySelectorAll('.filter-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all buttons
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                const filter = this.getAttribute('data-filter');
-                const alerts = document.querySelectorAll('.alert-card');
-                
-                alerts.forEach(alert => {
-                    if (filter === 'all') {
-                        alert.style.display = 'block';
-                        setTimeout(() => {
-                            alert.style.opacity = '1';
-                            alert.style.transform = 'translateY(0)';
-                        }, 10);
-                    } else {
-                        const priority = alert.getAttribute('data-priority');
-                        const type = alert.getAttribute('data-type');
-                        
-                        if (priority === filter || type === filter) {
-                            alert.style.display = 'block';
-                            setTimeout(() => {
-                                alert.style.opacity = '1';
-                                alert.style.transform = 'translateY(0)';
-                            }, 10);
-                        } else {
-                            alert.style.opacity = '0';
-                            alert.style.transform = 'translateY(20px)';
-                            setTimeout(() => {
-                                alert.style.display = 'none';
-                            }, 400);
-                        }
-                    }
-                });
-            });
-        });
-        
-        // Button click animations
-        document.querySelectorAll('.action-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Add a ripple effect
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = event.clientX - rect.left - size/2;
-                const y = event.clientY - rect.top - size/2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.7);
-                    transform: scale(0);
-                    animation: ripple-animation 0.6s linear;
-                    width: ${size}px;
-                    height: ${size}px;
-                    top: ${y}px;
-                    left: ${x}px;
-                    pointer-events: none;
-                `;
-                
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-                
-                // Button-specific actions
-                const btnText = this.textContent.trim();
-                if (btnText.includes('Alternate Route') || btnText.includes('Detour Route')) {
-                    alert('Opening navigation with alternate route...');
-                } else if (btnText.includes('Notifications')) {
-                    alert('Notification preferences updated!');
-                } else if (btnText.includes('Traffic Cam')) {
-                    alert('Opening live traffic camera feed...');
-                } else if (btnText.includes('Event Map')) {
-                    alert('Displaying event map and road closures...');
-                } else if (btnText.includes('Public Transport')) {
-                    alert('Showing public transport options...');
-                } else if (btnText.includes('View Schedule')) {
-                    alert('Displaying construction schedule...');
-                }
-            });
-        });
-        
-        // Add CSS for ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
+</div>
+
+<footer>
+    <p>© 2026 Traffic Control Department | Smart City Initiative 🇮🇳</p>
+    <p>Emergency Helpline: 1033 | Traffic Police: 100</p>
+</footer>
+
+<script>
+const data = {
+    Pune: [
+        { type: "🚧 Road Blocked", location: "MG Road", time: "28 Jan 2026, 9:30 AM", severity: "High" },
+        { type: "🚑 Accident Reported", location: "NH-48", time: "28 Jan 2026, 8:45 AM", severity: "High" },
+        { type: "🚦 Signal Not Working", location: "FC Road", time: "28 Jan 2026, 10:15 AM", severity: "Medium" }
+    ],
+    Hyderabad: [
+        { type: "🚦 Signal Not Working", location: "Charminar Junction", time: "28 Jan 2026, 10:10 AM", severity: "Medium" },
+        { type: "🏗️ Road Construction", location: "Gachibowli", time: "28 Jan 2026, 9:00 AM", severity: "Low" },
+        { type: "🚗 Heavy Traffic", location: "Hitech City", time: "28 Jan 2026, 8:30 AM", severity: "High" }
+    ],
+    Bangalore: [
+        { type: "🏗️ Road Construction", location: "Ring Road", time: "27 Jan 2026, 6:00 PM", severity: "Low" },
+        { type: "🚗 Heavy Traffic", location: "Marathahalli", time: "28 Jan 2026, 8:00 AM", severity: "High" },
+        { type: "🚧 Road Blocked", location: "MG Road", time: "28 Jan 2026, 9:00 AM", severity: "Medium" }
+    ],
+    Delhi: [
+        { type: "🚗 Heavy Traffic", location: "Connaught Place", time: "28 Jan 2026, 10:00 AM", severity: "High" },
+        { type: "🚧 Road Blocked", location: "India Gate", time: "28 Jan 2026, 9:45 AM", severity: "High" },
+        { type: "🚑 Accident Reported", location: "Rajpath", time: "28 Jan 2026, 9:15 AM", severity: "High" }
+    ],
+    Mumbai: [
+        { type: "🚗 Heavy Traffic", location: "Marine Drive", time: "28 Jan 2026, 8:30 AM", severity: "High" },
+        { type: "🚧 Road Blocked", location: "Bandra-Worli Sea Link", time: "28 Jan 2026, 10:00 AM", severity: "High" },
+        { type: "🚦 Signal Not Working", location: "Churchgate", time: "28 Jan 2026, 9:20 AM", severity: "Medium" }
+    ]
+};
+
+function loadAlerts(city) {
+    const container = document.getElementById("alerts");
+    const placeholder = document.getElementById("placeholder");
+
+    container.innerHTML = "";
+
+    if (!city) {
+        container.style.display = "none";
+        placeholder.style.display = "block";
+        return;
+    }
+
+    placeholder.style.display = "none";
+    container.style.display = "grid";
+
+    data[city].forEach((a, i) => {
+        const card = document.createElement("div");
+        card.className = "alert-card";
+        card.style.animationDelay = `${i * 0.15}s`;
+
+        card.innerHTML = `
+            <div class="alert-type">${a.type}</div>
+            <div class="location">${a.location}, ${city}</div>
+            <div class="time">Reported: ${a.time}</div>
+            <span class="severity ${a.severity.toLowerCase()}">
+                ${a.severity} Severity
+            </span>
         `;
-        document.head.appendChild(style);
-        
-        // Simulate live updates
-        function simulateLiveUpdate() {
-            const liveIndicator = document.querySelector('.live-indicator');
-            liveIndicator.style.animation = 'none';
-            setTimeout(() => {
-                liveIndicator.style.animation = 'pulse 2s infinite';
-            }, 10);
-            
-            // Randomly update a stat
-            const stats = document.querySelectorAll('.stat-value');
-            const randomStat = stats[Math.floor(Math.random() * stats.length)];
-            const currentValue = parseInt(randomStat.textContent);
-            
-            if (randomStat.classList.contains('stat-high') && currentValue > 0) {
-                const change = Math.random() > 0.5 ? 1 : -1;
-                const newValue = Math.max(0, currentValue + change);
-                randomStat.textContent = newValue;
-                
-                // Add animation
-                randomStat.style.transform = 'scale(1.2)';
-                randomStat.style.color = change > 0 ? '#ef4444' : '#10b981';
-                setTimeout(() => {
-                    randomStat.style.transform = 'scale(1)';
-                    setTimeout(() => {
-                        randomStat.style.color = '';
-                    }, 300);
-                }, 300);
-            }
-        }
-        
-        // Update every 30 seconds
-        setInterval(simulateLiveUpdate, 30000);
-        
-        // Initial animation trigger
-        document.addEventListener('DOMContentLoaded', function() {
-            // Trigger animations
-            setTimeout(() => {
-                document.querySelectorAll('.alert-card, .stats-container, .filter-container').forEach(el => {
-                    el.style.opacity = '1';
-                });
-            }, 100);
-        });
-    </script>
+        container.appendChild(card);
+    });
+}
+</script>
+
 </body>
 </html>

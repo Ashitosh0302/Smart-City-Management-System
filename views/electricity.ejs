@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-      
+        /* Enhanced Background Animation */
         .electric-bg {
             position: fixed;
             top: 0;
@@ -554,6 +554,12 @@
             transform: translateX(0);
         }
 
+        /* Required Field Indicator */
+        .required::after {
+            content: ' *';
+            color: var(--danger);
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .card-grid {
@@ -624,23 +630,53 @@
                     
                     <div class="row">
                         <div class="col-md-6">
+<<<<<<< HEAD
                             <label class="form-label required">Consumer Name *</label>
                             <input type="text" class="form-control" name="consumer[fullName]" required placeholder="Enter your full name">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label required">Service Number *</label>
                             <input type="text" class="form-control" name="consumer[serviceNumber]" required placeholder="Enter your service number">
+=======
+                            <label class="form-label required">
+                                <i class="fas fa-user"></i>
+                                Consumer Name
+                            </label>
+                            <input type="text" class="form-control" name="consumerName" required placeholder="Enter your full name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">
+                                <i class="fas fa-file-alt"></i>
+                                Service Number
+                            </label>
+                            <input type="text" class="form-control" name="serviceNumber" required placeholder="Enter your service number">
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                         </div>
                     </div>
                     
                     <div class="row mt-4">
                         <div class="col-md-6">
+<<<<<<< HEAD
                             <label class="form-label required">Meter Number *</label>
                             <input type="text" class="form-control" name="consumer[meterNumber]" required placeholder="Enter meter number">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label required">Contact Number *</label>
                             <input type="tel" class="form-control" name="consumer[phone]" required 
+=======
+                            <label class="form-label required">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Meter Number
+                            </label>
+                            <input type="text" class="form-control" name="meterNumber" required placeholder="Enter meter number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">
+                                <i class="fas fa-phone"></i>
+                                Contact Number
+                            </label>
+                            <input type="tel" class="form-control" name="contactNumber" required 
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                                    pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number">
                         </div>
                     </div>
@@ -663,7 +699,14 @@
                     
                     <div class="row">
                         <div class="col-md-6">
+<<<<<<< HEAD
                             <label class="form-label required">Type of Connection *</label>
+=======
+                            <label class="form-label required">
+                                <i class="fas fa-home"></i>
+                                Type of Connection
+                            </label>
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                             <div class="card-grid">
                                 <div class="option-card active" onclick="selectOption('connection', 'domestic')">
                                     <i class="fas fa-home option-icon"></i>
@@ -682,7 +725,14 @@
                         </div>
                         
                         <div class="col-md-6">
+<<<<<<< HEAD
                             <label class="form-label required">Electricity Provider *</label>
+=======
+                            <label class="form-label required">
+                                <i class="fas fa-building"></i>
+                                Electricity Provider
+                            </label>
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                             <div class="card-grid">
                                 <div class="option-card active" onclick="selectOption('provider', 'MSECL')">
                                     <i class="fas fa-bolt option-icon"></i>
@@ -702,13 +752,18 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <!-- Section 3: Location Details -->
+=======
+                <!-- Section 3: Location - GPS without map -->
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                 <div class="mb-5">
                     <h4 class="section-title">
                         <i class="fas fa-map-marker-alt"></i>
                         Location Details
                     </h4>
                     
+<<<<<<< HEAD
                     <div class="row">
                         <div class="col-md-12">
                             <label class="form-label required">Full Address *</label>
@@ -749,6 +804,114 @@
                                 <option>Ward 7</option>
                                 <option>Ward 8</option>
                             </select>
+=======
+                    <!-- Location Method Selector -->
+                    <div class="location-method-selector">
+                        <div class="method-btn active" onclick="selectLocationMethod('gps')">
+                            <i class="fas fa-location-arrow"></i>
+                            Use GPS
+                        </div>
+                        <div class="method-btn" onclick="selectLocationMethod('address')">
+                            <i class="fas fa-home"></i>
+                            Enter Address Manually
+                        </div>
+                    </div>
+
+                    <!-- GPS Location Method -->
+                    <div id="gpsSection" class="location-input-section active">
+                        <div class="gps-box">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <button type="button" class="location-btn" id="gpsButton" onclick="getGPSLocation()">
+                                    <i class="fas fa-location-arrow"></i>
+                                    Get Current Location
+                                </button>
+                                <span id="locationStatus" class="fw-medium">Click to get your location</span>
+                            </div>
+                            
+                            <!-- Location Display (No Map) -->
+                            <div id="locationDisplay" class="location-display">
+                                <div class="text-center">
+                                    <i class="fas fa-map-marker-alt fa-2x text-muted mb-3"></i>
+                                    <div>Location will appear here after scanning</div>
+                                    <small class="text-muted">We'll use this to dispatch our team quickly</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle"></i>
+                                    GPS helps us locate your exact position for faster service
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manual Address Method -->
+                    <div id="addressSection" class="location-input-section">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label required">
+                                    <i class="fas fa-road"></i>
+                                    Full Address
+                                </label>
+                                <textarea class="form-control" name="address" rows="3" required 
+                                          placeholder="House No., Building, Street, Area"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="fas fa-map-signs"></i>
+                                    Landmark
+                                </label>
+                                <input type="text" class="form-control" name="landmark" 
+                                       placeholder="Nearby landmark for easy location">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label required">
+                                    <i class="fas fa-map-pin"></i>
+                                    Area/Locality
+                                </label>
+                                <input type="text" class="form-control" name="area" required 
+                                       placeholder="Enter your locality name">
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label required">
+                                    <i class="fas fa-city"></i>
+                                    City
+                                </label>
+                                <input type="text" class="form-control" name="city" required 
+                                       placeholder="Enter city">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label required">
+                                    <i class="fas fa-map"></i>
+                                    Ward/Zone
+                                </label>
+                                <select class="form-select" name="ward" required>
+                                    <option value="">Select Ward/Zone</option>
+                                    <option>Ward 1</option>
+                                    <option>Ward 2</option>
+                                    <option>Ward 3</option>
+                                    <option>Ward 4</option>
+                                    <option>Ward 5</option>
+                                    <option>Ward 6</option>
+                                    <option>Ward 7</option>
+                                    <option>Ward 8</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle"></i>
+                                Please provide accurate address details for quick service
+                            </small>
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                         </div>
                     </div>
                     
@@ -767,7 +930,14 @@
                         Issue Details
                     </h4>
                     
+<<<<<<< HEAD
                     <label class="form-label required">Type of Issue *</label>
+=======
+                    <label class="form-label required">
+                        <i class="fas fa-bolt"></i>
+                        Type of Issue
+                    </label>
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                     <div class="card-grid">
                         <div class="option-card active" onclick="selectOption('issue', 'power_cut')">
                             <i class="fas fa-power-off option-icon"></i>
@@ -806,7 +976,14 @@
                     
                     <div class="row mt-4">
                         <div class="col-md-6">
+<<<<<<< HEAD
                             <label class="form-label required">Issue Start Date & Time *</label>
+=======
+                            <label class="form-label required">
+                                <i class="fas fa-calendar"></i>
+                                Issue Start Date & Time
+                            </label>
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <input type="date" class="form-control" name="issue[issueDate]" required>
@@ -817,8 +994,16 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+<<<<<<< HEAD
                             <label class="form-label required">Duration *</label>
                             <select class="form-select" name="issue[duration]" required>
+=======
+                            <label class="form-label required">
+                                <i class="fas fa-clock"></i>
+                                Duration
+                            </label>
+                            <select class="form-select" name="duration" required>
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                                 <option value="">Select Duration</option>
                                 <option value="less_than_1_hour">Less than 1 hour</option>
                                 <option value="1_4_hours">1-4 hours</option>
@@ -831,8 +1016,16 @@
                     </div>
                     
                     <div class="mt-4">
+<<<<<<< HEAD
                         <label class="form-label required">Detailed Description *</label>
                         <textarea class="form-control" name="issue[description]" rows="3" required
+=======
+                        <label class="form-label">
+                            <i class="fas fa-comment-alt"></i>
+                            Additional Description
+                        </label>
+                        <textarea class="form-control" name="description" rows="3" 
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
                                   placeholder="Please describe the issue in detail (e.g., sounds, smells, visible damage)"></textarea>
                     </div>
                 </div>
@@ -941,7 +1134,7 @@
 
         // Select option for cards
         function selectOption(type, value) {
-            const card = event.target.closest('.option-card');
+            const card = event.currentTarget || event.target.closest('.option-card');
             const grid = card.parentElement;
             
             grid.querySelectorAll('.option-card').forEach(c => {
@@ -955,12 +1148,251 @@
             document.getElementById(inputId).value = value;
         }
 
+<<<<<<< HEAD
+=======
+        // Select location method
+        function selectLocationMethod(method) {
+            locationMethod = method;
+            
+            // Reset location status when switching methods
+            const locationDisplay = document.getElementById('locationDisplay');
+            const locationStatus = document.getElementById('locationStatus');
+            
+            // Reset GPS section
+            if (method === 'gps') {
+                locationStatus.textContent = 'Click to get your location';
+                locationStatus.style.color = '';
+                locationDisplay.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-map-marker-alt fa-2x text-muted mb-3"></i>
+                        <div>Location will appear here after scanning</div>
+                        <small class="text-muted">We'll use this to dispatch our team quickly</small>
+                    </div>
+                `;
+                locationDisplay.classList.remove('active');
+                
+                // Reset GPS button
+                const gpsButton = document.getElementById('gpsButton');
+                gpsButton.disabled = false;
+                gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+            }
+            
+            // Reset address section
+            if (method === 'address') {
+                document.querySelector('[name="address"]').value = '';
+                document.querySelector('[name="landmark"]').value = '';
+                document.querySelector('[name="area"]').value = '';
+                document.querySelector('[name="city"]').value = '';
+                document.querySelector('[name="ward"]').value = '';
+            }
+            
+            // Update button states
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active');
+            
+            // Show/hide sections
+            document.getElementById('gpsSection').classList.remove('active');
+            document.getElementById('addressSection').classList.remove('active');
+            document.getElementById(method + 'Section').classList.add('active');
+            
+            // Show notification
+            if (method === 'gps') {
+                showNotification('Click "Get Current Location" to use your GPS', 'info');
+            } else {
+                showNotification('Please fill in the address details below', 'info');
+            }
+        }
+
+        // Get GPS Location - FIXED VERSION
+        function getGPSLocation() {
+            const status = document.getElementById('locationStatus');
+            const gpsButton = document.getElementById('gpsButton');
+            const locationDisplay = document.getElementById('locationDisplay');
+            
+            // Check if browser supports geolocation
+            if (!navigator.geolocation) {
+                showNotification('Geolocation is not supported by your browser. Please use address method.', 'error');
+                locationDisplay.innerHTML = 
+                    '<i class="fas fa-exclamation-triangle text-danger"></i> GPS not supported. Please use address method.';
+                return;
+            }
+            
+            // Show loading state
+            status.textContent = 'Getting location... Please allow permission if prompted';
+            status.style.color = '#f39c12';
+            gpsButton.disabled = true;
+            gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+            locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning location...';
+            locationDisplay.classList.add('active');
+            
+            // Geolocation options
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 0
+            };
+            
+            navigator.geolocation.getCurrentPosition(
+                // Success callback
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const accuracy = position.coords.accuracy;
+                    
+                    // Store coordinates
+                    gpsCoordinates = { lat, lng, accuracy };
+                    
+                    // Update UI
+                    status.textContent = 'Location captured successfully!';
+                    status.style.color = '#27ae60';
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-sync-alt"></i> Update Location';
+                    
+                    // Get address from coordinates
+                    getAddressFromCoordinates(lat, lng);
+                    
+                    // Show success notification
+                    showNotification('Location captured successfully!', 'success');
+                },
+                // Error callback
+                (error) => {
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                    
+                    let errorMessage = 'Unable to get location. ';
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Location permission denied. Please allow access in browser settings.';
+                            showNotification(errorMessage, 'error');
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-exclamation-triangle text-warning"></i> Location permission denied.<br>' +
+                                '<small class="text-muted">Please allow location access in your browser settings or use address method.</small>';
+                            locationDisplay.classList.add('active');
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Location unavailable. Check GPS/internet connection.';
+                            showNotification(errorMessage, 'error');
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-wifi-slash text-danger"></i> Location unavailable.<br>' +
+                                '<small class="text-muted">Please check your GPS/internet connection.</small>';
+                            locationDisplay.classList.add('active');
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'Location request timed out. Please try again.';
+                            showNotification(errorMessage, 'error');
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-clock text-danger"></i> Location request timed out.<br>' +
+                                '<small class="text-muted">Please try again or use address method.</small>';
+                            locationDisplay.classList.add('active');
+                            break;
+                        default:
+                            errorMessage = 'Location error. Please try again.';
+                            showNotification(errorMessage, 'error');
+                            locationDisplay.innerHTML = 
+                                '<i class="fas fa-exclamation-circle text-danger"></i> Location error.<br>' +
+                                '<small class="text-muted">Please try again or use address method.</small>';
+                            locationDisplay.classList.add('active');
+                            break;
+                    }
+                    
+                    status.textContent = errorMessage;
+                    status.style.color = '#e74c3c';
+                },
+                options
+            );
+        }
+
+        // Get address from coordinates - FIXED VERSION
+        async function getAddressFromCoordinates(lat, lng) {
+            const locationDisplay = document.getElementById('locationDisplay');
+            
+            try {
+                locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting address...';
+                
+                // Use a CORS proxy to avoid CORS issues
+                const proxyUrl = 'https://corsproxy.io/?';
+                const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(apiUrl), {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data && data.display_name) {
+                    // Format address
+                    let address = data.display_name;
+                    // Shorten if too long
+                    if (address.length > 100) {
+                        address = address.substring(0, 100) + '...';
+                    }
+                    
+                    locationDisplay.innerHTML = `
+                        <div class="text-start">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                <strong>Location Found:</strong>
+                            </div>
+                            <div class="small">${address}</div>
+                            <div class="text-muted mt-2">
+                                <small>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</small>
+                            </div>
+                        </div>
+                    `;
+                    locationDisplay.classList.add('active');
+                    
+                    // Update form fields for reference
+                    if (data.address) {
+                        document.querySelector('[name="address"]').value = 
+                            data.address.road || data.address.neighbourhood || '';
+                        document.querySelector('[name="area"]').value = 
+                            data.address.suburb || data.address.neighbourhood || '';
+                        document.querySelector('[name="city"]').value = 
+                            data.address.city || data.address.town || data.address.village || '';
+                        document.querySelector('[name="ward"]').value = 
+                            data.address.city_district || data.address.county || '';
+                    }
+                    
+                    showNotification('Address found successfully!', 'success');
+                } else {
+                    throw new Error('No address found');
+                }
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                // Fallback - show coordinates if address fetch fails
+                locationDisplay.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-check-circle text-success mb-2"></i>
+                        <div class="fw-medium">Location Coordinates Captured</div>
+                        <div class="text-muted mt-2">
+                            <div>${lat.toFixed(6)}, ${lng.toFixed(6)}</div>
+                            <small>Unable to fetch address details</small>
+                        </div>
+                    </div>
+                `;
+                locationDisplay.classList.add('active');
+                showNotification('Coordinates captured but address not found', 'warning');
+            }
+        }
+
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
         // Show notification
         function showNotification(message, type = 'info') {
             const notification = document.getElementById('notification');
             const text = document.getElementById('notificationText');
             
-            // Set icon and color
+            // Set icon and color based on type
             let icon = 'fa-info-circle';
             let color = 'var(--primary)';
             
@@ -983,7 +1415,7 @@
             notification.style.borderLeftColor = color;
             notification.classList.add('show');
             
-            // Auto hide
+            // Auto hide after 5 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 5000);
@@ -1053,6 +1485,7 @@
         document.getElementById('complaintForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+<<<<<<< HEAD
             // Basic validation
             const requiredFields = [
                 { selector: 'input[name="consumer[fullName]"]', message: 'Please enter your name' },
@@ -1077,6 +1510,60 @@
                     return false;
                 }
             }
+=======
+            // Validate based on location method
+            if (locationMethod === 'gps') {
+                if (!gpsCoordinates) {
+                    showNotification('Please get your location first! Click "Get Current Location".', 'error');
+                    document.getElementById('locationStatus').style.color = '#e74c3c';
+                    document.getElementById('locationStatus').textContent = 'Location is required!';
+                    document.getElementById('gpsButton').focus();
+                    return;
+                }
+            } else {
+                // Validate address fields
+                const address = document.querySelector('[name="address"]').value.trim();
+                const area = document.querySelector('[name="area"]').value.trim();
+                const city = document.querySelector('[name="city"]').value.trim();
+                const ward = document.querySelector('[name="ward"]').value;
+                
+                if (!address) {
+                    showNotification('Please enter full address!', 'error');
+                    document.querySelector('[name="address"]').focus();
+                    return;
+                }
+                
+                if (!area) {
+                    showNotification('Please enter area/locality!', 'error');
+                    document.querySelector('[name="area"]').focus();
+                    return;
+                }
+                
+                if (!city) {
+                    showNotification('Please enter city!', 'error');
+                    document.querySelector('[name="city"]').focus();
+                    return;
+                }
+                
+                if (!ward) {
+                    showNotification('Please select ward/zone!', 'error');
+                    document.querySelector('[name="ward"]').focus();
+                    return;
+                }
+            }
+            
+            // Validate contact number
+            const phone = document.querySelector('input[name="contactNumber"]').value;
+            if (!/^\d{10}$/.test(phone)) {
+                showNotification('Please enter valid 10-digit phone number!', 'error');
+                document.querySelector('input[name="contactNumber"]').focus();
+                return;
+            }
+            
+            // All validations passed, submit
+            submitComplaint();
+        });
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
 
             // Phone validation
             const phone = document.querySelector('input[name="consumer[phone]"]').value;
@@ -1138,6 +1625,7 @@
             
             // Add complaint ID
             const complaintId = 'EC-' + Date.now().toString().slice(-8);
+<<<<<<< HEAD
             formData.append('complaintId', complaintId);
 
             try {
@@ -1216,6 +1704,31 @@
                 showNotification('Failed to submit complaint. ' + error.message, 'error');
             }
         });
+=======
+            document.getElementById('complaintId').textContent = complaintId;
+            
+            // Show success modal
+            document.getElementById('successModal').classList.add('show');
+            
+            // Prepare form data for demo
+            console.log('Electricity complaint submitted successfully!');
+            console.log('Complaint ID:', complaintId);
+            
+            if (locationMethod === 'gps') {
+                console.log('Location from GPS:', gpsCoordinates);
+            } else {
+                console.log('Address entered:', {
+                    address: document.querySelector('[name="address"]').value,
+                    area: document.querySelector('[name="area"]').value,
+                    city: document.querySelector('[name="city"]').value,
+                    ward: document.querySelector('[name="ward"]').value
+                });
+            }
+            
+            // Show notification
+            showNotification('Complaint submitted successfully! Tracking ID: ' + complaintId, 'success');
+        }
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
 
         // Close modal
         function closeModal() {
@@ -1227,6 +1740,30 @@
             closeModal();
             document.getElementById('complaintForm').reset();
             
+<<<<<<< HEAD
+=======
+            // Reset location sections
+            document.getElementById('locationStatus').textContent = 'Click to get your location';
+            document.getElementById('locationStatus').style.color = '';
+            document.getElementById('locationDisplay').innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-map-marker-alt fa-2x text-muted mb-3"></i>
+                    <div>Location will appear here after scanning</div>
+                    <small class="text-muted">We'll use this to dispatch our team quickly</small>
+                </div>
+            `;
+            document.getElementById('locationDisplay').classList.remove('active');
+            
+            gpsCoordinates = null;
+            
+            // Reset address section
+            document.querySelector('[name="address"]').value = '';
+            document.querySelector('[name="landmark"]').value = '';
+            document.querySelector('[name="area"]').value = '';
+            document.querySelector('[name="city"]').value = '';
+            document.querySelector('[name="ward"]').value = '';
+            
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
             // Reset selections
             document.querySelectorAll('.option-card').forEach(card => {
                 card.classList.remove('active');
@@ -1243,16 +1780,21 @@
             // Set default dates
             const today = new Date().toISOString().split('T')[0];
             const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ':' + 
-                         now.getMinutes().toString().padStart(2, '0');
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
             
+<<<<<<< HEAD
             document.querySelector('[name="issue[issueDate]"]').value = today;
             document.querySelector('[name="issue[issueTime]"]').value = time;
+=======
+            document.querySelector('[name="issueDate"]').value = today;
+            document.querySelector('[name="issueTime"]').value = timeString;
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            showNotification('Form reset successfully', 'info');
+            showNotification('Form reset successfully. Ready for new complaint.', 'info');
         }
 
         // Initialize
@@ -1262,12 +1804,21 @@
             // Set default dates
             const today = new Date().toISOString().split('T')[0];
             const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ':' + 
-                         now.getMinutes().toString().padStart(2, '0');
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                              now.getMinutes().toString().padStart(2, '0');
             
+<<<<<<< HEAD
             document.querySelector('[name="issue[issueDate]"]').value = today;
             document.querySelector('[name="issue[issueTime]"]').value = time;
             
+=======
+            document.querySelector('[name="issueDate"]').value = today;
+            document.querySelector('[name="issueTime"]').value = timeString;
+            
+            // Initialize form
+            selectLocationMethod('gps');
+            
+>>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
             showNotification('Welcome! Please fill in the electricity complaint details.', 'info');
         });
     </script>

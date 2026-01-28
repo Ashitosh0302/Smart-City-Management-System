@@ -90,6 +90,15 @@ async function road_complaint(req,res) {
     return res.render("road");
 }
 
+//alerts
+async function traffic_alerts(req,res) {
+    return res.render("traffic_alerts");
+}
+
+async function weather_alerts(req,res) {
+    return res.render("weather_alerts");
+}
+
 module.exports = {
     citizen_home,
     citizen_register_page,
@@ -97,5 +106,7 @@ module.exports = {
     Water_Complaints,
     garbage_complaint,
     electricity_complaint,
-    road_complaint
+    road_complaint,
+    traffic_alerts,
+    weather_alerts
 };

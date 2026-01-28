@@ -9,7 +9,7 @@ const CONNECT_MONGO = require("./config/mongo");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3070;
 
 (async () =>
 {

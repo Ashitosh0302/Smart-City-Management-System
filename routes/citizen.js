@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UPLOAD = require("../middlewares/uploads_middlewares");
 
-const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint} = require("../controllers/citizen");
+const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint,traffic_alerts,weather_alerts} = require("../controllers/citizen");
 const {CREATE_WATER_COMPLAINT}=require("../controllers/water_complaints");
 const {CREATE_GARBAGE_COMPLAINT}=require("../controllers/garbage_comlaints");
 const {CREATE_ELECTRICITY_COMPLAINT}=require("../controllers/electricity_complaints");
@@ -27,5 +27,9 @@ router.post("/complaints/electricity",UPLOAD.array("media", 5),CREATE_ELECTRICIT
 //roads
 router.get("/complaints/roads",road_complaint)
 router.post("/complaints/roads",UPLOAD.array("media", 5),CREATE_ROAD_COMPLAINT);
+
+//alerts
+router.get("/alerts/traffic",traffic_alerts)
+router.get("/alerts/wheather",weather_alerts)
 
 module.exports = router;
