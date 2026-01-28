@@ -764,11 +764,11 @@
 
                     <!-- Location Method Selector -->
                     <div class="location-method-selector">
-                        <div class="method-btn active" onclick="selectLocationMethod('gps')">
+                        <div class="method-btn active" data-method="gps" onclick="selectLocationMethod(event, 'gps')">
                             <i class="fas fa-location-arrow"></i>
                             Use GPS
                         </div>
-                        <div class="method-btn" onclick="selectLocationMethod('address')">
+                        <div class="method-btn" data-method="address" onclick="selectLocationMethod(event, 'address')">
                             <i class="fas fa-home"></i>
                             Enter Address
                         </div>
@@ -877,27 +877,27 @@
                             Type of Garbage
                         </label>
                         <div class="category-grid">
-                            <div class="category-card active" onclick="selectGarbageType('household')">
+                            <div class="category-card active" data-type="household" onclick="selectGarbageType(event, 'household')">
                                 <i class="fas fa-home category-icon" style="color: #3498db;"></i>
                                 <div class="category-name">Household Waste</div>
                             </div>
-                            <div class="category-card" onclick="selectGarbageType('construction')">
+                            <div class="category-card" data-type="construction" onclick="selectGarbageType(event, 'construction')">
                                 <i class="fas fa-hard-hat category-icon" style="color: #e67e22;"></i>
                                 <div class="category-name">Construction Debris</div>
                             </div>
-                            <div class="category-card" onclick="selectGarbageType('plastic')">
+                            <div class="category-card" data-type="plastic" onclick="selectGarbageType(event, 'plastic')">
                                 <i class="fas fa-recycle category-icon" style="color: #9b59b6;"></i>
                                 <div class="category-name">Plastic/Dry Waste</div>
                             </div>
-                            <div class="category-card" onclick="selectGarbageType('wet')">
+                            <div class="category-card" data-type="wet" onclick="selectGarbageType(event, 'wet')">
                                 <i class="fas fa-apple-alt category-icon" style="color: #e74c3c;"></i>
                                 <div class="category-name">Wet Waste</div>
                             </div>
-                            <div class="category-card" onclick="selectGarbageType('overflowing')">
+                            <div class="category-card" data-type="overflowing" onclick="selectGarbageType(event, 'overflowing')">
                                 <i class="fas fa-trash-restore category-icon" style="color: #f39c12;"></i>
                                 <div class="category-name">Overflowing Dustbin</div>
                             </div>
-                            <div class="category-card" onclick="selectGarbageType('other')">
+                            <div class="category-card" data-type="other" onclick="selectGarbageType(event, 'other')">
                                 <i class="fas fa-ellipsis-h category-icon" style="color: #7f8c8d;"></i>
                                 <div class="category-name">Other Type</div>
                             </div>
@@ -921,17 +921,17 @@
                             Quantity
                         </label>
                         <div class="quantity-cards">
-                            <div class="quantity-card active" onclick="selectQuantity('small')">
+                            <div class="quantity-card active" data-quantity="small" onclick="selectQuantity(event, 'small')">
                                 <i class="fas fa-dumpster" style="color: #2ecc71; font-size: 2rem; margin-bottom: 10px;"></i>
                                 <div class="category-name">Small Pile</div>
                                 <small class="text-muted">Less than 1 meter</small>
                             </div>
-                            <div class="quantity-card" onclick="selectQuantity('large')">
+                            <div class="quantity-card" data-quantity="large" onclick="selectQuantity(event, 'large')">
                                 <i class="fas fa-dumpster-fire" style="color: #e74c3c; font-size: 2rem; margin-bottom: 10px;"></i>
                                 <div class="category-name">Large Heap</div>
                                 <small class="text-muted">More than 1 meter</small>
                             </div>
-                            <div class="quantity-card" onclick="selectQuantity('spread')">
+                            <div class="quantity-card" data-quantity="spread" onclick="selectQuantity(event, 'spread')">
                                 <i class="fas fa-road" style="color: #f39c12; font-size: 2rem; margin-bottom: 10px;"></i>
                                 <div class="category-name">Spread Across Road</div>
                                 <small class="text-muted">Covering road area</small>
@@ -969,19 +969,19 @@
                             Issue Type
                         </label>
                         <div class="category-grid">
-                            <div class="category-card active" onclick="selectIssueType('not_collected')">
+                            <div class="category-card active" data-issue="not_collected" onclick="selectIssueType(event, 'not_collected')">
                                 <i class="fas fa-truck-loading category-icon" style="color: #3498db;"></i>
                                 <div class="category-name">Garbage Not Collected</div>
                             </div>
-                            <div class="category-card" onclick="selectIssueType('irregular')">
+                            <div class="category-card" data-issue="irregular" onclick="selectIssueType(event, 'irregular')">
                                 <i class="fas fa-calendar-times category-icon" style="color: #e67e22;"></i>
                                 <div class="category-name">Irregular Collection</div>
                             </div>
-                            <div class="category-card" onclick="selectIssueType('illegal')">
+                            <div class="category-card" data-issue="illegal" onclick="selectIssueType(event, 'illegal')">
                                 <i class="fas fa-ban category-icon" style="color: #e74c3c;"></i>
                                 <div class="category-name">Illegal Dumping</div>
                             </div>
-                            <div class="category-card" onclick="selectIssueType('smell')">
+                            <div class="category-card" data-issue="smell" onclick="selectIssueType(event, 'smell')">
                                 <i class="fas fa-skull-crossbones category-icon" style="color: #8e44ad;"></i>
                                 <div class="category-name">Bad Smell/Health Risk</div>
                             </div>
@@ -1086,6 +1086,10 @@
         // Create enhanced garbage animation
         function createGarbageAnimation() {
             const container = document.getElementById('garbageAnimation');
+            if (!container) return;
+            
+            // Clear existing animation
+            container.innerHTML = '';
             
             // Create trash bags
             for (let i = 0; i < 15; i++) {
@@ -1133,6 +1137,7 @@
             }
         }
 
+<<<<<<< HEAD
         // Select location method - FIXED
         function selectLocationMethod(method) {
             locationMethod = method;
@@ -1170,6 +1175,13 @@
             }
             
             // Update button states
+=======
+        // Select location method
+        function selectLocationMethod(event, method) {
+            locationMethod = method;
+            
+            // Update all method buttons
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
             document.querySelectorAll('.method-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -1182,15 +1194,46 @@
             document.getElementById('addressSection').classList.remove('active');
             document.getElementById(method + 'Section').classList.add('active');
             
+<<<<<<< HEAD
             // Show notification
             if (method === 'gps') {
+=======
+            // Reset location status when switching methods
+            const locationDisplay = document.getElementById('locationDisplay');
+            const locationStatus = document.getElementById('locationStatus');
+            
+            if (method === 'gps') {
+                locationStatus.textContent = 'Click to get your location';
+                locationStatus.style.color = '';
+                locationDisplay.innerHTML = 
+                    '<i class="fas fa-map-marker-alt text-muted"></i> Location will appear here after scanning';
+                locationDisplay.classList.remove('active');
+                
+                // Hide map
+                const locationMap = document.getElementById('locationMap');
+                if (locationMap) {
+                    locationMap.style.display = 'none';
+                }
+                
+                // Reset GPS button
+                const gpsButton = document.getElementById('gpsButton');
+                if (gpsButton) {
+                    gpsButton.disabled = false;
+                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
+                }
+                
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                 showNotification('Click "Get Current Location" to use your GPS', 'info');
             } else {
                 showNotification('Please fill in the address details below', 'info');
             }
         }
 
+<<<<<<< HEAD
         // Get GPS Location - FIXED
+=======
+        // Get GPS Location
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
         function getGPSLocation() {
             const status = document.getElementById('locationStatus');
             const gpsButton = document.getElementById('gpsButton');
@@ -1296,6 +1339,8 @@
         // Initialize map
         function initMap(lat, lng) {
             const mapElement = document.getElementById('locationMap');
+            if (!mapElement) return;
+            
             mapElement.style.display = 'block';
             
             // Initialize map if not exists
@@ -1331,6 +1376,7 @@
         // Get address from coordinates using Nominatim
         async function getAddressFromCoordinates(lat, lng) {
             const locationDisplay = document.getElementById('locationDisplay');
+            if (!locationDisplay) return;
             
             try {
                 locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting address...';
@@ -1367,11 +1413,15 @@
                     
                     // Update form fields for reference
                     if (data.address) {
-                        document.getElementById('streetAddress').value = 
+                        const streetAddress = document.getElementById('streetAddress');
+                        const city = document.getElementById('city');
+                        const zipCode = document.getElementById('zipCode');
+                        
+                        if (streetAddress) streetAddress.value = 
                             data.address.road || data.address.neighbourhood || '';
-                        document.getElementById('city').value = 
+                        if (city) city.value = 
                             data.address.city || data.address.town || data.address.village || '';
-                        document.getElementById('zipCode').value = 
+                        if (zipCode) zipCode.value = 
                             data.address.postcode || '';
                     }
                     
@@ -1398,6 +1448,7 @@
         function showNotification(message, type = 'info') {
             const notification = document.getElementById('notification');
             const text = document.getElementById('notificationText');
+            if (!notification || !text) return;
             
             // Set icon and color based on type
             let icon = 'fa-info-circle';
@@ -1428,45 +1479,73 @@
         }
 
         // Garbage type selection
-        function selectGarbageType(type) {
-            document.getElementById('garbageType').value = type;
+        function selectGarbageType(event, type) {
+            const garbageTypeInput = document.getElementById('garbageType');
+            if (garbageTypeInput) {
+                garbageTypeInput.value = type;
+            }
             
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.classList.remove('active');
-            });
+            // Remove active class from all cards in this section
+            const cardsContainer = event.currentTarget.closest('.category-grid');
+            if (cardsContainer) {
+                cardsContainer.querySelectorAll('.category-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+            }
             
+            // Add active class to clicked card
             event.currentTarget.classList.add('active');
             
+            // Handle "other" type input
             const otherInput = document.getElementById('otherGarbageInput');
             const otherGarbage = document.getElementById('otherGarbage');
             if (type === 'other') {
-                otherInput.style.display = 'block';
-                otherGarbage.required = true;
+                if (otherInput) otherInput.style.display = 'block';
+                if (otherGarbage) otherGarbage.required = true;
             } else {
-                otherInput.style.display = 'none';
-                otherGarbage.required = false;
+                if (otherInput) otherInput.style.display = 'none';
+                if (otherGarbage) otherGarbage.required = false;
             }
         }
 
         // Quantity selection
-        function selectQuantity(type) {
-            document.getElementById('quantity').value = type;
+        function selectQuantity(event, type) {
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput) {
+                quantityInput.value = type;
+            }
             
-            document.querySelectorAll('.quantity-card').forEach(card => {
-                card.classList.remove('active');
-            });
+            // Remove active class from all quantity cards
+            const container = event.currentTarget.closest('.quantity-cards');
+            if (container) {
+                container.querySelectorAll('.quantity-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+            }
             
+            // Add active class to clicked card
             event.currentTarget.classList.add('active');
         }
 
         // Issue type selection
-        function selectIssueType(type) {
-            document.getElementById('issueType').value = type;
+        function selectIssueType(event, type) {
+            const issueTypeInput = document.getElementById('issueType');
+            if (issueTypeInput) {
+                issueTypeInput.value = type;
+            }
             
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.classList.remove('active');
-            });
+            // Remove active class from all cards in this specific grid
+            const parentContainer = event.currentTarget.closest('.form-group');
+            if (parentContainer) {
+                const issueGrid = parentContainer.querySelector('.category-grid');
+                if (issueGrid) {
+                    issueGrid.querySelectorAll('.category-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+                }
+            }
             
+            // Add active class to clicked card
             event.currentTarget.classList.add('active');
         }
 
@@ -1502,6 +1581,8 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const preview = document.getElementById('mediaPreview');
+                if (!preview) return;
+                
                 const mediaId = `media-${Date.now()}`;
                 
                 const mediaItem = document.createElement('div');
@@ -1528,6 +1609,8 @@
 
         function removeMedia(mediaId) {
             const mediaItem = document.getElementById(mediaId);
+            if (!mediaItem) return;
+            
             const filename = mediaItem.dataset.filename;
             
             uploadedMedia = uploadedMedia.filter(file => file.name !== filename);
@@ -1543,13 +1626,24 @@
             if (locationMethod === 'gps') {
                 if (!gpsCoordinates) {
                     showNotification('Please get your location first! Click "Get Current Location".', 'error');
+<<<<<<< HEAD
                     document.getElementById('locationStatus').style.color = '#e74c3c';
                     document.getElementById('locationStatus').textContent = 'Location is required!';
                     document.getElementById('gpsButton').focus();
+=======
+                    const locationStatus = document.getElementById('locationStatus');
+                    if (locationStatus) {
+                        locationStatus.style.color = '#e74c3c';
+                        locationStatus.textContent = 'Location is required!';
+                    }
+                    const gpsButton = document.getElementById('gpsButton');
+                    if (gpsButton) gpsButton.focus();
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                     return;
                 }
             } else {
                 // Validate address fields
+<<<<<<< HEAD
                 const streetAddress = document.getElementById('streetAddress').value.trim();
                 const city = document.getElementById('city').value.trim();
                 const zipCode = document.getElementById('zipCode').value.trim();
@@ -1558,35 +1652,61 @@
                 if (!streetAddress) {
                     showNotification('Please enter street address!', 'error');
                     document.getElementById('streetAddress').focus();
+=======
+                const streetAddress = document.getElementById('streetAddress')?.value.trim();
+                const city = document.getElementById('city')?.value.trim();
+                const zipCode = document.getElementById('zipCode')?.value.trim();
+                const ward = document.getElementById('ward')?.value;
+                
+                if (!streetAddress) {
+                    showNotification('Please enter street address!', 'error');
+                    document.getElementById('streetAddress')?.focus();
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                     return;
                 }
                 
                 if (!city) {
                     showNotification('Please enter city!', 'error');
+<<<<<<< HEAD
                     document.getElementById('city').focus();
+=======
+                    document.getElementById('city')?.focus();
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                     return;
                 }
                 
                 if (!zipCode) {
                     showNotification('Please enter ZIP code!', 'error');
+<<<<<<< HEAD
                     document.getElementById('zipCode').focus();
+=======
+                    document.getElementById('zipCode')?.focus();
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                     return;
                 }
                 
                 if (!ward) {
                     showNotification('Please select ward number!', 'error');
+<<<<<<< HEAD
                     document.getElementById('ward').focus();
+=======
+                    document.getElementById('ward')?.focus();
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                     return;
                 }
             }
             
             // Validate other garbage type if selected
-            const garbageType = document.getElementById('garbageType').value;
+            const garbageType = document.getElementById('garbageType')?.value;
             if (garbageType === 'other') {
-                const otherGarbage = document.getElementById('otherGarbage').value.trim();
+                const otherGarbage = document.getElementById('otherGarbage')?.value.trim();
                 if (!otherGarbage) {
                     showNotification('Please specify the garbage type', 'error');
+<<<<<<< HEAD
                     document.getElementById('otherGarbage').focus();
+=======
+                    document.getElementById('otherGarbage')?.focus();
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                     return;
                 }
             }
@@ -1599,10 +1719,16 @@
         function submitComplaint() {
             // Generate complaint ID
             const complaintId = 'GC-' + Date.now().toString().slice(-8);
-            document.getElementById('complaintId').textContent = complaintId;
+            const complaintIdElement = document.getElementById('complaintId');
+            if (complaintIdElement) {
+                complaintIdElement.textContent = complaintId;
+            }
             
             // Show success modal
-            document.getElementById('successModal').classList.add('show');
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                successModal.classList.add('show');
+            }
             
             // Prepare form data for demo (in real app, send to server)
             console.log('Complaint submitted successfully!');
@@ -1612,10 +1738,17 @@
                 console.log('Location from GPS:', gpsCoordinates);
             } else {
                 console.log('Address entered:', {
+<<<<<<< HEAD
                     street: document.getElementById('streetAddress').value,
                     city: document.getElementById('city').value,
                     zip: document.getElementById('zipCode').value,
                     ward: document.getElementById('ward').value
+=======
+                    street: document.getElementById('streetAddress')?.value,
+                    city: document.getElementById('city')?.value,
+                    zip: document.getElementById('zipCode')?.value,
+                    ward: document.getElementById('ward')?.value
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                 });
             }
             
@@ -1625,9 +1758,11 @@
 
         // Reset form - FIXED
         function resetForm() {
-            document.getElementById('successModal').classList.remove('show');
-            document.getElementById('garbageComplaintForm').reset();
+            // Close success modal
+            const successModal = document.getElementById('successModal');
+            if (successModal) successModal.classList.remove('show');
             
+<<<<<<< HEAD
             // Reset location sections
             document.getElementById('locationStatus').textContent = 'Click to get your location';
             document.getElementById('locationStatus').style.color = '';
@@ -1660,25 +1795,127 @@
             selectQuantity('small');
             selectIssueType('not_collected');
             selectLocationMethod('gps');
+=======
+            // Reset form
+            const form = document.getElementById('garbageComplaintForm');
+            if (form) form.reset();
+            
+            // Reset all selections to defaults
+            // Trigger location method selection
+            const gpsMethodBtn = document.querySelector('[data-method="gps"]');
+            if (gpsMethodBtn) {
+                const clickEvent = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true
+                });
+                gpsMethodBtn.dispatchEvent(clickEvent);
+            }
+            
+            // Reset GPS coordinates
+            gpsCoordinates = null;
+            
+            // Set household waste as active
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            const householdCard = document.querySelector('[data-type="household"]');
+            if (householdCard) {
+                householdCard.classList.add('active');
+                const garbageTypeInput = document.getElementById('garbageType');
+                if (garbageTypeInput) garbageTypeInput.value = 'household';
+            }
+            
+            // Reset quantity cards
+            document.querySelectorAll('.quantity-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            const smallQuantity = document.querySelector('[data-quantity="small"]');
+            if (smallQuantity) {
+                smallQuantity.classList.add('active');
+                const quantityInput = document.getElementById('quantity');
+                if (quantityInput) quantityInput.value = 'small';
+            }
+            
+            // Reset issue type cards
+            const notCollectedIssue = document.querySelector('[data-issue="not_collected"]');
+            if (notCollectedIssue) {
+                notCollectedIssue.classList.add('active');
+                const issueTypeInput = document.getElementById('issueType');
+                if (issueTypeInput) issueTypeInput.value = 'not_collected';
+            }
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
             
             // Clear media
             uploadedMedia = [];
-            document.getElementById('mediaPreview').innerHTML = '';
+            const mediaPreview = document.getElementById('mediaPreview');
+            if (mediaPreview) mediaPreview.innerHTML = '';
             
-            // Set today's date and time
+            // Set today's date
             const today = new Date().toISOString().split('T')[0];
-            document.querySelector('input[name="photoDate"]').value = today;
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                input.value = today;
+            });
             
+            // Set current time
             const now = new Date();
-            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
-                              now.getMinutes().toString().padStart(2, '0');
-            document.querySelector('input[name="photoTime"]').value = timeString;
+            const currentTime = now.getHours().toString().padStart(2, '0') + ':' + 
+                               now.getMinutes().toString().padStart(2, '0');
+            const timeInputs = document.querySelectorAll('input[type="time"]');
+            timeInputs.forEach(input => {
+                input.value = currentTime;
+            });
+            
+            // Show notification
+            showNotification('Form has been reset. Ready for new complaint.', 'info');
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
+<<<<<<< HEAD
             
             showNotification('Form reset successfully. Ready for new complaint.', 'info');
         }
 
         // Initialize on load
         document.addEventL
+=======
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create garbage animation
+            createGarbageAnimation();
+            
+            // Set today's date and time
+            const today = new Date().toISOString().split('T')[0];
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                input.value = today;
+                input.max = today; // Can't select future dates
+            });
+            
+            // Set current time
+            const now = new Date();
+            const currentTime = now.getHours().toString().padStart(2, '0') + ':' + 
+                               now.getMinutes().toString().padStart(2, '0');
+            const timeInputs = document.querySelectorAll('input[type="time"]');
+            timeInputs.forEach(input => {
+                input.value = currentTime;
+            });
+            
+            // Initialize form validation
+            const form = document.getElementById('garbageComplaintForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    submitComplaint();
+                });
+            }
+            
+            console.log('Garbage Complaint Form initialized successfully');
+        });
+    </script>
+</body>
+</html>
+>>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
