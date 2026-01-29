@@ -30,6 +30,6 @@ router.post("/complaints/roads",UPLOAD.array("media", 5),CREATE_ROAD_COMPLAINT);
 
 //alerts
 router.get("/alerts/traffic",traffic_alerts)
-router.get("/alerts/wheather",weather_alerts)
+router.get("/alerts/weather",weather_alerts)
 
 module.exports = router;
