@@ -1,55 +1,30 @@
-const EsetuAppointment = require("../models/Esetu_appointment");
+const EkycAppointment = require("../models/Esetu_appointment");
 
-const CREATE_ESETU_APPOINTMENT = async (req, res) =>
+async function bookAppointment(req, res)
 {
     try
     {
-        const appointmentId = "ESETU-" + Date.now().toString().slice(-8);
-
-        const appointment = new EsetuAppointment(
+        const appointment = new EkycAppointment(
         {
-            appointmentId: appointmentId,
-
-            citizen:
-            {
-                fullName: req.body["citizen[fullName]"],
-                phone: req.body["citizen[phone]"],
-                email: req.body["citizen[email]"] || null
-            },
-
-            service:
-            {
-                serviceType: req.body["service[serviceType]"],
-                department: req.body["service[department]"]
-            },
-
-            center:
-            {
-                centerName: req.body["center[centerName]"],
-                location: req.body["center[location]"]
-            },
-
-            appointment:
-            {
-                date: req.body["appointment[date]"],
-                timeSlot: req.body["appointment[timeSlot]"]
-            },
-
-            remarks: req.body.remarks || null
+            citizen_full_name: req.body.citizen_full_name,
+            citizen_mobile_number: req.body.citizen_mobile_number,
+            citizen_email: req.body.citizen_email,
+            service_type: req.body.service_type,
+            center_location: req.body.center_location,
+            appointment_date: req.body.appointment_date,
+            appointment_time_slot: req.body.appointment_time_slot,
+            additional_remarks: req.body.additional_remarks,
+            appointment_id: "EKYC-" + Date.now(),
+            booking_timestamp: req.body.booking_timestamp
         });
 
-        await appointment.save();
+        const savedAppointment = await appointment.save();
 
-        return res.status(201).json(
-        {
-            success: true,
-            message: "E-Setu appointment booked successfully",
-            appointmentId: appointmentId
-        });
+        res.render("appointment_success")
     }
     catch(error)
     {
-        return res.status(500).json(
+        res.status(400).json(
         {
             success: false,
             message: "Failed to book appointment",
@@ -58,7 +33,4 @@ const CREATE_ESETU_APPOINTMENT = async (req, res) =>
     }
 };
 
-module.exports =
-{
-    CREATE_ESETU_APPOINTMENT,
-};
+module.exports = { bookAppointment };

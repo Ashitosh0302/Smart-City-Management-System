@@ -2,76 +2,555 @@
 <html>
 <head>
     <title>Court Appointment</title>
+    <style>
+        /* CSS Variables for Court Theme */
+        :root {
+            --court-primary: #1a365d;
+            --court-secondary: #2d3748;
+            --court-accent: #c53030;
+            --court-light: #f7fafc;
+            --court-parchment: #fefcbf;
+            --court-gold: #d4af37;
+            --court-dark: #2a4365;
+            --court-border: #cbd5e0;
+            --court-shadow: rgba(26, 54, 93, 0.15);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--court-secondary);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Main Container with Parchment Effect */
+        .court-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: var(--court-parchment);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px var(--court-shadow);
+            overflow: hidden;
+            border: 1px solid var(--court-border);
+            position: relative;
+        }
+
+        /* Official Header */
+        .court-header {
+            background: linear-gradient(to right, var(--court-primary), var(--court-dark));
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 5px solid var(--court-gold);
+        }
+
+        .court-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .court-header::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--court-gold);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Form Styling */
+        .court-form {
+            padding: 30px;
+        }
+
+        h2 {
+            color: var(--court-primary);
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--court-gold);
+            text-align: center;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--court-border);
+        }
+
+        .form-group:last-of-type {
+            border-bottom: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--court-dark);
+            font-size: 16px;
+        }
+
+        label[required]::after {
+            content: " *";
+            color: var(--court-accent);
+        }
+
+        /* Input Fields */
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--court-border);
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: white;
+            color: var(--court-secondary);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--court-primary);
+            box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+        }
+
+        /* Radio and Checkbox Styling */
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--court-primary);
+        }
+
+        /* ID Fields Container */
+        .id-fields-container {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 15px;
+            border-left: 4px solid var(--court-primary);
+        }
+
+        /* Time Slot Buttons */
+        .time-slots-container {
+            margin-top: 10px;
+        }
+
+        .time-slots-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .time-slot-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 14px 10px;
+            background: white;
+            border: 2px solid var(--court-border);
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--court-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .time-slot-btn:hover {
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            border-color: var(--court-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(26, 54, 93, 0.1);
+        }
+
+        .time-slot-btn.selected {
+            background: linear-gradient(to right, var(--court-primary), var(--court-dark));
+            color: white;
+            border-color: var(--court-primary);
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.2);
+        }
+
+        .time-slot-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.2);
+        }
+
+        .time-slot-label {
+            display: block;
+            font-size: 14px;
+            margin-top: 4px;
+            color: var(--court-secondary);
+            opacity: 0.8;
+        }
+
+        .time-slot-btn.selected .time-slot-label {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Hidden radio button for form submission */
+        .time-slot-radio {
+            display: none;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto 10px;
+            padding: 16px 30px;
+            background: linear-gradient(to right, var(--court-primary), var(--court-dark));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.25);
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to right, var(--court-dark), var(--court-primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 54, 93, 0.35);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(26, 54, 93, 0.25);
+        }
+
+        .submit-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(201, 48, 48, 0.4);
+        }
+
+        /* Required Field Indicator */
+        .required-note {
+            text-align: center;
+            color: var(--court-accent);
+            font-size: 14px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .court-footer {
+            background: var(--court-secondary);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            border-top: 2px solid var(--court-gold);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .court-container {
+                margin: 15px;
+            }
+            
+            .court-form {
+                padding: 20px;
+            }
+            
+            .radio-group,
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .id-fields-container {
+                padding: 15px;
+            }
+            
+            .time-slots-group {
+                flex-direction: column;
+            }
+            
+            .time-slot-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<h2>Court Appointment Form</h2>
+    <div class="court-container">
+        <div class="court-header">
+            <h1>JUDICIAL APPOINTMENT SYSTEM</h1>
+            <p>Official Court Appointment Request Form</p>
+        </div>
 
-<form action="/citizen/appointments/court" method="POST">
+        <div class="court-form">
+            <h2>Court Appointment Form</h2>
 
-    <label>Full Name *</label><br>
-    <input type="text" name="fullName" required><br><br>
+            <form id="courtAppointmentForm" action="/citizen/appointments/court" method="POST">
+                
+                <div class="form-group">
+                    <label for="fullName" required>Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Enter your full legal name" required>
+                </div>
 
-    <label>Date of Birth *</label><br>
-    <input type="date" name="dob" required><br><br>
+                <div class="form-group">
+                    <label for="dob" required>Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
 
-    <label>Gender *</label><br>
-    <input type="radio" name="gender" value="male" required> Male
-    <input type="radio" name="gender" value="female"> Female
-    <input type="radio" name="gender" value="other"> Other
-    <br><br>
+                <div class="form-group">
+                    <label required>Gender</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="male" name="gender" value="male" required>
+                            <label for="male">Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="female" name="gender" value="female">
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="other" name="gender" value="other">
+                            <label for="other">Other</label>
+                        </div>
+                    </div>
+                </div>
 
-    <label>ID Type *</label><br>
-    <input type="radio" name="idType" value="aadhaar" required> Aadhaar<br>
-    <input type="radio" name="idType" value="pan"> PAN<br>
-    <input type="radio" name="idType" value="passport"> Passport<br>
-    <input type="radio" name="idType" value="other"> Other<br><br>
+                <div class="form-group">
+                    <label required>ID Type</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="aadhaar" name="idType" value="aadhaar" required>
+                            <label for="aadhaar">Aadhaar</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pan" name="idType" value="pan">
+                            <label for="pan">PAN</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="passport" name="idType" value="passport">
+                            <label for="passport">Passport</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="otherId" name="idType" value="other">
+                            <label for="otherId">Other</label>
+                        </div>
+                    </div>
+                </div>
 
-    <label>Aadhaar Number</label><br>
-    <input type="text" name="aadhaarNumber"><br><br>
+                <div class="id-fields-container">
+                    <div class="form-group">
+                        <label for="aadhaarNumber">Aadhaar Number</label>
+                        <input type="text" id="aadhaarNumber" name="aadhaarNumber" placeholder="Enter 12-digit Aadhaar number">
+                    </div>
 
-    <label>PAN Number</label><br>
-    <input type="text" name="panNumber"><br><br>
+                    <div class="form-group">
+                        <label for="panNumber">PAN Number</label>
+                        <input type="text" id="panNumber" name="panNumber" placeholder="Enter 10-character PAN">
+                    </div>
 
-    <label>Passport Number</label><br>
-    <input type="text" name="passportNumber"><br><br>
+                    <div class="form-group">
+                        <label for="passportNumber">Passport Number</label>
+                        <input type="text" id="passportNumber" name="passportNumber" placeholder="Enter passport number">
+                    </div>
 
-    <label>Other ID</label><br>
-    <input type="text" name="otherIdNumber"><br><br>
+                    <div class="form-group">
+                        <label for="otherIdNumber">Other ID</label>
+                        <input type="text" id="otherIdNumber" name="otherIdNumber" placeholder="Enter other ID details">
+                    </div>
+                </div>
 
-    <label>Mobile *</label><br>
-    <input type="text" name="mobile" required><br><br>
+                <div class="form-group">
+                    <label for="mobile" required>Mobile</label>
+                    <input type="text" id="mobile" name="mobile" placeholder="Enter 10-digit mobile number" required>
+                </div>
 
-    <label>Email</label><br>
-    <input type="email" name="email"><br><br>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email address">
+                </div>
 
-    <label>Address *</label><br>
-    <textarea name="address" required></textarea><br><br>
+                <div class="form-group">
+                    <label for="address" required>Address</label>
+                    <textarea id="address" name="address" rows="4" placeholder="Enter your complete address" required></textarea>
+                </div>
 
-    <label>Case Type</label><br>
-    <input type="checkbox" name="caseTypes" value="civil"> Civil
-    <input type="checkbox" name="caseTypes" value="criminal"> Criminal
-    <br><br>
+                <div class="form-group">
+                    <label>Case Type</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="civil" name="caseTypes" value="civil">
+                            <label for="civil">Civil</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="criminal" name="caseTypes" value="criminal">
+                            <label for="criminal">Criminal</label>
+                        </div>
+                    </div>
+                </div>
 
-    <label>Purpose</label><br>
-    <input type="checkbox" name="purpose" value="hearing"> Hearing
-    <input type="checkbox" name="purpose" value="fileNew"> File New
-    <br><br>
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hearing" name="purpose" value="hearing">
+                            <label for="hearing">Hearing</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="fileNew" name="purpose" value="fileNew">
+                            <label for="fileNew">File New</label>
+                        </div>
+                    </div>
+                </div>
 
-    <label>Appointment Date *</label><br>
-    <input type="date" name="appointmentDate" required><br><br>
+                <div class="form-group">
+                    <label for="appointmentDate" required>Appointment Date</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required>
+                </div>
 
-    <label>Time Slot *</label><br>
-    <select name="timeSlot" required>
-        <option value="">Select</option>
-        <option value="9-10">9–10</option>
-        <option value="10-11">10–11</option>
-        <option value="11-12">11–12</option>
-    </select><br><br>
+                <div class="form-group">
+                    <label required>Time Slot</label>
+                    <div class="time-slots-container">
+                        <div class="time-slots-group">
+                            <input type="radio" id="timeSlot9" name="timeSlot" value="9-10" class="time-slot-radio" required>
+                            <label for="timeSlot9" class="time-slot-btn">
+                                9:00 AM – 10:00 AM
+                                <span class="time-slot-label">Morning Session</span>
+                            </label>
 
-    <button type="submit">Book Appointment</button>
+                            <input type="radio" id="timeSlot10" name="timeSlot" value="10-11" class="time-slot-radio">
+                            <label for="timeSlot10" class="time-slot-btn">
+                                10:00 AM – 11:00 AM
+                                <span class="time-slot-label">Morning Session</span>
+                            </label>
 
-</form>
+                            <input type="radio" id="timeSlot11" name="timeSlot" value="11-12" class="time-slot-radio">
+                            <label for="timeSlot11" class="time-slot-btn">
+                                11:00 AM – 12:00 PM
+                                <span class="time-slot-label">Morning Session</span>
+                            </label>
+
+                            <input type="radio" id="timeSlot14" name="timeSlot" value="2-3" class="time-slot-radio">
+                            <label for="timeSlot14" class="time-slot-btn">
+                                2:00 PM – 3:00 PM
+                                <span class="time-slot-label">Afternoon Session</span>
+                            </label>
+
+                            <input type="radio" id="timeSlot15" name="timeSlot" value="3-4" class="time-slot-radio">
+                            <label for="timeSlot15" class="time-slot-btn">
+                                3:00 PM – 4:00 PM
+                                <span class="time-slot-label">Afternoon Session</span>
+                            </label>
+
+                            <input type="radio" id="timeSlot16" name="timeSlot" value="4-5" class="time-slot-radio">
+                            <label for="timeSlot16" class="time-slot-btn">
+                                4:00 PM – 5:00 PM
+                                <span class="time-slot-label">Afternoon Session</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Book Appointment</button>
+                
+                <p class="required-note">* indicates required field</p>
+            </form>
+        </div>
+        
+        <div class="court-footer">
+            <p>© Judicial Appointment System. All appointments are subject to verification and approval by court authorities.</p>
+            <p>Confidentiality of submitted information is protected under the Official Secrets Act.</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle time slot button selection
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all time slot radio buttons
+            const timeSlotRadios = document.querySelectorAll('.time-slot-radio');
+            
+            // Add click event to each time slot button
+            document.querySelectorAll('.time-slot-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Get the associated radio button
+                    const radioId = this.getAttribute('for');
+                    const radio = document.getElementById(radioId);
+                    
+                    // Check the radio button
+                    radio.checked = true;
+                    
+                    // Update visual selection
+                    document.querySelectorAll('.time-slot-btn').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Highlight the selected time slot on page load (if any)
+            timeSlotRadios.forEach(radio => {
+                if (radio.checked) {
+                    const label = document.querySelector(`label[for="${radio.id}"]`);
+                    if (label) {
+                        label.classList.add('selected');
+                    }
+                }
+            });
+            
+            // Form validation for time slot
+            const form = document.getElementById('courtAppointmentForm');
+            form.addEventListener('submit', function(event) {
+                const timeSlotSelected = document.querySelector('input[name="timeSlot"]:checked');
+                const timeSlotLabel = document.querySelector('.time-slots-container label.selected');
+                
+                if (!timeSlotSelected) {
+                    event.preventDefault();
+                    alert('Please select a time slot for your appointment.');
+                    return false;
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

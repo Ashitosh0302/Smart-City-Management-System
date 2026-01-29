@@ -111,7 +111,7 @@ async function court_appointments(req,res) {
 
 //Esetu
 async function Esetu_appointments(req,res) {
-    return res.render("Esetu_appointment")
+    return res.render("Esetu-appointments")
 }
 
 module.exports = {

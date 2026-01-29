@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const UPLOAD = require("../middlewares/uploads_middlewares");
+const multer = require("multer");
+
+const upload = multer(); // memory storage
 
 const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint,traffic_alerts,weather_alerts,hospital_appointments,court_appointments,Esetu_appointments} = require("../controllers/citizen");
 const {CREATE_WATER_COMPLAINT}=require("../controllers/water_complaints");
@@ -9,7 +12,7 @@ const {CREATE_ELECTRICITY_COMPLAINT}=require("../controllers/electricity_complai
 const {CREATE_ROAD_COMPLAINT}=require("../controllers/roads_complaints");
 const {CREATE_HOSPITAL_APPOINTMENT}=require("../controllers/hospital_appoitnment")
 const {CREATE_COURT_APPOINTMENT}=require("../controllers/court_appointment")
-const {CREATE_ESETU_APPOINTMENT}=require("../controllers/Esetu_appointment")
+const {bookAppointment}=require("../controllers/Esetu_appointment")
 
 router.get("/", citizen_home);
 router.get("/citizen_register", citizen_register_page);
@@ -46,6 +49,6 @@ router.post("/appointments/court",CREATE_COURT_APPOINTMENT);
 
 //E-setu
 router.get("/appointments/Esetu",Esetu_appointments)
-router.post("/appointments/Esetu", CREATE_ESETU_APPOINTMENT);
+router.post("/appointments/Esetu",upload.none(),bookAppointment);
 
 module.exports = router;
