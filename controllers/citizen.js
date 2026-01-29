@@ -99,6 +99,11 @@ async function weather_alerts(req,res) {
     return res.render("weather_alerts");
 }
 
+//hospital
+async function hospital_appointments(req,res) {
+    return res.render("hospital_appointment")
+}
+
 module.exports = {
     citizen_home,
     citizen_register_page,
@@ -108,5 +113,6 @@ module.exports = {
     electricity_complaint,
     road_complaint,
     traffic_alerts,
-    weather_alerts
+    weather_alerts,
+    hospital_appointments
 };
