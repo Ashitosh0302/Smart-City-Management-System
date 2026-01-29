@@ -35,6 +35,6 @@ router.get("/alerts/weather",weather_alerts)
 
 //appointments
 router.get("/appointments/hospital",hospital_appointments)
-router.post("/hospital/appointment", CREATE_HOSPITAL_APPOINTMENT);
+router.post("/appointments/hospital", CREATE_HOSPITAL_APPOINTMENT);
 
 module.exports = router;

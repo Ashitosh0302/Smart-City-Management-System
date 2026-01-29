@@ -21,12 +21,7 @@ const CREATE_HOSPITAL_APPOINTMENT = async (req, res) =>
 
         await appointment.save();
 
-        res.status(201).json(
-        {
-            success: true,
-            message: "Appointment booked successfully",
-            data: appointment
-        });
+        res.render("appointment_success");
     }
     catch (error)
     {

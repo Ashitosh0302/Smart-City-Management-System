@@ -6,6 +6,7 @@
     <title>City Care Multispeciality Hospital - Appointment Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* All your CSS styles remain the same */
         * {
             margin: 0;
             padding: 0;
@@ -376,7 +377,13 @@
         </header>
         
         <div class="form-container">
-            <form id="appointmentForm">
+            <form id="appointmentForm" method="post" action="/citizen/appointments/hospital">
+                <!-- Hidden inputs for hospital data -->
+                <input type="hidden" id="hospitalNameInput" name="hospitalName">
+                <input type="hidden" id="hospitalAddressInput" name="hospitalAddress">
+                <input type="hidden" id="hospitalContactInput" name="hospitalContact">
+                <input type="hidden" id="timeSlotInput" name="timeSlot">
+                
                 <div class="form-section">
                     <h2 class="section-title"><i class="fas fa-hospital-alt"></i> Hospital Information</h2>
                     
@@ -411,7 +418,7 @@
                             </div>
                             <div class="detail-item">
                                 <strong>Contact No:</strong> 
-                                <span id="hospitalContact">Please select a hospital</span>
+                                <span id="hospitalContactDisplay">Please select a hospital</span>
                             </div>
                         </div>
                     </div>
@@ -552,6 +559,9 @@
                         slot.classList.remove('selected');
                     });
                     this.classList.add('selected');
+                    
+                    // Update hidden input
+                    document.getElementById('timeSlotInput').value = this.textContent;
                 });
                 
                 timeSlotsContainer.appendChild(timeSlot);
@@ -561,7 +571,7 @@
             const hospitalCards = document.querySelectorAll('.hospital-card');
             const hospitalInfo = document.getElementById('hospitalInfo');
             const hospitalAddress = document.getElementById('hospitalAddress');
-            const hospitalContact = document.getElementById('hospitalContact');
+            const hospitalContactDisplay = document.getElementById('hospitalContactDisplay');
             
             hospitalCards.forEach(card => {
                 card.addEventListener('click', function() {
@@ -575,9 +585,14 @@
                     const hospitalKey = this.dataset.hospital;
                     const hospital = hospitals[hospitalKey];
                     
-                    // Update hospital info
+                    // Update hidden inputs with hospital data
+                    document.getElementById('hospitalNameInput').value = hospital.hospitalName;
+                    document.getElementById('hospitalAddressInput').value = hospital.hospitalAddress;
+                    document.getElementById('hospitalContactInput').value = hospital.hospitalContact;
+                    
+                    // Update displayed hospital info
                     hospitalAddress.textContent = hospital.hospitalAddress;
-                    hospitalContact.textContent = hospital.hospitalContact;
+                    hospitalContactDisplay.textContent = hospital.hospitalContact;
                     
                     // Show hospital info with animation
                     hospitalInfo.classList.add('show');
@@ -598,110 +613,14 @@
             const successMessage = document.getElementById('successMessage');
             const appointmentDetails = document.getElementById('appointmentDetails');
             
-            appointmentForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Validate hospital selection
-                const selectedHospitalCard = document.querySelector('.hospital-card.selected');
-                if (!selectedHospitalCard) {
-                    alert('Please select a hospital');
-                    return;
-                }
-                
-                // Validate time slot selection
-                const selectedTimeSlot = document.querySelector('.time-slot.selected');
-                if (!selectedTimeSlot) {
-                    alert('Please select a time slot');
-                    return;
-                }
-                
-                // Get selected hospital data
-                const hospitalKey = selectedHospitalCard.dataset.hospital;
-                const selectedHospital = hospitals[hospitalKey];
-                
-                // Collect form data matching schema field names
-                const formData = {
-                    // Hospital Information - matching schema
-                    hospitalName: selectedHospital.hospitalName,
-                    hospitalAddress: selectedHospital.hospitalAddress,
-                    hospitalContact: selectedHospital.hospitalContact,
-                    
-                    // Patient Details - matching schema
-                    patientName: document.getElementById('patientName').value,
-                    age: parseInt(document.getElementById('age').value),
-                    gender: document.querySelector('input[name="gender"]:checked').value,
-                    contactNumber: document.getElementById('contactNumber').value,
-                    address: document.getElementById('address').value,
-                    
-                    // Appointment Details - matching schema
-                    purpose: document.getElementById('purpose').value,
-                    appointmentDate: document.getElementById('appointmentDate').value,
-                    timeSlot: selectedTimeSlot.textContent
-                };
-                
-                // Validate form data
-                if (!formData.patientName || !formData.contactNumber || !formData.purpose) {
-                    alert('Please fill in all required fields');
-                    return;
-                }
-                
-                try {
-                    // In a real application, you would send this to your backend API
-                    // For now, we'll simulate the API call and show success message
-                    
-                    // Simulate API delay
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    // Hide form
-                    appointmentForm.style.display = 'none';
-                    
-                    // Display appointment details
-                    appointmentDetails.innerHTML = `
-                        <h4>Appointment Details:</h4>
-                        <p><strong>Appointment ID:</strong> APT-${Date.now().toString().slice(-6)}</p>
-                        <p><strong>Hospital:</strong> ${formData.hospitalName}</p>
-                        <p><strong>Patient:</strong> ${formData.patientName}</p>
-                        <p><strong>Date:</strong> ${new Date(formData.appointmentDate).toLocaleDateString()}</p>
-                        <p><strong>Time:</strong> ${formData.timeSlot}</p>
-                        <p><strong>Purpose:</strong> ${formData.purpose}</p>
-                        <p><strong>Contact:</strong> ${formData.contactNumber}</p>
-                        <hr>
-                        <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">
-                            <i class="fas fa-info-circle"></i> This data is structured to match your Mongoose schema:
-                            hospitalName, hospitalAddress, hospitalContact, patientName, age, gender, contactNumber, address, purpose, appointmentDate, timeSlot
-                        </p>
-                    `;
-                    
-                    // Show success message
-                    successMessage.classList.add('show');
-                    
-                    // Log form data to console (for debugging)
-                    console.log('Appointment Data (Matching Schema):', JSON.stringify(formData, null, 2));
-                    
-                    // In a real implementation, you would send this data to your backend:
-                    /*
-                    const response = await fetch('/api/appointments', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    });
-                    
-                    const result = await response.json();
-                    if (result.success) {
-                        // Show success message with actual appointment ID
-                        appointmentDetails.innerHTML += `<p><strong>Appointment ID:</strong> ${result.appointmentId}</p>`;
-                    } else {
-                        throw new Error(result.message);
-                    }
-                    */
-                    
-                } catch (error) {
-                    alert('Error booking appointment: ' + error.message);
-                    console.error('Appointment booking error:', error);
-                }
-            });
+            // Auto-select first hospital for demo
+            document.querySelector('.hospital-card').click();
+            
+            // Auto-select a time slot for demo (2 PM slot)
+            const timeSlots = document.querySelectorAll('.time-slot');
+            if (timeSlots.length > 5) {
+                timeSlots[5].click(); // Select 2 PM slot
+            }
             
             // Add some interactivity to form fields
             const formInputs = document.querySelectorAll('input, textarea, select');
@@ -714,23 +633,6 @@
                     this.parentElement.style.transform = 'translateY(0)';
                 });
             });
-            
-            // Auto-select first hospital for demo
-            document.querySelector('.hospital-card').click();
-            
-            // Auto-select a time slot for demo (2 PM slot)
-            const timeSlots = document.querySelectorAll('.time-slot');
-            if (timeSlots.length > 5) {
-                timeSlots[5].click(); // Select 2 PM slot
-            }
-            
-            // Add name attributes to form fields for proper form submission
-            document.getElementById('patientName').name = 'patientName';
-            document.getElementById('age').name = 'age';
-            document.getElementById('contactNumber').name = 'contactNumber';
-            document.getElementById('address').name = 'address';
-            document.getElementById('purpose').name = 'purpose';
-            document.getElementById('appointmentDate').name = 'appointmentDate';
         });
     </script>
 </body>
