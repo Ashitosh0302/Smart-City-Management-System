@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 const UPLOAD = require("../middlewares/uploads_middlewares");
 
-const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint,traffic_alerts,weather_alerts,hospital_appointments} = require("../controllers/citizen");
+const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint,traffic_alerts,weather_alerts,hospital_appointments,court_appointments,Esetu_appointments} = require("../controllers/citizen");
 const {CREATE_WATER_COMPLAINT}=require("../controllers/water_complaints");
 const {CREATE_GARBAGE_COMPLAINT}=require("../controllers/garbage_comlaints");
 const {CREATE_ELECTRICITY_COMPLAINT}=require("../controllers/electricity_complaints");
 const {CREATE_ROAD_COMPLAINT}=require("../controllers/roads_complaints");
 const {CREATE_HOSPITAL_APPOINTMENT}=require("../controllers/hospital_appoitnment")
+const {CREATE_COURT_APPOINTMENT}=require("../controllers/court_appointment")
+const {CREATE_ESETU_APPOINTMENT}=require("../controllers/Esetu_appointment")
 
 router.get("/", citizen_home);
 router.get("/citizen_register", citizen_register_page);
@@ -34,7 +36,16 @@ router.get("/alerts/traffic",traffic_alerts)
 router.get("/alerts/weather",weather_alerts)
 
 //appointments
+//hospital
 router.get("/appointments/hospital",hospital_appointments)
 router.post("/appointments/hospital", CREATE_HOSPITAL_APPOINTMENT);
+
+//court
+router.get("/appointments/court",court_appointments)
+router.post("/appointments/court",CREATE_COURT_APPOINTMENT);
+
+//E-setu
+router.get("/appointments/Esetu",Esetu_appointments)
+router.post("/appointments/Esetu", CREATE_ESETU_APPOINTMENT);
 
 module.exports = router;

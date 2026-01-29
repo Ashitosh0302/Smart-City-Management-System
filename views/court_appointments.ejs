@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Court Appointment</title>
+</head>
+<body>
+
+<h2>Court Appointment Form</h2>
+
+<form action="/citizen/appointments/court" method="POST">
+
+    <label>Full Name *</label><br>
+    <input type="text" name="fullName" required><br><br>
+
+    <label>Date of Birth *</label><br>
+    <input type="date" name="dob" required><br><br>
+
+    <label>Gender *</label><br>
+    <input type="radio" name="gender" value="male" required> Male
+    <input type="radio" name="gender" value="female"> Female
+    <input type="radio" name="gender" value="other"> Other
+    <br><br>
+
+    <label>ID Type *</label><br>
+    <input type="radio" name="idType" value="aadhaar" required> Aadhaar<br>
+    <input type="radio" name="idType" value="pan"> PAN<br>
+    <input type="radio" name="idType" value="passport"> Passport<br>
+    <input type="radio" name="idType" value="other"> Other<br><br>
+
+    <label>Aadhaar Number</label><br>
+    <input type="text" name="aadhaarNumber"><br><br>
+
+    <label>PAN Number</label><br>
+    <input type="text" name="panNumber"><br><br>
+
+    <label>Passport Number</label><br>
+    <input type="text" name="passportNumber"><br><br>
+
+    <label>Other ID</label><br>
+    <input type="text" name="otherIdNumber"><br><br>
+
+    <label>Mobile *</label><br>
+    <input type="text" name="mobile" required><br><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email"><br><br>
+
+    <label>Address *</label><br>
+    <textarea name="address" required></textarea><br><br>
+
+    <label>Case Type</label><br>
+    <input type="checkbox" name="caseTypes" value="civil"> Civil
+    <input type="checkbox" name="caseTypes" value="criminal"> Criminal
+    <br><br>
+
+    <label>Purpose</label><br>
+    <input type="checkbox" name="purpose" value="hearing"> Hearing
+    <input type="checkbox" name="purpose" value="fileNew"> File New
+    <br><br>
+
+    <label>Appointment Date *</label><br>
+    <input type="date" name="appointmentDate" required><br><br>
+
+    <label>Time Slot *</label><br>
+    <select name="timeSlot" required>
+        <option value="">Select</option>
+        <option value="9-10">9–10</option>
+        <option value="10-11">10–11</option>
+        <option value="11-12">11–12</option>
+    </select><br><br>
+
+    <button type="submit">Book Appointment</button>
+
+</form>
+
+</body>
+</html>

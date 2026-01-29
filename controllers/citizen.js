@@ -103,6 +103,16 @@ async function weather_alerts(req,res) {
 async function hospital_appointments(req,res) {
     return res.render("hospital_appointment")
 }
+    
+//court
+async function court_appointments(req,res) {
+    return res.render("court_appointments")
+}
+
+//Esetu
+async function Esetu_appointments(req,res) {
+    return res.render("Esetu_appointment")
+}
 
 module.exports = {
     citizen_home,
@@ -114,5 +124,7 @@ module.exports = {
     road_complaint,
     traffic_alerts,
     weather_alerts,
-    hospital_appointments
+    hospital_appointments,
+    court_appointments,
+    Esetu_appointments
 };
