@@ -5,7 +5,7 @@ const multer = require("multer");
 
 const upload = multer(); // memory storage
 
-const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint,traffic_alerts,weather_alerts,hospital_appointments,court_appointments,Esetu_appointments} = require("../controllers/citizen");
+const {citizen_home,citizen_register_page,citizen_register,Water_Complaints,garbage_complaint,electricity_complaint,road_complaint,traffic_alerts,weather_alerts,hospital_appointments,court_appointments,Esetu_appointments,police_alerts,ambulance_alerts,fire_alerts} = require("../controllers/citizen");
 const {CREATE_WATER_COMPLAINT}=require("../controllers/water_complaints");
 const {CREATE_GARBAGE_COMPLAINT}=require("../controllers/garbage_comlaints");
 const {CREATE_ELECTRICITY_COMPLAINT}=require("../controllers/electricity_complaints");
@@ -13,6 +13,9 @@ const {CREATE_ROAD_COMPLAINT}=require("../controllers/roads_complaints");
 const {CREATE_HOSPITAL_APPOINTMENT}=require("../controllers/hospital_appoitnment")
 const {CREATE_COURT_APPOINTMENT}=require("../controllers/court_appointment")
 const {bookAppointment}=require("../controllers/Esetu_appointment")
+const {CREATE_EMERGENCY_ALERT_police}=require("../controllers/police_emergency")
+const {CREATE_AMBULANCE_REQUEST}=require("../controllers/ambulance_emergency")
+const {CREATE_FIRE_EMERGENCY_REQUEST}=require("../controllers/fire_emergency")
 
 router.get("/", citizen_home);
 router.get("/citizen_register", citizen_register_page);
@@ -50,5 +53,18 @@ router.post("/appointments/court",CREATE_COURT_APPOINTMENT);
 //E-setu
 router.get("/appointments/Esetu",Esetu_appointments)
 router.post("/appointments/Esetu",upload.none(),bookAppointment);
+
+//alerts
+//police
+router.get("/emergency/police",police_alerts)
+router.post("/emergency/police",CREATE_EMERGENCY_ALERT_police);
+
+//ambulance
+router.get("/emergency/ambulance",ambulance_alerts)
+router.post("/emergency/ambulance",CREATE_AMBULANCE_REQUEST)
+
+//fire
+router.get("/emergency/fire",fire_alerts)
+router.post("/emergency/fire",CREATE_FIRE_EMERGENCY_REQUEST)
 
 module.exports = router;

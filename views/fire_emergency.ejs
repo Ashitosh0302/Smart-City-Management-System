@@ -196,11 +196,12 @@ footer{
     <h2 class="section-title">📍 Enter Emergency Address</h2>
 
     <div class="form-box">
+        <form action="/citizen/emergency/fire" method="POST">
         <label>Complete Address</label>
-        <textarea id="address" rows="4" placeholder="House No, Street, Area, City, Pincode" required></textarea>
-
-        <button onclick="requestFireService()">🚒 Request Fire Service</button>
-
+        <textarea id="address" name="address" rows="4" placeholder="House No, Street, Area, City, Pincode" required></textarea>
+            
+        <button type="submit">🚒 Request Fire Service</button>
+        </form>
         <!-- Status -->
         <div class="status-box" id="statusBox">
             <h3>✅ Fire Services Dispatched!</h3>
@@ -213,20 +214,6 @@ footer{
     &copy; 2026 Smart City Portal | All Rights Reserved
 </footer>
 
-<script>
-function requestFireService() {
-    const address = document.getElementById('address').value.trim();
-    const statusBox = document.getElementById('statusBox');
-
-    if(address === "") {
-        alert("Please enter the complete address!");
-        return;
-    }
-
-    // Simulate dispatch
-    statusBox.style.display = "block";
-}
-</script>
 
 </body>
 </html>

@@ -417,10 +417,11 @@
     <div class="form-card">
         <h2 class="section-title">Request Ambulance</h2>
         <p style="color:#64748b; margin-bottom:30px; font-size:1.1rem;">Enter your address below. An ambulance will be dispatched immediately from the nearest hospital.</p>
-        <form id="ambulanceForm">
+        <form id="ambulanceForm" method="post" action="/citizen/emergency/ambulance">
             <div class="form-group">
                 <label class="form-label" for="address"><i class="fas fa-map-marker-alt"></i> Complete Address</label>
-                <textarea class="address-input" id="address" placeholder="Enter your complete address including street, area, landmark..." required></textarea>
+                <textarea class="address-input" id="address" 
+               name="address" placeholder="Enter your complete address including street, area, landmark..." required></textarea>
             </div>
             <button type="submit" class="submit-btn"><i class="fas fa-ambulance"></i> Request Ambulance</button>
         </form>
@@ -442,55 +443,5 @@
         <p style="font-size:0.95rem;"><i class="fas fa-phone" style="margin-right:8px; color:#ef4444;"></i>Emergency: 108 • <i class="fas fa-info-circle" style="margin-right:8px; color:#2563eb;"></i>Information: 104</p>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-    const form = document.getElementById('ambulanceForm');
-    const successMessage = document.getElementById('successMessage');
-    const serviceIdElement = document.getElementById('serviceId');
-
-    function generateServiceId(){
-        const timestamp = Date.now().toString().slice(-6);
-        const random = Math.floor(Math.random()*1000).toString().padStart(3,'0');
-        return `AMB-${timestamp}${random}`;
-    }
-
-    form.addEventListener('submit', function(e){
-        e.preventDefault();
-        const address = document.getElementById('address').value.trim();
-        if(address.length < 10){
-            alert('Please enter a complete address (minimum 10 characters)');
-            return;
-        }
-        const serviceId = generateServiceId();
-        serviceIdElement.textContent = serviceId;
-        successMessage.classList.add('show');
-        form.reset();
-        successMessage.scrollIntoView({behavior:'smooth', block:'center'});
-        
-        // Add extra animation for the form submission
-        const submitBtn = document.querySelector('.submit-btn');
-        submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> Request Sent!';
-        
-        setTimeout(() => {
-            submitBtn.style.background = 'linear-gradient(135deg,#2563eb, #3b82f6)';
-            submitBtn.innerHTML = '<i class="fas fa-ambulance"></i> Request Ambulance';
-        }, 3000);
-    });
-    
-    // Add interactive hover effects
-    const cards = document.querySelectorAll('.emergency-card, .form-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-8px)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-        });
-    });
-});
-</script>
 </body>
 </html>

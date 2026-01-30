@@ -114,6 +114,22 @@ async function Esetu_appointments(req,res) {
     return res.render("Esetu-appointments")
 }
 
+//alerts
+//police
+async function police_alerts(req,res) {
+    return res.render("police_emergency");
+}
+
+//ambulance
+async function ambulance_alerts(req,res) {
+    return res.render("ambulance_emergency");
+}
+
+//fire
+async function fire_alerts(req,res) {
+    return res.render("fire_emergency");
+}
+
 module.exports = {
     citizen_home,
     citizen_register_page,
@@ -126,5 +142,8 @@ module.exports = {
     weather_alerts,
     hospital_appointments,
     court_appointments,
-    Esetu_appointments
+    Esetu_appointments,
+    police_alerts,
+    ambulance_alerts,
+    fire_alerts
 };
