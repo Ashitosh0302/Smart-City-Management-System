@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CityZen | Citizen Train Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body
+        {
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            padding: 20px;
+        }
+
+        h2
+        {
+            text-align: center;
+        }
+
+        .box
+        {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select, button
+        {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button
+        {
+            background: #1f6feb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover
+        {
+            background: #174ea6;
+        }
+
+        .train-card
+        {
+            background: #eef2f6;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .train-card button
+        {
+            margin-top: 5px;
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🚆 Citizen Train Booking</h2>
+
+<div class="box">
+
+    <input id="citizenName" placeholder="Citizen Name">
+
+    <select id="city">
+        <option>Select City</option>
+    </select>
+
+    <select id="from">
+        <option>From Station</option>
+    </select>
+
+    <select id="to">
+        <option>To Station</option>
+    </select>
+
+    <button onclick="searchTrains()">Search Trains</button>
+
+    <div id="trainResults"></div>
+
+</div>
+
+<script>
+    const city = document.getElementById("city");
+    const from = document.getElementById("from");
+    const to = document.getElementById("to");
+    const results = document.getElementById("trainResults");
+
+    fetch("/citizen/train/cities")
+    .then(res => res.json())
+    .then(data =>
+    {
+        data.forEach(c =>
+        {
+            const opt = document.createElement("option");
+            opt.textContent = c;
+            city.appendChild(opt);
+        });
+    });
+
+    city.addEventListener("change", () =>
+    {
+        from.innerHTML = "<option>From Station</option>";
+        to.innerHTML = "<option>To Station</option>";
+
+        fetch(`/citizen/train/stations/${city.value}`)
+        .then(res => res.json())
+        .then(data =>
+        {
+            data.fromStations.forEach(s =>
+            {
+                const opt = document.createElement("option");
+                opt.textContent = s;
+                from.appendChild(opt);
+            });
+
+            data.toStations.forEach(s =>
+            {
+                const opt = document.createElement("option");
+                opt.textContent = s;
+                to.appendChild(opt);
+            });
+        });
+    });
+
+    function searchTrains()
+    {
+        results.innerHTML = "Loading trains...";
+
+        fetch("/citizen/train/search",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                cityName: city.value,
+                fromStation: from.value,
+                toStation: to.value
+            })
+        })
+        .then(res => res.json())
+        .then(trains =>
+        {
+            results.innerHTML = "";
+
+            if(trains.length === 0)
+            {
+                results.innerHTML = "<p>No trains available</p>";
+                return;
+            }
+
+            trains.forEach(t =>
+            {
+                const div = document.createElement("div");
+                div.className = "train-card";
+
+                div.innerHTML = `
+                    <b>${t.trainName} (${t.trainNumber})</b><br>
+                    ⏰ ${t.departureTime} → ${t.arrivalTime}<br>
+                    💰 ₹${t.fare}<br>
+                    💺 Seats: ${t.availableSeats}<br>
+                    <button onclick="bookTrain('${t._id}')">Book Ticket</button>
+                `;
+
+                results.appendChild(div);
+            });
+        });
+    }
+
+    function bookTrain(routeId)
+    {
+        const name = document.getElementById("citizenName").value;
+
+        if(name === "")
+        {
+            alert("Enter citizen name");
+            return;
+        }
+
+        fetch("/citizen/train/book",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                routeId,
+                citizenName: name,
+                travelDate: new Date()
+            })
+        })
+        .then(res => res.json())
+        .then(data =>
+        {
+            alert(data.message);
+            searchTrains();
+        });
+    }
+</script>
+
+</body>
+</html>

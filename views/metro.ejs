@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CityZen | Citizen Metro Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body
+        {
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            padding: 20px;
+        }
+
+        h2
+        {
+            text-align: center;
+        }
+
+        .box
+        {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select, button
+        {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button
+        {
+            background: #6f42c1;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover
+        {
+            background: #59339d;
+        }
+
+        .metro-card
+        {
+            background: #eef0f4;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .metro-card button
+        {
+            margin-top: 5px;
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🚇 Citizen Metro Booking</h2>
+
+<div class="box">
+
+    <input id="citizenName" placeholder="Citizen Name">
+
+    <select id="city">
+        <option>Select City</option>
+    </select>
+
+    <select id="from">
+        <option>From Station</option>
+    </select>
+
+    <select id="to">
+        <option>To Station</option>
+    </select>
+
+    <button onclick="searchMetros()">Search Metros</button>
+
+    <div id="metroResults"></div>
+
+</div>
+
+<script>
+    const city = document.getElementById("city");
+    const from = document.getElementById("from");
+    const to = document.getElementById("to");
+    const results = document.getElementById("metroResults");
+
+    fetch("/citizen/metro/cities")
+    .then(res => res.json())
+    .then(data =>
+    {
+        data.forEach(c =>
+        {
+            const opt = document.createElement("option");
+            opt.textContent = c;
+            city.appendChild(opt);
+        });
+    });
+
+    city.addEventListener("change", () =>
+    {
+        from.innerHTML = "<option>From Station</option>";
+        to.innerHTML = "<option>To Station</option>";
+
+        fetch(`/citizen/metro/stations/${city.value}`)
+        .then(res => res.json())
+        .then(data =>
+        {
+            data.fromStations.forEach(s =>
+            {
+                const opt = document.createElement("option");
+                opt.textContent = s;
+                from.appendChild(opt);
+            });
+
+            data.toStations.forEach(s =>
+            {
+                const opt = document.createElement("option");
+                opt.textContent = s;
+                to.appendChild(opt);
+            });
+        });
+    });
+
+    function searchMetros()
+    {
+        results.innerHTML = "Loading metros...";
+
+        fetch("/citizen/metro/search",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                cityName: city.value,
+                fromStation: from.value,
+                toStation: to.value
+            })
+        })
+        .then(res => res.json())
+        .then(metros =>
+        {
+            results.innerHTML = "";
+
+            if(metros.length === 0)
+            {
+                results.innerHTML = "<p>No metro available</p>";
+                return;
+            }
+
+            metros.forEach(m =>
+            {
+                const div = document.createElement("div");
+                div.className = "metro-card";
+
+                div.innerHTML = `
+                    <b>${m.metroLine} (${m.metroNumber})</b><br>
+                    ⏰ ${m.departureTime} → ${m.arrivalTime}<br>
+                    💰 ₹${m.fare}<br>
+                    🎟 Tokens: ${m.availableTokens}<br>
+                    <button onclick="bookMetro('${m._id}')">Book Ticket</button>
+                `;
+
+                results.appendChild(div);
+            });
+        });
+    }
+
+    function bookMetro(routeId)
+    {
+        const name = document.getElementById("citizenName").value;
+
+        if(name === "")
+        {
+            alert("Enter citizen name");
+            return;
+        }
+
+        fetch("/citizen/metro/book",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                routeId,
+                citizenName: name,
+                travelDate: new Date()
+            })
+        })
+        .then(res => res.json())
+        .then(data =>
+        {
+            alert(data.message);
+            searchMetros();
+        });
+    }
+</script>
+
+</body>
+</html>

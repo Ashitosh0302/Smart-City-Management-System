@@ -16,6 +16,9 @@ const {bookAppointment}=require("../controllers/Esetu_appointment")
 const {CREATE_EMERGENCY_ALERT_police}=require("../controllers/police_emergency")
 const {CREATE_AMBULANCE_REQUEST}=require("../controllers/ambulance_emergency")
 const {CREATE_FIRE_EMERGENCY_REQUEST}=require("../controllers/fire_emergency")
+const {GET_CITIES, GET_STATIONS, SEARCH_BUSES, BOOK_TICKET} = require("../controllers/bus");
+const {GET_TRAIN_CITIES, GET_TRAIN_STATIONS, SEARCH_TRAINS, BOOK_TRAIN_TICKET} = require("../controllers/train");
+const {GET_METRO_CITIES, GET_METRO_STATIONS, SEARCH_METROS, BOOK_METRO_TICKET} = require("../controllers/metro");
 
 router.get("/", citizen_home);
 router.get("/citizen_register", citizen_register_page);
@@ -66,5 +69,24 @@ router.post("/emergency/ambulance",CREATE_AMBULANCE_REQUEST)
 //fire
 router.get("/emergency/fire",fire_alerts)
 router.post("/emergency/fire",CREATE_FIRE_EMERGENCY_REQUEST)
+
+//booking
+//bus
+router.get("/cities", GET_CITIES);
+router.get("/stations/:cityName", GET_STATIONS);
+router.post("/search_buses", SEARCH_BUSES);
+router.post("/book_ticket", BOOK_TICKET);
+
+//train
+router.get("/train_cities", GET_TRAIN_CITIES);
+router.get("/train_stations/:cityName", GET_TRAIN_STATIONS);
+router.post("/search_trains", SEARCH_TRAINS);
+router.post("/book_train_ticket", BOOK_TRAIN_TICKET);
+
+//metro
+router.get("/metro_cities", GET_METRO_CITIES);
+router.get("/metro_stations/:cityName", GET_METRO_STATIONS);
+router.post("/search_metros", SEARCH_METROS);
+router.post("/book_metro_ticket", BOOK_METRO_TICKET);
 
 module.exports = router;

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CityZen | Citizen Bus Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body
+        {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        h2
+        {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .box
+        {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select, button
+        {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        button
+        {
+            background: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover
+        {
+            background: #004c99;
+        }
+
+        .bus-card
+        {
+            background: #eef3f7;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .bus-card button
+        {
+            margin-top: 5px;
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🚌 Citizen Bus Booking</h2>
+
+<div class="box">
+
+    <input type="text" id="citizenName" placeholder="Citizen Name">
+
+    <select id="city">
+        <option value="">Select City</option>
+    </select>
+
+    <select id="from">
+        <option value="">From Station</option>
+    </select>
+
+    <select id="to">
+        <option value="">To Station</option>
+    </select>
+
+    <button onclick="searchBuses()">Search Buses</button>
+
+    <div id="busResults"></div>
+
+</div>
+
+<script>
+    const citySelect = document.getElementById("city");
+    const fromSelect = document.getElementById("from");
+    const toSelect = document.getElementById("to");
+    const busResults = document.getElementById("busResults");
+
+    // Load cities
+    fetch("/citizen/cities")
+    .then(res => res.json())
+    .then(data =>
+    {
+        data.forEach(city =>
+        {
+            const option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+    });
+
+    // Load stations when city changes
+    citySelect.addEventListener("change", () =>
+    {
+        fromSelect.innerHTML = "<option>From Station</option>";
+        toSelect.innerHTML = "<option>To Station</option>";
+
+        fetch(`/citizen/stations/${citySelect.value}`)
+        .then(res => res.json())
+        .then(data =>
+        {
+            data.fromStations.forEach(station =>
+            {
+                const opt = document.createElement("option");
+                opt.textContent = station;
+                fromSelect.appendChild(opt);
+            });
+
+            data.toStations.forEach(station =>
+            {
+                const opt = document.createElement("option");
+                opt.textContent = station;
+                toSelect.appendChild(opt);
+            });
+        });
+    });
+
+    // Search buses
+    function searchBuses()
+    {
+        busResults.innerHTML = "Loading buses...";
+
+        fetch("/citizen/search_buses",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                cityName: citySelect.value,
+                fromStation: fromSelect.value,
+                toStation: toSelect.value
+            })
+        })
+        .then(res => res.json())
+        .then(buses =>
+        {
+            busResults.innerHTML = "";
+
+            if(buses.length === 0)
+            {
+                busResults.innerHTML = "<p>No buses available</p>";
+                return;
+            }
+
+            buses.forEach(bus =>
+            {
+                const div = document.createElement("div");
+                div.className = "bus-card";
+
+                div.innerHTML = `
+                    <b>${bus.busName}</b><br>
+                    ⏰ ${bus.departureTime}<br>
+                    💰 ₹${bus.fare}<br>
+                    💺 Seats: ${bus.availableSeats}<br>
+                    <button onclick="bookTicket('${bus._id}')">Book Ticket</button>
+                `;
+
+                busResults.appendChild(div);
+            });
+        });
+    }
+
+    // Book ticket
+    function bookTicket(routeId)
+    {
+        const name = document.getElementById("citizenName").value;
+
+        if(name === "")
+        {
+            alert("Please enter citizen name");
+            return;
+        }
+
+        fetch("/citizen/book_ticket",
+        {
+            method: "POST",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                routeId,
+                citizenName: name,
+                travelDate: new Date()
+            })
+        })
+        .then(res => res.json())
+        .then(data =>
+        {
+            alert(data.message);
+            searchBuses();
+        });
+    }
+</script>
+
+</body>
+</html>
