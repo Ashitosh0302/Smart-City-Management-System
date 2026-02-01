@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Finder - Discover Parks & Gardens Near You</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .park-finder-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .location-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .location-option {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .location-option h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .gps-button {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .gps-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(46, 125, 50, 0.4);
+        }
+        
+        .gps-button .icon {
+            font-size: 1.5rem;
+        }
+        
+        .search-button {
+            background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+        
+        .search-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 152, 0, 0.4);
+        }
+        
+        .location-display {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .location-display.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .location-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .location-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .location-label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .location-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+        
+        .filter-section {
+            margin: 30px 0;
+        }
+        
+        .filter-header {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .park-type-filter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .park-type-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .park-type-card:hover {
+            border-color: #2E7D32;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .park-type-card.active {
+            border-color: #2E7D32;
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+        }
+        
+        .park-type-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .park-type-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .park-type-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .features-filter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .feature-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .feature-checkbox:hover {
+            background: #E8F5E9;
+            transform: translateY(-2px);
+        }
+        
+        .feature-checkbox input {
+            width: 20px;
+            height: 20px;
+            accent-color: #2E7D32;
+        }
+        
+        .feature-label {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .distance-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+        
+        .distance-slider {
+            flex: 1;
+        }
+        
+        .distance-label {
+            font-weight: 600;
+            color: #2d3748;
+            min-width: 150px;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #cbd5e0;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #2E7D32;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .distance-value {
+            font-weight: 700;
+            color: #2E7D32;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .activity-filter {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .activity-tag {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .activity-tag:hover {
+            border-color: #2E7D32;
+            transform: translateY(-2px);
+        }
+        
+        .activity-tag.active {
+            background: #2E7D32;
+            color: white;
+            border-color: #2E7D32;
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+            display: none;
+        }
+        
+        .results-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e2e8f0;
+        }
+        
+        .results-title {
+            font-size: 1.8rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+        
+        .results-count {
+            background: #2E7D32;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .parks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .park-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+            position: relative;
+        }
+        
+        .park-card:hover {
+            border-color: #2E7D32;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .park-image {
+            height: 220px;
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .park-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.2), transparent);
+        }
+        
+        .park-type {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2E7D32;
+        }
+        
+        .park-distance {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .park-content {
+            padding: 25px;
+        }
+        
+        .park-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .park-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .park-size {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2E7D32;
+            background: #E8F5E9;
+            padding: 5px 15px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+        
+        .park-address {
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .park-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stars {
+            color: #FFB74D;
+        }
+        
+        .rating-value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .review-count {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .park-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .feature {
+            background: #E8F5E9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .park-activities {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .activities-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        
+        .activities-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .activity-item {
+            background: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .park-timing {
+            color: #718096;
+            font-size: 0.95rem;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .park-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px solid #f7fafc;
+        }
+        
+        .park-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-open {
+            color: #2E7D32;
+            font-weight: 600;
+        }
+        
+        .status-closed {
+            color: #f44336;
+            font-weight: 600;
+        }
+        
+        .visit-button {
+            background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .visit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 152, 0, 0.3);
+        }
+        
+        .map-container {
+            height: 450px;
+            background: #E8F5E9;
+            border-radius: 15px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-weight: 600;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .map-header {
+            width: 100%;
+            padding: 20px;
+            background: #2E7D32;
+            color: white;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .map-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tree-animation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            animation: treeWave 3s infinite linear;
+        }
+        
+        @keyframes treeWave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 40px;
+            color: #718096;
+            font-size: 1.2rem;
+            background: #f7fafc;
+            border-radius: 15px;
+            border: 2px dashed #cbd5e0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #2E7D32;
+            font-size: 1.2rem;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2E7D32;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 992px) {
+            .parks-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .location-selector {
+                flex-direction: column;
+            }
+            
+            .park-type-filter {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .park-finder-card, .results-section {
+                padding: 25px;
+            }
+            
+            .parks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-filter {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .park-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .park-size {
+                align-self: flex-start;
+            }
+        }
+        
+        .current-location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 125, 50, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 50px;
+            left: 15px;
+            background: #FF9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .dog-friendly {
+            position: absolute;
+            top: 50px;
+            right: 15px;
+            background: #795548;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .entry-fee {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .entry-fee.free {
+            background: rgba(46, 125, 50, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌳 Park Finder - Discover Green Spaces</h1>
+            <p>Find parks, gardens, and recreational areas near you</p>
+        </div>
+        
+        <div class="park-finder-card">
+            <div class="location-selector">
+                <div class="location-option">
+                    <h3>📍 Use Current Location</h3>
+                    <button class="gps-button" onclick="getCurrentLocation()">
+                        <span class="icon">📍</span>
+                        Detect My Location
+                    </button>
+                </div>
+                
+                <div class="location-option">
+                    <h3>🏙️ Or Select City</h3>
+                    <select id="citySelect" style="width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem;">
+                        <option value="">-- Select a City --</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="pune">Pune</option>
+                        <option value="jaipur">Jaipur</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="location-display" id="locationDisplay">
+                <div class="current-location" id="currentLocationDisplay">
+                    📍 Your Current Location
+                </div>
+                <div class="location-info">
+                    <div class="location-detail">
+                        <span class="location-label">Latitude</span>
+                        <span class="location-value" id="latitude">0.0000</span>
+                    </div>
+                    <div class="location-detail">
+                        <span class="location-label">Longitude</span>
+                        <span class="location-value" id="longitude">0.0000</span>
+                    </div>
+                    <div class="location-detail">
+                        <span class="location-label">Accuracy</span>
+                        <span class="location-value" id="accuracy">0 meters</span>
+                    </div>
+                    <div class="location-detail">
+                        <span class="location-label">Address</span>
+                        <span class="location-value" id="address">Detecting...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-header">🌿 Select Park Type</div>
+                <div class="park-type-filter">
+                    <div class="park-type-card active" onclick="selectParkType('all')">
+                        <div class="park-type-icon">🌳</div>
+                        <div class="park-type-name">All Parks</div>
+                        <div class="park-type-desc">All green spaces</div>
+                    </div>
+                    <div class="park-type-card" onclick="selectParkType('city')">
+                        <div class="park-type-icon">🏙️</div>
+                        <div class="park-type-name">City Parks</div>
+                        <div class="park-type-desc">Urban green spaces</div>
+                    </div>
+                    <div class="park-type-card" onclick="selectParkType('national')">
+                        <div class="park-type-icon">🌲</div>
+                        <div class="park-type-name">National Parks</div>
+                        <div class="park-type-desc">Protected natural areas</div>
+                    </div>
+                    <div class="park-type-card" onclick="selectParkType('botanical')">
+                        <div class="park-type-icon">🌸</div>
+                        <div class="park-type-name">Botanical Gardens</div>
+                        <div class="park-type-desc">Plant collections</div>
+                    </div>
+                    <div class="park-type-card" onclick="selectParkType('theme')">
+                        <div class="park-type-icon">🎡</div>
+                        <div class="park-type-name">Theme Parks</div>
+                        <div class="park-type-desc">Amusement & entertainment</div>
+                    </div>
+                    <div class="park-type-card" onclick="selectParkType('wildlife')">
+                        <div class="park-type-icon">🦁</div>
+                        <div class="park-type-name">Wildlife Parks</div>
+                        <div class="park-type-desc">Animal habitats</div>
+                    </div>
+                </div>
+                
+                <div class="filter-header">🎯 Filter by Features</div>
+                <div class="features-filter">
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featurePlayground" checked>
+                        <span class="feature-label">🧒 Children's Play Area</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureWalking" checked>
+                        <span class="feature-label">🚶 Walking/Jogging Track</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureBenches">
+                        <span class="feature-label">🪑 Benches & Seating</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureParking">
+                        <span class="feature-label">🅿️ Parking Available</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureRestrooms">
+                        <span class="feature-label">🚻 Restrooms</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureFood">
+                        <span class="feature-label">🍴 Food Stalls/Café</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featurePets">
+                        <span class="feature-label">🐕 Pet Friendly</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureWiFi">
+                        <span class="feature-label">📶 Free WiFi</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureLighting">
+                        <span class="feature-label">💡 Evening Lighting</span>
+                    </label>
+                    <label class="feature-checkbox">
+                        <input type="checkbox" id="featureDisabled">
+                        <span class="feature-label">♿ Disability Access</span>
+                    </label>
+                </div>
+                
+                <div class="filter-header">🎯 Popular Activities</div>
+                <div class="activity-filter">
+                    <div class="activity-tag active" onclick="toggleActivity('all')">
+                        <span>🎯</span> All Activities
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('jogging')">
+                        <span>🏃</span> Jogging
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('cycling')">
+                        <span>🚴</span> Cycling
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('yoga')">
+                        <span>🧘</span> Yoga/Meditation
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('picnic')">
+                        <span>🧺</span> Picnicking
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('bird')">
+                        <span>🐦</span> Bird Watching
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('photography')">
+                        <span>📸</span> Photography
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('fishing')">
+                        <span>🎣</span> Fishing
+                    </div>
+                    <div class="activity-tag" onclick="toggleActivity('boating')">
+                        <span>🚣</span> Boating
+                    </div>
+                </div>
+                
+                <div class="distance-filter">
+                    <div class="distance-label">Search Radius:</div>
+                    <div class="distance-slider">
+                        <input type="range" id="distanceSlider" min="1" max="15" value="5" oninput="updateDistanceValue()">
+                    </div>
+                    <div class="distance-value" id="distanceValue">5 km</div>
+                </div>
+            </div>
+            
+            <button class="search-button" onclick="searchNearbyParks()">
+                <span class="icon">🔍</span>
+                Find Parks & Gardens
+            </button>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <div class="results-title" id="resultsTitle">Nearby Parks & Gardens</div>
+                <div class="results-count" id="resultsCount">0 parks found</div>
+            </div>
+            
+            <div id="parksGrid" class="parks-grid">
+                <!-- Parks will be loaded here -->
+            </div>
+            
+            <div class="map-container">
+                <div class="map-header">🗺️ Park Locations Map</div>
+                <div class="map-placeholder">
+                    <div style="text-align: center; position: relative; z-index: 4;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">🌳</div>
+                        <div>Interactive map showing park locations</div>
+                        <div style="font-size: 0.9rem; color: #718096; margin-top: 10px;">Integrated with Google Maps API</div>
+                    </div>
+                    <div class="tree-animation"></div>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                Finding parks and gardens near you...
+            </div>
+            <div class="no-results" id="noResults" style="display: none;">
+                🚫 No parks found within your search criteria.
+                Try increasing the distance or adjusting filters.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample park data for different cities
+        const cityParks = {
+            mumbai: [
+                { id: 1, name: "Sanjay Gandhi National Park", type: "national", 
+                  lat: 19.2147, lng: 72.9106, address: "Borivali East, Mumbai", 
+                  size: "104 sq.km", rating: 4.7, distance: 3.2, reviews: 3456,
+                  features: ["playground", "walking", "benches", "parking", "restrooms", "food", "pets"],
+                  activities: ["jogging", "cycling", "picnic", "bird", "photography"],
+                  timing: "7:30 AM - 6:30 PM", status: "open", entryFee: 50,
+                  description: "Largest protected urban national park in the world, home to diverse flora and fauna",
+                  popular: true, dogFriendly: true },
+                { id: 2, name: "Joggers Park", type: "city", 
+                  lat: 19.1209, lng: 72.8312, address: "Juhu Tara Road, Mumbai", 
+                  size: "15 Acres", rating: 4.5, distance: 1.2, reviews: 1789,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "lighting", "disabled"],
+                  activities: ["jogging", "yoga", "photography"],
+                  timing: "5:00 AM - 10:00 PM", status: "open", entryFee: 0,
+                  description: "Popular jogging track with sea breeze and well-maintained pathways",
+                  popular: true, dogFriendly: true },
+                { id: 3, name: "Hanging Gardens", type: "botanical", 
+                  lat: 18.9564, lng: 72.8053, address: "Malabar Hill, Mumbai", 
+                  size: "8 Acres", rating: 4.3, distance: 2.5, reviews: 1234,
+                  features: ["benches", "parking", "restrooms", "food", "disabled"],
+                  activities: ["walking", "photography", "picnic"],
+                  timing: "5:00 AM - 9:00 PM", status: "open", entryFee: 0,
+                  description: "Terraced gardens with topiary work and panoramic views of Arabian Sea",
+                  popular: true, dogFriendly: false },
+                { id: 4, name: "Powai Garden", type: "city", 
+                  lat: 19.1224, lng: 72.9053, address: "Powai, Mumbai", 
+                  size: "10 Acres", rating: 4.2, distance: 3.8, reviews: 987,
+                  features: ["playground", "walking", "benches", "parking", "restrooms"],
+                  activities: ["jogging", "cycling", "yoga", "picnic"],
+                  timing: "6:00 AM - 8:00 PM", status: "open", entryFee: 0,
+                  description: "Scenic garden around Powai Lake with walking tracks and play areas",
+                  popular: false, dogFriendly: true },
+                { id: 5, name: "EsselWorld & Water Kingdom", type: "theme", 
+                  lat: 19.1334, lng: 72.8190, address: "Gorai, Mumbai", 
+                  size: "64 Acres", rating: 4.6, distance: 8.5, reviews: 4567,
+                  features: ["playground", "parking", "restrooms", "food", "disabled"],
+                  activities: ["picnic", "photography"],
+                  timing: "10:00 AM - 6:00 PM", status: "open", entryFee: 1200,
+                  description: "India's largest theme water park with thrilling rides and attractions",
+                  popular: true, dogFriendly: false }
+            ],
+            delhi: [
+                { id: 6, name: "Lodhi Garden", type: "city", 
+                  lat: 28.5925, lng: 77.2243, address: "Lodhi Road, Delhi", 
+                  size: "90 Acres", rating: 4.6, distance: 1.5, reviews: 2345,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "disabled"],
+                  activities: ["jogging", "yoga", "picnic", "bird", "photography"],
+                  timing: "6:00 AM - 8:00 PM", status: "open", entryFee: 0,
+                  description: "Historic garden with 15th century tombs and lush greenery",
+                  popular: true, dogFriendly: true },
+                { id: 7, name: "Garden of Five Senses", type: "botanical", 
+                  lat: 28.5504, lng: 77.2149, address: "Said-ul-Ajaib, Delhi", 
+                  size: "20 Acres", rating: 4.4, distance: 2.8, reviews: 1567,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "disabled"],
+                  activities: ["walking", "photography", "picnic"],
+                  timing: "9:00 AM - 6:00 PM", status: "open", entryFee: 35,
+                  description: "Theme park designed to stimulate the five senses with unique installations",
+                  popular: true, dogFriendly: false },
+                { id: 8, name: "Deer Park", type: "wildlife", 
+                  lat: 28.5355, lng: 77.2155, address: "Hauz Khas, Delhi", 
+                  size: "60 Acres", rating: 4.3, distance: 2.1, reviews: 1234,
+                  features: ["walking", "benches", "parking", "restrooms"],
+                  activities: ["jogging", "picnic", "bird", "photography"],
+                  timing: "5:00 AM - 7:00 PM", status: "open", entryFee: 0,
+                  description: "Natural habitat for spotted deer with walking trails and ancient monuments",
+                  popular: false, dogFriendly: true }
+            ],
+            bangalore: [
+                { id: 9, name: "Lalbagh Botanical Garden", type: "botanical", 
+                  lat: 12.9507, lng: 77.5848, address: "Lalbagh, Bangalore", 
+                  size: "240 Acres", rating: 4.8, distance: 1.2, reviews: 3456,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "disabled"],
+                  activities: ["walking", "photography", "bird", "picnic"],
+                  timing: "6:00 AM - 7:00 PM", status: "open", entryFee: 25,
+                  description: "Historic botanical garden with rare plant species and glass house",
+                  popular: true, dogFriendly: false },
+                { id: 10, name: "Cubbon Park", type: "city", 
+                  lat: 12.9767, lng: 77.5928, address: "Sampangi Rama Nagar, Bangalore", 
+                  size: "300 Acres", rating: 4.7, distance: 0.8, reviews: 2789,
+                  features: ["playground", "walking", "benches", "parking", "restrooms", "food", "wifi", "disabled"],
+                  activities: ["jogging", "cycling", "yoga", "picnic", "photography"],
+                  timing: "6:00 AM - 8:00 PM", status: "open", entryFee: 0,
+                  description: "Green lung of Bangalore with walking paths, museums, and play areas",
+                  popular: true, dogFriendly: true },
+                { id: 11, name: "Bannerghatta National Park", type: "national", 
+                  lat: 12.8000, lng: 77.5775, address: "Bannerghatta, Bangalore", 
+                  size: "260 sq.km", rating: 4.5, distance: 12.5, reviews: 1987,
+                  features: ["walking", "parking", "restrooms", "food"],
+                  activities: ["walking", "photography", "picnic"],
+                  timing: "9:30 AM - 5:00 PM", status: "open", entryFee: 80,
+                  description: "Biological reserve with zoo, safari, and butterfly park",
+                  popular: true, dogFriendly: false }
+            ],
+            chennai: [
+                { id: 12, name: "Guindy National Park", type: "national", 
+                  lat: 13.0067, lng: 80.2206, address: "Guindy, Chennai", 
+                  size: "2.7 sq.km", rating: 4.4, distance: 2.3, reviews: 1456,
+                  features: ["walking", "parking", "restrooms"],
+                  activities: ["jogging", "bird", "photography"],
+                  timing: "9:00 AM - 5:30 PM", status: "open", entryFee: 30,
+                  description: "Only national park within city limits with diverse wildlife",
+                  popular: true, dogFriendly: false },
+                { id: 13, name: "Semmozhi Poonga", type: "botanical", 
+                  lat: 13.0528, lng: 80.2539, address: "Thyagaraya Nagar, Chennai", 
+                  size: "20 Acres", rating: 4.3, distance: 1.8, reviews: 987,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "disabled"],
+                  activities: ["walking", "photography", "picnic"],
+                  timing: "10:00 AM - 8:00 PM", status: "open", entryFee: 10,
+                  description: "Thematic garden with medicinal plants and water features",
+                  popular: false, dogFriendly: false }
+            ],
+            hyderabad: [
+                { id: 14, name: "KBR National Park", type: "national", 
+                  lat: 17.4333, lng: 78.4072, address: "Jubilee Hills, Hyderabad", 
+                  size: "390 Acres", rating: 4.6, distance: 2.1, reviews: 1678,
+                  features: ["walking", "parking", "restrooms"],
+                  activities: ["jogging", "bird", "photography"],
+                  timing: "5:30 AM - 10:00 AM, 4:00 PM - 7:00 PM", status: "open", entryFee: 20,
+                  description: "Urban national park with rich biodiversity and walking trails",
+                  popular: true, dogFriendly: false },
+                { id: 15, name: "Lumbini Park", type: "city", 
+                  lat: 17.4239, lng: 78.4738, address: "Tank Bund, Hyderabad", 
+                  size: "7.5 Acres", rating: 4.2, distance: 1.5, reviews: 1234,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "lighting"],
+                  activities: ["walking", "boating", "photography"],
+                  timing: "9:00 AM - 9:00 PM", status: "open", entryFee: 20,
+                  description: "Beautifully landscaped park with musical fountain and boat rides",
+                  popular: true, dogFriendly: false }
+            ],
+            kolkata: [
+                { id: 16, name: "Maidan", type: "city", 
+                  lat: 22.5626, lng: 88.3430, address: "Esplanade, Kolkata", 
+                  size: "400 Acres", rating: 4.5, distance: 1.2, reviews: 1890,
+                  features: ["walking", "benches", "restrooms", "food"],
+                  activities: ["jogging", "cycling", "yoga", "picnic", "photography"],
+                  timing: "Open 24 hours", status: "open", entryFee: 0,
+                  description: "Largest urban park in Kolkata, often called the lungs of the city",
+                  popular: true, dogFriendly: true },
+                { id: 17, name: "Indian Botanic Garden", type: "botanical", 
+                  lat: 22.5589, lng: 88.2892, address: "Shibpur, Howrah", 
+                  size: "273 Acres", rating: 4.7, distance: 4.5, reviews: 1456,
+                  features: ["walking", "benches", "parking", "restrooms", "food"],
+                  activities: ["walking", "photography", "bird", "picnic"],
+                  timing: "10:00 AM - 5:00 PM", status: "open", entryFee: 10,
+                  description: "Oldest botanical garden in India with 250-year-old banyan tree",
+                  popular: true, dogFriendly: false }
+            ],
+            pune: [
+                { id: 18, name: "Empress Garden", type: "botanical", 
+                  lat: 18.5314, lng: 73.8446, address: "Shivaji Nagar, Pune", 
+                  size: "39 Acres", rating: 4.4, distance: 1.8, reviews: 1234,
+                  features: ["walking", "benches", "parking", "restrooms", "food"],
+                  activities: ["walking", "photography", "picnic"],
+                  timing: "9:30 AM - 6:30 PM", status: "open", entryFee: 15,
+                  description: "Victorian-era botanical garden with rare plant species",
+                  popular: true, dogFriendly: false },
+                { id: 19, name: "Peshwe Park", type: "theme", 
+                  lat: 18.5082, lng: 73.8268, address: "Shivaji Nagar, Pune", 
+                  size: "7 Acres", rating: 4.1, distance: 2.3, reviews: 987,
+                  features: ["playground", "walking", "benches", "parking", "restrooms", "food"],
+                  activities: ["walking", "picnic"],
+                  timing: "9:00 AM - 8:00 PM", status: "open", entryFee: 10,
+                  description: "Zoo and amusement park combined with green spaces",
+                  popular: false, dogFriendly: false }
+            ],
+            jaipur: [
+                { id: 20, name: "Central Park", type: "city", 
+                  lat: 26.9124, lng: 75.7873, address: "Jawaharlal Nehru Marg, Jaipur", 
+                  size: "291 Acres", rating: 4.5, distance: 2.1, reviews: 1345,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "lighting"],
+                  activities: ["jogging", "cycling", "yoga", "picnic", "photography"],
+                  timing: "5:00 AM - 9:00 PM", status: "open", entryFee: 0,
+                  description: "Largest park in Jaipur with musical fountain and walking tracks",
+                  popular: true, dogFriendly: true },
+                { id: 21, name: "Jawahar Circle Garden", type: "city", 
+                  lat: 26.8287, lng: 75.8036, address: "Mansarovar, Jaipur", 
+                  size: "60 Acres", rating: 4.3, distance: 3.5, reviews: 876,
+                  features: ["walking", "benches", "parking", "restrooms", "food", "wifi"],
+                  activities: ["jogging", "walking", "photography"],
+                  timing: "6:00 AM - 10:00 PM", status: "open", entryFee: 0,
+                  description: "Circular garden with jogging track and musical fountain",
+                  popular: false, dogFriendly: true }
+            ]
+        };
+
+        // Park type icons and descriptions
+        const parkTypeInfo = {
+            city: { icon: "🏙️", name: "City Park", desc: "Urban green spaces" },
+            national: { icon: "🌲", name: "National Park", desc: "Protected natural areas" },
+            botanical: { icon: "🌸", name: "Botanical Garden", desc: "Plant collections" },
+            theme: { icon: "🎡", name: "Theme Park", desc: "Amusement & entertainment" },
+            wildlife: { icon: "🦁", name: "Wildlife Park", desc: "Animal habitats" }
+        };
+
+        // Feature icons
+        const featureIcons = {
+            playground: "🧒",
+            walking: "🚶",
+            benches: "🪑",
+            parking: "🅿️",
+            restrooms: "🚻",
+            food: "🍴",
+            pets: "🐕",
+            wifi: "📶",
+            lighting: "💡",
+            disabled: "♿"
+        };
+
+        // Activity icons
+        const activityIcons = {
+            jogging: "🏃",
+            cycling: "🚴",
+            yoga: "🧘",
+            picnic: "🧺",
+            bird: "🐦",
+            photography: "📸",
+            fishing: "🎣",
+            boating: "🚣"
+        };
+
+        let currentLocation = null;
+        let selectedCity = null;
+        let selectedParkType = 'all';
+        let searchRadius = 5; // in kilometers
+        let selectedActivities = ['all'];
+
+        // Initialize distance slider
+        function updateDistanceValue() {
+            searchRadius = document.getElementById('distanceSlider').value;
+            document.getElementById('distanceValue').textContent = `${searchRadius} km`;
+        }
+
+        // Get current location using GPS
+        function getCurrentLocation() {
+            const locationDisplay = document.getElementById('locationDisplay');
+            const locationButton = document.querySelector('.gps-button');
+            
+            // Show loading state
+            locationButton.innerHTML = '<span class="icon">⏳</span>Detecting Location...';
+            locationButton.disabled = true;
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // Success
+                        currentLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            accuracy: position.coords.accuracy
+                        };
+                        
+                        // Update UI
+                        document.getElementById('latitude').textContent = currentLocation.lat.toFixed(6);
+                        document.getElementById('longitude').textContent = currentLocation.lng.toFixed(6);
+                        document.getElementById('accuracy').textContent = `${Math.round(currentLocation.accuracy)} meters`;
+                        
+                        // Get address from coordinates (simulated)
+                        getAddressFromCoords(currentLocation.lat, currentLocation.lng);
+                        
+                        // Reset button
+                        locationButton.innerHTML = '<span class="icon">📍</span>Location Detected!';
+                        locationButton.style.background = 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)';
+                        
+                        // Show location display
+                        locationDisplay.classList.add('active');
+                        
+                        // Clear selected city
+                        document.getElementById('citySelect').value = '';
+                        selectedCity = null;
+                        
+                        // Show current location indicator
+                        document.getElementById('currentLocationDisplay').innerHTML = '📍 Your Current Location';
+                        
+                        // Enable search
+                        setTimeout(() => {
+                            locationButton.innerHTML = '<span class="icon">📍</span>Detect My Location';
+                            locationButton.disabled = false;
+                        }, 2000);
+                    },
+                    (error) => {
+                        // Error
+                        console.error('Error getting location:', error);
+                        alert('Unable to get your location. Please enable GPS or select a city manually.');
+                        locationButton.innerHTML = '<span class="icon">📍</span>Detect My Location';
+                        locationButton.disabled = false;
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser. Please select a city manually.');
+                locationButton.innerHTML = '<span class="icon">📍</span>Detect My Location';
+                locationButton.disabled = false;
+            }
+        }
+
+        // Simulate getting address from coordinates
+        function getAddressFromCoords(lat, lng) {
+            // This would normally call a geocoding API
+            // For demo, we'll use a simulated response
+            const addresses = [
+                "Near Juhu Beach, Mumbai",
+                "Connaught Place Area, Delhi",
+                "MG Road Area, Bangalore",
+                "Marina Beach Area, Chennai",
+                "Tank Bund Area, Hyderabad",
+                "Esplanade Area, Kolkata"
+            ];
+            
+            const randomAddress = addresses[Math.floor(Math.random() * addresses.length)];
+            document.getElementById('address').textContent = randomAddress;
+        }
+
+        // Handle city selection
+        document.getElementById('citySelect').addEventListener('change', function(e) {
+            selectedCity = e.target.value;
+            currentLocation = null;
+            
+            if (selectedCity) {
+                // Update location display with city center coordinates
+                const cityCenters = {
+                    mumbai: { lat: 19.0760, lng: 72.8777, name: "Mumbai" },
+                    delhi: { lat: 28.6139, lng: 77.2090, name: "Delhi" },
+                    bangalore: { lat: 12.9716, lng: 77.5946, name: "Bangalore" },
+                    chennai: { lat: 13.0827, lng: 80.2707, name: "Chennai" },
+                    hyderabad: { lat: 17.3850, lng: 78.4867, name: "Hyderabad" },
+                    kolkata: { lat: 22.5726, lng: 88.3639, name: "Kolkata" },
+                    pune: { lat: 18.5204, lng: 73.8567, name: "Pune" },
+                    jaipur: { lat: 26.9124, lng: 75.7873, name: "Jaipur" }
+                };
+                
+                const city = cityCenters[selectedCity];
+                currentLocation = { lat: city.lat, lng: city.lng, accuracy: 1000 };
+                
+                document.getElementById('latitude').textContent = city.lat.toFixed(6);
+                document.getElementById('longitude').textContent = city.lng.toFixed(6);
+                document.getElementById('accuracy').textContent = "City Center";
+                document.getElementById('address').textContent = `Central ${city.name}`;
+                
+                document.getElementById('locationDisplay').classList.add('active');
+                document.getElementById('currentLocationDisplay').innerHTML = `📍 ${city.name} City Center`;
+            }
+        });
+
+        // Park type selection
+        function selectParkType(type) {
+            selectedParkType = type;
+            
+            // Update UI
+            document.querySelectorAll('.park-type-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // If results are already shown, filter them
+            if (document.getElementById('resultsSection').classList.contains('active')) {
+                searchNearbyParks();
+            }
+        }
+
+        // Activity selection
+        function toggleActivity(activity) {
+            if (activity === 'all') {
+                // If "All" is clicked, clear other selections
+                selectedActivities = ['all'];
+                document.querySelectorAll('.activity-tag').forEach(tag => {
+                    tag.classList.remove('active');
+                });
+                event.currentTarget.classList.add('active');
+            } else {
+                // Remove "all" from selections
+                selectedActivities = selectedActivities.filter(a => a !== 'all');
+                
+                // Toggle the activity
+                const index = selectedActivities.indexOf(activity);
+                if (index === -1) {
+                    selectedActivities.push(activity);
+                    event.currentTarget.classList.add('active');
+                } else {
+                    selectedActivities.splice(index, 1);
+                    event.currentTarget.classList.remove('active');
+                }
+                
+                // If no activities selected, select "all"
+                if (selectedActivities.length === 0) {
+                    selectedActivities = ['all'];
+                    document.querySelector('.activity-tag').classList.add('active');
+                }
+            }
+            
+            // If results are already shown, filter them
+            if (document.getElementById('resultsSection').classList.contains('active')) {
+                searchNearbyParks();
+            }
+        }
+
+        // Get selected features
+        function getSelectedFeatures() {
+            const features = [];
+            const checkboxes = [
+                'featurePlayground', 'featureWalking', 'featureBenches', 'featureParking',
+                'featureRestrooms', 'featureFood', 'featurePets', 'featureWiFi',
+                'featureLighting', 'featureDisabled'
+            ];
+            
+            checkboxes.forEach(id => {
+                if (document.getElementById(id).checked) {
+                    features.push(id.replace('feature', '').toLowerCase());
+                }
+            });
+            
+            return features;
+        }
+
+        // Search for nearby parks
+        function searchNearbyParks() {
+            if (!currentLocation && !selectedCity) {
+                alert('Please select your location or enable GPS first.');
+                return;
+            }
+            
+            // Show results section
+            document.getElementById('resultsSection').classList.add('active');
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('noResults').style.display = 'none';
+            document.getElementById('parksGrid').innerHTML = '';
+            
+            // Get parks based on selection
+            let parks = [];
+            if (selectedCity && cityParks[selectedCity]) {
+                parks = [...cityParks[selectedCity]];
+            } else {
+                // For GPS location, combine parks from all cities
+                Object.values(cityParks).forEach(cityParks => {
+                    parks.push(...cityParks);
+                });
+                
+                // Simulate distance calculation
+                parks.forEach(park => {
+                    // In real app, calculate actual distance using Haversine formula
+                    park.distance = Math.random() * searchRadius;
+                });
+            }
+            
+            // Simulate API delay
+            setTimeout(() => {
+                displayParks(parks);
+            }, 1000);
+        }
+
+        // Display parks
+        function displayParks(parks) {
+            const parksGrid = document.getElementById('parksGrid');
+            const loading = document.getElementById('loading');
+            const noResults = document.getElementById('noResults');
+            
+            loading.style.display = 'none';
+            parksGrid.innerHTML = '';
+            
+            // Filter by distance
+            const filteredParks = parks.filter(park => park.distance <= searchRadius);
+            
+            // Filter by park type if not 'all'
+            let typeFiltered = filteredParks;
+            if (selectedParkType !== 'all') {
+                typeFiltered = filteredParks.filter(park => park.type === selectedParkType);
+            }
+            
+            // Filter by features
+            const selectedFeatures = getSelectedFeatures();
+            let featureFiltered = typeFiltered;
+            
+            if (selectedFeatures.length > 0) {
+                featureFiltered = typeFiltered.filter(park => {
+                    return selectedFeatures.every(feature => park.features.includes(feature));
+                });
+            }
+            
+            // Filter by activities
+            let activityFiltered = featureFiltered;
+            if (!selectedActivities.includes('all') && selectedActivities.length > 0) {
+                activityFiltered = featureFiltered.filter(park => {
+                    return selectedActivities.some(activity => park.activities.includes(activity));
+                });
+            }
+            
+            if (activityFiltered.length === 0) {
+                noResults.style.display = 'block';
+                document.getElementById('resultsCount').textContent = '0 parks found';
+                return;
+            }
+            
+            document.getElementById('resultsCount').textContent = `${activityFiltered.length} parks found`;
+            
+            // Sort by distance
+            activityFiltered.sort((a, b) => a.distance - b.distance);
+            
+            // Display parks
+            activityFiltered.forEach(park => {
+                const parkCard = createParkCard(park);
+                parksGrid.appendChild(parkCard);
+            });
+            
+            // Update results title
+            const parkTypeName = selectedParkType === 'all' ? 'Parks & Gardens' : parkTypeInfo[selectedParkType].name;
+            document.getElementById('resultsTitle').textContent = `Nearby ${parkTypeName}`;
+            
+            // Add tree animation to park images
+            document.querySelectorAll('.park-image').forEach(img => {
+                const treeAnim = document.createElement('div');
+                treeAnim.className = 'tree-animation';
+                img.appendChild(treeAnim);
+            });
+        }
+
+        // Create park card HTML
+        function createParkCard(park) {
+            const card = document.createElement('div');
+            card.className = 'park-card';
+            
+            // Generate features list
+            const featuresHtml = park.features.map(feature => {
+                const icon = featureIcons[feature] || '✅';
+                const label = feature.charAt(0).toUpperCase() + feature.slice(1);
+                return `<span class="feature">${icon} ${label}</span>`;
+            }).join('');
+            
+            // Generate activities list
+            const activitiesHtml = park.activities.map(activity => {
+                const icon = activityIcons[activity] || '✅';
+                const label = activity.charAt(0).toUpperCase() + activity.slice(1);
+                return `<span class="activity-item">${icon} ${label}</span>`;
+            }).join('');
+            
+            card.innerHTML = `
+                <div class="park-image">
+                    ${park.popular ? '<div class="popular-badge">⭐ Popular</div>' : ''}
+                    ${park.dogFriendly ? '<div class="dog-friendly">🐕 Dog Friendly</div>' : ''}
+                    <div class="entry-fee ${park.entryFee === 0 ? 'free' : ''}">${park.entryFee === 0 ? 'Free Entry' : `Entry: ₹${park.entryFee}`}</div>
+                    <div class="park-type">${parkTypeInfo[park.type].icon} ${park.type.toUpperCase()}</div>
+                    <div class="park-distance">${park.distance.toFixed(1)} km</div>
+                </div>
+                <div class="park-content">
+                    <div class="park-header">
+                        <div>
+                            <div class="park-name">${park.name}</div>
+                            <div class="park-address">📍 ${park.address}</div>
+                        </div>
+                        <div class="park-size">${park.size}</div>
+                    </div>
+                    
+                    <div class="park-rating">
+                        <span class="stars">${'★'.repeat(Math.floor(park.rating))}${'☆'.repeat(5 - Math.floor(park.rating))}</span>
+                        <span class="rating-value">${park.rating}</span>
+                        <span class="review-count">(${park.reviews} reviews)</span>
+                    </div>
+                    
+                    <div style="color: #718096; font-size: 0.95rem; margin-bottom: 15px;">
+                        ${park.description}
+                    </div>
+                    
+                    <div class="park-features">
+                        ${featuresHtml}
+                    </div>
+                    
+                    <div class="park-activities">
+                        <div class="activities-title">🏃 Popular Activities:</div>
+                        <div class="activities-list">
+                            ${activitiesHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="park-timing">
+                        🕒 Open: ${park.timing}
+                    </div>
+                    
+                    <div class="park-footer">
+                        <div class="park-status">
+                            <span class="${park.status === 'open' ? 'status-open' : 'status-closed'}">
+                                ● ${park.status === 'open' ? 'Open Now' : 'Closed'}
+                            </span>
+                        </div>
+                        <button class="visit-button" onclick="visitPark(${park.id})">
+                            <span>📍</span> Get Directions
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Visit park button click
+        function visitPark(parkId) {
+            // Find the park
+            let park;
+            for (const city in cityParks) {
+                const found = cityParks[city].find(p => p.id === parkId);
+                if (found) {
+                    park = found;
+                    break;
+                }
+            }
+            
+            if (park) {
+                alert(`📍 Getting Directions to:\n\n` +
+                      `${park.name}\n` +
+                      `Type: ${parkTypeInfo[park.type].name}\n` +
+                      `Size: ${park.size}\n` +
+                      `Entry Fee: ${park.entryFee === 0 ? 'Free' : `₹${park.entryFee}`}\n` +
+                      `Address: ${park.address}\n` +
+                      `Rating: ${park.rating} ⭐\n` +
+                      `Timing: ${park.timing}\n\n` +
+                      `Opening directions in maps...`);
+                
+                // In a real app, you would open Google Maps with directions
+                // const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${park.lat},${park.lng}`;
+                // window.open(mapsUrl, '_blank');
+            }
+        }
+
+        // Initialize
+        updateDistanceValue();
+    </script>
+</body>
+</html>
