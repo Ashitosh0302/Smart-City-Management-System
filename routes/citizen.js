@@ -20,11 +20,14 @@ const {park,housing,swimming,ground} = require("../controllers/servies")
 const {bus} = require("../controllers/bus")
 const {train} = require("../controllers/train")
 const {metro} = require("../controllers/metro")
+const {AUTH_MIDDLEWARE,CITIZEN_ONLY}=require("../middlewares/auth_middlewares")
 
 //home and register
-router.get("/", citizen_home);
 router.get("/citizen_register", citizen_register_page);
 router.post("/citizen_register", citizen_register);
+
+router.use(AUTH_MIDDLEWARE, CITIZEN_ONLY);
+router.get("/", citizen_home);
 
 //water
 router.get("/complaints/water",Water_Complaints)

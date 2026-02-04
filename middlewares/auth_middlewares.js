@@ -4,36 +4,30 @@ exports.AUTH_MIDDLEWARE = (req, res, next) =>
 {
     try
     {
-        const authHeader = req.headers.authorization;
-
-        if(!authHeader)
-        {
-            return res.status(401).json({
-                success: false,
-                message: "Authorization token missing"
-            });
-        }
-
-        const token = authHeader.split(" ")[1];
+        const token = req.cookies.token;
 
         if(!token)
         {
-            return res.status(401).json({
-                success: false,
-                message: "Invalid authorization format"
-            });
+            return res.redirect("/login");
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
         req.user = decoded;
+
         next();
     }
     catch(error)
     {
-        return res.status(401).json({
-            success: false,
-            message: "Unauthorized access"
-        });
+        res.clearCookie("token");
+        return res.redirect("/login");
     }
+};
+
+exports.CITIZEN_ONLY = (req, res, next) =>
+{
+    if(req.user.role !== "citizen")
+    {
+        return res.status(403).send("Access denied");
+    }
+    next();
 };

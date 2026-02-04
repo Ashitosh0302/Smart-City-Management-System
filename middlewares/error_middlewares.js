@@ -1,7 +1,5 @@
-exports.ERROR_HANDLER = (err, req, res, next) =>
-{
+exports.ERROR_HANDLER = (err, req, res, next) => {
     const statusCode = err.status || 500;
-
     res.status(statusCode).json({
         success: false,
         message: err.message || "Internal Server Error"

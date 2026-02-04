@@ -1,12 +1,11 @@
 const bcrypt = require("bcryptjs");
 const Citizen = require("../models/citizen");
 
-async function citizen_home(req,res) {
-    if (!req.session.citizen) {
-        return res.redirect("/login");
-    }
-
-    return res.render("citizen_dashboard", { citizen: req.session.citizen });
+async function citizen_home(req, res)
+{
+    return res.render("citizen_dashboard", {
+        citizen: req.user
+    });
 }
 
 async function citizen_register_page(req, res)
@@ -58,14 +57,7 @@ async function citizen_register(req, res)
                 });
             }
 
-            req.session.citizen = {
-                id: user.id,
-                full_name: user.full_name,
-                username: user.username,
-                email: user.email
-            };
-
-            res.redirect("/");
+            return res.redirect("/login");
         }
     );
 }
