@@ -467,8 +467,8 @@
         
         .station-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
             margin: 20px 0;
             max-height: 300px;
             overflow-y: auto;
@@ -478,9 +478,11 @@
         }
         
         .station-item {
-            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
             background: white;
-            border-radius: 6px;
+            border-radius: 8px;
             border-left: 4px solid #e65100;
             cursor: pointer;
             transition: all 0.3s;
@@ -491,15 +493,34 @@
             background: #fff3e0;
         }
         
+        .station-line-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .station-details {
+            flex: 1;
+        }
+        
+        .station-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+        
+        .station-line-name {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
         .station-number {
             font-weight: 600;
             color: #e65100;
             margin-right: 10px;
-        }
-        
-        .station-name {
-            font-weight: 500;
-            color: #333;
         }
         
         .interchange-badge {
@@ -509,6 +530,34 @@
             border-radius: 4px;
             font-size: 0.8rem;
             margin-left: 10px;
+        }
+        
+        .station-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            gap: 10px;
+        }
+        
+        .station-option .station-line-indicator {
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+        }
+        
+        .station-option-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .station-option-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .station-option-line {
+            font-size: 0.8rem;
+            color: #666;
         }
         
         @media (max-width: 992px) {
@@ -578,6 +627,130 @@
             margin-bottom: 20px;
             font-weight: 600;
         }
+        
+        /* Custom dropdown styling for station selection */
+        .custom-select-wrapper {
+            position: relative;
+        }
+        
+        .custom-select {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .custom-select.show {
+            display: block;
+        }
+        
+        .custom-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .custom-option:last-child {
+            border-bottom: none;
+        }
+        
+        .custom-option:hover {
+            background: #fff3e0;
+        }
+        
+        .custom-option.selected {
+            background: #fff3e0;
+            font-weight: 600;
+        }
+        
+        .option-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .option-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .option-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .option-line {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* Style for the select dropdown that shows the colored circle */
+        .styled-select {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .styled-select:after {
+            content: '▼';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .styled-select.open:after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .styled-select:hover {
+            border-color: #e65100;
+        }
+        
+        .selected-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .selected-text {
+            flex: 1;
+            text-align: left;
+            color: #333;
+        }
+        
+        .selected-text.placeholder {
+            color: #999;
+        }
+        
+        .styled-select.open {
+            border-color: #e65100;
+            box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -591,7 +764,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="city">Select City</label>
-                    <select id="city" onchange="updateMetroLines()">
+                    <select id="city" onchange="updateStations()">
                         <option value="">-- Select City --</option>
                         <option value="delhi">Delhi Metro</option>
                         <option value="mumbai">Mumbai Metro</option>
@@ -599,35 +772,54 @@
                         <option value="bangalore">Bangalore Metro (Namma Metro)</option>
                         <option value="kolkata">Kolkata Metro</option>
                         <option value="hyderabad">Hyderabad Metro</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="metroLine">Metro Line</label>
-                    <select id="metroLine" onchange="updateStations()" disabled>
-                        <option value="">-- Select Metro Line --</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="fromStation">From Station</label>
-                    <select id="fromStation" onchange="updateToStations()" disabled>
-                        <option value="">-- Select Station --</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="toStation">To Station</label>
-                    <select id="toStation" disabled>
-                        <option value="">-- Select Station --</option>
+                        <option value="pune">Pune Metro</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label for="date">Travel Date</label>
                     <input type="date" id="date" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>From Station</label>
+                    <div class="custom-select-wrapper">
+                        <div class="styled-select" id="fromStationToggle" onclick="toggleCustomSelect('from')">
+                            <div class="selected-circle" id="fromStationCircle" style="display: none;"></div>
+                            <div class="selected-text placeholder" id="fromStationText">-- Select Station --</div>
+                        </div>
+                        <div class="custom-select" id="fromStationSelect">
+                            <!-- Options will be added here -->
+                        </div>
+                    </div>
+                    <input type="hidden" id="fromStation" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label>To Station</label>
+                    <div class="custom-select-wrapper">
+                        <div class="styled-select" id="toStationToggle" onclick="toggleCustomSelect('to')">
+                            <div class="selected-circle" id="toStationCircle" style="display: none;"></div>
+                            <div class="selected-text placeholder" id="toStationText">-- Select Station --</div>
+                        </div>
+                        <div class="custom-select" id="toStationSelect">
+                            <!-- Options will be added here -->
+                        </div>
+                    </div>
+                    <input type="hidden" id="toStation" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="passengers">Passengers</label>
+                    <select id="passengers">
+                        <option value="1">1 Passenger</option>
+                        <option value="2">2 Passengers</option>
+                        <option value="3">3 Passengers</option>
+                        <option value="4">4 Passengers</option>
+                        <option value="5">5 Passengers</option>
+                    </select>
                 </div>
             </div>
             
@@ -655,17 +847,6 @@
             </div>
             
             <div class="form-row">
-                <div class="form-group">
-                    <label for="passengers">Passengers</label>
-                    <select id="passengers">
-                        <option value="1">1 Passenger</option>
-                        <option value="2">2 Passengers</option>
-                        <option value="3">3 Passengers</option>
-                        <option value="4">4 Passengers</option>
-                        <option value="5">5 Passengers</option>
-                    </select>
-                </div>
-                
                 <div class="form-group">
                     <label for="journeyTime">Preferred Time</label>
                     <select id="journeyTime">
@@ -729,140 +910,115 @@
             delhi: {
                 name: "Delhi Metro",
                 lines: [
-                    { id: "red", name: "Red Line", color: "#ff0000", stations: 29 },
-                    { id: "yellow", name: "Yellow Line", color: "#ffff00", stations: 37 },
-                    { id: "blue", name: "Blue Line", color: "#0000ff", stations: 50 },
-                    { id: "violet", name: "Violet Line", color: "#8a2be2", stations: 34 },
-                    { id: "pink", name: "Pink Line", color: "#ff69b4", stations: 38 },
-                    { id: "magenta", name: "Magenta Line", color: "#ff00ff", stations: 25 },
-                    { id: "orange", name: "Orange Line", color: "#ffa500", stations: 6 },
-                    { id: "green", name: "Green Line", color: "#008000", stations: 21 }
+                    { id: "red", name: "Red Line", color: "#ff0000" },
+                    { id: "yellow", name: "Yellow Line", color: "#ffff00" },
+                    { id: "blue", name: "Blue Line", color: "#0000ff" },
+                    { id: "violet", name: "Violet Line", color: "#8a2be2" },
+                    { id: "pink", name: "Pink Line", color: "#ff69b4" },
+                    { id: "magenta", name: "Magenta Line", color: "#ff00ff" },
+                    { id: "orange", name: "Orange Line", color: "#ffa500" },
+                    { id: "green", name: "Green Line", color: "#008000" }
                 ]
             },
             mumbai: {
                 name: "Mumbai Metro",
                 lines: [
-                    { id: "line1", name: "Line 1 (Versova-Ghatkopar)", color: "#4169e1", stations: 12 },
-                    { id: "line2a", name: "Line 2A (Dahisar-DN Nagar)", color: "#ff4500", stations: 18 },
-                    { id: "line7", name: "Line 7 (Dahisar E-Andheri E)", color: "#800080", stations: 13 },
-                    { id: "line3", name: "Line 3 (Colaba-Bandra-SEEPZ)", color: "#ffd700", stations: 27 }
+                    { id: "line1", name: "Line 1 (Versova-Ghatkopar)", color: "#4169e1" },
+                    { id: "line2a", name: "Line 2A (Dahisar-DN Nagar)", color: "#ff4500" },
+                    { id: "line7", name: "Line 7 (Dahisar E-Andheri E)", color: "#800080" },
+                    { id: "line3", name: "Line 3 (Colaba-Bandra-SEEPZ)", color: "#ffd700" }
                 ]
             },
             chennai: {
                 name: "Chennai Metro",
                 lines: [
-                    { id: "blue", name: "Blue Line", color: "#0000ff", stations: 17 },
-                    { id: "green", name: "Green Line", color: "#008000", stations: 16 }
+                    { id: "blue", name: "Blue Line", color: "#0000ff" },
+                    { id: "green", name: "Green Line", color: "#008000" }
                 ]
             },
             bangalore: {
                 name: "Namma Metro",
                 lines: [
-                    { id: "purple", name: "Purple Line", color: "#800080", stations: 18 },
-                    { id: "green", name: "Green Line", color: "#008000", stations: 30 },
-                    { id: "yellow", name: "Yellow Line", color: "#ffff00", stations: 16 }
+                    { id: "purple", name: "Purple Line", color: "#800080" },
+                    { id: "green", name: "Green Line", color: "#008000" },
+                    { id: "yellow", name: "Yellow Line", color: "#ffff00" }
                 ]
             },
             kolkata: {
                 name: "Kolkata Metro",
                 lines: [
-                    { id: "blue", name: "North-South Line", color: "#0000ff", stations: 26 },
-                    { id: "green", name: "East-West Line", color: "#008000", stations: 12 },
-                    { id: "purple", name: "Purple Line", color: "#800080", stations: 6 }
+                    { id: "blue", name: "North-South Line", color: "#0000ff" },
+                    { id: "green", name: "East-West Line", color: "#008000" },
+                    { id: "purple", name: "Purple Line", color: "#800080" }
                 ]
             },
             hyderabad: {
                 name: "Hyderabad Metro",
                 lines: [
-                    { id: "red", name: "Red Line", color: "#ff0000", stations: 27 },
-                    { id: "blue", name: "Blue Line", color: "#0000ff", stations: 23 },
-                    { id: "green", name: "Green Line", color: "#008000", stations: 20 }
+                    { id: "red", name: "Red Line", color: "#ff0000" },
+                    { id: "blue", name: "Blue Line", color: "#0000ff" },
+                    { id: "green", name: "Green Line", color: "#008000" }
+                ]
+            },
+            pune: {
+                name: "Pune Metro",
+                lines: [
+                    { id: "purple", name: "Purple Line", color: "#800080" },
+                    { id: "aqua", name: "Aqua Line", color: "#00bfff" }
                 ]
             }
         };
 
-        // Station data for each metro line
+        // Station data for each city
         const stationData = {
-            delhi: {
-                red: [
-                    "Shaheed Sthal", "Mohan Nagar", "Shyam Park", "Major Mohit Sharma",
-                    "Raj Bagh", "Shaheed Nagar", "Dilshad Garden", "Jhil Mil",
-                    "Mansarovar Park", "Shahdara", "Welcome", "Seelampur",
-                    "Shastri Park", "Kashmere Gate", "Tis Hazari", "Pul Bangash",
-                    "Pratap Nagar", "Shastri Nagar", "Inderlok", "Kanhiya Nagar",
-                    "Keshav Puram", "Netaji Subhash Place", "Kohat Enclave",
-                    "Pitampura", "Rohini East", "Rohini West", "Rithala"
-                ],
-                yellow: [
-                    "Samaypur Badli", "Rohini Sector 18", "Haiderpur Badli Mor",
-                    "Jahangirpuri", "Adarsh Nagar", "Azadpur", "Model Town",
-                    "GTB Nagar", "Vishwa Vidyalaya", "Vidhan Sabha", "Civil Lines",
-                    "Kashmere Gate", "Chandni Chowk", "Chawri Bazar", "New Delhi",
-                    "Rajiv Chowk", "Patel Chowk", "Central Secretariat", "Udyog Bhawan",
-                    "Lok Kalyan Marg", "Jor Bagh", "Dilli Haat INA", "AIIMS",
-                    "Green Park", "Hauz Khas", "Malviya Nagar", "Saket",
-                    "Qutab Minar", "Chhatarpur", "Sultanpur", "Ghitorni",
-                    "Arjan Garh", "Guru Dronacharya", "Sikandarpur", "MG Road",
-                    "IFFCO Chowk", "Huda City Centre"
-                ],
-                blue: [
-                    "Dwarka Sector 21", "Dwarka Sector 8", "Dwarka Sector 9",
-                    "Dwarka Sector 10", "Dwarka Sector 11", "Dwarka Sector 12",
-                    "Dwarka Sector 13", "Dwarka Sector 14", "Dwarka",
-                    "Dwarka Mor", "Nawada", "Uttam Nagar West",
-                    "Uttam Nagar East", "Janakpuri West", "Janakpuri East",
-                    "Tilak Nagar", "Subhash Nagar", "Tagore Garden",
-                    "Rajouri Garden", "Ramesh Nagar", "Moti Nagar",
-                    "Kirti Nagar", "Shadipur", "Patel Nagar",
-                    "Rajendra Place", "Karol Bagh", "Jhandewalan",
-                    "R K Ashram Marg", "Rajiv Chowk", "Barakhamba Road",
-                    "Mandi House", "Supreme Court", "Indraprastha",
-                    "Yamuna Bank", "Akshardham", "Mayur Vihar Phase-1",
-                    "Mayur Vihar Extention", "New Ashok Nagar",
-                    "Noida Sector 15", "Noida Sector 16",
-                    "Noida Sector 18", "Botanical Garden",
-                    "Golf Course", "Noida City Centre",
-                    "Noida Sector 34", "Noida Sector 52",
-                    "Noida Sector 61", "Noida Sector 59",
-                    "Noida Sector 62", "Noida Electronic City"
-                ]
-            },
-            mumbai: {
-                line1: [
-                    "Versova", "D N Nagar", "Azad Nagar", "Andheri",
-                    "Western Express Highway", "Chakala", "Airport Road",
-                    "Marol Naka", "Saki Naka", "Asalpha", "Jagruti Nagar",
-                    "Ghatkopar"
-                ],
-                line2a: [
-                    "Dahisar", "Anand Nagar", "Eksar", "Borivali West",
-                    "Pahadi Eksar", "Kandarpada", "Mandapeshwar",
-                    "Evershine Nagar", "Nancy Colony", "D.N. Nagar",
-                    "Subhash Nagar", "Tagore Nagar", "Vazira Naka",
-                    "Sanjay Gandhi National Park", "Mahatma Phule Chowk",
-                    "Adarsha Nagar", "Ahilyabai Holkar Chowk", "Mominpada"
-                ]
-            },
-            bangalore: {
-                purple: [
-                    "Baiyappanahalli", "Swami Vivekananda Road", "Indiranagar",
-                    "Halasuru", "Trinity", "MG Road", "Cubbon Park",
-                    "Vidhana Soudha", "Sir M. Visveshwaraya", "Majestic",
-                    "City Railway Station", "Magadi Road", "Srirampura",
-                    "Kengeri", "Rajajinagar", "Mahalakshmi", "Sandal Soap Factory",
-                    "Yeshwanthpur"
-                ],
-                green: [
-                    "Nagasandra", "Dasarahalli", "Jalahalli", "Peenya Industry",
-                    "Peenya", "Goraguntepalya", "Yeshwanthpur", "Sandal Soap Factory",
-                    "Mahalakshmi", "Rajajinagar", "Kuvempu Road", "Srirampura",
-                    "Sampige Road", "Majestic", "Chikpete", "Krishna Rajendra Market",
-                    "National College", "Lalbagh", "South End Circle",
-                    "Jayanagar", "R.V. Road", "Banashankari", "J.P. Nagar",
-                    "Yelachenahalli", "Konanakunte Cross", "Doddakallasandra",
-                    "Vajarahalli", "Talaghattapura", "Silk Institute"
-                ]
-            }
+            delhi: [
+                { name: "Shaheed Sthal", line: "red", lineColor: "#ff0000", lineName: "Red Line" },
+                { name: "Mohan Nagar", line: "red", lineColor: "#ff0000", lineName: "Red Line" },
+                { name: "Kashmere Gate", line: "red", lineColor: "#ff0000", lineName: "Red Line" },
+                { name: "Kashmere Gate", line: "yellow", lineColor: "#ffff00", lineName: "Yellow Line" },
+                { name: "Rajiv Chowk", line: "yellow", lineColor: "#ffff00", lineName: "Yellow Line" },
+                { name: "Rajiv Chowk", line: "blue", lineColor: "#0000ff", lineName: "Blue Line" },
+                { name: "Dwarka Sector 21", line: "blue", lineColor: "#0000ff", lineName: "Blue Line" }
+            ],
+            mumbai: [
+                { name: "Versova", line: "line1", lineColor: "#4169e1", lineName: "Line 1" },
+                { name: "Andheri", line: "line1", lineColor: "#4169e1", lineName: "Line 1" },
+                { name: "Ghatkopar", line: "line1", lineColor: "#4169e1", lineName: "Line 1" },
+                { name: "Dahisar", line: "line2a", lineColor: "#ff4500", lineName: "Line 2A" }
+            ],
+            bangalore: [
+                { name: "Baiyappanahalli", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "MG Road", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "Majestic", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "Majestic", line: "green", lineColor: "#008000", lineName: "Green Line" },
+                { name: "Nagasandra", line: "green", lineColor: "#008000", lineName: "Green Line" }
+            ],
+            pune: [
+                { name: "KASARWADI", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "PHUGEWADI", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "DAPODI", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "BOPODI", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "KHADKI", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "SHIVAJI NAGAR", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "DISTRICT COURT, PUNE", line: "purple", lineColor: "#800080", lineName: "Purple Line" },
+                { name: "VANAZ", line: "aqua", lineColor: "#00bfff", lineName: "Aqua Line" },
+                { name: "ANAND NAGAR", line: "aqua", lineColor: "#00bfff", lineName: "Aqua Line" },
+                { name: "RUBY HALL CLINIC", line: "aqua", lineColor: "#00bfff", lineName: "Aqua Line" },
+                { name: "RAMWADI", line: "aqua", lineColor: "#00bfff", lineName: "Aqua Line" }
+            ],
+            hyderabad: [
+                { name: "Miyapur", line: "red", lineColor: "#ff0000", lineName: "Red Line" },
+                { name: "Ameerpet", line: "red", lineColor: "#ff0000", lineName: "Red Line" },
+                { name: "Ameerpet", line: "blue", lineColor: "#0000ff", lineName: "Blue Line" }
+            ],
+            chennai: [
+                { name: "Airport", line: "blue", lineColor: "#0000ff", lineName: "Blue Line" },
+                { name: "Central", line: "blue", lineColor: "#0000ff", lineName: "Blue Line" }
+            ],
+            kolkata: [
+                { name: "Dum Dum", line: "blue", lineColor: "#0000ff", lineName: "North-South Line" },
+                { name: "Esplanade", line: "blue", lineColor: "#0000ff", lineName: "North-South Line" }
+            ]
         };
 
         // Ticket types
@@ -883,75 +1039,182 @@
 
         let selectedTicketType = 'single';
         let nextMetroTimer;
+        let currentOpenSelect = null;
 
-        function updateMetroLines() {
-            const city = document.getElementById('city').value;
-            const lineSelect = document.getElementById('metroLine');
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (currentOpenSelect && !event.target.closest('.custom-select-wrapper')) {
+                closeAllSelects();
+            }
+        });
+
+        function closeAllSelects() {
+            document.querySelectorAll('.custom-select').forEach(select => {
+                select.classList.remove('show');
+            });
+            document.querySelectorAll('.styled-select').forEach(select => {
+                select.classList.remove('open');
+            });
+            currentOpenSelect = null;
+        }
+
+        function toggleCustomSelect(type) {
+            const select = document.getElementById(`${type}StationSelect`);
+            const toggle = document.getElementById(`${type}StationToggle`);
             
-            if (city) {
-                lineSelect.disabled = false;
-                lineSelect.innerHTML = '<option value="">-- Select Metro Line --</option>';
-                
-                metroSystems[city].lines.forEach(line => {
-                    const option = document.createElement('option');
-                    option.value = line.id;
-                    option.textContent = line.name;
-                    option.style.color = line.color;
-                    lineSelect.appendChild(option);
-                });
+            // Close other open selects
+            if (currentOpenSelect && currentOpenSelect !== select) {
+                closeAllSelects();
+            }
+            
+            if (select.classList.contains('show')) {
+                select.classList.remove('show');
+                toggle.classList.remove('open');
+                currentOpenSelect = null;
             } else {
-                lineSelect.disabled = true;
-                lineSelect.innerHTML = '<option value="">-- Select Metro Line --</option>';
+                select.classList.add('show');
+                toggle.classList.add('open');
+                currentOpenSelect = select;
             }
         }
 
         function updateStations() {
             const city = document.getElementById('city').value;
-            const line = document.getElementById('metroLine').value;
-            const stationSelect = document.getElementById('fromStation');
+            const fromSelect = document.getElementById('fromStationSelect');
+            const toSelect = document.getElementById('toStationSelect');
             
-            if (city && line && stationData[city] && stationData[city][line]) {
-                stationSelect.disabled = false;
-                stationSelect.innerHTML = '<option value="">-- Select Station --</option>';
+            // Reset selections
+            document.getElementById('fromStation').value = '';
+            document.getElementById('toStation').value = '';
+            document.getElementById('fromStationText').textContent = '-- Select Station --';
+            document.getElementById('fromStationText').className = 'selected-text placeholder';
+            document.getElementById('toStationText').textContent = '-- Select Station --';
+            document.getElementById('toStationText').className = 'selected-text placeholder';
+            document.getElementById('fromStationCircle').style.display = 'none';
+            document.getElementById('toStationCircle').style.display = 'none';
+            
+            if (city && stationData[city]) {
+                // Clear existing options
+                fromSelect.innerHTML = '';
+                toSelect.innerHTML = '';
                 
-                stationData[city][line].forEach((station, index) => {
-                    const option = document.createElement('option');
-                    option.value = station;
-                    option.textContent = `${index + 1}. ${station}`;
-                    stationSelect.appendChild(option);
+                // Get unique stations for this city
+                const cityStations = stationData[city];
+                const uniqueStations = [...new Set(cityStations.map(s => s.name))];
+                
+                // Populate from station dropdown
+                uniqueStations.forEach((stationName, index) => {
+                    // Find first occurrence to get line info
+                    const stationInfo = cityStations.find(s => s.name === stationName);
+                    
+                    const option = document.createElement('div');
+                    option.className = 'custom-option';
+                    option.innerHTML = `
+                        <div class="option-circle" style="background: ${stationInfo.lineColor}"></div>
+                        <div class="option-text">
+                            <div class="option-name">${stationName}</div>
+                            <div class="option-line">${stationInfo.lineName}</div>
+                        </div>
+                    `;
+                    
+                    option.onclick = function() {
+                        selectStation('from', stationName, stationInfo.lineColor, stationInfo.lineName);
+                        closeAllSelects();
+                    };
+                    
+                    fromSelect.appendChild(option);
+                });
+                
+                // Populate to station dropdown
+                uniqueStations.forEach((stationName, index) => {
+                    const stationInfo = cityStations.find(s => s.name === stationName);
+                    
+                    const option = document.createElement('div');
+                    option.className = 'custom-option';
+                    option.innerHTML = `
+                        <div class="option-circle" style="background: ${stationInfo.lineColor}"></div>
+                        <div class="option-text">
+                            <div class="option-name">${stationName}</div>
+                            <div class="option-line">${stationInfo.lineName}</div>
+                        </div>
+                    `;
+                    
+                    option.onclick = function() {
+                        selectStation('to', stationName, stationInfo.lineColor, stationInfo.lineName);
+                        closeAllSelects();
+                    };
+                    
+                    toSelect.appendChild(option);
                 });
             } else {
-                stationSelect.disabled = true;
-                stationSelect.innerHTML = '<option value="">-- Select Station --</option>';
+                fromSelect.innerHTML = '';
+                toSelect.innerHTML = '';
+            }
+            
+            // Close any open selects
+            closeAllSelects();
+        }
+
+        function selectStation(type, stationName, lineColor, lineName) {
+            const hiddenInput = document.getElementById(`${type}Station`);
+            const toggleText = document.getElementById(`${type}StationText`);
+            const toggleCircle = document.getElementById(`${type}StationCircle`);
+            
+            hiddenInput.value = stationName;
+            toggleText.textContent = stationName;
+            toggleText.className = 'selected-text';
+            toggleCircle.style.backgroundColor = lineColor;
+            toggleCircle.style.display = 'block';
+            
+            // Update selected option styling
+            const select = document.getElementById(`${type}StationSelect`);
+            select.querySelectorAll('.custom-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.querySelector('.option-name').textContent === stationName) {
+                    option.classList.add('selected');
+                }
+            });
+            
+            // If selecting from station, update to station options to exclude selected station
+            if (type === 'from') {
+                updateToStationOptions(stationName);
             }
         }
 
-        function updateToStations() {
+        function updateToStationOptions(selectedFromStation) {
             const city = document.getElementById('city').value;
-            const line = document.getElementById('metroLine').value;
-            const fromStation = document.getElementById('fromStation').value;
-            const toSelect = document.getElementById('toStation');
+            const toSelect = document.getElementById('toStationSelect');
             
-            if (city && line && fromStation && stationData[city] && stationData[city][line]) {
-                toSelect.disabled = false;
-                toSelect.innerHTML = '<option value="">-- Select Station --</option>';
+            if (!city || !selectedFromStation) return;
+            
+            toSelect.innerHTML = '';
+            
+            const cityStations = stationData[city];
+            const uniqueStations = [...new Set(cityStations.map(s => s.name))];
+            
+            // Remove the selected from station from to station options
+            const availableStations = uniqueStations.filter(station => station !== selectedFromStation);
+            
+            availableStations.forEach(stationName => {
+                const stationInfo = cityStations.find(s => s.name === stationName);
                 
-                const stations = stationData[city][line];
-                const fromIndex = stations.indexOf(fromStation);
+                const option = document.createElement('div');
+                option.className = 'custom-option';
+                option.innerHTML = `
+                    <div class="option-circle" style="background: ${stationInfo.lineColor}"></div>
+                    <div class="option-text">
+                        <div class="option-name">${stationName}</div>
+                        <div class="option-line">${stationInfo.lineName}</div>
+                    </div>
+                `;
                 
-                // Show only stations after the selected from station
-                stations.forEach((station, index) => {
-                    if (index > fromIndex) {
-                        const option = document.createElement('option');
-                        option.value = station;
-                        option.textContent = `${index + 1}. ${station}`;
-                        toSelect.appendChild(option);
-                    }
-                });
-            } else {
-                toSelect.disabled = true;
-                toSelect.innerHTML = '<option value="">-- Select Station --</option>';
-            }
+                option.onclick = function() {
+                    selectStation('to', stationName, stationInfo.lineColor, stationInfo.lineName);
+                    closeAllSelects();
+                };
+                
+                toSelect.appendChild(option);
+            });
         }
 
         function selectTicketType(type) {
@@ -992,7 +1255,6 @@
 
         function searchMetros() {
             const city = document.getElementById('city').value;
-            const line = document.getElementById('metroLine').value;
             const fromStation = document.getElementById('fromStation').value;
             const toStation = document.getElementById('toStation').value;
             const date = document.getElementById('date').value;
@@ -1000,8 +1262,8 @@
             const journeyTime = document.getElementById('journeyTime').value;
             
             // Validation
-            if (!city || !line || !fromStation || !toStation) {
-                alert('Please select city, metro line, and both stations');
+            if (!city || !fromStation || !toStation) {
+                alert('Please select city and both stations');
                 return;
             }
             
@@ -1016,11 +1278,15 @@
             document.getElementById('noResults').style.display = 'none';
             document.getElementById('metroResults').innerHTML = '';
             
+            // Get line information for the stations
+            const cityStations = stationData[city];
+            const fromStationInfo = cityStations.find(s => s.name === fromStation);
+            const toStationInfo = cityStations.find(s => s.name === toStation);
+            
             // Update route info
             const cityName = metroSystems[city].name;
-            const lineName = metroSystems[city].lines.find(l => l.id === line).name;
             document.getElementById('routeInfo').textContent = `${fromStation} → ${toStation}`;
-            document.getElementById('lineInfo').textContent = lineName;
+            document.getElementById('lineInfo').textContent = fromStationInfo ? fromStationInfo.lineName : "Multiple Lines";
             document.getElementById('dateInfo').textContent = new Date(date).toLocaleDateString('en-US', { 
                 weekday: 'long', 
                 year: 'numeric', 
@@ -1033,17 +1299,22 @@
             
             // Simulate API call delay
             setTimeout(() => {
-                generateMetroResults(city, line, fromStation, toStation, date, passengers, journeyTime);
+                generateMetroResults(city, fromStation, toStation, date, passengers, journeyTime);
             }, 1500);
         }
 
-        function generateMetroResults(city, line, fromStation, toStation, date, passengers, journeyTime) {
+        function generateMetroResults(city, fromStation, toStation, date, passengers, journeyTime) {
             const metroResults = document.getElementById('metroResults');
             const loading = document.getElementById('loading');
             const noResults = document.getElementById('noResults');
             
             loading.style.display = 'none';
             metroResults.innerHTML = '';
+            
+            // Get station information for line colors
+            const cityStations = stationData[city];
+            const fromStationInfo = cityStations.find(s => s.name === fromStation);
+            const toStationInfo = cityStations.find(s => s.name === toStation);
             
             // Generate exactly 20 metros as requested, every 20 minutes
             const numMetros = 20;
@@ -1056,7 +1327,7 @@
                 const minute = totalMinutes % 60;
                 const departureTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
                 
-                metros.push(createMetro(i + 1, city, line, fromStation, toStation, departureTime));
+                metros.push(createMetro(i + 1, city, fromStation, toStation, fromStationInfo, toStationInfo, departureTime));
             }
             
             if (metros.length === 0) {
@@ -1074,16 +1345,15 @@
             });
         }
 
-        function createMetro(metroNumber, city, line, fromStation, toStation, departureTime) {
+        function createMetro(metroNumber, city, fromStation, toStation, fromStationInfo, toStationInfo, departureTime) {
             const metroType = metroTypes[Math.floor(Math.random() * metroTypes.length)];
-            const lineInfo = metroSystems[city].lines.find(l => l.id === line);
             
-            // Calculate travel time based on distance (simulated)
-            const stationsList = stationData[city][line];
-            const fromIndex = stationsList.indexOf(fromStation);
-            const toIndex = stationsList.indexOf(toStation);
+            // Calculate travel time (simulated)
+            const stationsList = stationData[city];
+            const fromIndex = stationsList.findIndex(s => s.name === fromStation);
+            const toIndex = stationsList.findIndex(s => s.name === toStation);
             const stationsBetween = Math.abs(toIndex - fromIndex);
-            const travelTime = stationsBetween * 3; // 3 minutes per station
+            const travelTime = Math.max(5, stationsBetween * 2); // Minimum 5 minutes
             
             // Calculate arrival time
             const [depHour, depMinute] = departureTime.split(':').map(Number);
@@ -1099,7 +1369,7 @@
             const arrivalTime = `${arrivalHour.toString().padStart(2, '0')}:${arrivalMinute.toString().padStart(2, '0')}`;
             
             // Calculate fare based on distance
-            const baseFare = 10 + (stationsBetween * 5); // ₹10 base + ₹5 per station
+            const baseFare = 10 + (stationsBetween * 3); // ₹10 base + ₹3 per station equivalent
             const ticketFare = calculateTicketFare(baseFare, selectedTicketType, stationsBetween);
             
             return {
@@ -1112,8 +1382,10 @@
                 fromStation: fromStation,
                 toStation: toStation,
                 stationsBetween: stationsBetween,
-                lineColor: lineInfo.color,
-                lineName: lineInfo.name,
+                fromLineColor: fromStationInfo ? fromStationInfo.lineColor : "#800080",
+                toLineColor: toStationInfo ? toStationInfo.lineColor : "#800080",
+                fromLineName: fromStationInfo ? fromStationInfo.lineName : "Metro Line",
+                toLineName: toStationInfo ? toStationInfo.lineName : "Metro Line",
                 fare: ticketFare,
                 amenities: ["AC", "WiFi", "Security Cameras", "LED Display", "Priority Seating", "CCTV"],
                 frequency: "Every 20 minutes",
@@ -1169,7 +1441,7 @@
             card.innerHTML = `
                 <div class="metro-header">
                     <div class="metro-line-info">
-                        <div class="line-color" style="background: ${metro.lineColor}"></div>
+                        <div class="line-color" style="background: ${metro.fromLineColor}"></div>
                         <div class="metro-number">${metro.number}</div>
                         <div class="metro-title">${metro.name}</div>
                     </div>
@@ -1178,13 +1450,15 @@
                 
                 <div class="metro-timeline">
                     <div class="timeline-stops">
-                        <div class="stop-circle"></div>
+                        <div class="stop-circle" style="background: ${metro.fromLineColor}"></div>
                         <div class="stop-name">${metro.fromStation}</div>
+                        <div style="font-size: 0.85rem; color: #666; margin-left: 10px;">(${metro.fromLineName})</div>
                     </div>
-                    <div style="color: #666;">→ ${metro.stationsBetween} stations →</div>
+                    <div style="color: #666;">→ ${metro.stationsBetween} stops →</div>
                     <div class="timeline-stops">
-                        <div class="stop-circle"></div>
+                        <div class="stop-circle" style="background: ${metro.toLineColor}"></div>
                         <div class="stop-name">${metro.toStation}</div>
+                        <div style="font-size: 0.85rem; color: #666; margin-left: 10px;">(${metro.toLineName})</div>
                     </div>
                 </div>
                 
@@ -1210,7 +1484,7 @@
                 <div class="metro-details">
                     <div class="detail-item">
                         <span class="detail-label">Line</span>
-                        <span class="detail-value">${metro.lineName}</span>
+                        <span class="detail-value">${metro.fromLineName}</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Speed</span>
@@ -1246,15 +1520,18 @@
         }
 
         function bookMetro(metroNumber, fare) {
+            const city = document.getElementById('city').value;
             const fromStation = document.getElementById('fromStation').value;
             const toStation = document.getElementById('toStation').value;
             const date = document.getElementById('date').value;
             const passengers = document.getElementById('passengers').value;
             const ticketType = ticketTypes[selectedTicketType].name;
             const totalFare = fare * parseInt(passengers);
+            const cityName = metroSystems[city].name;
             
             alert(`🎫 Metro Ticket Confirmed!\n\n` +
                   `Metro: ${metroNumber}\n` +
+                  `City: ${cityName}\n` +
                   `Route: ${fromStation} → ${toStation}\n` +
                   `Date: ${new Date(date).toDateString()}\n` +
                   `Ticket Type: ${ticketType}\n` +

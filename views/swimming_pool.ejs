@@ -13,7 +13,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0066cc 0%, #0099cc 100%);
+            background: linear-gradient(135deg, #4da6ff 0%, #66c2ff 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -33,33 +33,25 @@
         .header h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
         .header p {
             font-size: 1.1rem;
-            opacity: 0.9;
+            opacity: 0.95;
         }
         
         .pool-finder-card {
             background: white;
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             margin-bottom: 40px;
             border: 1px solid rgba(255,255,255,0.1);
         }
         
         .location-selector {
-            display: flex;
-            gap: 20px;
             margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .location-option {
-            flex: 1;
-            min-width: 200px;
         }
         
         .location-option h3 {
@@ -71,35 +63,74 @@
             gap: 10px;
         }
         
-        .gps-button {
-            background: linear-gradient(135deg, #0066cc 0%, #0099cc 100%);
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+        .city-select {
             width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            background: white;
+            cursor: pointer;
             transition: all 0.3s;
-            margin-top: 10px;
         }
         
-        .gps-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 102, 204, 0.4);
+        .city-select:focus {
+            outline: none;
+            border-color: #4da6ff;
+            box-shadow: 0 0 0 3px rgba(77, 166, 255, 0.1);
         }
         
-        .gps-button .icon {
-            font-size: 1.5rem;
+        .city-display {
+            background: linear-gradient(135deg, #e6f4ff 0%, #d4ecff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .city-display.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .city-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .city-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .city-label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .city-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4da6ff;
         }
         
         .search-button {
-            background: linear-gradient(135deg, #00cc66 0%, #00994c 100%);
+            background: linear-gradient(135deg, #00cc66 0%, #00b359 100%);
             color: white;
             border: none;
             padding: 20px 40px;
@@ -118,56 +149,7 @@
         
         .search-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 204, 102, 0.4);
-        }
-        
-        .location-display {
-            background: linear-gradient(135deg, #e6f2ff 0%, #ccf2ff 100%);
-            padding: 25px;
-            border-radius: 15px;
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .location-display.active {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .location-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .location-detail {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .location-label {
-            font-size: 0.9rem;
-            color: #4a5568;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .location-value {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0066cc;
+            box-shadow: 0 15px 30px rgba(0, 204, 102, 0.3);
         }
         
         .filter-section {
@@ -202,16 +184,16 @@
         }
         
         .pool-type-card:hover {
-            border-color: #0066cc;
+            border-color: #4da6ff;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         
         .pool-type-card.active {
-            border-color: #0066cc;
-            background: linear-gradient(135deg, #0066cc 0%, #0099cc 100%);
+            border-color: #4da6ff;
+            background: linear-gradient(135deg, #4da6ff 0%, #66c2ff 100%);
             color: white;
-            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.2);
+            box-shadow: 0 5px 15px rgba(77, 166, 255, 0.2);
         }
         
         .pool-type-icon {
@@ -249,14 +231,14 @@
         }
         
         .feature-checkbox:hover {
-            background: #e6f2ff;
+            background: #e6f4ff;
             transform: translateY(-2px);
         }
         
         .feature-checkbox input {
             width: 20px;
             height: 20px;
-            accent-color: #0066cc;
+            accent-color: #4da6ff;
         }
         
         .feature-label {
@@ -297,15 +279,15 @@
             -webkit-appearance: none;
             width: 24px;
             height: 24px;
-            background: #0066cc;
+            background: #4da6ff;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         
         .distance-value {
             font-weight: 700;
-            color: #0066cc;
+            color: #4da6ff;
             min-width: 60px;
             text-align: right;
         }
@@ -337,14 +319,14 @@
         
         .price-input:focus {
             outline: none;
-            border-color: #0066cc;
+            border-color: #4da6ff;
         }
         
         .results-section {
             background: white;
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             margin-bottom: 40px;
             display: none;
         }
@@ -379,7 +361,7 @@
         }
         
         .results-count {
-            background: #0066cc;
+            background: #4da6ff;
             color: white;
             padding: 8px 20px;
             border-radius: 25px;
@@ -403,14 +385,14 @@
         }
         
         .pool-card:hover {
-            border-color: #0066cc;
+            border-color: #4da6ff;
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
         }
         
         .pool-image {
             height: 200px;
-            background: linear-gradient(135deg, #0066cc 0%, #0099cc 100%);
+            background: linear-gradient(135deg, #4da6ff 0%, #66c2ff 100%);
             position: relative;
             overflow: hidden;
         }
@@ -422,7 +404,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(0,0,0,0.2), transparent);
+            background: linear-gradient(45deg, rgba(0,0,0,0.1), transparent);
         }
         
         .pool-type {
@@ -434,14 +416,14 @@
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 600;
-            color: #0066cc;
+            color: #4da6ff;
         }
         
         .pool-distance {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.6);
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
@@ -470,8 +452,8 @@
         .pool-price {
             font-size: 1.6rem;
             font-weight: 700;
-            color: #0066cc;
-            background: #e6f2ff;
+            color: #4da6ff;
+            background: #e6f4ff;
             padding: 5px 15px;
             border-radius: 10px;
             white-space: nowrap;
@@ -515,7 +497,7 @@
         }
         
         .feature {
-            background: #e6f2ff;
+            background: #e6f4ff;
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 0.85rem;
@@ -577,7 +559,7 @@
         }
         
         .book-button {
-            background: linear-gradient(135deg, #00cc66 0%, #00994c 100%);
+            background: linear-gradient(135deg, #00cc66 0%, #00b359 100%);
             color: white;
             border: none;
             padding: 12px 30px;
@@ -592,12 +574,12 @@
         
         .book-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 204, 102, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 204, 102, 0.2);
         }
         
         .map-container {
             height: 400px;
-            background: #e6f2ff;
+            background: #e6f4ff;
             border-radius: 15px;
             margin-top: 30px;
             display: flex;
@@ -612,7 +594,7 @@
         .map-header {
             width: 100%;
             padding: 20px;
-            background: #0066cc;
+            background: #4da6ff;
             color: white;
             text-align: center;
         }
@@ -638,13 +620,13 @@
         .loading {
             text-align: center;
             padding: 60px;
-            color: #0066cc;
+            color: #4da6ff;
             font-size: 1.2rem;
         }
         
         .loading-spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #0066cc;
+            border-top: 4px solid #4da6ff;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -660,10 +642,6 @@
         @media (max-width: 992px) {
             .pools-grid {
                 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            }
-            
-            .location-selector {
-                flex-direction: column;
             }
             
             .pool-type-filter {
@@ -696,26 +674,29 @@
             .pool-price {
                 align-self: flex-start;
             }
-        }
-        
-        .current-location {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px;
-            background: linear-gradient(135deg, #0066cc 0%, #0099cc 100%);
-            color: white;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-weight: 600;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 102, 204, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 102, 204, 0); }
+            
+            .distance-filter {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .distance-label {
+                min-width: auto;
+            }
+            
+            .distance-value {
+                text-align: left;
+            }
+            
+            .price-filter {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .price-range {
+                width: 100%;
+                justify-content: space-between;
+            }
         }
         
         .water-animation {
@@ -724,7 +705,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            opacity: 0.3;
+            opacity: 0.2;
             background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
             animation: waterFlow 3s infinite linear;
         }
@@ -733,29 +714,40 @@
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
+        
+        .city-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #4da6ff;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .city-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>🏊 Swim Nearby - Find Pools</h1>
-            <p>Discover swimming pools, aquatic centers, and water parks near you</p>
+            <p>Discover swimming pools, aquatic centers, and water parks in your city</p>
         </div>
         
         <div class="pool-finder-card">
             <div class="location-selector">
                 <div class="location-option">
-                    <h3>📍 Use Current Location</h3>
-                    <button class="gps-button" onclick="getCurrentLocation()">
-                        <span class="icon">📍</span>
-                        Detect My Location
-                    </button>
-                </div>
-                
-                <div class="location-option">
-                    <h3>🏙️ Or Select City</h3>
-                    <select id="citySelect" style="width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem;">
-                        <option value="">-- Select a City --</option>
+                    <h3>🏙️ Select Your City</h3>
+                    <select id="citySelect" class="city-select">
+                        <option value="">-- Choose a City --</option>
                         <option value="mumbai">Mumbai</option>
                         <option value="delhi">Delhi</option>
                         <option value="bangalore">Bangalore</option>
@@ -768,26 +760,26 @@
                 </div>
             </div>
             
-            <div class="location-display" id="locationDisplay">
-                <div class="current-location" id="currentLocationDisplay">
-                    📍 Your Current Location
+            <div class="city-display" id="cityDisplay">
+                <div class="city-header" id="cityHeader">
+                    🏙️ <span id="cityNameDisplay">City Name</span>
                 </div>
-                <div class="location-info">
-                    <div class="location-detail">
-                        <span class="location-label">Latitude</span>
-                        <span class="location-value" id="latitude">0.0000</span>
+                <div class="city-stats">
+                    <div class="city-detail">
+                        <span class="city-label">Pools Available</span>
+                        <span class="city-value" id="poolCount">0</span>
                     </div>
-                    <div class="location-detail">
-                        <span class="location-label">Longitude</span>
-                        <span class="location-value" id="longitude">0.0000</span>
+                    <div class="city-detail">
+                        <span class="city-label">Average Price</span>
+                        <span class="city-value" id="avgPrice">₹0</span>
                     </div>
-                    <div class="location-detail">
-                        <span class="location-label">Accuracy</span>
-                        <span class="location-value" id="accuracy">0 meters</span>
+                    <div class="city-detail">
+                        <span class="city-label">Avg Rating</span>
+                        <span class="city-value" id="avgRating">0.0</span>
                     </div>
-                    <div class="location-detail">
-                        <span class="location-label">Address</span>
-                        <span class="location-value" id="address">Detecting...</span>
+                    <div class="city-detail">
+                        <span class="city-label">Popular Types</span>
+                        <span class="city-value" id="popularTypes">Olympic & Leisure</span>
                     </div>
                 </div>
             </div>
@@ -864,7 +856,7 @@
                 </div>
                 
                 <div class="distance-filter">
-                    <div class="distance-label">Search Radius:</div>
+                    <div class="distance-label">Search Radius (km):</div>
                     <div class="distance-slider">
                         <input type="range" id="distanceSlider" min="1" max="15" value="5" oninput="updateDistanceValue()">
                     </div>
@@ -881,15 +873,15 @@
                 </div>
             </div>
             
-            <button class="search-button" onclick="searchNearbyPools()">
+            <button class="search-button" onclick="searchPools()">
                 <span class="icon">🔍</span>
-                Find Swimming Pools
+                Find Swimming Pools in <span id="searchCityName">Your City</span>
             </button>
         </div>
         
         <div class="results-section" id="resultsSection">
             <div class="results-header">
-                <div class="results-title" id="resultsTitle">Nearby Swimming Pools</div>
+                <div class="results-title" id="resultsTitle">Swimming Pools in <span id="resultsCityName">Your City</span></div>
                 <div class="results-count" id="resultsCount">0 pools found</div>
             </div>
             
@@ -898,7 +890,7 @@
             </div>
             
             <div class="map-container">
-                <div class="map-header">🗺️ Nearby Swimming Pools Map</div>
+                <div class="map-header">🗺️ Swimming Pools Map</div>
                 <div class="map-placeholder">
                     <div style="text-align: center;">
                         <div style="font-size: 4rem; margin-bottom: 20px;">🏊‍♀️</div>
@@ -910,7 +902,7 @@
             
             <div class="loading" id="loading" style="display: none;">
                 <div class="loading-spinner"></div>
-                Finding swimming pools near you...
+                Finding swimming pools in your city...
             </div>
             <div class="no-results" id="noResults" style="display: none;">
                 🚫 No swimming pools found within your search criteria.
@@ -1035,6 +1027,18 @@
                   price: 600, status: "open", features: ["heated", "training", "parking", "changing", "sauna"],
                   timing: ["7:00 AM - 10:00 PM"],
                   description: "Premium indoor swimming club" }
+            ],
+            kolkata: [
+                { id: 21, name: "Swimming Pool Complex", type: "olympic", lat: 22.5726, lng: 88.3639,
+                  address: "Salt Lake, Kolkata", rating: 4.3, distance: 1.5, reviews: 145,
+                  price: 280, status: "open", features: ["heated", "training", "parking", "changing"],
+                  timing: ["6:00 AM - 9:00 PM"],
+                  description: "Modern Olympic pool complex" },
+                { id: 22, name: "Aquatica Water Park", type: "aquapark", lat: 22.5695, lng: 88.4093,
+                  address: "Rajarhat, Kolkata", rating: 4.5, distance: 8.2, reviews: 234,
+                  price: 1100, status: "open", features: ["parking", "changing", "cafe"],
+                  timing: ["10:00 AM - 7:00 PM"],
+                  description: "Exciting water park with slides" }
             ]
         };
 
@@ -1059,7 +1063,18 @@
             cafe: "☕"
         };
 
-        let currentLocation = null;
+        // City display names
+        const cityDisplayNames = {
+            mumbai: "Mumbai",
+            delhi: "Delhi",
+            bangalore: "Bangalore",
+            chennai: "Chennai",
+            hyderabad: "Hyderabad",
+            pune: "Pune",
+            goa: "Goa",
+            kolkata: "Kolkata"
+        };
+
         let selectedCity = null;
         let selectedPoolType = 'all';
         let searchRadius = 5; // in kilometers
@@ -1081,118 +1096,52 @@
             maxPrice = parseInt(e.target.value) || 1000;
         });
 
-        // Get current location using GPS
-        function getCurrentLocation() {
-            const locationDisplay = document.getElementById('locationDisplay');
-            const locationButton = document.querySelector('.gps-button');
-            
-            // Show loading state
-            locationButton.innerHTML = '<span class="icon">⏳</span>Detecting Location...';
-            locationButton.disabled = true;
-            
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        // Success
-                        currentLocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                            accuracy: position.coords.accuracy
-                        };
-                        
-                        // Update UI
-                        document.getElementById('latitude').textContent = currentLocation.lat.toFixed(6);
-                        document.getElementById('longitude').textContent = currentLocation.lng.toFixed(6);
-                        document.getElementById('accuracy').textContent = `${Math.round(currentLocation.accuracy)} meters`;
-                        
-                        // Get address from coordinates (simulated)
-                        getAddressFromCoords(currentLocation.lat, currentLocation.lng);
-                        
-                        // Reset button
-                        locationButton.innerHTML = '<span class="icon">📍</span>Location Detected!';
-                        locationButton.style.background = 'linear-gradient(135deg, #00cc66 0%, #00994c 100%)';
-                        
-                        // Show location display
-                        locationDisplay.classList.add('active');
-                        
-                        // Clear selected city
-                        document.getElementById('citySelect').value = '';
-                        selectedCity = null;
-                        
-                        // Show current location indicator
-                        document.getElementById('currentLocationDisplay').innerHTML = '📍 Your Current Location';
-                        
-                        // Enable search
-                        setTimeout(() => {
-                            locationButton.innerHTML = '<span class="icon">📍</span>Detect My Location';
-                            locationButton.disabled = false;
-                        }, 2000);
-                    },
-                    (error) => {
-                        // Error
-                        console.error('Error getting location:', error);
-                        alert('Unable to get your location. Please enable GPS or select a city manually.');
-                        locationButton.innerHTML = '<span class="icon">📍</span>Detect My Location';
-                        locationButton.disabled = false;
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                alert('Geolocation is not supported by your browser. Please select a city manually.');
-                locationButton.innerHTML = '<span class="icon">📍</span>Detect My Location';
-                locationButton.disabled = false;
-            }
-        }
-
-        // Simulate getting address from coordinates
-        function getAddressFromCoords(lat, lng) {
-            // This would normally call a geocoding API
-            // For demo, we'll use a simulated response
-            const addresses = [
-                "Near Marine Drive, Mumbai",
-                "Central Business District, Bangalore",
-                "Connaught Place, Delhi",
-                "Juhu Beach Area, Mumbai",
-                "Powai, Mumbai",
-                "Andheri West, Mumbai"
-            ];
-            
-            const randomAddress = addresses[Math.floor(Math.random() * addresses.length)];
-            document.getElementById('address').textContent = randomAddress;
-        }
-
         // Handle city selection
         document.getElementById('citySelect').addEventListener('change', function(e) {
             selectedCity = e.target.value;
-            currentLocation = null;
             
             if (selectedCity) {
-                // Update location display with city center coordinates
-                const cityCenters = {
-                    mumbai: { lat: 19.0760, lng: 72.8777, name: "Mumbai" },
-                    delhi: { lat: 28.6139, lng: 77.2090, name: "Delhi" },
-                    bangalore: { lat: 12.9716, lng: 77.5946, name: "Bangalore" },
-                    chennai: { lat: 13.0827, lng: 80.2707, name: "Chennai" },
-                    hyderabad: { lat: 17.3850, lng: 78.4867, name: "Hyderabad" },
-                    pune: { lat: 18.5204, lng: 73.8567, name: "Pune" },
-                    goa: { lat: 15.2993, lng: 74.1240, name: "Goa" },
-                    kolkata: { lat: 22.5726, lng: 88.3639, name: "Kolkata" }
-                };
+                const cityDisplay = document.getElementById('cityDisplay');
+                const cityNameDisplay = cityDisplayNames[selectedCity];
                 
-                const city = cityCenters[selectedCity];
-                currentLocation = { lat: city.lat, lng: city.lng, accuracy: 1000 };
+                // Update city name in display
+                document.getElementById('cityNameDisplay').textContent = cityNameDisplay;
+                document.getElementById('searchCityName').textContent = cityNameDisplay;
+                document.getElementById('resultsCityName').textContent = cityNameDisplay;
                 
-                document.getElementById('latitude').textContent = city.lat.toFixed(6);
-                document.getElementById('longitude').textContent = city.lng.toFixed(6);
-                document.getElementById('accuracy').textContent = "City Center";
-                document.getElementById('address').textContent = `Central ${city.name}`;
+                // Calculate pool statistics
+                const pools = cityPools[selectedCity] || [];
+                const avgPrice = pools.length > 0 
+                    ? Math.round(pools.reduce((sum, pool) => sum + pool.price, 0) / pools.length)
+                    : 0;
+                const avgRating = pools.length > 0 
+                    ? (pools.reduce((sum, pool) => sum + pool.rating, 0) / pools.length).toFixed(1)
+                    : "0.0";
                 
-                document.getElementById('locationDisplay').classList.add('active');
-                document.getElementById('currentLocationDisplay').innerHTML = `📍 ${city.name} City Center`;
+                // Get popular types
+                const typeCount = {};
+                pools.forEach(pool => {
+                    typeCount[pool.type] = (typeCount[pool.type] || 0) + 1;
+                });
+                const popularTypes = Object.entries(typeCount)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 2)
+                    .map(([type]) => poolTypeInfo[type].name)
+                    .join(" & ") || "Various";
+                
+                // Update statistics display
+                document.getElementById('poolCount').textContent = pools.length;
+                document.getElementById('avgPrice').textContent = `₹${avgPrice}`;
+                document.getElementById('avgRating').textContent = avgRating;
+                document.getElementById('popularTypes').textContent = popularTypes;
+                
+                // Show city display
+                cityDisplay.classList.add('active');
+            } else {
+                // Hide city display if no city selected
+                document.getElementById('cityDisplay').classList.remove('active');
+                document.getElementById('searchCityName').textContent = "Your City";
+                document.getElementById('resultsCityName').textContent = "Your City";
             }
         });
 
@@ -1208,7 +1157,7 @@
             
             // If results are already shown, filter them
             if (document.getElementById('resultsSection').classList.contains('active')) {
-                searchNearbyPools();
+                searchPools();
             }
         }
 
@@ -1229,10 +1178,10 @@
             return features;
         }
 
-        // Search for nearby pools
-        function searchNearbyPools() {
-            if (!currentLocation && !selectedCity) {
-                alert('Please select your location or enable GPS first.');
+        // Search for pools
+        function searchPools() {
+            if (!selectedCity) {
+                alert('Please select a city first.');
                 return;
             }
             
@@ -1242,27 +1191,13 @@
             document.getElementById('noResults').style.display = 'none';
             document.getElementById('poolsGrid').innerHTML = '';
             
-            // Get pools based on selection
-            let pools = [];
-            if (selectedCity && cityPools[selectedCity]) {
-                pools = [...cityPools[selectedCity]];
-            } else {
-                // For GPS location, combine pools from all cities
-                Object.values(cityPools).forEach(cityPools => {
-                    pools.push(...cityPools);
-                });
-                
-                // Simulate distance calculation
-                pools.forEach(pool => {
-                    // In real app, calculate actual distance using Haversine formula
-                    pool.distance = Math.random() * searchRadius;
-                });
-            }
+            // Get pools for selected city
+            const pools = cityPools[selectedCity] || [];
             
             // Simulate API delay
             setTimeout(() => {
                 displayPools(pools);
-            }, 1000);
+            }, 800);
         }
 
         // Display pools
@@ -1317,7 +1252,8 @@
             
             // Update results title
             const poolTypeName = selectedPoolType === 'all' ? 'Swimming Pools' : poolTypeInfo[selectedPoolType].name;
-            document.getElementById('resultsTitle').textContent = `Nearby ${poolTypeName}`;
+            const cityName = cityDisplayNames[selectedCity];
+            document.getElementById('resultsTitle').textContent = `${poolTypeName} in ${cityName}`;
             
             // Add water animation to pool images
             document.querySelectorAll('.pool-image').forEach(img => {
@@ -1411,8 +1347,11 @@
             }
             
             if (pool) {
+                const cityName = cityDisplayNames[selectedCity] || "the city";
+                
                 alert(`🏊 Booking Confirmed!\n\n` +
                       `Pool: ${pool.name}\n` +
+                      `City: ${cityName}\n` +
                       `Type: ${poolTypeInfo[pool.type].name}\n` +
                       `Price: ₹${pool.price} per hour\n` +
                       `Address: ${pool.address}\n` +

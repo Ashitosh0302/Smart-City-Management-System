@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Train Ticket Booking System</title>
+    <title>City Train Ticket Booking System</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            background: linear-gradient(135deg, #3d6ec7 0%, #33b7c9 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -47,7 +47,7 @@
             padding: 35px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.2);
             margin-bottom: 40px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(233, 139, 32, 0.1);
         }
         
         .form-row {
@@ -83,12 +83,12 @@
         .form-group select:focus,
         .form-group input:focus {
             outline: none;
-            border-color: #1a237e;
-            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+            border-color: #2ee0ba;
+            box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.1);
         }
         
         .search-button {
-            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            background: linear-gradient(135deg, #0fa5ca 0%, #0ad7e6 100%);
             color: white;
             border: none;
             padding: 18px 40px;
@@ -125,12 +125,12 @@
         
         .results-title {
             font-size: 1.8rem;
-            color: #1a237e;
+            color: #00695c;
             font-weight: 700;
         }
         
         .results-count {
-            background: #1a237e;
+            background: #00695c;
             color: white;
             padding: 8px 20px;
             border-radius: 25px;
@@ -139,11 +139,11 @@
         }
         
         .route-summary {
-            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            background: linear-gradient(135deg, #e0f2f1 0%, #c8e6c9 100%);
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 30px;
-            border-left: 5px solid #1a237e;
+            border-left: 5px solid #00695c;
         }
         
         .route-details {
@@ -168,7 +168,7 @@
         .route-value {
             font-size: 1.3rem;
             font-weight: 700;
-            color: #1a237e;
+            color: #00695c;
         }
         
         .train-list {
@@ -187,7 +187,7 @@
         }
         
         .train-card:hover {
-            border-color: #1a237e;
+            border-color: #00695c;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
@@ -199,7 +199,7 @@
             left: 0;
             width: 5px;
             height: 100%;
-            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            background: linear-gradient(135deg, #00695c 0%, #004d40 100%);
         }
         
         .train-header {
@@ -218,7 +218,7 @@
         }
         
         .train-number {
-            background: #1a237e;
+            background: #00695c;
             color: white;
             padding: 5px 12px;
             border-radius: 6px;
@@ -229,12 +229,12 @@
         .train-title {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #1a237e;
+            color: #00695c;
         }
         
         .train-type {
-            background: #e8eaf6;
-            color: #1a237e;
+            background: #e0f2f1;
+            color: #00695c;
             padding: 6px 15px;
             border-radius: 6px;
             font-size: 0.95rem;
@@ -269,22 +269,11 @@
             color: #333;
         }
         
-        .time-display {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .time-icon {
-            font-size: 1.5rem;
-            color: #1a237e;
-        }
-        
         .journey-timeline {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: linear-gradient(90deg, #e3f2fd, #f3e5f5);
+            background: linear-gradient(90deg, #e0f2f1, #c8e6c9);
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
@@ -298,7 +287,7 @@
         
         .station-name {
             font-weight: 600;
-            color: #1a237e;
+            color: #00695c;
             margin-bottom: 5px;
         }
         
@@ -314,7 +303,7 @@
             left: 10%;
             right: 10%;
             height: 3px;
-            background: #1a237e;
+            background: #00695c;
             z-index: 1;
         }
         
@@ -325,7 +314,7 @@
             left: 0;
             width: 10px;
             height: 10px;
-            background: #1a237e;
+            background: #00695c;
             border-radius: 50%;
         }
         
@@ -336,7 +325,7 @@
             right: 0;
             width: 10px;
             height: 10px;
-            background: #1a237e;
+            background: #00695c;
             border-radius: 50%;
         }
         
@@ -356,19 +345,19 @@
         }
         
         .class-card:hover {
-            border-color: #1a237e;
-            background: #f8f9ff;
+            border-color: #00695c;
+            background: #e8f5e9;
         }
         
         .class-card.selected {
-            border-color: #1a237e;
-            background: #e8eaf6;
-            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.1);
+            border-color: #00695c;
+            background: #c8e6c9;
+            box-shadow: 0 5px 15px rgba(0, 105, 92, 0.1);
         }
         
         .class-name {
             font-weight: 600;
-            color: #1a237e;
+            color: #00695c;
             margin-bottom: 8px;
             font-size: 1.1rem;
         }
@@ -404,11 +393,11 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            background: #e8eaf6;
+            background: #e0f2f1;
             padding: 8px 12px;
             border-radius: 6px;
             font-size: 0.9rem;
-            color: #1a237e;
+            color: #00695c;
         }
         
         .book-button {
@@ -441,13 +430,13 @@
         .loading {
             text-align: center;
             padding: 60px;
-            color: #1a237e;
+            color: #00695c;
             font-size: 1.2rem;
         }
         
         .loading-spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #1a237e;
+            border-top: 4px solid #00695c;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -519,41 +508,54 @@
             font-weight: 600;
             transform: rotate(15deg);
         }
+        
+        .city-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #e0f2f1;
+            border-radius: 8px;
+        }
+        
+        .city-icon {
+            font-size: 1.5rem;
+        }
+        
+        .city-name {
+            font-weight: 600;
+            color: #00695c;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚆 Indian Railways Ticket Booking</h1>
-            <p>Book your train tickets with 20+ trains available every 30 minutes</p>
+            <h1>🚆 City Train Ticket Booking</h1>
+            <p>Book your city train tickets with trains available every 15-30 minutes</p>
         </div>
         
         <div class="booking-card">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="fromCity">From City</label>
-                    <select id="fromCity" onchange="updateFromStations()">
+                    <label for="city">Select City</label>
+                    <select id="city" onchange="updateStations()">
                         <option value="">-- Select City --</option>
-                        <option value="delhi">Delhi</option>
-                        <option value="mumbai">Mumbai</option>
-                        <option value="chennai">Chennai</option>
-                        <option value="kolkata">Kolkata</option>
-                        <option value="bangalore">Bangalore</option>
-                        <option value="hyderabad">Hyderabad</option>
+                        <option value="mumbai">Mumbai (Local Trains)</option>
+                        <option value="pune">Pune (Metro & Local)</option>
+                        <option value="delhi">Delhi (Metro)</option>
+                        <option value="kolkata">Kolkata (Metro & Local)</option>
+                        <option value="chennai">Chennai (Metro & Local)</option>
+                        <option value="bangalore">Bangalore (Metro)</option>
+                        <option value="hyderabad">Hyderabad (Metro)</option>
+                        <option value="kochi">Kochi (Metro)</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="toCity">To City</label>
-                    <select id="toCity" onchange="updateToStations()">
-                        <option value="">-- Select City --</option>
-                        <option value="delhi">Delhi</option>
-                        <option value="mumbai">Mumbai</option>
-                        <option value="chennai">Chennai</option>
-                        <option value="kolkata">Kolkata</option>
-                        <option value="bangalore">Bangalore</option>
-                        <option value="hyderabad">Hyderabad</option>
-                    </select>
+                    <label for="date">Journey Date</label>
+                    <input type="date" id="date" value="<?php echo date('Y-m-d'); ?>">
                 </div>
             </div>
             
@@ -573,35 +575,19 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="date">Journey Date</label>
-                    <input type="date" id="date" value="<?php echo date('Y-m-d'); ?>">
+                    <label for="class">Travel Class</label>
+                    <select id="class">
+                        <option value="all">All Classes</option>
+                        <option value="first">First Class</option>
+                        <option value="second">Second Class</option>
+                        <option value="ac">AC Class</option>
+                        <option value="ladies">Ladies Special</option>
+                        <option value="handicap">Handicap Friendly</option>
+                    </select>
                 </div>
             </div>
             
             <div class="form-row">
-                <div class="form-group">
-                    <label for="class">Travel Class</label>
-                    <select id="class">
-                        <option value="all">All Classes</option>
-                        <option value="1a">AC First Class (1A)</option>
-                        <option value="2a">AC 2 Tier (2A)</option>
-                        <option value="3a">AC 3 Tier (3A)</option>
-                        <option value="sl">Sleeper (SL)</option>
-                        <option value="cc">AC Chair Car (CC)</option>
-                        <option value="2s">Second Sitting (2S)</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="quota">Quota</label>
-                    <select id="quota">
-                        <option value="general">General</option>
-                        <option value="tatkal">Tatkal</option>
-                        <option value="ladies">Ladies</option>
-                        <option value="premium">Premium Tatkal</option>
-                    </select>
-                </div>
-                
                 <div class="form-group">
                     <label for="passengers">Passengers</label>
                     <select id="passengers">
@@ -610,6 +596,28 @@
                         <option value="3">3 Passengers</option>
                         <option value="4">4 Passengers</option>
                         <option value="5">5 Passengers</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <select id="time">
+                        <option value="any">Any Time</option>
+                        <option value="morning">Morning (6 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                        <option value="evening">Evening (4 PM - 8 PM)</option>
+                        <option value="night">Night (8 PM - 11 PM)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ticketType">Ticket Type</label>
+                    <select id="ticketType">
+                        <option value="single">Single Journey</option>
+                        <option value="return">Return Ticket</option>
+                        <option value="daily">Daily Pass</option>
+                        <option value="weekly">Weekly Pass</option>
+                        <option value="monthly">Monthly Pass</option>
                     </select>
                 </div>
             </div>
@@ -626,6 +634,10 @@
             </div>
             
             <div class="route-summary">
+                <div class="city-info">
+                    <div class="city-icon" id="cityIcon">🚇</div>
+                    <div class="city-name" id="cityName"></div>
+                </div>
                 <div class="route-details">
                     <div class="route-item">
                         <span class="route-label">Route</span>
@@ -637,11 +649,11 @@
                     </div>
                     <div class="route-item">
                         <span class="route-label">Trains Available</span>
-                        <span class="route-value" id="timeInfo">Every 30 minutes</span>
+                        <span class="route-value" id="timeInfo">Every 15-30 minutes</span>
                     </div>
                     <div class="route-item">
-                        <span class="route-label">Quota</span>
-                        <span class="route-value" id="quotaInfo"></span>
+                        <span class="route-label">Ticket Type</span>
+                        <span class="route-value" id="ticketTypeInfo"></span>
                     </div>
                 </div>
             </div>
@@ -658,153 +670,239 @@
     </div>
 
     <script>
-        // City stations data for major Indian cities
+        // City stations data for local/metro trains
         const cityStations = {
-            delhi: [
-                "New Delhi (NDLS)", "Old Delhi (DLI)", "Hazrat Nizamuddin (NZM)",
-                "Anand Vihar (ANVT)", "Sarai Rohilla (DEE)", "Delhi Cantt (DEC)",
-                "Shahdara (SHD)", "Tilak Bridge (TKJ)", "Delhi Safdarjung (DSJ)",
-                "Sabzi Mandi (SZM)", "Dayabasti (DBS)", "Patel Nagar (PTNR)",
-                "Kishanganj (KSNG)", "Mangolpuri (MGLP)", "Nangloi (NNN)",
-                "Badli (BHD)", "Adarsh Nagar (ANDI)", "Azadpur (AZDP)",
-                "Subzi Mandi (SZM)", "Punjabi Bagh (PBGH)"
-            ],
-            mumbai: [
-                "Mumbai Central (BCT)", "Chatrapati Shivaji Terminus (CSTM)",
-                "Lokmanya Tilak Terminus (LTT)", "Bandra Terminus (BDTS)",
-                "Dadar (DR)", "Andheri (ADH)", "Borivali (BVI)",
-                "Churchgate (CCG)", "Marine Lines (MEL)", "Grant Road (GTR)",
-                "Dahisar (DIC)", "Kandivali (KNDI)", "Goregaon (GMN)",
-                "Jogeshwari (JOS)", "Ram Mandir (RMDR)", "Santacruz (STC)",
-                "Vile Parle (VLP)", "Malad (MDD)", "Khar Road (KHAR)",
-                "Matunga Road (MRU)"
-            ],
-            chennai: [
-                "Chennai Central (MAS)", "Chennai Egmore (MS)", "Tambaram (TBM)",
-                "Chennai Beach (MSB)", "Chennai Fort (MSF)", "Perambur (PER)",
-                "Avadi (AVD)", "Ambattur (ABU)", "Korattur (KOTR)",
-                "Villivakkam (VLK)", "Mambalam (MBM)", "Saidapet (SP)",
-                "Guindy (GDY)", "St. Thomas Mount (STM)", "Pallavaram (PV)",
-                "Chromepet (CMP)", "Tirusulam (TLM)", "Minambakkam (MN)",
-                "Paranur (PWU)", "Chengalpattu (CGL)"
-            ],
-            kolkata: [
-                "Howrah Junction (HWH)", "Sealdah (SDAH)", "Kolkata (KOAA)",
-                "Santragachi (SRC)", "Dankuni (DKAE)", "Bandel (BDC)",
-                "Naihati (NH)", "Kalyani (KYI)", "Kancharapara (KPA)",
-                "Madhyamgram (MMG)", "Barasat (BT)", "Dum Dum (DDJ)",
-                "Bidhan Nagar (BNR)", "Salt Lake (SLK)", "Tollygunge (TG)",
-                "Garia (GRA)", "Sonarpur (SPR)", "Baruipur (BRP)",
-                "Diamond Harbour (DH)", "Budge Budge (BGR)"
-            ],
-            bangalore: [
-                "Bangalore City (SBC)", "Yesvantpur Junction (YPR)",
-                "Krishnarajapuram (KJM)", "Whitefield (WFD)",
-                "Banaswadi (BAND)", "Bengaluru Cantonment (BNC)",
-                "Kengeri (KGI)", "Yelahanka (YNK)", "Hosur (HSRA)",
-                "Malleswaram (MWM)", "Jalahalli (JLL)", "Chikkabanavara (BAW)",
-                "Tumkur (TK)", "Ramanagaram (RMGM)", "Mandya (MYA)",
-                "Mysore Junction (MYS)", "Bangalore East (BNCE)",
-                "Bangalore South (BNCS)", "Hebbal (HEB)", "Nelamangala (NMGA)"
-            ],
-            hyderabad: [
-                "Hyderabad Deccan (HYB)", "Secunderabad Junction (SC)",
-                "Kacheguda (KCG)", "Lingampalli (LPI)", "Begumpet (BMT)",
-                "Hafizpet (HFZ)", "Uppal (UPL)", "Malkajgiri (MJF)",
-                "Falaknuma (FM)", "Nampally (NPL)", "Bolarum (BMO)",
-                "Moula Ali (MLY)", "Charlapalli (CHZ)", "Ghatkesar (GT)",
-                "Bhongir (BG)", "Vikarabad (VKB)", "Tandur (TDU)",
-                "Wadi (WADI)", "Kazipet Junction (KZJ)", "Warangal (WL)"
-            ]
+            mumbai: {
+                name: "Mumbai Local Trains",
+                icon: "🚆",
+                stations: [
+                    "Churchgate (CCG)", "Marine Lines (MEL)", "Charni Road (CYR)",
+                    "Grant Road (GTR)", "Mumbai Central (BCT)", "Dadar (DR)",
+                    "Matunga Road (MRU)", "Mahim Junction (MM)", "Bandra (BA)",
+                    "Khar Road (KHAR)", "Santacruz (STC)", "Vile Parle (VLP)",
+                    "Andheri (ADH)", "Jogeshwari (JOS)", "Goregaon (GMN)",
+                    "Malad (MDD)", "Kandivali (KNDI)", "Borivali (BVI)",
+                    "Dahisar (DIC)", "Mira Road (MIRA)", "Bhayandar (BYR)",
+                    "Naigaon (NIG)", "Vasai Road (BSR)", "Nallasopara (NSP)",
+                    "Virar (VR)"
+                ]
+            },
+            pune: {
+                name: "Pune Metro & Local Trains",
+                icon: "🚇",
+                stations: [
+                    "Pimpri Chinchwad (PC)", "Kasarwadi", "Phugewadi",
+                    "Dapodi", "Bopodi", "Khadki",
+                    "Shivaji Nagar", "Pune Station (PUNE)",
+                    "District Court", "Civil Court",
+                    "Budhwar Peth", "Mandai", "Swargate",
+                    "Katraj", "Vanaz", "Anand Nagar",
+                    "Ideal Colony", "Nal Stop", "Garware College",
+                    "Deccan Gymkhana", "Chhatrapati Sambhaji Park"
+                ]
+            },
+            delhi: {
+                name: "Delhi Metro",
+                icon: "🚇",
+                stations: [
+                    "Kashmere Gate (KG)", "Rajiv Chowk (RC)",
+                    "New Delhi (NDLS)", "Chandni Chowk (CC)",
+                    "Central Secretariat (CS)", "Connaught Place (CP)",
+                    "Karol Bagh (KB)", "Rajendra Place (RP)",
+                    "Patel Nagar (PN)", "Shadipur (SP)",
+                    "Kirti Nagar (KN)", "Moti Nagar (MN)",
+                    "Ramesh Nagar (RN)", "Rajouri Garden (RG)",
+                    "Tagore Garden (TG)", "Subhash Nagar (SN)",
+                    "Tilak Nagar (TN)", "Janakpuri East (JKE)",
+                    "Janakpuri West (JKW)", "Uttam Nagar East (UNE)",
+                    "Uttam Nagar West (UNW)"
+                ]
+            },
+            kolkata: {
+                name: "Kolkata Metro & Local",
+                icon: "🚆",
+                stations: [
+                    "Dum Dum (DDJ)", "Belgachia (BGA)",
+                    "Shyambazar (SYB)", "Sovabazar Sutanuti (SVS)",
+                    "Girish Park (GP)", "Mahatma Gandhi Road (MGR)",
+                    "Central (CT)", "Chandni Chowk (CCK)",
+                    "Esplanade (ESP)", "Park Street (PKST)",
+                    "Maidan (MDN)", "Rabindra Sadan (RS)",
+                    "Netaji Bhavan (NB)", "Jatin Das Park (JDP)",
+                    "Kalighat (KGT)", "Rabindra Sarobar (RBS)",
+                    "Mahanayak Uttam Kumar (MUK)", "Netaji (NTJ)",
+                    "Masterda Surya Sen (MSS)", "Gitanjali (GTJ)"
+                ]
+            },
+            chennai: {
+                name: "Chennai Metro & Local",
+                icon: "🚇",
+                stations: [
+                    "Chennai Central (MAS)", "Egmore (MS)",
+                    "Chennai Beach (MB)", "Chennai Fort (MSF)",
+                    "Park Town (PT)", "Chintadripet (MTC)",
+                    "Chepauk (CPK)", "Triplicane (TPC)",
+                    "Thiruvallikeni (TVK)", "Mylapore (MP)",
+                    "Mundakakanni Amman Koil (MAK)", "Greenways Road (GRD)",
+                    "Kotturpuram (KPM)", "Kasturba Nagar (KSN)",
+                    "Indira Nagar (IDR)", "Thiruvanmiyur (TVM)",
+                    "Taramani (TRM)", "Thoraipakkam (TPK)",
+                    "Sholinganallur (SHL)", "Karapakkam (KPK)"
+                ]
+            },
+            bangalore: {
+                name: "Bangalore Metro (Namma Metro)",
+                icon: "🚇",
+                stations: [
+                    "Baiyappanahalli (BYPL)", "Swami Vivekananda Road (SVR)",
+                    "Indiranagar (INR)", "Halasuru (HLS)",
+                    "Trinity (TRY)", "MG Road (MGR)",
+                    "Cubbon Park (CBP)", "Vidhana Soudha (VDS)",
+                    "Sir M. Visveshwaraya (SMV)", "Majestic (MJS)",
+                    "City Railway Station (CRS)", "Magadi Road (MGRD)",
+                    "Srirampura (SRP)", "Kengeri (KGR)",
+                    "Rajajinagar (RJN)", "Mahalakshmi (MLK)",
+                    "Sandal Soap Factory (SSF)", "Yeshwanthpur (YPR)",
+                    "Nagasandra (NGS)", "Dasarahalli (DSR)"
+                ]
+            },
+            hyderabad: {
+                name: "Hyderabad Metro",
+                icon: "🚇",
+                stations: [
+                    "Miyapur (MYP)", "JNTU College (JNT)",
+                    "KPHB Colony (KPH)", "Kukatpally (KUK)",
+                    "Balanagar (BLN)", "Moosapet (MSP)",
+                    "Bharat Nagar (BRT)", "Erragadda (ERG)",
+                    "ESI Hospital (ESI)", "SR Nagar (SRN)",
+                    "Ameerpet (AMR)", "Punjagutta (PJT)",
+                    "Irrum Manzil (IRM)", "Khairatabad (KHB)",
+                    "Lakdikapul (LKP)", "Assembly (ASB)",
+                    "Nampally (NPL)", "Gandhi Bhavan (GBV)",
+                    "Osmania Medical College (OMC)", "MG Bus Station (MGB)"
+                ]
+            },
+            kochi: {
+                name: "Kochi Metro",
+                icon: "🚇",
+                stations: [
+                    "Aluva (ALV)", "Pulinchodu (PLD)",
+                    "Companypady (CMP)", "Ambattukavu (AMB)",
+                    "Muttom (MTM)", "Kalamassery (KLM)",
+                    "Cochin University (CUN)", "Pathadipalam (PDP)",
+                    "Edapally (EDP)", "Changampuzha Park (CHP)",
+                    "Palarivattom (PLV)", "JLN Stadium (JLN)",
+                    "Kaloor (KLR)", "Lissie (LIS)",
+                    "MG Road (MGR)", "Maharaja's College (MJC)",
+                    "Ernakulam South (ERS)", "Kadavanthra (KDV)",
+                    "Elamkulam (ELM)", "Vyttila (VYT)"
+                ]
+            }
         };
 
-        // Train data
-        const trainOperators = [
-            { name: "Rajdhani Express", type: "Superfast", class: ["1A", "2A", "3A"] },
-            { name: "Shatabdi Express", type: "Superfast", class: ["CC", "EC"] },
-            { name: "Duronto Express", type: "Superfast", class: ["1A", "2A", "3A", "SL"] },
-            { name: "Garib Rath", type: "Superfast", class: ["3A", "SL"] },
-            { name: "Jan Shatabdi", type: "Superfast", class: ["CC", "2S"] },
-            { name: "Sampark Kranti", type: "Superfast", class: ["2A", "3A", "SL"] },
-            { name: "AC Express", type: "Express", class: ["1A", "2A", "3A"] },
-            { name: "Superfast Express", type: "Superfast", class: ["2A", "3A", "SL", "2S"] },
-            { name: "Mail Express", type: "Mail", class: ["2A", "3A", "SL", "2S"] },
-            { name: "Passenger", type: "Passenger", class: ["SL", "2S"] },
-            { name: "MEMU", type: "Local", class: ["2S"] },
-            { name: "DEMU", type: "Local", class: ["2S"] },
-            { name: "Vande Bharat", type: "Superfast", class: ["CC", "EC"] },
-            { name: "Gatimaan Express", type: "Superfast", class: ["CC", "EC"] },
-            { name: "Tejas Express", type: "Superfast", class: ["CC", "EC"] }
-        ];
+        // Train types for city trains
+        const trainTypes = {
+            metro: {
+                name: "Metro Train",
+                frequency: "Every 5-10 minutes",
+                classes: ["First", "Second", "AC", "Ladies"],
+                speed: "80 km/h",
+                amenities: ["AC", "WiFi", "LED Display", "Security Cameras", "Priority Seating"]
+            },
+            local: {
+                name: "Local Train",
+                frequency: "Every 15-30 minutes",
+                classes: ["First", "Second", "Ladies", "Handicap"],
+                speed: "60 km/h",
+                amenities: ["Fans", "LED Display", "Security", "Priority Seating"]
+            },
+            express: {
+                name: "Express Metro",
+                frequency: "Every 10-15 minutes",
+                classes: ["First", "AC", "Business"],
+                speed: "100 km/h",
+                amenities: ["AC", "WiFi", "Charging Ports", "LED Display", "Security"]
+            },
+            suburban: {
+                name: "Suburban Train",
+                frequency: "Every 20-30 minutes",
+                classes: ["First", "Second", "Ladies"],
+                speed: "70 km/h",
+                amenities: ["Fans", "LED Display", "Security"]
+            }
+        };
 
+        // Class details
         const classDetails = {
-            "1A": { name: "AC First Class", priceMultiplier: 5, amenities: ["Bedding", "Meals", "Private Cabin"] },
-            "2A": { name: "AC 2 Tier", priceMultiplier: 3.5, amenities: ["Bedding", "Curtains", "Reading Light"] },
-            "3A": { name: "AC 3 Tier", priceMultiplier: 2.5, amenities: ["Bedding", "Curtains"] },
-            "SL": { name: "Sleeper Class", priceMultiplier: 1, amenities: ["Bedding"] },
-            "CC": { name: "AC Chair Car", priceMultiplier: 2, amenities: ["Reclining Seats", "Snacks"] },
-            "EC": { name: "Executive Chair", priceMultiplier: 3, amenities: ["Reclining Seats", "Meals", "Newspaper"] },
-            "2S": { name: "Second Sitting", priceMultiplier: 0.6, amenities: ["Basic Seats"] }
+            "First": { name: "First Class", priceMultiplier: 3, amenities: ["Comfortable Seats", "Less Crowded", "Priority"] },
+            "Second": { name: "Second Class", priceMultiplier: 1, amenities: ["Standard Seats"] },
+            "AC": { name: "AC Class", priceMultiplier: 4, amenities: ["Air Conditioning", "Comfortable Seats", "Less Crowded"] },
+            "Ladies": { name: "Ladies Special", priceMultiplier: 1.5, amenities: ["Women Only", "Security", "Priority"] },
+            "Business": { name: "Business Class", priceMultiplier: 5, amenities: ["Premium Seats", "WiFi", "Charging", "Newspaper"] },
+            "Handicap": { name: "Handicap Friendly", priceMultiplier: 1, amenities: ["Wheelchair Access", "Priority Seating", "Assistance"] }
+        };
+
+        // Ticket type multipliers
+        const ticketTypeMultipliers = {
+            "single": 1,
+            "return": 1.8, // 10% discount
+            "daily": 5, // Unlimited rides for day
+            "weekly": 20, // Unlimited rides for week
+            "monthly": 70 // Unlimited rides for month
         };
 
         let selectedTrainClass = null;
 
-        function updateFromStations() {
-            const city = document.getElementById('fromCity').value;
-            const stationSelect = document.getElementById('fromStation');
+        function updateStations() {
+            const city = document.getElementById('city').value;
+            const fromSelect = document.getElementById('fromStation');
+            const toSelect = document.getElementById('toStation');
             
-            if (city) {
-                stationSelect.disabled = false;
-                stationSelect.innerHTML = '<option value="">-- Select Station --</option>';
+            if (city && cityStations[city]) {
+                fromSelect.disabled = false;
+                toSelect.disabled = false;
                 
-                cityStations[city].forEach(station => {
-                    const option = document.createElement('option');
-                    option.value = station;
-                    option.textContent = station;
-                    stationSelect.appendChild(option);
+                // Clear existing options
+                fromSelect.innerHTML = '<option value="">-- Select Station --</option>';
+                toSelect.innerHTML = '<option value="">-- Select Station --</option>';
+                
+                // Add stations to dropdowns
+                cityStations[city].stations.forEach(station => {
+                    const fromOption = document.createElement('option');
+                    fromOption.value = station;
+                    fromOption.textContent = station;
+                    fromSelect.appendChild(fromOption);
+                    
+                    const toOption = document.createElement('option');
+                    toOption.value = station;
+                    toOption.textContent = station;
+                    toSelect.appendChild(toOption);
                 });
             } else {
-                stationSelect.disabled = true;
-                stationSelect.innerHTML = '<option value="">-- Select Station --</option>';
-            }
-        }
-
-        function updateToStations() {
-            const city = document.getElementById('toCity').value;
-            const stationSelect = document.getElementById('toStation');
-            
-            if (city) {
-                stationSelect.disabled = false;
-                stationSelect.innerHTML = '<option value="">-- Select Station --</option>';
-                
-                cityStations[city].forEach(station => {
-                    const option = document.createElement('option');
-                    option.value = station;
-                    option.textContent = station;
-                    stationSelect.appendChild(option);
-                });
-            } else {
-                stationSelect.disabled = true;
-                stationSelect.innerHTML = '<option value="">-- Select Station --</option>';
+                fromSelect.disabled = true;
+                toSelect.disabled = true;
+                fromSelect.innerHTML = '<option value="">-- Select Station --</option>';
+                toSelect.innerHTML = '<option value="">-- Select Station --</option>';
             }
         }
 
         function searchTrains() {
-            const fromCity = document.getElementById('fromCity').value;
-            const toCity = document.getElementById('toCity').value;
+            const city = document.getElementById('city').value;
             const fromStation = document.getElementById('fromStation').value;
             const toStation = document.getElementById('toStation').value;
             const date = document.getElementById('date').value;
             const travelClass = document.getElementById('class').value;
-            const quota = document.getElementById('quota').value;
+            const ticketType = document.getElementById('ticketType').value;
+            const passengers = document.getElementById('passengers').value;
+            const timePreference = document.getElementById('time').value;
             
             // Validation
-            if (!fromCity || !toCity || !fromStation || !toStation) {
-                alert('Please select both cities and stations');
+            if (!city || !fromStation || !toStation) {
+                alert('Please select city and both stations');
                 return;
             }
             
-            if (fromCity === toCity && fromStation === toStation) {
+            if (fromStation === toStation) {
                 alert('From and To stations cannot be the same');
                 return;
             }
@@ -815,6 +913,10 @@
             document.getElementById('noResults').style.display = 'none';
             document.getElementById('trainResults').innerHTML = '';
             
+            // Update city info
+            document.getElementById('cityIcon').textContent = cityStations[city].icon;
+            document.getElementById('cityName').textContent = cityStations[city].name;
+            
             // Update route info
             document.getElementById('routeInfo').textContent = `${fromStation} → ${toStation}`;
             document.getElementById('dateInfo').textContent = new Date(date).toLocaleDateString('en-US', { 
@@ -823,15 +925,15 @@
                 month: 'long', 
                 day: 'numeric' 
             });
-            document.getElementById('quotaInfo').textContent = quota.charAt(0).toUpperCase() + quota.slice(1);
+            document.getElementById('ticketTypeInfo').textContent = ticketType.charAt(0).toUpperCase() + ticketType.slice(1);
             
             // Simulate API call delay
             setTimeout(() => {
-                generateTrainResults(fromCity, toCity, fromStation, toStation, date, travelClass, quota);
+                generateTrainResults(city, fromStation, toStation, date, travelClass, ticketType, timePreference);
             }, 1500);
         }
 
-        function generateTrainResults(fromCity, toCity, fromStation, toStation, date, travelClass, quota) {
+        function generateTrainResults(city, fromStation, toStation, date, travelClass, ticketType, timePreference) {
             const trainResults = document.getElementById('trainResults');
             const loading = document.getElementById('loading');
             const noResults = document.getElementById('noResults');
@@ -839,17 +941,47 @@
             loading.style.display = 'none';
             trainResults.innerHTML = '';
             
-            // Generate exactly 20 trains as requested, every 30 minutes
-            const numTrains = 20;
+            // Generate 15-20 trains
+            const numTrains = Math.floor(Math.random() * 6) + 15; // 15-20 trains
             const trains = [];
             
-            // Generate departure times every 30 minutes from 00:00 to 23:30
+            // Get city train type
+            const cityData = cityStations[city];
+            const isMetro = cityData.name.includes("Metro");
+            const trainType = isMetro ? "metro" : 
+                             city === "mumbai" ? "local" :
+                             city === "kolkata" ? "suburban" : "express";
+            
+            // Generate departure times based on time preference
+            let startHour = 5;
+            let endHour = 23;
+            
+            switch(timePreference) {
+                case "morning":
+                    startHour = 6;
+                    endHour = 12;
+                    break;
+                case "afternoon":
+                    startHour = 12;
+                    endHour = 16;
+                    break;
+                case "evening":
+                    startHour = 16;
+                    endHour = 20;
+                    break;
+                case "night":
+                    startHour = 20;
+                    endHour = 23;
+                    break;
+            }
+            
+            // Generate trains with different departure times
             for (let i = 0; i < numTrains; i++) {
-                const hour = Math.floor(i / 2) % 24;
-                const minute = (i % 2) * 30;
+                const hour = startHour + Math.floor((endHour - startHour) * i / numTrains);
+                const minute = Math.floor(Math.random() * 60);
                 const departureTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
                 
-                trains.push(createTrain(i + 1, fromStation, toStation, departureTime));
+                trains.push(createCityTrain(i + 1, city, fromStation, toStation, departureTime, trainType, ticketType));
             }
             
             if (trains.length === 0) {
@@ -867,22 +999,36 @@
             });
         }
 
-        function createTrain(trainNumber, fromStation, toStation, departureTime) {
-            const operator = trainOperators[Math.floor(Math.random() * trainOperators.length)];
-            const duration = Math.floor(Math.random() * 12) + 3; // 3-15 hours
+        function createCityTrain(trainNumber, city, fromStation, toStation, departureTime, trainType, ticketType) {
+            const typeInfo = trainTypes[trainType];
+            const duration = Math.floor(Math.random() * 30) + 10; // 10-40 minutes
+            
+            // Calculate arrival time
             const [depHour, depMinute] = departureTime.split(':').map(Number);
-            const arrivalHour = (depHour + duration) % 24;
-            const arrivalTime = `${arrivalHour.toString().padStart(2, '0')}:${depMinute.toString().padStart(2, '0')}`;
+            const totalMinutes = depHour * 60 + depMinute + duration;
+            const arrivalHour = Math.floor(totalMinutes / 60) % 24;
+            const arrivalMinute = totalMinutes % 60;
+            const arrivalTime = `${arrivalHour.toString().padStart(2, '0')}:${arrivalMinute.toString().padStart(2, '0')}`;
             
-            // Calculate base price based on distance (simulated)
-            const basePrice = Math.floor(Math.random() * 500) + 1000; // 1000-1500
+            // Calculate base price based on distance and city
+            let basePrice = 10;
+            switch(city) {
+                case "mumbai": basePrice = 15; break;
+                case "delhi": basePrice = 12; break;
+                case "bangalore": basePrice = 14; break;
+                case "chennai": basePrice = 13; break;
+                case "kolkata": basePrice = 11; break;
+                case "hyderabad": basePrice = 12; break;
+                case "pune": basePrice = 10; break;
+                case "kochi": basePrice = 10; break;
+            }
             
-            // Generate train classes and prices
+            // Generate train classes based on train type
             const classes = [];
-            operator.class.forEach(cls => {
+            typeInfo.classes.forEach(cls => {
                 const classDetail = classDetails[cls];
-                const price = Math.round(basePrice * classDetail.priceMultiplier);
-                const availability = Math.floor(Math.random() * 20) + 5; // 5-25 seats
+                const price = Math.round(basePrice * classDetail.priceMultiplier * ticketTypeMultipliers[ticketType]);
+                const availability = Math.floor(Math.random() * 30) + 10; // 10-40 seats
                 
                 classes.push({
                     code: cls,
@@ -894,18 +1040,19 @@
             });
             
             return {
-                number: trainNumber + Math.floor(Math.random() * 9000) + 1000,
-                name: `${operator.name} #${trainNumber}`,
-                type: operator.type,
+                number: `CT${trainNumber.toString().padStart(3, '0')}`,
+                name: `${city.charAt(0).toUpperCase() + city.slice(1)} ${typeInfo.name}`,
+                type: typeInfo.name,
                 departure: departureTime,
                 arrival: arrivalTime,
                 duration: duration,
                 fromStation: fromStation,
                 toStation: toStation,
                 classes: classes,
-                amenities: ["WiFi", "Pantry", "AC", "LED Display", "Bio Toilet", "Mobile Charging", "Water Purifier"],
-                runningDays: "Daily",
-                avgSpeed: Math.floor(Math.random() * 60) + 70 // 70-130 km/h
+                amenities: typeInfo.amenities,
+                frequency: typeInfo.frequency,
+                speed: typeInfo.speed,
+                stationsBetween: Math.floor(Math.random() * 8) + 3 // 3-10 stations
             };
         }
 
@@ -913,11 +1060,11 @@
             const card = document.createElement('div');
             card.className = 'train-card';
             
-            // Randomly mark some trains as popular
+            // Randomly mark some trains as express or popular
             if (Math.random() > 0.7) {
                 const badge = document.createElement('div');
                 badge.className = 'success-badge';
-                badge.textContent = 'Popular';
+                badge.textContent = train.type.includes("Express") ? 'Express' : 'Popular';
                 card.appendChild(badge);
             }
             
@@ -945,23 +1092,23 @@
                 <div class="train-details">
                     <div class="detail-item">
                         <span class="detail-label">Duration</span>
-                        <span class="detail-value">${train.duration} hours</span>
+                        <span class="detail-value">${train.duration} min</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Running Days</span>
-                        <span class="detail-value">${train.runningDays}</span>
+                        <span class="detail-label">Frequency</span>
+                        <span class="detail-value">${train.frequency}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Avg Speed</span>
-                        <span class="detail-value">${train.avgSpeed} km/h</span>
+                        <span class="detail-label">Speed</span>
+                        <span class="detail-value">${train.speed}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Distance</span>
-                        <span class="detail-value">${train.duration * train.avgSpeed} km</span>
+                        <span class="detail-label">Stops</span>
+                        <span class="detail-value">${train.stationsBetween}</span>
                     </div>
                 </div>
                 
-                <h4 style="margin: 20px 0 10px; color: #1a237e;">Available Classes</h4>
+                <h4 style="margin: 20px 0 10px; color: #00695c;">Available Classes</h4>
                 <div class="train-classes" id="classes-${train.number}">
                     ${train.classes.map(cls => `
                         <div class="class-card" onclick="selectClass(${train.number}, '${cls.code}')">
@@ -996,11 +1143,12 @@
                 card.classList.remove('selected');
             });
             
-            // Mark selected class
-            const selectedCard = document.querySelector(`#classes-${trainNumber} .class-card:nth-child(${Array.from(classCards).findIndex(card => card.querySelector('.class-name').textContent.includes(classDetails[classCode].name)) + 1})`);
-            if (selectedCard) {
-                selectedCard.classList.add('selected');
-            }
+            // Find and mark selected class
+            classCards.forEach(card => {
+                if (card.querySelector('.class-name').textContent.includes(classCode)) {
+                    card.classList.add('selected');
+                }
+            });
             
             // Enable book button
             const bookButton = document.getElementById(`book-${trainNumber}`);
@@ -1012,31 +1160,34 @@
         }
 
         function bookTrain(trainNumber, classCode) {
+            const city = document.getElementById('city').value;
             const fromStation = document.getElementById('fromStation').value;
             const toStation = document.getElementById('toStation').value;
             const date = document.getElementById('date').value;
-            const quota = document.getElementById('quota').value;
+            const ticketType = document.getElementById('ticketType').value;
             const passengers = document.getElementById('passengers').value;
             
             const classDetail = classDetails[classCode];
+            const cityName = cityStations[city].name;
             
-            alert(`🎫 Ticket Booking Confirmed!\n\n` +
+            alert(`🎫 City Train Ticket Confirmed!\n\n` +
                   `Train #${trainNumber}\n` +
+                  `City: ${cityName}\n` +
                   `Route: ${fromStation.split('(')[0]} → ${toStation.split('(')[0]}\n` +
                   `Date: ${new Date(date).toDateString()}\n` +
+                  `Ticket Type: ${ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}\n` +
                   `Class: ${classDetail.name}\n` +
-                  `Quota: ${quota}\n` +
                   `Passengers: ${passengers}\n\n` +
-                  `Please proceed to payment.`);
+                  `Please proceed to collect your ticket/token.`);
         }
 
         // Initialize date to today
         document.getElementById('date').valueAsDate = new Date();
         document.getElementById('date').min = new Date().toISOString().split('T')[0];
         
-        // Set max date to 120 days from now (as per Indian Railways)
+        // Set max date to 30 days from now
         const maxDate = new Date();
-        maxDate.setDate(maxDate.getDate() + 120);
+        maxDate.setDate(maxDate.getDate() + 30);
         document.getElementById('date').max = maxDate.toISOString().split('T')[0];
     </script>
 </body>
