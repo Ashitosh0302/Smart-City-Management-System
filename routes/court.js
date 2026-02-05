@@ -8,6 +8,7 @@ router.get("/court_register",court_register_page)
 router.post("/court_register",court_register)
 
 //court home with JWT auth
+router.use(AUTH_MIDDLEWARE, COURT_ONLY);
 router.get("/",court_home)
 
 module.exports=router

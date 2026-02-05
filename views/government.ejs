@@ -46,117 +46,12 @@
 
         <h3 class="mb-4 text-primary">🏛 Government Admin Dashboard</h3>
 
-        <!-- WEATHER UPDATE -->
-        <div class="card mb-4 p-4">
-            <h5>🌦 Publish Weather Update</h5>
+        
 
-            <form method="post" action="/government/weather/update">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <select class="form-select" name="weatherLevel" required>
-                            <option value="">Weather Condition</option>
-                            <option value="storm">Storm Alert</option>
-                            <option value="rain">Heavy Rain</option>
-                            <option value="heat">Heat Wave</option>
-                            <option value="normal">Normal</option>
-                        </select>
-                    </div>
+       
 
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="weatherMessage"
-                            placeholder="Weather update message" required>
-                    </div>
 
-                    <div class="col-md-2">
-                        <button class="btn btn-primary w-100">Publish</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- CURRENT WEATHER STATUS -->
-        <div class="card mb-4 p-4">
-            <h5>🌤 Current Weather Updates</h5>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card alert-blue p-3">
-                        <b>Rain Alert</b>
-                        <p>Heavy rainfall expected today</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card alert-red p-3">
-                        <b>Storm Warning</b>
-                        <p>High wind speed near coastal areas</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card alert-green p-3">
-                        <b>Normal</b>
-                        <p>Clear weather in suburbs</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TRAFFIC UPDATE -->
-        <div class="card mb-4 p-4">
-            <h5>🚦 Publish Traffic Update</h5>
-
-            <form method="post" action="/government/traffic/update">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <select class="form-select" name="trafficLevel" required>
-                            <option value="">Traffic Level</option>
-                            <option value="red">Heavy Traffic</option>
-                            <option value="yellow">Moderate Traffic</option>
-                            <option value="green">Smooth Traffic</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="trafficMessage"
-                            placeholder="Traffic update message" required>
-                    </div>
-
-                    <div class="col-md-2">
-                        <button class="btn btn-danger w-100">Publish</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- CURRENT TRAFFIC STATUS -->
-        <div class="card mb-4 p-4">
-            <h5>📊 Current Traffic Updates</h5>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card alert-red p-3">
-                        <b>Red Zone</b>
-                        <p>Heavy traffic at City Square</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card alert-yellow p-3">
-                        <b>Yellow Zone</b>
-                        <p>Moderate traffic near Station Road</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card alert-green p-3">
-                        <b>Green Zone</b>
-                        <p>Traffic flowing smoothly</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         <!-- CITIZEN COMPLAINTS -->
         <div class="card p-4">
             <h5>📝 Citizen Complaints</h5>
@@ -205,6 +100,8 @@
         </div>
 
     </div>
+
+    <button class="btn btn-primary" onclick="window.location.href='/login/logout'">LogOut</button>
 
 </body>
 

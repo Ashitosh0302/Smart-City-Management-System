@@ -11,6 +11,7 @@ router.get("/train",Train_transpose_home)
 router.get("/metro",metro_transpose_home)
 
 //transport home with JWT auth
+router.use(AUTH_MIDDLEWARE, TRANSPORT_ONLY);
 router.get("/",Transpose_home)
 
 module.exports=router
