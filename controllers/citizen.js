@@ -1,20 +1,17 @@
 const bcrypt = require("bcryptjs");
 const Citizen = require("../models/citizen");
 
-async function citizen_home(req, res)
-{
+async function citizen_home(req, res) {
     return res.render("citizen_dashboard", {
         citizen: req.user
     });
 }
 
-async function citizen_register_page(req, res)
-{
+async function citizen_register_page(req, res) {
     return res.render("citizen_register");
 }
 
-async function citizen_register(req, res)
-{
+async function citizen_register(req, res) {
     const {
         first_name,
         last_name,
@@ -27,8 +24,7 @@ async function citizen_register(req, res)
         city
     } = req.body;
 
-    if(password !== confirm_password)
-    {
+    if (password !== confirm_password) {
         return res.render("citizen_register", {
             error: "Passwords do not match"
         });
@@ -47,10 +43,8 @@ async function citizen_register(req, res)
             gender,
             city
         },
-        (error) =>
-        {
-            if(error)
-            {
+        (error) => {
+            if (error) {
                 console.error(error);
                 return res.render("citizen_register", {
                     error: "Registration failed"
@@ -63,62 +57,62 @@ async function citizen_register(req, res)
 }
 
 //water complaints
-async function Water_Complaints(req,res) {
+async function Water_Complaints(req, res) {
     return res.render("water");
 }
 
 //garbage complaints
-async function garbage_complaint(req,res) {
+async function garbage_complaint(req, res) {
     return res.render("garbage");
 }
 
 //electricity complaints
-async function electricity_complaint(req,res) {
+async function electricity_complaint(req, res) {
     return res.render("electricity");
 }
 
 //road complaints
-async function road_complaint(req,res) {
+async function road_complaint(req, res) {
     return res.render("road");
 }
 
 //alerts
-async function traffic_alerts(req,res) {
+async function traffic_alerts(req, res) {
     return res.render("traffic_alerts");
 }
 
-async function weather_alerts(req,res) {
+async function weather_alerts(req, res) {
     return res.render("weather_alerts");
 }
 
 //hospital
-async function hospital_appointments(req,res) {
+async function hospital_appointments(req, res) {
     return res.render("hospital_appointment")
 }
-    
+
 //court
-async function court_appointments(req,res) {
+async function court_appointments(req, res) {
     return res.render("court_appointments")
 }
 
 //Esetu
-async function Esetu_appointments(req,res) {
+async function Esetu_appointments(req, res) {
     return res.render("Esetu-appointments")
 }
 
 //alerts
 //police
-async function police_alerts(req,res) {
+async function police_alerts(req, res) {
     return res.render("police_emergency");
 }
 
 //ambulance
-async function ambulance_alerts(req,res) {
+async function ambulance_alerts(req, res) {
     return res.render("ambulance_emergency");
 }
 
 //fire
-async function fire_alerts(req,res) {
+async function fire_alerts(req, res) {
     return res.render("fire_emergency");
 }
 

@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs")
 const Government=require("../models/government")
 
-async function government_home(req,res) {
-    return res.render("government")
+async function government_home(req, res)
+{
+    return res.render("government");
 }
 
 async function government_register_page(req,res) {
@@ -44,6 +45,8 @@ async function government_register(req, res)
             req.session.government = {
                 email: email
             };
+
+            
 
             res.redirect("/");
         }

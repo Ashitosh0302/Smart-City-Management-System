@@ -8,6 +8,7 @@ router.get("/government_register",government_register_page)
 router.post("/government_register",government_register)
 
 //government home with JWT auth
-router.get("/",government_home)
+router.use(AUTH_MIDDLEWARE, GOVERNMENT_ONLY);
+router.get("/",government_home);
 
 module.exports=router
