@@ -1022,9 +1022,7 @@
             }
         }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
         // Select location method - FIXED
         function selectLocationMethod(method) {
             locationMethod = method;
@@ -1062,13 +1060,12 @@
             }
             
             // Update button states
-=======
+
         // Select location method
         function selectLocationMethod(event, method) {
             locationMethod = method;
             
-            // Update all method buttons
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
             document.querySelectorAll('.method-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -1081,10 +1078,10 @@
             document.getElementById('addressSection').classList.remove('active');
             document.getElementById(method + 'Section').classList.add('active');
             
-<<<<<<< HEAD
+
             // Show notification
             if (method === 'gps') {
-=======
+
             // Reset location status when switching methods
             const locationDisplay = document.getElementById('locationDisplay');
             const locationStatus = document.getElementById('locationStatus');
@@ -1116,24 +1113,9 @@
             }
         }
 
-<<<<<<< HEAD
-        // Get GPS Location - FIXED
-=======
+
         // Get GPS Location
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
-        function getGPSLocation() {
-            const status = document.getElementById('locationStatus');
-            const gpsButton = document.getElementById('gpsButton');
-            const locationDisplay = document.getElementById('locationDisplay');
-            
-            // Check if browser supports geolocation
-            if (!navigator.geolocation) {
-                showNotification('Geolocation is not supported by your browser. Please use address method.', 'error');
-                locationDisplay.innerHTML = 
-                    '<i class="fas fa-exclamation-triangle text-danger"></i> GPS not supported. Please use address method.';
-                return;
-            }
-            
+
             // Show loading state
             status.textContent = 'Getting location... Please allow permission if prompted';
             status.style.color = '#f39c12';
@@ -1510,7 +1492,7 @@
         document.getElementById('garbageComplaintForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-<<<<<<< HEAD
+
             // Basic validation
             const requiredFields = [
                 { selector: 'input[name="fullName"]', message: 'Please enter your name' },
@@ -1527,16 +1509,16 @@
                     showNotification(field.message, 'error');
                     element.focus();
                     return false;
-=======
+
             // Validate location based on selected method
             if (locationMethod === 'gps') {
                 if (!gpsCoordinates) {
                     showNotification('Please get your location first! Click "Get Current Location".', 'error');
-<<<<<<< HEAD
+
                     document.getElementById('locationStatus').style.color = '#e74c3c';
                     document.getElementById('locationStatus').textContent = 'Location is required!';
                     document.getElementById('gpsButton').focus();
-=======
+
                     const locationStatus = document.getElementById('locationStatus');
                     if (locationStatus) {
                         locationStatus.style.color = '#e74c3c';
@@ -1544,12 +1526,12 @@
                     }
                     const gpsButton = document.getElementById('gpsButton');
                     if (gpsButton) gpsButton.focus();
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
                     return;
                 }
             } else {
                 // Validate address fields
-<<<<<<< HEAD
+
                 const streetAddress = document.getElementById('streetAddress').value.trim();
                 const city = document.getElementById('city').value.trim();
                 const zipCode = document.getElementById('zipCode').value.trim();
@@ -1558,7 +1540,7 @@
                 if (!streetAddress) {
                     showNotification('Please enter street address!', 'error');
                     document.getElementById('streetAddress').focus();
-=======
+
                 const streetAddress = document.getElementById('streetAddress')?.value.trim();
                 const city = document.getElementById('city')?.value.trim();
                 const zipCode = document.getElementById('zipCode')?.value.trim();
@@ -1567,39 +1549,39 @@
                 if (!streetAddress) {
                     showNotification('Please enter street address!', 'error');
                     document.getElementById('streetAddress')?.focus();
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
                     return;
                 }
                 
                 if (!city) {
                     showNotification('Please enter city!', 'error');
-<<<<<<< HEAD
+
                     document.getElementById('city').focus();
-=======
+
                     document.getElementById('city')?.focus();
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
                     return;
                 }
                 
                 if (!zipCode) {
                     showNotification('Please enter ZIP code!', 'error');
-<<<<<<< HEAD
+
                     document.getElementById('zipCode').focus();
-=======
+
                     document.getElementById('zipCode')?.focus();
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
                     return;
                 }
                 
                 if (!ward) {
                     showNotification('Please select ward number!', 'error');
-<<<<<<< HEAD
+
                     document.getElementById('ward').focus();
-=======
+
                     document.getElementById('ward')?.focus();
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
                     return;
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
+
                 }
             }
 
@@ -1628,14 +1610,11 @@
                 const otherGarbage = document.querySelector('input[name="otherGarbageDetail"]')?.value.trim();
                 if (!otherGarbage) {
                     showNotification('Please specify the garbage type', 'error');
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
                     document.getElementById('otherGarbage').focus();
-=======
+
                     document.getElementById('otherGarbage')?.focus();
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
+
                     return;
                 }
             }
@@ -1753,11 +1732,11 @@
             }
         });
 
-<<<<<<< HEAD
+
         // Reset form
         function resetForm() {
             // Reset the form
-=======
+
         // Submit complaint
         function submitComplaint() {
             // Generate complaint ID
@@ -1781,17 +1760,17 @@
                 console.log('Location from GPS:', gpsCoordinates);
             } else {
                 console.log('Address entered:', {
-<<<<<<< HEAD
+
                     street: document.getElementById('streetAddress').value,
                     city: document.getElementById('city').value,
                     zip: document.getElementById('zipCode').value,
                     ward: document.getElementById('ward').value
-=======
+
                     street: document.getElementById('streetAddress')?.value,
                     city: document.getElementById('city')?.value,
                     zip: document.getElementById('zipCode')?.value,
                     ward: document.getElementById('ward')?.value
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
+
                 });
             }
             
@@ -1805,7 +1784,7 @@
             const successModal = document.getElementById('successModal');
             if (successModal) successModal.classList.remove('show');
             
-<<<<<<< HEAD
+
             // Reset location sections
             document.getElementById('locationStatus').textContent = 'Click to get your location';
             document.getElementById('locationStatus').style.color = '';
@@ -1838,9 +1817,7 @@
             selectQuantity('small');
             selectIssueType('not_collected');
             selectLocationMethod('gps');
-=======
-            // Reset form
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
+
             const form = document.getElementById('garbageComplaintForm');
             form.reset();
             
@@ -1880,10 +1857,7 @@
                 const issueTypeInput = document.getElementById('issueType');
                 if (issueTypeInput) issueTypeInput.value = 'not_collected';
             }
-<<<<<<< HEAD
-=======
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
+
             
             // Clear media
             uploadedMedia = [];
@@ -1908,19 +1882,17 @@
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
-<<<<<<< HEAD
+
             
             showNotification('Form reset successfully', 'info');
-=======
-<<<<<<< HEAD
+
             
             showNotification('Form reset successfully. Ready for new complaint.', 'info');
         }
 
         // Initialize on load
         document.addEventL
-=======
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
+
         }
 
         // Initialize on load
@@ -1940,9 +1912,5 @@
         });
     </script>
 </body>
-<<<<<<< HEAD
+
 </html>
-=======
-</html>
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
