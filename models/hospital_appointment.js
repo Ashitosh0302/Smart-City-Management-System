@@ -62,6 +62,13 @@ const HOSPITAL_APPOINTMENT_SCHEMA = new mongoose.Schema(
         required: true
     },
 
+    status:
+    {
+        type: String,
+        enum: ["pending", "confirmed", "completed", "cancelled"],
+        default: "pending"
+    },
+
     timeSlot:
     {
         type: String,

@@ -276,6 +276,232 @@ async function updateGarbageComplaint(req, res)
 }
 
 // =====================
+// ⚡ ELECTRICITY COMPLAINTS
+// =====================
+async function electricity_complaints_view(req, res)
+{
+    try
+    {
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        if(!db)
+        {
+            throw new Error("Database not connected");
+        }
+
+        const complaints = await db
+            .collection("electricitycomplaints")
+            .find({})
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        if(req.headers.accept && req.headers.accept.includes("application/json"))
+        {
+            return res.json({ success: true, complaints });
+        }
+
+        return res.render("electricity_government", { complaints });
+    }
+    catch(error)
+    {
+        console.error(error);
+
+        return res.render("electricity_government", {
+            complaints: [],
+            error: error.message
+        });
+    }
+}
+
+async function getElectricityComplaintById(req, res)
+{
+    try
+    {
+        const { id } = req.params;
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        const complaint = await db
+            .collection("electricitycomplaints")
+            .findOne({ _id: new ObjectId(id) });
+
+        if(!complaint)
+        {
+            return res.status(404).json({
+                success: false,
+                message: "Electricity complaint not found"
+            });
+        }
+
+        return res.json({ success: true, complaint });
+    }
+    catch(error)
+    {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+async function updateElectricityComplaint(req, res)
+{
+    try
+    {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        updateData.updatedAt = new Date();
+
+        const result = await db
+            .collection("electricitycomplaints")
+            .findOneAndUpdate(
+                { _id: new ObjectId(id) },
+                { $set: updateData },
+                { returnDocument: "after" }
+            );
+
+        if(!result.value)
+        {
+            return res.status(404).json({
+                success: false,
+                message: "Electricity complaint not found"
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: "Updated successfully",
+            complaint: result.value
+        });
+    }
+    catch(error)
+    {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+// =====================
+// 🛣️ ROADS COMPLAINTS
+// =====================
+async function roads_complaints_view(req, res)
+{
+    try
+    {
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        if(!db)
+        {
+            throw new Error("Database not connected");
+        }
+
+        const complaints = await db
+            .collection("roadcomplaints")
+            .find({})
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        if(req.headers.accept && req.headers.accept.includes("application/json"))
+        {
+            return res.json({ success: true, complaints });
+        }
+
+        return res.render("road_government", { complaints });
+    }
+    catch(error)
+    {
+        console.error(error);
+
+        return res.render("road_government", {
+            complaints: [],
+            error: error.message
+        });
+    }
+}
+
+async function getRoadsComplaintById(req, res)
+{
+    try
+    {
+        const { id } = req.params;
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        const complaint = await db
+            .collection("roadcomplaints")
+            .findOne({ _id: new ObjectId(id) });
+
+        if(!complaint)
+        {
+            return res.status(404).json({
+                success: false,
+                message: "Road complaint not found"
+            });
+        }
+
+        return res.json({ success: true, complaint });
+    }
+    catch(error)
+    {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+async function updateRoadsComplaint(req, res)
+{
+    try
+    {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        updateData.updatedAt = new Date();
+
+        const result = await db
+            .collection("roadcomplaints")
+            .findOneAndUpdate(
+                { _id: new ObjectId(id) },
+                { $set: updateData },
+                { returnDocument: "after" }
+            );
+
+        if(!result.value)
+        {
+            return res.status(404).json({
+                success: false,
+                message: "Road complaint not found"
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: "Updated successfully",
+            complaint: result.value
+        });
+    }
+    catch(error)
+    {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+// =====================
 // EXPORTS
 // =====================
 module.exports = {
@@ -289,5 +515,13 @@ module.exports = {
 
     garbage_complaints_view,
     getGarbageComplaintById,
-    updateGarbageComplaint
+    updateGarbageComplaint,
+
+    electricity_complaints_view,
+    getElectricityComplaintById,
+    updateElectricityComplaint,
+
+    roads_complaints_view,
+    getRoadsComplaintById,
+    updateRoadsComplaint
 };

@@ -30,12 +30,6 @@
 <div class="card shadow p-4">
     <h3 class="text-center mb-4">Court Registration</h3>
 
-    <% if(typeof error !== "undefined") { %>
-        <div class="alert alert-danger text-center">
-            <%= error %>
-        </div>
-    <% } %>
-
     <form action="/court/court_register" method="POST">
 
         <div class="mb-3">

@@ -4,25 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government | Court Appointments Dashboard</title>
+    <title>Government | Road Complaints Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
         :root {
-            --primary-court: #2c3e50;
-            --secondary-court: #34495e;
-            --accent-court: #8e44ad;
-            --light-court: #ecf0f1;
-            --success-court: #27ae60;
-            --warning-court: #f39c12;
-            --danger-court: #e74c3c;
-            --info-court: #3498db;
-            --gold-court: #d4af37;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
-            --border-color: #bdc3c7;
+            --primary-brown: #795548;
+            --secondary-brown: #8D6E63;
+            --accent-brown: #A1887F;
+            --light-brown: #EFEBE9;
+            --dark-brown: #5D4037;
+            --grey-color: #757575;
+            --light-grey: #EEEEEE;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #F44336;
+            --info-color: #2196F3;
+            --text-dark: #424242;
+            --text-light: #9E9E9E;
+            --border-color: #E0E0E0;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
             --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -36,22 +38,21 @@
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', 'Segoe UI', sans-serif;
-            background: #f8f9fa;
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #FAFAFA;
             color: var(--text-dark);
             line-height: 1.6;
         }
 
         /* Header */
         .govt-header {
-            background: linear-gradient(135deg, var(--primary-court) 0%, var(--secondary-court) 100%);
+            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
             color: white;
             padding: 1.25rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow-md);
-            border-bottom: 3px solid var(--gold-court);
         }
 
         .header-container {
@@ -77,7 +78,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
-            border: 2px solid var(--gold-court);
         }
 
         .govt-title h1 {
@@ -146,14 +146,14 @@
         }
 
         .sidebar-header {
-            background: linear-gradient(135deg, var(--primary-court) 0%, var(--secondary-court) 100%);
+            background: var(--dark-brown);
             color: white;
             padding: 1.25rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            border-bottom: 2px solid var(--gold-court);
+            border-bottom: 2px solid var(--accent-brown);
         }
 
         .nav-menu {
@@ -180,15 +180,15 @@
         }
 
         .nav-link:hover {
-            background: var(--light-court);
-            color: var(--accent-court);
+            background: var(--light-brown);
+            color: var(--primary-brown);
             padding-left: 1.5rem;
         }
 
         .nav-link.active {
-            background: var(--light-court);
-            color: var(--accent-court);
-            border-left: 4px solid var(--gold-court);
+            background: var(--light-brown);
+            color: var(--primary-brown);
+            border-left: 4px solid var(--accent-brown);
             font-weight: 600;
         }
 
@@ -199,7 +199,7 @@
         }
 
         .badge {
-            background: var(--danger-court);
+            background: var(--danger-color);
             color: white;
             font-size: 0.75rem;
             padding: 0.25rem 0.5rem;
@@ -219,12 +219,12 @@
         }
 
         .welcome-card {
-            background: linear-gradient(135deg, var(--primary-court) 0%, var(--secondary-court) 100%);
+            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
             color: white;
             border-radius: 12px;
             padding: 2rem;
             box-shadow: var(--shadow-md);
-            border-left: 6px solid var(--gold-court);
+            border-left: 6px solid var(--accent-brown);
         }
 
         .welcome-content h2 {
@@ -252,25 +252,25 @@
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
             border: 2px solid transparent;
-            border-top: 4px solid var(--gold-court);
+            border-top: 4px solid var(--accent-brown);
             text-align: center;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-md);
-            border-color: var(--gold-court);
+            border-color: var(--accent-brown);
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: var(--primary-court);
+            color: var(--dark-brown);
         }
 
         .stat-label {
-            color: var(--text-light);
+            color: var(--grey-color);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -319,14 +319,13 @@
         }
 
         .modal-header {
-            background: linear-gradient(135deg, var(--primary-court) 0%, var(--secondary-court) 100%);
+            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
             color: white;
             padding: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-radius: 12px 12px 0 0;
-            border-bottom: 2px solid var(--gold-court);
         }
 
         .modal-header h3 {
@@ -356,8 +355,8 @@
             gap: 1rem;
         }
 
-        /* Appointments Section */
-        .appointments-section {
+        /* Complaints Section */
+        .complaints-section {
             background: white;
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
@@ -367,7 +366,7 @@
         }
 
         .section-header {
-            background: var(--light-court);
+            background: var(--light-brown);
             padding: 1.5rem;
             border-bottom: 2px solid var(--border-color);
             display: flex;
@@ -378,7 +377,7 @@
         .section-header h2 {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--primary-court);
+            color: var(--dark-brown);
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -386,7 +385,7 @@
         }
 
         .section-header h2 i {
-            color: var(--gold-court);
+            color: var(--accent-brown);
             font-size: 1.3rem;
         }
 
@@ -394,20 +393,20 @@
             overflow-x: auto;
         }
 
-        .appointments-table {
+        .complaints-table {
             width: 100%;
             border-collapse: collapse;
         }
 
         .table-header {
-            background: var(--light-court);
+            background: var(--light-brown);
         }
 
         .table-header th {
             padding: 1.25rem 1.5rem;
             text-align: left;
             font-weight: 600;
-            color: var(--primary-court);
+            color: var(--dark-brown);
             border-bottom: 2px solid var(--border-color);
             white-space: nowrap;
         }
@@ -418,7 +417,7 @@
         }
 
         .table-row:hover {
-            background: #f9f9f9;
+            background: #F5F5F5;
         }
 
         .table-row:last-child {
@@ -430,21 +429,21 @@
             vertical-align: middle;
         }
 
-        .appointment-id {
+        .complaint-id {
             font-family: 'Courier New', monospace;
             font-weight: 700;
-            color: var(--accent-court);
+            color: var(--accent-brown);
             font-size: 0.95rem;
         }
 
-        .appointment-desc {
+        .complaint-desc {
             color: var(--text-dark);
             line-height: 1.5;
             max-width: 300px;
         }
 
-        .appointment-location {
-            color: var(--text-light);
+        .complaint-location {
+            color: var(--grey-color);
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -460,26 +459,21 @@
         }
 
         .status-pending {
-            background: linear-gradient(135deg, var(--warning-court), #f1c40f);
+            background: linear-gradient(135deg, var(--grey-color), #9E9E9E);
             color: white;
         }
 
-        .status-approved {
-            background: linear-gradient(135deg, var(--success-court), #2ecc71);
+        .status-inprogress {
+            background: linear-gradient(135deg, var(--warning-color), #FFB74D);
             color: white;
         }
 
-        .status-rejected {
-            background: linear-gradient(135deg, var(--danger-court), #e74c3c);
+        .status-resolved {
+            background: linear-gradient(135deg, var(--success-color), #81C784);
             color: white;
         }
 
-        .status-rescheduled {
-            background: linear-gradient(135deg, var(--info-court), #3498db);
-            color: white;
-        }
-
-        .case-type-badge {
+        .road-issue-badge {
             display: inline-block;
             padding: 0.4rem 0.8rem;
             border-radius: 6px;
@@ -487,31 +481,43 @@
             font-weight: 600;
         }
 
-        .type-civil {
-            background: #e3f2fd;
-            color: #1565c0;
-            border: 1px solid #bbdefb;
+        .issue-potholes {
+            background: #F5F5F5;
+            color: #616161;
+            border: 1px solid #E0E0E0;
         }
 
-        .type-criminal {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
+        .issue-damaged_road {
+            background: #ECEFF1;
+            color: #546E7A;
+            border: 1px solid #CFD8DC;
         }
 
-        .type-family {
-            background: #f3e5f5;
-            color: #7b1fa2;
-            border: 1px solid #e1bee7;
+        .issue-waterlogging {
+            background: #E3F2FD;
+            color: #1565C0;
+            border: 1px solid #BBDEFB;
         }
 
-        .type-commercial {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
+        .issue-uneven_surface {
+            background: #FFF8E1;
+            color: #FF8F00;
+            border: 1px solid #FFECB3;
         }
 
-        .time-badge {
+        .issue-open_manhole {
+            background: #FBE9E7;
+            color: #D84315;
+            border: 1px solid #FFCCBC;
+        }
+
+        .issue-road_dug {
+            background: #E8F5E8;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+        }
+
+        .security-badge {
             display: inline-block;
             padding: 0.4rem 0.8rem;
             border-radius: 6px;
@@ -519,16 +525,22 @@
             font-weight: 600;
         }
 
-        .time-morning {
-            background: #fff3e0;
-            color: #ef6c00;
-            border: 1px solid #ffe0b2;
+        .security-minor {
+            background: #E8F5E9;
+            color: #388E3C;
+            border: 1px solid #C8E6C9;
         }
 
-        .time-afternoon {
-            background: #e8eaf6;
-            color: #3949ab;
-            border: 1px solid #c5cae9;
+        .security-moderate {
+            background: #FFF3E0;
+            color: #F57C00;
+            border: 1px solid #FFE0B2;
+        }
+
+        .security-dangerous {
+            background: #FFEBEE;
+            color: #D32F2F;
+            border: 1px solid #FFCDD2;
         }
 
         .action-buttons {
@@ -551,66 +563,66 @@
         }
 
         .btn-view {
-            background: var(--accent-court);
+            background: var(--accent-brown);
             color: white;
         }
 
         .btn-view:hover {
-            background: var(--primary-court);
+            background: var(--secondary-brown);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(142, 68, 173, 0.3);
+            box-shadow: 0 4px 8px rgba(161, 136, 127, 0.3);
         }
 
         .btn-update {
-            background: var(--light-court);
-            color: var(--accent-court);
-            border: 2px solid var(--accent-court);
+            background: var(--light-brown);
+            color: var(--primary-brown);
+            border: 2px solid var(--accent-brown);
         }
 
         .btn-update:hover {
-            background: var(--accent-court);
+            background: var(--accent-brown);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(142, 68, 173, 0.3);
+            box-shadow: 0 4px 8px rgba(161, 136, 127, 0.3);
         }
 
         .btn-save {
-            background: var(--success-court);
+            background: var(--success-color);
             color: white;
             padding: 0.75rem 1.5rem;
         }
 
         .btn-save:hover {
-            background: #219653;
+            background: #388E3C;
             transform: translateY(-2px);
         }
 
         .btn-cancel {
-            background: var(--text-light);
+            background: var(--grey-color);
             color: white;
             padding: 0.75rem 1.5rem;
         }
 
         .btn-cancel:hover {
-            background: var(--text-dark);
+            background: #616161;
             transform: translateY(-2px);
         }
 
-        /* Appointment Details */
-        .appointment-details {
+        /* Complaint Details */
+        .complaint-details {
             display: grid;
             gap: 1.5rem;
         }
 
         .detail-section {
-            background: var(--light-court);
+            background: var(--light-brown);
             padding: 1.5rem;
             border-radius: 8px;
-            border-left: 4px solid var(--gold-court);
+            border-left: 4px solid var(--accent-brown);
         }
 
         .detail-section h4 {
-            color: var(--primary-court);
+            color: var(--dark-brown);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
@@ -635,7 +647,7 @@
         }
 
         .detail-value {
-            color: var(--text-light);
+            color: var(--grey-color);
         }
 
         /* Update Form */
@@ -666,8 +678,8 @@
 
         .form-select:focus {
             outline: none;
-            border-color: var(--accent-court);
-            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+            border-color: var(--accent-brown);
+            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.1);
         }
 
         .form-textarea {
@@ -684,8 +696,8 @@
 
         .form-textarea:focus {
             outline: none;
-            border-color: var(--accent-court);
-            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+            border-color: var(--accent-brown);
+            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.1);
         }
 
         /* Toast Notification */
@@ -703,7 +715,7 @@
             transform: translateX(150%);
             transition: transform 0.3s ease;
             z-index: 3000;
-            border-left: 4px solid var(--success-court);
+            border-left: 4px solid var(--success-color);
         }
 
         .toast.show {
@@ -711,7 +723,7 @@
         }
 
         .toast i {
-            color: var(--success-court);
+            color: var(--success-color);
             font-size: 1.2rem;
         }
 
@@ -725,7 +737,7 @@
         }
 
         .toast-message {
-            color: var(--text-light);
+            color: var(--grey-color);
             font-size: 0.9rem;
         }
 
@@ -739,7 +751,7 @@
         }
 
         .filter-header {
-            background: var(--light-court);
+            background: var(--light-brown);
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border-color);
         }
@@ -756,8 +768,8 @@
         }
 
         .form-control:focus {
-            border-color: var(--accent-court);
-            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+            border-color: var(--accent-brown);
+            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.1);
             outline: none;
         }
 
@@ -781,9 +793,9 @@
         }
 
         .page-btn:hover:not(:disabled) {
-            background: var(--accent-court);
+            background: var(--accent-brown);
             color: white;
-            border-color: var(--accent-court);
+            border-color: var(--accent-brown);
         }
 
         .page-btn:disabled {
@@ -792,7 +804,7 @@
         }
 
         .page-info {
-            color: var(--text-light);
+            color: var(--grey-color);
             font-weight: 500;
         }
 
@@ -880,11 +892,11 @@
         <div class="header-container">
             <div class="logo-section">
                 <div class="govt-logo">
-                    <i class="fas fa-gavel"></i>
+                    <i class="fas fa-road"></i>
                 </div>
                 <div class="govt-title">
-                    <h1>Judicial Administration Portal</h1>
-                    <p class="govt-subtitle">Court Appointments Management Dashboard</p>
+                    <h1>Government Portal</h1>
+                    <p class="govt-subtitle">Road Infrastructure Complaints Dashboard</p>
                 </div>
             </div>
 
@@ -903,32 +915,55 @@
         <aside class="govt-sidebar">
             <div class="sidebar-card">
                 <div class="sidebar-header">
-                    <i class="fas fa-balance-scale"></i>
-                    Judicial Menu
+                    <i class="fas fa-bars"></i>
+                    Navigation Menu
                 </div>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="/court" class="nav-link">
+                        <a href="/government/dashboard" class="nav-link">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-             
                     <li class="nav-item">
-                        <a href="/court/appointments" class="nav-link active">
-                            <i class="fas fa-gavel"></i>
-                            <span>Court Appointments</span>
-                            <span class="badge" id="totalAppointmentsBadge">0</span>
+                        <a href="/government/complaints/water" class="nav-link">
+                            <i class="fas fa-tint"></i>
+                            <span>Water Complaints</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/court/analytics" class="nav-link">
+                        <a href="/government/complaints/garbage" class="nav-link">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Garbage Complaints</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/government/complaints/electricity" class="nav-link">
+                            <i class="fas fa-bolt"></i>
+                            <span>Electricity Complaints</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/government/complaints/road" class="nav-link active">
+                            <i class="fas fa-road"></i>
+                            <span>Road Complaints</span>
+                            <span class="badge" id="totalComplaintsBadge">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/government/complaints/traffic" class="nav-link">
+                            <i class="fas fa-traffic-light"></i>
+                            <span>Traffic Complaints</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/government/analytics" class="nav-link">
                             <i class="fas fa-chart-bar"></i>
                             <span>Analytics</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/court/settings" class="nav-link">
+                        <a href="/government/settings" class="nav-link">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -943,25 +978,25 @@
             <div class="dashboard-header">
                 <div class="welcome-card">
                     <div class="welcome-content">
-                        <h2><i class="fas fa-gavel mr-2"></i> Court Appointments Management</h2>
-                        <p>Manage and monitor court appointments scheduled by citizens across the judicial system</p>
+                        <h2><i class="fas fa-road mr-2"></i> Road Infrastructure Management</h2>
+                        <p>Monitor and manage road infrastructure complaints from citizens across the city</p>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-value" id="totalAppointments">0</div>
-                            <div class="stat-label">Total Appointments</div>
+                            <div class="stat-value" id="totalComplaints">0</div>
+                            <div class="stat-label">Total Complaints</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="pendingAppointments">0</div>
+                            <div class="stat-value" id="pendingComplaints">0</div>
                             <div class="stat-label">Pending</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="approvedAppointments">0</div>
-                            <div class="stat-label">Approved</div>
+                            <div class="stat-value" id="inProgressComplaints">0</div>
+                            <div class="stat-label">In Progress</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="rejectedAppointments">0</div>
-                            <div class="stat-label">Rejected</div>
+                            <div class="stat-value" id="resolvedComplaints">0</div>
+                            <div class="stat-label">Resolved</div>
                         </div>
                     </div>
                 </div>
@@ -970,7 +1005,7 @@
             <!-- Filter Section -->
             <div class="filter-section">
                 <div class="filter-header">
-                    <h3 class="mb-0"><i class="fas fa-filter"></i> Filter Court Appointments</h3>
+                    <h3 class="mb-0"><i class="fas fa-filter"></i> Filter Road Complaints</h3>
                 </div>
                 <div class="filter-body">
                     <div class="row g-3">
@@ -979,36 +1014,37 @@
                             <select class="form-select" id="statusFilter">
                                 <option value="all">All Status</option>
                                 <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
-                                <option value="Rescheduled">Rescheduled</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Case Type</label>
-                            <select class="form-select" id="caseTypeFilter">
+                            <label class="form-label">Road Issue Type</label>
+                            <select class="form-select" id="issueTypeFilter">
                                 <option value="all">All Types</option>
-                                <option value="civil">Civil</option>
-                                <option value="criminal">Criminal</option>
-                                <option value="family">Family</option>
-                                <option value="commercial">Commercial</option>
+                                <option value="potholes">Potholes</option>
+                                <option value="damaged_road">Damaged Road</option>
+                                <option value="waterlogging">Waterlogging</option>
+                                <option value="uneven_surface">Uneven Surface</option>
+                                <option value="open_manhole">Open Manhole</option>
+                                <option value="road_dug">Road Dug Up</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Date Range</label>
-                            <select class="form-select" id="dateFilter">
-                                <option value="all">All Time</option>
-                                <option value="today">Today</option>
-                                <option value="week">This Week</option>
-                                <option value="month">This Month</option>
+                            <label class="form-label">Security Level</label>
+                            <select class="form-select" id="securityFilter">
+                                <option value="all">All Levels</option>
+                                <option value="minor">Minor</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="dangerous">Dangerous</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Search</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="searchInput"
-                                    placeholder="Search appointments...">
-                                <button class="action-btn btn-view" onclick="filterAppointments()">
+                                    placeholder="Search complaints...">
+                                <button class="action-btn btn-view" onclick="filterComplaints()">
                                     <i class="fas fa-search"></i>
                                 </button>
                                 <button class="action-btn btn-cancel" onclick="clearFilters()">
@@ -1020,40 +1056,40 @@
                 </div>
             </div>
 
-            <!-- Appointments Table -->
-            <section class="appointments-section">
+            <!-- Complaints Table -->
+            <section class="complaints-section">
                 <div class="section-header">
                     <h2>
                         <i class="fas fa-list-ol"></i>
-                        Court Appointments List
-                        <small class="ms-2 text-muted" id="tableCount">(0 appointments)</small>
+                        Road Complaints List
+                        <small class="ms-2 text-muted" id="tableCount">(0 complaints)</small>
                     </h2>
-                    <button class="action-btn btn-view" onclick="loadAppointments()">
+                    <button class="action-btn btn-view" onclick="loadComplaints()">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
                 </div>
 
                 <div class="table-container">
-                    <table class="appointments-table">
+                    <table class="complaints-table">
                         <thead class="table-header">
                             <tr>
-                                <th>Appointment ID</th>
+                                <th>Complaint ID</th>
+                                <th>Description</th>
+                                <th>Issue Type</th>
+                                <th>Security Level</th>
                                 <th>Citizen Name</th>
-                                <th>Case Type</th>
-                                <th>Appointment Date</th>
-                                <th>Time Slot</th>
-                                <th>Contact</th>
+                                <th>Submitted Date</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="appointmentsTableBody">
+                        <tbody id="complaintsTableBody">
                             <tr>
                                 <td colspan="8" style="text-align: center; padding: 2rem;">
-                                    <div class="spinner-border" style="color: var(--accent-court);" role="status">
+                                    <div class="spinner-border" style="color: var(--accent-brown);" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
-                                    <p class="mt-2">Loading court appointments...</p>
+                                    <p class="mt-2">Loading road complaints...</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -1074,15 +1110,15 @@
         </main>
     </div>
 
-    <!-- View Appointment Modal -->
+    <!-- View Complaint Modal -->
     <div class="modal-overlay" id="viewModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-gavel mr-2"></i> Court Appointment Details</h3>
+                <h3><i class="fas fa-road mr-2"></i> Road Complaint Details</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="appointment-details" id="appointmentDetails">
+                <div class="complaint-details" id="complaintDetails">
                     <!-- Details will be loaded here by JavaScript -->
                 </div>
             </div>
@@ -1092,11 +1128,11 @@
         </div>
     </div>
 
-    <!-- Update Appointment Modal -->
+    <!-- Update Complaint Modal -->
     <div class="modal-overlay" id="updateModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-edit mr-2"></i> Update Court Appointment</h3>
+                <h3><i class="fas fa-edit mr-2"></i> Update Road Complaint</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -1122,47 +1158,47 @@
 
     <script>
         // Global variables
-        let currentAppointmentId = '';
-        let allAppointments = [];
-        let filteredAppointments = [];
+        let currentComplaintId = '';
+        let allComplaints = [];
+        let filteredComplaints = [];
         let currentPage = 1;
         const itemsPerPage = 10;
 
-        // Load appointments on page load
+        // Load complaints on page load
         document.addEventListener('DOMContentLoaded', function () {
-            console.log("✅ Page loaded, fetching court appointments...");
-            loadAppointments();
+            console.log("✅ Page loaded, fetching road complaints...");
+            loadComplaints();
 
             // Add event listeners for filter changes
-            document.getElementById('statusFilter').addEventListener('change', filterAppointments);
-            document.getElementById('caseTypeFilter').addEventListener('change', filterAppointments);
-            document.getElementById('dateFilter').addEventListener('change', filterAppointments);
+            document.getElementById('statusFilter').addEventListener('change', filterComplaints);
+            document.getElementById('issueTypeFilter').addEventListener('change', filterComplaints);
+            document.getElementById('securityFilter').addEventListener('change', filterComplaints);
             document.getElementById('searchInput').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
-                    filterAppointments();
+                    filterComplaints();
                 }
             });
         });
 
-        // Function to load appointments from backend
-        async function loadAppointments() {
+        // Function to load complaints from backend
+        async function loadComplaints() {
             try {
-                console.log("🔄 Fetching court appointments from server...");
+                console.log("🔄 Fetching road complaints from server...");
 
                 // Show loading state
-                document.getElementById('appointmentsTableBody').innerHTML = `
+                document.getElementById('complaintsTableBody').innerHTML = `
                     <tr>
                         <td colspan="8" style="text-align: center; padding: 2rem;">
-                            <div class="spinner-border" style="color: var(--accent-court);" role="status">
+                            <div class="spinner-border" style="color: var(--accent-brown);" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                            <p class="mt-2">Loading court appointments...</p>
+                            <p class="mt-2">Loading road complaints...</p>
                         </td>
                     </tr>
                 `;
 
-                // Call the backend API for COURT appointments
-                const response = await fetch('/court/appointments', {
+                // Call the backend API for ROAD complaints
+                const response = await fetch('/government/complaints/road', {
                     credentials: 'include',
                     headers: {
                         'Accept': 'application/json'
@@ -1176,197 +1212,240 @@
                 }
 
                 const data = await response.json();
-                console.log("📦 Received court appointments data:", data);
+                console.log("📦 Received road complaints data:", data);
 
                 if (data.success) {
-                    allAppointments = data.appointments || [];
-                    console.log(`✅ Loaded ${allAppointments.length} court appointments`);
+                    allComplaints = data.complaints || [];
+                    console.log(`✅ Loaded ${allComplaints.length} road complaints`);
                 } else {
                     console.warn("⚠️ Server returned success: false");
-                    allAppointments = [];
+                    allComplaints = [];
                 }
 
-                // Initialize with all appointments
-                filteredAppointments = [...allAppointments];
+                // Initialize with all complaints
+                filteredComplaints = [...allComplaints];
 
                 // Update dashboard and table
-                updateDashboardStats(allAppointments);
-                renderAppointmentsTable();
+                updateDashboardStats(allComplaints);
+                renderComplaintsTable();
 
                 // Show success message if we have data
-                if (allAppointments.length > 0) {
-                    showToast(`Loaded ${allAppointments.length} court appointments`, 'success');
+                if (allComplaints.length > 0) {
+                    showToast(`Loaded ${allComplaints.length} road complaints`, 'success');
                 }
 
             } catch (error) {
-                console.error('❌ Error loading court appointments:', error);
+                console.error('❌ Error loading road complaints:', error);
 
-                // Use mock data based on the court appointment form structure
-                console.log("⚠️ Using mock court data for testing");
-                allAppointments = getMockCourtAppointments();
-                filteredAppointments = [...allAppointments];
+                // Use mock data based on the road complaint form structure
+                console.log("⚠️ Using mock road data for testing");
+                allComplaints = getMockRoadComplaints();
+                filteredComplaints = [...allComplaints];
 
-                updateDashboardStats(allAppointments);
-                renderAppointmentsTable();
+                updateDashboardStats(allComplaints);
+                renderComplaintsTable();
 
                 showToast('Using demo data - Backend connection issue', 'warning');
             }
         }
 
-        // Mock data for testing - based on court appointment form
-        function getMockCourtAppointments() {
+        // Mock data for testing - based on road complaint form
+        function getMockRoadComplaints() {
             return [
                 {
-                    _id: "mock_ca_1",
-                    appointmentId: "CA-1001",
+                    _id: "mock_rc_1",
+                    complaintId: "RC-43866164",
+                    roadName: "MG Road",
+                    area: "Downtown",
+                    ward: "Ward 1",
+                    city: "Mumbai",
+                    pincode: "400001",
+                    landmark: "Near City Mall",
+                    issueType: "potholes",
+                    securityLevel: "dangerous",
+                    affectedArea: "large",
+                    durationValue: "2",
+                    durationUnit: "weeks",
+                    monsoonIssue: "rainwater",
+                    remarks: "Large pothole causing traffic congestion and vehicle damage. Located near the intersection.",
+                    captureDate: "2024-01-27",
+                    captureTime: "10:30",
+                    media: [],
                     fullName: "Rahul Sharma",
-                    dob: "1985-06-15",
-                    gender: "male",
-                    idType: "aadhaar",
-                    idNumber: "123456789012",
-                    mobile: "9876543210",
-                    email: "rahul.sharma@email.com",
-                    address: "123, MG Road, Mumbai - 400001",
-                    caseType: "civil",
-                    purpose: ["hearing"],
-                    appointmentDate: "2024-02-15",
-                    timeSlot: "9-10",
+                    phone: "9876543210",
                     status: "Pending",
                     createdAt: "2024-01-27T10:30:00Z",
                     updatedAt: "2024-01-27T10:30:00Z"
                 },
                 {
-                    _id: "mock_ca_2",
-                    appointmentId: "CA-1002",
+                    _id: "mock_rc_2",
+                    complaintId: "RC-43973984",
+                    roadName: "Park Street",
+                    area: "Green Park",
+                    ward: "Ward 2",
+                    city: "Mumbai",
+                    pincode: "400002",
+                    landmark: "Opposite School",
+                    issueType: "waterlogging",
+                    securityLevel: "moderate",
+                    affectedArea: "small",
+                    durationValue: "3",
+                    durationUnit: "days",
+                    monsoonIssue: "rainwater",
+                    remarks: "Water accumulation after rain causing slippery conditions and mosquito breeding.",
+                    captureDate: "2024-01-26",
+                    captureTime: "14:30",
+                    media: [],
                     fullName: "Priya Patel",
-                    dob: "1990-03-22",
-                    gender: "female",
-                    idType: "pan",
-                    idNumber: "ABCDE1234F",
-                    mobile: "9876543211",
-                    email: "priya.patel@email.com",
-                    address: "456, Park Street, Mumbai - 400002",
-                    caseType: "criminal",
-                    purpose: ["fileNew"],
-                    appointmentDate: "2024-02-16",
-                    timeSlot: "10-11",
-                    status: "Approved",
+                    phone: "9876543211",
+                    status: "In Progress",
                     createdAt: "2024-01-26T14:30:00Z",
                     updatedAt: "2024-01-27T11:15:00Z"
                 },
                 {
-                    _id: "mock_ca_3",
-                    appointmentId: "CA-1003",
+                    _id: "mock_rc_3",
+                    complaintId: "RC-43973985",
+                    roadName: "Industrial Road",
+                    area: "Industrial Zone",
+                    ward: "Ward 3",
+                    city: "Mumbai",
+                    pincode: "400003",
+                    landmark: "Near Factory Gate",
+                    issueType: "open_manhole",
+                    securityLevel: "dangerous",
+                    affectedArea: "small",
+                    durationValue: "1",
+                    durationUnit: "week",
+                    monsoonIssue: "",
+                    remarks: "Open manhole without warning signs, major safety hazard for pedestrians and vehicles.",
+                    captureDate: "2024-01-25",
+                    captureTime: "11:45",
+                    media: [],
                     fullName: "Raj Verma",
-                    dob: "1978-11-05",
-                    gender: "male",
-                    idType: "passport",
-                    idNumber: "P1234567",
-                    mobile: "9876543212",
-                    email: "raj.verma@email.com",
-                    address: "789, Industrial Area, Mumbai - 400003",
-                    caseType: "commercial",
-                    purpose: ["hearing", "fileNew"],
-                    appointmentDate: "2024-02-17",
-                    timeSlot: "2-3",
-                    status: "Rejected",
+                    phone: "9876543212",
+                    status: "Resolved",
                     createdAt: "2024-01-25T11:45:00Z",
                     updatedAt: "2024-01-27T16:20:00Z"
                 },
                 {
-                    _id: "mock_ca_4",
-                    appointmentId: "CA-1004",
+                    _id: "mock_rc_4",
+                    complaintId: "RC-43973986",
+                    roadName: "Residential Lane",
+                    area: "Suburban Area",
+                    ward: "Ward 4",
+                    city: "Mumbai",
+                    pincode: "400004",
+                    landmark: "Near Temple",
+                    issueType: "uneven_surface",
+                    securityLevel: "minor",
+                    affectedArea: "large",
+                    durationValue: "2",
+                    durationUnit: "months",
+                    monsoonIssue: "",
+                    remarks: "Uneven road surface causing vehicle damage and discomfort for residents.",
+                    captureDate: "2024-01-28",
+                    captureTime: "09:15",
+                    media: [],
                     fullName: "Sneha Singh",
-                    dob: "1992-08-30",
-                    gender: "female",
-                    idType: "aadhaar",
-                    idNumber: "987654321098",
-                    mobile: "9876543213",
-                    email: "sneha.singh@email.com",
-                    address: "321, Suburban Lane, Mumbai - 400004",
-                    caseType: "family",
-                    purpose: ["hearing"],
-                    appointmentDate: "2024-02-18",
-                    timeSlot: "3-4",
-                    status: "Rescheduled",
+                    phone: "9876543213",
+                    status: "Pending",
                     createdAt: "2024-01-28T09:15:00Z",
-                    updatedAt: "2024-01-28T14:30:00Z"
+                    updatedAt: "2024-01-28T09:15:00Z"
                 },
                 {
-                    _id: "mock_ca_5",
-                    appointmentId: "CA-1005",
+                    _id: "mock_rc_5",
+                    complaintId: "RC-43973987",
+                    roadName: "Main Highway",
+                    area: "Outskirts",
+                    ward: "Ward 5",
+                    city: "Mumbai",
+                    pincode: "400005",
+                    landmark: "KM Stone 25",
+                    issueType: "damaged_road",
+                    securityLevel: "moderate",
+                    affectedArea: "large",
+                    durationValue: "1",
+                    durationUnit: "month",
+                    monsoonIssue: "mud",
+                    remarks: "Road damaged due to heavy construction vehicles, creating large cracks and potholes.",
+                    captureDate: "2024-01-24",
+                    captureTime: "16:20",
+                    media: [],
                     fullName: "Amit Kumar",
-                    dob: "1988-04-12",
-                    gender: "male",
-                    idType: "pan",
-                    idNumber: "XYZAB5678C",
-                    mobile: "9876543214",
-                    email: "amit.kumar@email.com",
-                    address: "654, Highway Road, Mumbai - 400005",
-                    caseType: "civil",
-                    purpose: ["fileNew"],
-                    appointmentDate: "2024-02-19",
-                    timeSlot: "4-5",
-                    status: "Pending",
+                    phone: "9876543214",
+                    status: "In Progress",
                     createdAt: "2024-01-24T16:20:00Z",
-                    updatedAt: "2024-01-24T16:20:00Z"
+                    updatedAt: "2024-01-27T14:30:00Z"
+                },
+                {
+                    _id: "mock_rc_6",
+                    complaintId: "RC-43973988",
+                    roadName: "Service Road",
+                    area: "Commercial Area",
+                    ward: "Ward 6",
+                    city: "Mumbai",
+                    pincode: "400006",
+                    landmark: "Behind Shopping Complex",
+                    issueType: "road_dug",
+                    securityLevel: "moderate",
+                    affectedArea: "medium",
+                    durationValue: "2",
+                    durationUnit: "weeks",
+                    monsoonIssue: "",
+                    remarks: "Road dug up for cable laying work, left incomplete causing traffic diversions.",
+                    captureDate: "2024-01-23",
+                    captureTime: "15:45",
+                    media: [],
+                    fullName: "Vikram Mehta",
+                    phone: "9876543215",
+                    status: "Resolved",
+                    createdAt: "2024-01-23T15:45:00Z",
+                    updatedAt: "2024-01-28T10:00:00Z"
                 }
             ];
         }
 
-        // Function to filter appointments
-        function filterAppointments() {
+        // Function to filter complaints
+        function filterComplaints() {
             const statusFilter = document.getElementById('statusFilter').value;
-            const caseTypeFilter = document.getElementById('caseTypeFilter').value;
-            const dateFilter = document.getElementById('dateFilter').value;
+            const issueTypeFilter = document.getElementById('issueTypeFilter').value;
+            const securityFilter = document.getElementById('securityFilter').value;
             const searchText = document.getElementById('searchInput').value.toLowerCase();
 
-            // Start with all appointments
-            filteredAppointments = [...allAppointments];
+            // Start with all complaints
+            filteredComplaints = [...allComplaints];
 
             // Apply status filter
             if (statusFilter !== 'all') {
-                filteredAppointments = filteredAppointments.filter(appointment =>
-                    appointment.status === statusFilter
+                filteredComplaints = filteredComplaints.filter(complaint =>
+                    complaint.status === statusFilter
                 );
             }
 
-            // Apply case type filter
-            if (caseTypeFilter !== 'all') {
-                filteredAppointments = filteredAppointments.filter(appointment =>
-                    appointment.caseType &&
-                    appointment.caseType.toLowerCase() === caseTypeFilter.toLowerCase()
+            // Apply issue type filter
+            if (issueTypeFilter !== 'all') {
+                filteredComplaints = filteredComplaints.filter(complaint =>
+                    complaint.issueType &&
+                    complaint.issueType.toLowerCase() === issueTypeFilter.toLowerCase()
                 );
             }
 
-            // Apply date filter
-            if (dateFilter !== 'all') {
-                const now = new Date();
-                filteredAppointments = filteredAppointments.filter(appointment => {
-                    const appointmentDate = new Date(appointment.appointmentDate);
-
-                    switch (dateFilter) {
-                        case 'today':
-                            return appointmentDate.toDateString() === now.toDateString();
-                        case 'week':
-                            const weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
-                            return appointmentDate >= weekAgo;
-                        case 'month':
-                            const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-                            return appointmentDate >= monthAgo;
-                        default:
-                            return true;
-                    }
-                });
+            // Apply security level filter
+            if (securityFilter !== 'all') {
+                filteredComplaints = filteredComplaints.filter(complaint =>
+                    complaint.securityLevel &&
+                    complaint.securityLevel.toLowerCase() === securityFilter.toLowerCase()
+                );
             }
 
             // Apply search filter
             if (searchText) {
-                filteredAppointments = filteredAppointments.filter(appointment =>
-                    (appointment.fullName && appointment.fullName.toLowerCase().includes(searchText)) ||
-                    (appointment.appointmentId && appointment.appointmentId.toLowerCase().includes(searchText)) ||
-                    (appointment.mobile && appointment.mobile.includes(searchText)) ||
-                    (appointment.email && appointment.email.toLowerCase().includes(searchText))
+                filteredComplaints = filteredComplaints.filter(complaint =>
+                    (complaint.remarks && complaint.remarks.toLowerCase().includes(searchText)) ||
+                    (complaint.complaintId && complaint.complaintId.toLowerCase().includes(searchText)) ||
+                    (complaint.fullName && complaint.fullName.toLowerCase().includes(searchText)) ||
+                    (complaint.roadName && complaint.roadName.toLowerCase().includes(searchText)) ||
+                    (complaint.area && complaint.area.toLowerCase().includes(searchText))
                 );
             }
 
@@ -1374,108 +1453,90 @@
             currentPage = 1;
 
             // Update table
-            renderAppointmentsTable();
+            renderComplaintsTable();
         }
 
         // Function to clear all filters
         function clearFilters() {
             document.getElementById('statusFilter').value = 'all';
-            document.getElementById('caseTypeFilter').value = 'all';
-            document.getElementById('dateFilter').value = 'all';
+            document.getElementById('issueTypeFilter').value = 'all';
+            document.getElementById('securityFilter').value = 'all';
             document.getElementById('searchInput').value = '';
-            filterAppointments();
+            filterComplaints();
         }
 
         // Function to update dashboard statistics
-        function updateDashboardStats(appointments) {
-            const total = appointments.length;
-            const pending = appointments.filter(a => a.status === 'Pending').length;
-            const approved = appointments.filter(a => a.status === 'Approved').length;
-            const rejected = appointments.filter(a => a.status === 'Rejected').length;
-            const rescheduled = appointments.filter(a => a.status === 'Rescheduled').length;
+        function updateDashboardStats(complaints) {
+            const total = complaints.length;
+            const pending = complaints.filter(c => c.status === 'Pending').length;
+            const inProgress = complaints.filter(c => c.status === 'In Progress').length;
+            const resolved = complaints.filter(c => c.status === 'Resolved').length;
 
             // Update stats cards
-            document.getElementById('totalAppointments').textContent = total;
-            document.getElementById('pendingAppointments').textContent = pending;
-            document.getElementById('approvedAppointments').textContent = approved;
-            document.getElementById('rejectedAppointments').textContent = rejected;
+            document.getElementById('totalComplaints').textContent = total;
+            document.getElementById('pendingComplaints').textContent = pending;
+            document.getElementById('inProgressComplaints').textContent = inProgress;
+            document.getElementById('resolvedComplaints').textContent = resolved;
 
             // Update sidebar badge
-            document.getElementById('totalAppointmentsBadge').textContent = total;
+            document.getElementById('totalComplaintsBadge').textContent = total;
         }
 
-        // Function to get case type badge class
-        function getCaseTypeClass(type) {
+        // Function to get issue type badge class
+        function getIssueTypeClass(type) {
             switch(type) {
-                case 'civil': return 'type-civil';
-                case 'criminal': return 'type-criminal';
-                case 'family': return 'type-family';
-                case 'commercial': return 'type-commercial';
-                default: return 'type-civil';
+                case 'potholes': return 'issue-potholes';
+                case 'damaged_road': return 'issue-damaged_road';
+                case 'waterlogging': return 'issue-waterlogging';
+                case 'uneven_surface': return 'issue-uneven_surface';
+                case 'open_manhole': return 'issue-open_manhole';
+                case 'road_dug': return 'issue-road_dug';
+                default: return 'issue-potholes';
             }
         }
 
-        // Function to format case type for display
-        function formatCaseType(type) {
+        // Function to format issue type for display
+        function formatIssueType(type) {
             if (!type) return 'Unknown';
-            return type.charAt(0).toUpperCase() + type.slice(1);
+            return type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         }
 
-        // Function to get time slot badge class
-        function getTimeSlotClass(slot) {
-            if (!slot) return 'time-morning';
-            const hour = parseInt(slot.split('-')[0]);
-            return hour < 12 ? 'time-morning' : 'time-afternoon';
+        // Function to get security level badge class
+        function getSecurityClass(level) {
+            switch(level) {
+                case 'minor': return 'security-minor';
+                case 'moderate': return 'security-moderate';
+                case 'dangerous': return 'security-dangerous';
+                default: return 'security-moderate';
+            }
         }
 
-        // Function to format time slot for display
-        function formatTimeSlot(slot) {
-            if (!slot) return 'Not specified';
-            const [start, end] = slot.split('-');
-            const startHour = parseInt(start);
-            const endHour = parseInt(end);
-            
-            const startPeriod = startHour < 12 ? 'AM' : 'PM';
-            const endPeriod = endHour < 12 ? 'AM' : 'PM';
-            
-            const formattedStart = startHour > 12 ? startHour - 12 : startHour;
-            const formattedEnd = endHour > 12 ? endHour - 12 : endHour;
-            
-            return `${formattedStart}:00 ${startPeriod} - ${formattedEnd}:00 ${endPeriod}`;
+        // Function to format security level for display
+        function formatSecurityLevel(level) {
+            if (!level) return 'Unknown';
+            return level.charAt(0).toUpperCase() + level.slice(1);
         }
 
-        // Function to format date for display
-        function formatDate(dateString) {
-            if (!dateString) return 'Not specified';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                weekday: 'short',
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-        // Function to render appointments table
-        function renderAppointmentsTable() {
-            const tbody = document.getElementById('appointmentsTableBody');
+        // Function to render complaints table
+        function renderComplaintsTable() {
+            const tbody = document.getElementById('complaintsTableBody');
 
             // Calculate pagination
-            const totalItems = filteredAppointments.length;
+            const totalItems = filteredComplaints.length;
             const totalPages = Math.ceil(totalItems / itemsPerPage);
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-            const pageAppointments = filteredAppointments.slice(startIndex, endIndex);
+            const pageComplaints = filteredComplaints.slice(startIndex, endIndex);
 
             // Update table count
-            document.getElementById('tableCount').textContent = `(${totalItems} appointments)`;
+            document.getElementById('tableCount').textContent = `(${totalItems} complaints)`;
 
-            if (pageAppointments.length === 0) {
+            if (pageComplaints.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="8" style="text-align: center; padding: 2rem;">
-                            <i class="fas fa-gavel fa-2x mb-2" style="color: var(--text-light);"></i>
-                            <p>No court appointments match your filters</p>
+                            <i class="fas fa-road fa-2x mb-2" style="color: var(--grey-color);"></i>
+                            <p>No road complaints match your filters</p>
                             <button class="action-btn btn-view" onclick="clearFilters()">
                                 <i class="fas fa-times"></i> Clear Filters
                             </button>
@@ -1483,66 +1544,76 @@
                     </tr>
                 `;
             } else {
-                const rows = pageAppointments.map(appointment => {
+                const rows = pageComplaints.map(complaint => {
                     // Format date
-                    const formattedDate = formatDate(appointment.appointmentDate);
+                    const date = new Date(complaint.createdAt);
+                    const formattedDate = date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
 
                     // Determine status badge class
                     let statusClass = '';
-                    let statusText = appointment.status || 'Pending';
+                    let statusText = complaint.status || 'Pending';
 
                     switch (statusText) {
                         case 'Pending':
                             statusClass = 'status-pending';
                             break;
-                        case 'Approved':
-                            statusClass = 'status-approved';
+                        case 'In Progress':
+                            statusClass = 'status-inprogress';
                             break;
-                        case 'Rejected':
-                            statusClass = 'status-rejected';
-                            break;
-                        case 'Rescheduled':
-                            statusClass = 'status-rescheduled';
+                        case 'Resolved':
+                            statusClass = 'status-resolved';
                             break;
                         default:
                             statusClass = 'status-pending';
                     }
 
-                    // Get case type class and text
-                    const caseType = appointment.caseType || 'civil';
-                    const caseTypeClass = getCaseTypeClass(caseType);
-                    const formattedCaseType = formatCaseType(caseType);
+                    // Get issue type class and text
+                    const issueType = complaint.issueType || 'potholes';
+                    const issueTypeClass = getIssueTypeClass(issueType);
+                    const formattedIssueType = formatIssueType(issueType);
 
-                    // Get time slot class and text
-                    const timeSlot = appointment.timeSlot || '9-10';
-                    const timeSlotClass = getTimeSlotClass(timeSlot);
-                    const formattedTimeSlot = formatTimeSlot(timeSlot);
+                    // Get security level class and text
+                    const securityLevel = complaint.securityLevel || 'moderate';
+                    const securityClass = getSecurityClass(securityLevel);
+                    const formattedSecurity = formatSecurityLevel(securityLevel);
+
+                    // Truncate description if too long
+                    const description = complaint.remarks || 'No description';
+                    const truncatedDesc = description.length > 80
+                        ? description.substring(0, 80) + '...'
+                        : description;
 
                     return `
                         <tr class="table-row">
-                            <td class="appointment-id">${appointment.appointmentId || 'CA-N/A'}</td>
-                            <td>${appointment.fullName || 'Anonymous'}</td>
+                            <td class="complaint-id">${complaint.complaintId || 'RC-N/A'}</td>
+                            <td class="complaint-desc" title="${description}">
+                                ${truncatedDesc}
+                            </td>
                             <td>
-                                <span class="case-type-badge ${caseTypeClass}">
-                                    ${formattedCaseType}
+                                <span class="road-issue-badge ${issueTypeClass}">
+                                    ${formattedIssueType}
                                 </span>
                             </td>
+                            <td>
+                                <span class="security-badge ${securityClass}">
+                                    ${formattedSecurity}
+                                </span>
+                            </td>
+                            <td>${complaint.fullName || 'Anonymous'}</td>
                             <td>${formattedDate}</td>
-                            <td>
-                                <span class="time-badge ${timeSlotClass}">
-                                    ${formattedTimeSlot}
-                                </span>
-                            </td>
-                            <td>${appointment.mobile || 'N/A'}</td>
                             <td>
                                 <span class="status-badge ${statusClass}">${statusText}</span>
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="action-btn btn-view" onclick="viewAppointment('${appointment._id}')">
+                                    <button class="action-btn btn-view" onclick="viewComplaint('${complaint._id}')">
                                         <i class="fas fa-eye"></i> View
                                     </button>
-                                    <button class="action-btn btn-update" onclick="updateAppointment('${appointment._id}')">
+                                    <button class="action-btn btn-update" onclick="updateComplaint('${complaint._id}')">
                                         <i class="fas fa-edit"></i> Update
                                     </button>
                                 </div>
@@ -1564,32 +1635,32 @@
 
         // Function to change page
         function changePage(direction) {
-            const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage);
+            const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
             const newPage = currentPage + direction;
 
             if (newPage >= 1 && newPage <= totalPages) {
                 currentPage = newPage;
-                renderAppointmentsTable();
+                renderComplaintsTable();
             }
         }
 
-        // View Appointment Function
-        async function viewAppointment(appointmentId) {
+        // View Complaint Function
+        async function viewComplaint(complaintId) {
             try {
-                console.log(`👁️ Viewing court appointment: ${appointmentId}`);
+                console.log(`👁️ Viewing road complaint: ${complaintId}`);
 
-                // Find the appointment
-                const appointment = allAppointments.find(a => a._id === appointmentId) || getMockCourtAppointments().find(a => a._id === appointmentId);
+                // Find the complaint
+                const complaint = allComplaints.find(c => c._id === complaintId) || getMockRoadComplaints().find(c => c._id === complaintId);
 
-                if (!appointment) {
-                    showToast('Appointment not found', 'error');
+                if (!complaint) {
+                    showToast('Complaint not found', 'error');
                     return;
                 }
 
-                currentAppointmentId = appointmentId;
+                currentComplaintId = complaintId;
 
                 // Format dates
-                const createdAt = new Date(appointment.createdAt).toLocaleDateString('en-US', {
+                const createdAt = new Date(complaint.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
@@ -1597,8 +1668,8 @@
                     minute: '2-digit'
                 });
 
-                const updatedAt = appointment.updatedAt ?
-                    new Date(appointment.updatedAt).toLocaleDateString('en-US', {
+                const updatedAt = complaint.updatedAt ?
+                    new Date(complaint.updatedAt).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
@@ -1606,52 +1677,58 @@
                         minute: '2-digit'
                     }) : 'Not updated yet';
 
-                // Format case type and time slot
-                const formattedCaseType = formatCaseType(appointment.caseType);
-                const formattedTimeSlot = formatTimeSlot(appointment.timeSlot);
-                const caseTypeClass = getCaseTypeClass(appointment.caseType);
-                const timeSlotClass = getTimeSlotClass(appointment.timeSlot);
+                // Format address
+                const formattedAddress = complaint.roadName ? 
+                    `${complaint.roadName}, ${complaint.area || ''}, ${complaint.city || ''}, Ward: ${complaint.ward || ''}, Pincode: ${complaint.pincode || 'N/A'}` 
+                    : 'Address not provided';
 
-                // Format purpose
-                const purpose = Array.isArray(appointment.purpose) ? 
-                    appointment.purpose.join(', ').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
-                    appointment.purpose || 'Not specified';
+                // Format issue type and security level
+                const formattedIssueType = formatIssueType(complaint.issueType);
+                const formattedSecurityLevel = formatSecurityLevel(complaint.securityLevel);
+                const issueTypeClass = getIssueTypeClass(complaint.issueType);
+                const securityClass = getSecurityClass(complaint.securityLevel);
 
-                // Format ID info
-                let idInfo = '';
-                if (appointment.idType && appointment.idNumber) {
-                    idInfo = `${appointment.idType.toUpperCase()}: ${appointment.idNumber}`;
-                } else {
-                    idInfo = 'Not provided';
-                }
+                // Format duration
+                const duration = complaint.durationValue ? 
+                    `${complaint.durationValue} ${complaint.durationUnit || 'days'}` 
+                    : 'Not specified';
+
+                // Format affected area
+                const affectedArea = complaint.affectedArea ? 
+                    complaint.affectedArea.replace('_', ' ').charAt(0).toUpperCase() + complaint.affectedArea.replace('_', ' ').slice(1)
+                    : 'Not specified';
 
                 const detailsHtml = `
                     <div class="detail-section">
-                        <h4><i class="fas fa-info-circle"></i> Appointment Information</h4>
+                        <h4><i class="fas fa-info-circle"></i> Complaint Information</h4>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <span class="detail-label">Appointment ID</span>
-                                <div class="detail-value">${appointment.appointmentId || 'N/A'}</div>
+                                <span class="detail-label">Complaint ID</span>
+                                <div class="detail-value">${complaint.complaintId || 'N/A'}</div>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Status</span>
                                 <div class="detail-value">
-                                    <span class="status-badge status-${(appointment.status || 'Pending').toLowerCase()}">
-                                        ${appointment.status || 'Pending'}
+                                    <span class="status-badge status-${(complaint.status || 'Pending').toLowerCase().replace(/\s+/g, '')}">
+                                        ${complaint.status || 'Pending'}
                                     </span>
                                 </div>
                             </div>
                             <div class="detail-item">
-                                <span class="detail-label">Case Type</span>
+                                <span class="detail-label">Issue Type</span>
                                 <div class="detail-value">
-                                    <span class="case-type-badge ${caseTypeClass}">
-                                        ${formattedCaseType}
+                                    <span class="road-issue-badge ${issueTypeClass}">
+                                        ${formattedIssueType}
                                     </span>
                                 </div>
                             </div>
                             <div class="detail-item">
-                                <span class="detail-label">Purpose</span>
-                                <div class="detail-value">${purpose}</div>
+                                <span class="detail-label">Security Level</span>
+                                <div class="detail-value">
+                                    <span class="security-badge ${securityClass}">
+                                        ${formattedSecurityLevel}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1661,57 +1738,53 @@
                         <div class="detail-grid">
                             <div class="detail-item">
                                 <span class="detail-label">Full Name</span>
-                                <div class="detail-value">${appointment.fullName || 'Not provided'}</div>
+                                <div class="detail-value">${complaint.fullName || 'Not provided'}</div>
                             </div>
                             <div class="detail-item">
-                                <span class="detail-label">Date of Birth</span>
-                                <div class="detail-value">${formatDate(appointment.dob) || 'Not provided'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Gender</span>
-                                <div class="detail-value">${appointment.gender ? appointment.gender.charAt(0).toUpperCase() + appointment.gender.slice(1) : 'Not provided'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">ID Information</span>
-                                <div class="detail-value">${idInfo}</div>
+                                <span class="detail-label">Phone</span>
+                                <div class="detail-value">${complaint.phone || 'Not provided'}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="detail-section">
-                        <h4><i class="fas fa-address-card"></i> Contact Details</h4>
+                        <h4><i class="fas fa-map-marker-alt"></i> Location Details</h4>
                         <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Mobile</span>
-                                <div class="detail-value">${appointment.mobile || 'Not provided'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Email</span>
-                                <div class="detail-value">${appointment.email || 'Not provided'}</div>
-                            </div>
                             <div class="detail-item" style="grid-column: 1 / -1;">
                                 <span class="detail-label">Address</span>
                                 <div class="detail-value" style="padding: 1rem; background: white; border-radius: 8px; margin-top: 0.5rem;">
-                                    ${appointment.address || 'Not provided'}
+                                    ${formattedAddress}
                                 </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Landmark</span>
+                                <div class="detail-value">${complaint.landmark || 'Not specified'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Affected Area</span>
+                                <div class="detail-value">${affectedArea}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="detail-section">
-                        <h4><i class="fas fa-calendar-alt"></i> Appointment Details</h4>
+                        <h4><i class="fas fa-calendar-alt"></i> Issue Details</h4>
                         <div class="detail-grid">
                             <div class="detail-item">
-                                <span class="detail-label">Appointment Date</span>
-                                <div class="detail-value">${formatDate(appointment.appointmentDate)}</div>
+                                <span class="detail-label">Duration</span>
+                                <div class="detail-value">${duration}</div>
                             </div>
                             <div class="detail-item">
-                                <span class="detail-label">Time Slot</span>
-                                <div class="detail-value">
-                                    <span class="time-badge ${timeSlotClass}">
-                                        ${formattedTimeSlot}
-                                    </span>
-                                </div>
+                                <span class="detail-label">Monsoon Issue</span>
+                                <div class="detail-value">${complaint.monsoonIssue || 'Not related'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Capture Date</span>
+                                <div class="detail-value">${complaint.captureDate || 'Not specified'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Capture Time</span>
+                                <div class="detail-value">${complaint.captureTime || 'Not specified'}</div>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Submitted On</span>
@@ -1723,52 +1796,64 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="detail-section">
+                        <h4><i class="fas fa-clipboard"></i> Complaint Details</h4>
+                        <div class="detail-grid">
+                            <div class="detail-item" style="grid-column: 1 / -1;">
+                                <span class="detail-label">Description</span>
+                                <div class="detail-value" style="padding: 1rem; background: white; border-radius: 8px; margin-top: 0.5rem; white-space: pre-wrap;">
+                                    ${complaint.remarks || 'No description provided'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 `;
 
-                document.getElementById('appointmentDetails').innerHTML = detailsHtml;
+                document.getElementById('complaintDetails').innerHTML = detailsHtml;
                 document.getElementById('viewModal').classList.add('active');
 
             } catch (error) {
-                console.error('❌ Error viewing court appointment:', error);
-                showToast('Error loading appointment details', 'error');
+                console.error('❌ Error viewing road complaint:', error);
+                showToast('Error loading complaint details', 'error');
             }
         }
 
-        // Update Appointment Function
-        async function updateAppointment(appointmentId) {
+        // Update Complaint Function
+        async function updateComplaint(complaintId) {
             try {
-                console.log(`✏️ Updating court appointment: ${appointmentId}`);
+                console.log(`✏️ Updating road complaint: ${complaintId}`);
 
-                // Find the appointment
-                const appointment = allAppointments.find(a => a._id === appointmentId) || getMockCourtAppointments().find(a => a._id === appointmentId);
+                // Find the complaint
+                const complaint = allComplaints.find(c => c._id === complaintId) || getMockRoadComplaints().find(c => c._id === complaintId);
 
-                if (!appointment) {
-                    showToast('Appointment not found', 'error');
+                if (!complaint) {
+                    showToast('Complaint not found', 'error');
                     return;
                 }
 
-                currentAppointmentId = appointmentId;
+                currentComplaintId = complaintId;
 
                 const formHtml = `
                     <div class="form-group">
-                        <label>Appointment ID</label>
-                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-court); border-radius: 6px;">
-                            ${appointment.appointmentId || 'CA-N/A'}
+                        <label>Complaint ID</label>
+                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-brown); border-radius: 6px;">
+                            ${complaint.complaintId || 'RC-N/A'}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Citizen Name</label>
-                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-court); border-radius: 6px;">
-                            ${appointment.fullName || 'Not provided'}
+                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-brown); border-radius: 6px;">
+                            ${complaint.fullName || 'Not provided'}
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Case Type</label>
+                        <label>Issue Type</label>
                         <div class="detail-value" style="padding: 0.5rem; display: inline-block;">
-                            <span class="case-type-badge ${getCaseTypeClass(appointment.caseType)}">
-                                ${formatCaseType(appointment.caseType)}
+                            <span class="road-issue-badge ${getIssueTypeClass(complaint.issueType)}">
+                                ${formatIssueType(complaint.issueType)}
                             </span>
                         </div>
                     </div>
@@ -1776,8 +1861,8 @@
                     <div class="form-group">
                         <label>Current Status</label>
                         <div style="padding: 0.5rem; display: inline-block;">
-                            <span class="status-badge status-${(appointment.status || 'Pending').toLowerCase()}">
-                                ${appointment.status || 'Pending'}
+                            <span class="status-badge status-${(complaint.status || 'Pending').toLowerCase().replace(/\s+/g, '')}">
+                                ${complaint.status || 'Pending'}
                             </span>
                         </div>
                     </div>
@@ -1785,68 +1870,48 @@
                     <div class="form-group">
                         <label for="statusSelect">Update Status *</label>
                         <select class="form-select" id="statusSelect" required>
-                            <option value="Pending" ${(appointment.status || 'Pending') === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="Approved" ${(appointment.status || 'Pending') === 'Approved' ? 'selected' : ''}>Approved</option>
-                            <option value="Rejected" ${(appointment.status || 'Pending') === 'Rejected' ? 'selected' : ''}>Rejected</option>
-                            <option value="Rescheduled" ${(appointment.status || 'Pending') === 'Rescheduled' ? 'selected' : ''}>Rescheduled</option>
+                            <option value="Pending" ${(complaint.status || 'Pending') === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="In Progress" ${(complaint.status || 'Pending') === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="Resolved" ${(complaint.status || 'Pending') === 'Resolved' ? 'selected' : ''}>Resolved</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="assignedJudge">Assign Judge</label>
-                        <select class="form-select" id="assignedJudge">
+                        <label for="assignedTo">Assign To</label>
+                        <select class="form-select" id="assignedTo">
                             <option value="">Not Assigned</option>
-                            <option value="Hon. Justice Sharma">Hon. Justice Sharma</option>
-                            <option value="Hon. Justice Verma">Hon. Justice Verma</option>
-                            <option value="Hon. Justice Patel">Hon. Justice Patel</option>
-                            <option value="Hon. Justice Singh">Hon. Justice Singh</option>
-                            <option value="Hon. Justice Kumar">Hon. Justice Kumar</option>
+                            <option value="Road Repair Team A">Road Repair Team A</option>
+                            <option value="Road Repair Team B">Road Repair Team B</option>
+                            <option value="Civil Engineering Dept">Civil Engineering Dept</option>
+                            <option value="Municipal Corporation">Municipal Corporation</option>
+                            <option value="Contractor XYZ">Contractor XYZ</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="courtRoom">Court Room</label>
-                        <select class="form-select" id="courtRoom">
-                            <option value="">Not Assigned</option>
-                            <option value="Court Room 1">Court Room 1</option>
-                            <option value="Court Room 2">Court Room 2</option>
-                            <option value="Court Room 3">Court Room 3</option>
-                            <option value="Court Room 4">Court Room 4</option>
-                            <option value="Court Room 5">Court Room 5</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prioritySelect">Priority Level</label>
+                        <label for="prioritySelect">Priority</label>
                         <select class="form-select" id="prioritySelect">
-                            <option value="normal">Normal</option>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
                             <option value="urgent">Urgent</option>
-                            <option value="high">High Priority</option>
-                            <option value="emergency">Emergency</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="judgeNotes">Judge's Notes/Remarks</label>
-                        <textarea class="form-textarea" id="judgeNotes" placeholder="Add notes, remarks, or instructions...">${appointment.judgeNotes || ''}</textarea>
-                        <small class="text-muted">This will be visible to the citizen when status is changed</small>
+                        <label for="govtNotes">Government Notes/Resolution</label>
+                        <textarea class="form-textarea" id="govtNotes" placeholder="Add notes about the resolution or current status...">${complaint.govtNotes || ''}</textarea>
+                        <small class="text-muted">This will be visible to the citizen when status is changed to Resolved</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="newDate">Reschedule Date (if applicable)</label>
-                        <input type="date" class="form-control" id="newDate" value="${appointment.rescheduledDate || ''}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="newTime">Reschedule Time (if applicable)</label>
-                        <select class="form-select" id="newTime">
-                            <option value="">Select time</option>
-                            <option value="9-10">9:00 AM – 10:00 AM</option>
-                            <option value="10-11">10:00 AM – 11:00 AM</option>
-                            <option value="11-12">11:00 AM – 12:00 PM</option>
-                            <option value="2-3">2:00 PM – 3:00 PM</option>
-                            <option value="3-4">3:00 PM – 4:00 PM</option>
-                            <option value="4-5">4:00 PM – 5:00 PM</option>
+                        <label for="estimatedResolution">Estimated Resolution Time</label>
+                        <select class="form-select" id="estimatedResolution">
+                            <option value="">Not specified</option>
+                            <option value="within_24_hours">Within 24 hours</option>
+                            <option value="within_48_hours">Within 48 hours</option>
+                            <option value="within_week">Within a week</option>
+                            <option value="more_than_week">More than a week</option>
                         </select>
                     </div>
                 `;
@@ -1856,7 +1921,7 @@
 
             } catch (error) {
                 console.error('❌ Error loading update form:', error);
-                showToast('Error loading appointment details', 'error');
+                showToast('Error loading complaint details', 'error');
             }
         }
 
@@ -1864,24 +1929,20 @@
         async function saveUpdate() {
             try {
                 const newStatus = document.getElementById("statusSelect").value;
-                const assignedJudge = document.getElementById("assignedJudge").value;
-                const courtRoom = document.getElementById("courtRoom").value;
+                const assignedTo = document.getElementById("assignedTo").value;
                 const priority = document.getElementById("prioritySelect").value;
-                const judgeNotes = document.getElementById("judgeNotes").value;
-                const newDate = document.getElementById("newDate").value;
-                const newTime = document.getElementById("newTime").value;
+                const govtNotes = document.getElementById("govtNotes").value;
+                const estimatedResolution = document.getElementById("estimatedResolution").value;
 
-                console.log("📤 Sending court appointment update to backend:", {
+                console.log("📤 Sending road complaint update to backend:", {
                     status: newStatus,
-                    assignedJudge,
-                    courtRoom,
+                    assignedTo,
                     priority,
-                    judgeNotes,
-                    rescheduledDate: newDate,
-                    rescheduledTime: newTime
+                    govtNotes,
+                    estimatedResolution
                 });
 
-                const response = await fetch(`/court/appointments/${currentAppointmentId}`, {
+                const response = await fetch(`/government/complaints/road/${currentComplaintId}`, {
                     method: "PUT",
                     credentials: "include",
                     headers: {
@@ -1890,12 +1951,10 @@
                     },
                     body: JSON.stringify({
                         status: newStatus,
-                        assignedJudge,
-                        courtRoom,
+                        assignedTo,
                         priority,
-                        judgeNotes,
-                        rescheduledDate: newDate,
-                        rescheduledTime: newTime
+                        govtNotes,
+                        estimatedResolution
                     })
                 });
 
@@ -1907,20 +1966,20 @@
                 }
 
                 // ✅ Update local cache so UI refreshes instantly
-                const index = allAppointments.findIndex(a => a._id === currentAppointmentId);
+                const index = allComplaints.findIndex(c => c._id === currentComplaintId);
                 if (index !== -1) {
-                    allAppointments[index] = data.appointment;
+                    allComplaints[index] = data.complaint;
                 }
 
-                showToast("Court appointment updated successfully!", "success");
+                showToast("Road complaint updated successfully!", "success");
 
                 closeModal();
-                filteredAppointments = [...allAppointments];
-                updateDashboardStats(allAppointments);
-                renderAppointmentsTable();
+                filteredComplaints = [...allComplaints];
+                updateDashboardStats(allComplaints);
+                renderComplaintsTable();
             } catch (error) {
                 console.error("❌ Update failed:", error);
-                showToast("Failed to update appointment", "error");
+                showToast("Failed to update complaint", "error");
             }
         }
 
@@ -1928,7 +1987,7 @@
         function closeModal() {
             document.getElementById('viewModal').classList.remove('active');
             document.getElementById('updateModal').classList.remove('active');
-            currentAppointmentId = '';
+            currentComplaintId = '';
         }
 
         // Show Toast Notification
@@ -1940,19 +1999,19 @@
 
             // Set icon and title based on type
             if (type === 'error') {
-                toast.style.borderLeftColor = 'var(--danger-court)';
+                toast.style.borderLeftColor = 'var(--danger-color)';
                 toastIcon.className = 'fas fa-exclamation-circle';
-                toastIcon.style.color = 'var(--danger-court)';
+                toastIcon.style.color = 'var(--danger-color)';
                 toastTitle.textContent = 'Error!';
             } else if (type === 'warning') {
-                toast.style.borderLeftColor = 'var(--warning-court)';
+                toast.style.borderLeftColor = 'var(--warning-color)';
                 toastIcon.className = 'fas fa-exclamation-triangle';
-                toastIcon.style.color = 'var(--warning-court)';
+                toastIcon.style.color = 'var(--warning-color)';
                 toastTitle.textContent = 'Warning!';
             } else {
-                toast.style.borderLeftColor = 'var(--success-court)';
+                toast.style.borderLeftColor = 'var(--success-color)';
                 toastIcon.className = 'fas fa-check-circle';
-                toastIcon.style.color = 'var(--success-court)';
+                toastIcon.style.color = 'var(--success-color)';
                 toastTitle.textContent = 'Success!';
             }
 
