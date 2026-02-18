@@ -1890,7 +1890,7 @@
             }
         }
 
-        // Save Update Function
+        // Save Update Function - FIXED VERSION
         async function saveUpdate() {
             try {
                 const newStatus = document.getElementById("statusSelect").value;
@@ -1904,19 +1904,63 @@
                     assignedTo,
                     priority,
                     govtNotes,
-                    estimatedResolution
+                    estimatedResolution,
+                    complaintId: currentComplaintId
                 });
 
-                // Simulate successful update for demo
-                showToast("Road complaint updated successfully!", "success");
+                // Show loading state on button
+                const saveBtn = document.querySelector('#updateModal .btn-save');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+                saveBtn.disabled = true;
 
-                // Update local data
+                // Call the backend API to update the complaint
+                const response = await fetch(`/government/complaints/road/${currentComplaintId}`, {
+                    method: "PUT",
+                    credentials: 'include',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        status: newStatus,
+                        assignedTo: assignedTo,
+                        priority: priority,
+                        govtNotes: govtNotes,
+                        estimatedResolution: estimatedResolution
+                    })
+                });
+
+                // Reset button state
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    throw new Error(errorData?.message || `Server responded with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("📥 Backend response:", data);
+
+                if (!data.success) {
+                    throw new Error(data.message || "Update failed");
+                }
+
+                // ✅ Update local cache so UI refreshes instantly
                 const index = allComplaints.findIndex(c => c._id === currentComplaintId);
                 if (index !== -1) {
                     allComplaints[index].status = newStatus;
                     allComplaints[index].govtNotes = govtNotes;
                     allComplaints[index].updatedAt = new Date().toISOString();
+                    
+                    // Update other fields if they exist in the response
+                    if (data.complaint) {
+                        allComplaints[index] = { ...allComplaints[index], ...data.complaint };
+                    }
                 }
+
+                showToast("Road complaint updated successfully!", "success");
 
                 closeModal();
                 filteredComplaints = [...allComplaints];
@@ -1925,7 +1969,14 @@
 
             } catch (error) {
                 console.error("❌ Update failed:", error);
-                showToast("Failed to update complaint", "error");
+                showToast(error.message || "Failed to update complaint", "error");
+                
+                // Reset button state if error occurred
+                const saveBtn = document.querySelector('#updateModal .btn-save');
+                if (saveBtn) {
+                    saveBtn.innerHTML = 'Save Changes';
+                    saveBtn.disabled = false;
+                }
             }
         }
 
