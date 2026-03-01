@@ -8,24 +8,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
-            --gray-bg: #4a4a4a;
-            --gray-card: #5c5c5c;
-            --gray-light: #6b6b6b;
-            --gray-border: #3d3d3d;
-            --gray-text: #e8e8e8;
-            --gray-muted: #b0b0b0;
+            --off-white: #f8f8f6;
+            --off-white-card: #fafaf8;
+            --off-white-border: #e8e8e4;
+            --text-dark: #333;
+            --text-muted: #666;
         }
-        body { background: linear-gradient(145deg, #3a3a3a, #4a4a4a); min-height: 100vh; color: var(--gray-text); font-family: 'Segoe UI', sans-serif; }
-        .dash-header { background: rgba(0,0,0,0.2); padding: 1rem 2rem; border-bottom: 1px solid var(--gray-border); }
-        .dash-header a { color: var(--gray-muted); text-decoration: none; }
-        .dash-header a:hover { color: #fff; }
-        .card-gray { background: var(--gray-card); border: 1px solid var(--gray-border); border-radius: 12px; }
-        .table-gray { color: var(--gray-text); }
-        .table-gray thead { background: var(--gray-border); color: var(--gray-text); }
-        .table-gray tbody tr { border-color: var(--gray-border); }
-        .table-gray input, .table-gray select { background: var(--gray-light); border-color: var(--gray-border); color: var(--gray-text); }
-        .btn-gray { background: var(--gray-light); border-color: var(--gray-border); color: var(--gray-text); }
-        .btn-gray:hover { background: var(--gray-muted); color: #333; }
+        body { background: linear-gradient(145deg, #f5f5f2, #fafaf8); min-height: 100vh; color: var(--text-dark); font-family: 'Segoe UI', sans-serif; }
+        .dash-header { background: var(--off-white-card); padding: 1rem 2rem; border-bottom: 1px solid var(--off-white-border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        .dash-header a { color: var(--text-muted); text-decoration: none; }
+        .dash-header a:hover { color: #333; }
+        .card-gray { background: var(--off-white-card); border: 1px solid var(--off-white-border); border-radius: 12px; }
+        .table-gray { color: var(--text-dark); }
+        .table-gray thead { background: var(--off-white-border); color: var(--text-dark); }
+        .table-gray tbody tr { border-color: var(--off-white-border); }
+        .table-gray input, .table-gray select { background: #fff; border-color: var(--off-white-border); color: var(--text-dark); }
         .btn-save { background: #5a9; border-color: #5a9; color: #fff; }
         .btn-save:hover { background: #6bb; color: #fff; }
         .btn-del { background: #a55; border-color: #a55; color: #fff; }
