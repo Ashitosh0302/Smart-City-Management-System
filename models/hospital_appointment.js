@@ -73,6 +73,19 @@ const HOSPITAL_APPOINTMENT_SCHEMA = new mongoose.Schema(
     {
         type: String,
         required: true
+    },
+
+    urgency:
+    {
+        type: String,
+        enum: ["Normal", "Urgent", "Emergency"],
+        default: "Normal"
+    },
+
+    notes:
+    {
+        type: String,
+        default: ""
     }
 },
 {

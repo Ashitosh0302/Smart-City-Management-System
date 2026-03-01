@@ -58,6 +58,7 @@ async function hospital_appointments_view(req, res)
     {
         const appointments = await HospitalAppointment.find({});
 
+        const cap = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";
         // 🔁 map ONLY what frontend expects
         const formattedAppointments = appointments.map(app => ({
             _id: app._id,
@@ -69,8 +70,9 @@ async function hospital_appointments_view(req, res)
 
             appointmentDate: app.appointmentDate,
             appointmentTime: app.timeSlot,   // 🔥 MATCH FRONTEND
-            urgency: app.urgency || "normal",
-            status: app.status || "pending",
+            urgency: cap(app.urgency) || "Normal",
+            status: cap(app.status) || "Pending",
+            notes: app.notes || "",
 
             createdAt: app.createdAt
         }));
@@ -105,16 +107,57 @@ async function getHospitalAppointmentById(req, res)
 
 async function updateHospitalAppointment(req, res)
 {
-    await HospitalAppointment.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
-    );
+    try
+    {
+        const { id } = req.params;
+        const { status, urgency, appointmentDate, appointmentTime, notes } = req.body;
 
-    return res.json({
-        success: true,
-        message: "Appointment updated"
-    });
+        const updateData = {};
+        if (status !== undefined) updateData.status = String(status).toLowerCase();
+        if (urgency !== undefined) updateData.urgency = urgency;
+        if (appointmentDate !== undefined) updateData.appointmentDate = appointmentDate;
+        if (appointmentTime !== undefined) updateData.timeSlot = appointmentTime;
+        if (notes !== undefined) updateData.notes = notes;
+
+        const updated = await HospitalAppointment.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        if (!updated)
+        {
+            return res.status(404).json({
+                success: false,
+                message: "Appointment not found"
+            });
+        }
+
+        const cap = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";
+        return res.json({
+            success: true,
+            message: "Appointment updated successfully",
+            appointment: {
+                _id: updated._id,
+                fullName: updated.patientName,
+                age: updated.age,
+                department: updated.purpose,
+                appointmentDate: updated.appointmentDate,
+                appointmentTime: updated.timeSlot,
+                urgency: updated.urgency || "Normal",
+                status: cap(updated.status),
+                notes: updated.notes
+            }
+        });
+    }
+    catch (error)
+    {
+        console.error("Hospital appointment update error:", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to update appointment"
+        });
+    }
 }
 
 module.exports =
