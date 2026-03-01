@@ -43,7 +43,7 @@ async function transport_register(req, res)
             email,
             password: password_hash
         },
-        (error, result) =>
+        (error) =>
         {
             if(error)
             {
@@ -53,11 +53,8 @@ async function transport_register(req, res)
                 });
             }
 
-            req.session.transport = {
-                email: email
-            };
-
-            res.redirect("/");
+            // After successful registration, go to common login (JWT-based)
+            return res.redirect("/login");
         }
     );
 }

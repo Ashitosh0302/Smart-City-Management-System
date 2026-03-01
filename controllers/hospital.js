@@ -44,7 +44,8 @@ async function hospital_register(req, res)
                 });
             }
 
-            res.redirect("/hospital");
+            // After successful registration, go to common login (JWT-based)
+            return res.redirect("/login");
         }
     );
 }

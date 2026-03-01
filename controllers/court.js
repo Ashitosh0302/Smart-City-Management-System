@@ -34,8 +34,8 @@ async function court_register(req, res) {
                 });
             }
 
-            req.session.court = { email };
-            res.redirect("/court/dashboard");
+            // After successful registration, go to common login (JWT-based)
+            return res.redirect("/login");
         }
     );
 }

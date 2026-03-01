@@ -33,7 +33,7 @@ async function government_register(req, res)
             email,
             password: password_hash
         },
-        (error, result) =>
+        (error) =>
         {
             if(error)
             {
@@ -43,8 +43,8 @@ async function government_register(req, res)
                 });
             }
 
-            req.session.government = { email };
-            res.redirect("/");
+            // After successful registration, go to common login (JWT-based)
+            return res.redirect("/login");
         }
     );
 }
