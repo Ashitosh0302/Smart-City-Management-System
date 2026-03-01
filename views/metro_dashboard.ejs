@@ -1,49 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Metro Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Management | CityZen Transport</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --gray-bg: #4a4a4a;
+            --gray-card: #5c5c5c;
+            --gray-light: #6b6b6b;
+            --gray-border: #3d3d3d;
+            --gray-text: #e8e8e8;
+            --gray-muted: #b0b0b0;
+        }
+        body { background: linear-gradient(145deg, #3a3a3a, #4a4a4a); min-height: 100vh; color: var(--gray-text); font-family: 'Segoe UI', sans-serif; }
+        .dash-header { background: rgba(0,0,0,0.2); padding: 1rem 2rem; border-bottom: 1px solid var(--gray-border); }
+        .dash-header a { color: var(--gray-muted); text-decoration: none; }
+        .dash-header a:hover { color: #fff; }
+        .card-gray { background: var(--gray-card); border: 1px solid var(--gray-border); border-radius: 12px; }
+        .table-gray { color: var(--gray-text); }
+        .table-gray thead { background: var(--gray-border); color: var(--gray-text); }
+        .table-gray tbody tr { border-color: var(--gray-border); }
+        .table-gray input, .table-gray select { background: var(--gray-light); border-color: var(--gray-border); color: var(--gray-text); }
+        .btn-save { background: #5a9; border-color: #5a9; color: #fff; }
+        .btn-save:hover { background: #6bb; color: #fff; }
+        .btn-del { background: #a55; border-color: #a55; color: #fff; }
+        .btn-del:hover { background: #b66; color: #fff; }
+    </style>
 </head>
-<body class="bg-light">
-
-<div class="container mt-4">
-    <h3 class="mb-4">🚇 Metro Management Dashboard</h3>
-
-    <div class="card p-4">
-        <div class="d-flex justify-content-between mb-3">
-            <h5>Metro Timetable</h5>
-            <button class="btn btn-success">+ Create Metro Route</button>
+<body>
+    <div class="dash-header d-flex justify-content-between align-items-center">
+        <div>
+            <a href="/transport"><i class="fas fa-arrow-left me-2"></i>Back</a>
+            <span class="mx-3 text-muted">|</span>
+            <strong><i class="fas fa-train-subway me-2"></i>Metro Management Dashboard</strong>
         </div>
-
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Line No</th>
-                    <th>Trains</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td><input class="form-control" value="Metro-Line-3"></td>
-                    <td><input class="form-control" value="8"></td>
-                    <td><input type="time" class="form-control"></td>
-                    <td><input type="time" class="form-control"></td>
-                    <td>
-                        <button class="btn btn-primary btn-sm">Save</button>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <button class="btn btn-secondary mt-2">View All Metro Bookings</button>
+        <a href="/login/logout"><i class="fas fa-sign-out-alt"></i></a>
     </div>
-</div>
 
+    <div class="container mt-4">
+        <div class="card card-gray p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">Metro Timetable</h5>
+                <button class="btn btn-save" id="btnAdd"><i class="fas fa-plus me-1"></i>Create Metro Route</button>
+            </div>
+
+            <table class="table table-gray table-bordered">
+                <thead>
+                    <tr>
+                        <th>Line No</th>
+                        <th>Trains</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="routesBody">
+                    <tr><td colspan="5" class="text-center text-muted">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API = '/transport/api/metro/routes';
+        async function load() {
+            try {
+                const r = await fetch(API, { credentials: 'include' });
+                const d = await r.json();
+                const routes = d.routes || [];
+                const tbody = document.getElementById('routesBody');
+                if (routes.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No routes. Click "Create Metro Route" to add.</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = routes.map(r => `
+                    <tr data-id="${r._id}">
+                        <td><input class="form-control form-control-sm lineNo" value="${r.lineNo || ''}"></td>
+                        <td><input type="number" class="form-control form-control-sm trains" value="${r.trains ?? ''}"></td>
+                        <td><input type="time" class="form-control form-control-sm startTime" value="${r.startTime || ''}"></td>
+                        <td><input type="time" class="form-control form-control-sm endTime" value="${r.endTime || ''}"></td>
+                        <td>
+                            <button class="btn btn-save btn-sm me-1 btnUpdate">Save</button>
+                            <button class="btn btn-del btn-sm btnDelete">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+                bindRowEvents();
+            } catch (e) {
+                document.getElementById('routesBody').innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading data</td></tr>';
+            }
+        }
+        function bindRowEvents() {
+            document.querySelectorAll('.btnUpdate').forEach(btn => {
+                btn.onclick = async () => {
+                    const row = btn.closest('tr');
+                    const id = row.dataset.id;
+                    const payload = {
+                        lineNo: row.querySelector('.lineNo').value,
+                        trains: parseInt(row.querySelector('.trains').value) || 0,
+                        startTime: row.querySelector('.startTime').value,
+                        endTime: row.querySelector('.endTime').value
+                    };
+                    const r = await fetch(API + '/' + id, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (r.ok) load();
+                };
+            });
+            document.querySelectorAll('.btnDelete').forEach(btn => {
+                btn.onclick = async () => {
+                    if (!confirm('Delete this route?')) return;
+                    const id = btn.closest('tr').dataset.id;
+                    const r = await fetch(API + '/' + id, { method: 'DELETE', credentials: 'include' });
+                    if (r.ok) load();
+                };
+            });
+        }
+        document.getElementById('btnAdd').onclick = async () => {
+            const lineNo = prompt('Line No (e.g. Metro-Line-3):');
+            if (!lineNo) return;
+            const payload = { lineNo, trains: 0, startTime: '', endTime: '' };
+            const r = await fetch(API, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (r.ok) load();
+        };
+        load();
+    </script>
 </body>
 </html>

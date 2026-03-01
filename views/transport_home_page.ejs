@@ -1,101 +1,125 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CityZen | Transport Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        :root {
+            --gray-bg: #4a4a4a;
+            --gray-card: #5c5c5c;
+            --gray-light: #6b6b6b;
+            --gray-border: #3d3d3d;
+            --gray-text: #e8e8e8;
+            --gray-muted: #b0b0b0;
+            --accent: #7a7a7a;
+        }
         body {
-            background: #f4f6f9;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(145deg, #3a3a3a 0%, #4a4a4a 50%, #2d2d2d 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            color: var(--gray-text);
         }
-
+        .transport-header {
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-border);
+        }
+        .transport-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--gray-text);
+        }
+        .transport-header a {
+            color: var(--gray-muted);
+            text-decoration: none;
+        }
+        .transport-header a:hover { color: #fff; }
         .card-transport {
-            border-radius: 12px;
-            padding: 30px;
+            background: var(--gray-card);
+            border: 1px solid var(--gray-border);
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            color: var(--gray-text);
         }
-
         .card-transport:hover {
-            transform: scale(1.05);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            border-color: var(--gray-light);
         }
-
-        .card-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
         .card-icon {
-            font-size: 50px;
-            color: #0d6efd;
+            font-size: 3.5rem;
+            color: var(--gray-muted);
+            margin-bottom: 1rem;
         }
-
+        .card-transport .card-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--gray-text);
+        }
+        .card-transport p {
+            color: var(--gray-muted);
+            font-size: 0.95rem;
+        }
         .btn-transport {
-            margin-top: 15px;
-            width: 70%;
+            background: var(--gray-light);
+            border: 1px solid var(--gray-border);
+            color: var(--gray-text);
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-transport:hover {
+            background: var(--accent);
+            border-color: var(--gray-muted);
+            color: #fff;
         }
     </style>
 </head>
-
 <body>
-
-    <div class="container p-5">
-
-        <h3 class="mb-5 text-primary text-center">🚌 Transport Home</h3>
-
-        <div class="row g-4">
-
-            <!-- BUS CARD -->
-            <div class="col-md-4">
-                <div class="card card-transport bg-light">
-                    <div class="card-body">
-                        <div class="card-icon">🚌</div>
-                        <div class="card-title">City Bus</div>
-                        <p>Manage bus routes, timetables, and bookings</p>
-                        <form action="/transport/bus" method="get">
-                            <button class="btn btn-primary btn-transport" type="submit">Go to
-                                Bus Dashboard</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TRAIN CARD -->
-            <div class="col-md-4">
-                <div class="card card-transport bg-light">
-                    <div class="card-body">
-                        <div class="card-icon">🚆</div>
-                        <div class="card-title">Train</div>
-                        <p>Manage train routes, timetables, and bookings</p>
-                        <form action="/transport/train" method="get">
-                            <button class="btn btn-primary btn-transport" type="submit">Go
-                                to Train Dashboard</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- METRO CARD -->
-            <div class="col-md-4">
-                <div class="card card-transport bg-light">
-                    <div class="card-body">
-                        <div class="card-icon">🚇</div>
-                        <div class="card-title">Metro</div>
-                        <p>Manage metro routes, timetables, and bookings</p>
-                        <form action="/transport/metro" method="get">
-                            <button class="btn btn-primary btn-transport" type="submit">Go
-                                to Metro Dashboard</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+    <div class="transport-header d-flex justify-content-between align-items-center">
+        <h1><i class="fas fa-bus me-2"></i>Transport Home</h1>
+        <a href="/login/logout"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
     </div>
 
+    <div class="container p-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-transport">
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fas fa-bus"></i></div>
+                        <div class="card-title">City Bus</div>
+                        <p>Manage bus routes, timetables, and bookings</p>
+                        <a href="/transport/bus" class="btn btn-transport">Go to Bus Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-transport">
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fas fa-train"></i></div>
+                        <div class="card-title">Train</div>
+                        <p>Manage train routes, timetables, and bookings</p>
+                        <a href="/transport/train" class="btn btn-transport">Go to Train Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-transport">
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fas fa-train-subway"></i></div>
+                        <div class="card-title">Metro</div>
+                        <p>Manage metro routes, timetables, and bookings</p>
+                        <a href="/transport/metro" class="btn btn-transport">Go to Metro Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>
