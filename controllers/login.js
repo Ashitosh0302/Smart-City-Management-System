@@ -26,7 +26,7 @@ function login_user(req, res)
                 return res.render("login_page", { error: "Invalid email or password" });
 
             const token = jwt.sign(
-                { id: citizen.id, role: "citizen" },
+                { id: citizen.id, role: "citizen", full_name: citizen.full_name },
                 process.env.JWT_SECRET,
                 { expiresIn: "2h" }
             );

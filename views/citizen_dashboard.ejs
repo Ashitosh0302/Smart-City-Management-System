@@ -335,7 +335,7 @@
         <div class="cityzen-logo">
             <!-- ===== YOUR CUSTOM LOGO IMAGE TAG ===== -->
             <!-- Replace the src attribute with the path to your logo image -->
-            <img src="/path/to/your/cityzen-logo.png" alt="CITYZEN logo" class="logo-image">
+            <img src="/public/CityZen logo.jpeg" alt="CITYZEN logo" class="logo-image">
             <!-- ====================================== -->
             <div class="logo-text">
                 <h2>CITYZEN</h2>
@@ -344,17 +344,10 @@
         </div>
         
         <!-- ===== DYNAMIC USER NAME FROM DATABASE ===== -->
-        <!-- INSTRUCTIONS FOR BACKEND DEVELOPER:
-             Replace the content of the <span> below with the logged-in user's name 
-             fetched from your database. Examples:
-             - For PHP: <span class="dynamic-user-name"><?php echo htmlspecialchars($userName); ?></span>
-             - For Node.js/Express with templating: <span class="dynamic-user-name"><%= userName %></span>
-             - For React, inject from state/props accordingly.
-             The static text "Sarah Johnson" is just a placeholder.
-        -->
+        <!-- The span below is filled from backend with the logged-in citizen's name. -->
         <div class="user-badge">
             <i class="bi bi-person-circle"></i>
-            <span class="dynamic-user-name">Sarah Johnson</span>  <!-- REPLACE THIS WITH DATABASE VALUE -->
+            <span class="dynamic-user-name"><%= citizen && citizen.full_name ? citizen.full_name : 'Citizen' %></span>
         </div>
     </div>
 
