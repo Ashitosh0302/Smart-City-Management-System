@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government | Electricity Complaints Dashboard</title>
+    <title>Electricity Infrastructure | Government Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
         :root {
-            --primary-electric: #1e40af;
-            --secondary-electric: #3b82f6;
-            --accent-electric: #f59e0b;
-            --light-electric: #eff6ff;
-            --success-electric: #10b981;
-            --warning-electric: #f59e0b;
-            --danger-electric: #ef4444;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --border-color: #d1d5db;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --primary: #0a1929;
+            --primary-light: #1e3a5f;
+            --primary-dark: #0a1929;
+            --secondary: #2b4c7c;
+            --accent: #fbbf24;
+            --accent-light: #fcd34d;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f0f9ff;
+            --light-blue: #e6f0ff;
+            --medium-blue: #b8d4ff;
+            --dark: #0a1929;
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --border: #e2e8f0;
+            --shadow-sm: 0 4px 6px rgba(10, 25, 41, 0.1);
+            --shadow-md: 0 6px 12px rgba(10, 25, 41, 0.15);
+            --shadow-lg: 0 15px 25px rgba(10, 25, 41, 0.2);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
@@ -34,30 +41,186 @@
         }
 
         body {
-            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: #f8fafc;
             color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background - Navy Blue Theme */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Grid pattern */
+        .bg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(10, 25, 41, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 25, 41, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: orbFloat 25s infinite alternate;
+        }
+
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(251, 191, 36, 0.05);
+            top: -200px;
+            right: -100px;
+            animation-duration: 30s;
+        }
+
+        .orb2 {
+            width: 600px;
+            height: 600px;
+            background: rgba(59, 130, 246, 0.05);
+            bottom: -300px;
+            left: -200px;
+            animation-duration: 35s;
+            animation-delay: -5s;
+        }
+
+        .orb3 {
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.05);
+            top: 40%;
+            left: 30%;
+            animation-duration: 28s;
+            animation-delay: -2s;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+            100% { transform: translate(50px, -50px) scale(1.2); opacity: 0.5; }
+        }
+
+        /* Electric arcs */
+        .arc {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            animation: arcMove 12s infinite linear;
+        }
+
+        .arc1 {
+            top: 20%;
+            transform: rotate(2deg);
+            animation-duration: 15s;
+        }
+
+        .arc2 {
+            top: 50%;
+            transform: rotate(-3deg);
+            animation-duration: 18s;
+            animation-delay: -5s;
+        }
+
+        .arc3 {
+            top: 80%;
+            transform: rotate(1deg);
+            animation-duration: 14s;
+            animation-delay: -2s;
+        }
+
+        @keyframes arcMove {
+            0% { transform: translateX(-100%) rotate(2deg); opacity: 0; }
+            50% { transform: translateX(0) rotate(2deg); opacity: 0.5; }
+            100% { transform: translateX(100%) rotate(2deg); opacity: 0; }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            background: rgba(251, 191, 36, 0.05);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: particleFloat 20s infinite ease-in-out;
+        }
+
+        .particle1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+            animation-duration: 25s;
+        }
+
+        .particle2 {
+            width: 400px;
+            height: 400px;
+            bottom: -200px;
+            left: -150px;
+            background: rgba(59, 130, 246, 0.05);
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .particle3 {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 30%;
+            background: rgba(16, 185, 129, 0.05);
+            animation-duration: 22s;
+            animation-delay: -3s;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+            50% { transform: translate(40px, -40px) scale(1.2); opacity: 0.2; }
+            100% { transform: translate(-20px, 20px) scale(1); opacity: 0.1; }
         }
 
         /* Header */
         .govt-header {
-            background: linear-gradient(135deg, var(--primary-electric) 0%, var(--secondary-electric) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            padding: 1.25rem 2rem;
+            padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow-md);
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .header-container {
-            max-width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo-section {
@@ -69,23 +232,29 @@
         .govt-logo {
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
+            background: rgba(251, 191, 36, 0.15);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .govt-title h1 {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.25rem;
-            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
         }
 
         .govt-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.9;
         }
 
@@ -99,215 +268,276 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(251, 191, 36, 0.15);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(251, 191, 36, 0.25);
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            border-radius: 30px;
             font-weight: 600;
-            cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
+            backdrop-filter: blur(5px);
         }
 
         .logout-btn-header:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            background: rgba(251, 191, 36, 0.25);
+            border-color: rgba(251, 191, 36, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
         }
 
-        /* Main Container - Full Width */
+        /* Main Container */
         .main-container {
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 2rem;
-            min-height: calc(100vh - 120px);
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            animation: fadeIn 0.8s ease;
         }
 
-        /* Content Area - Full Width */
-        .content-area {
-            width: 100%;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Dashboard Header */
-        .dashboard-header {
-            margin-bottom: 2rem;
-        }
-
+        /* Welcome Card */
         .welcome-card {
-            background: linear-gradient(135deg, var(--primary-electric) 0%, var(--secondary-electric) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            border-radius: 12px;
+            border-radius: 24px;
             padding: 2rem;
-            box-shadow: var(--shadow-md);
-            border-left: 6px solid var(--accent-electric);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            backdrop-filter: blur(10px);
+            animation: cardFloat 6s infinite alternate;
+        }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0); box-shadow: var(--shadow-lg); }
+            100% { transform: translateY(-8px); box-shadow: 0 20px 30px rgba(10, 25, 41, 0.3); }
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
         }
 
         .welcome-content h2 {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .welcome-content h2 i {
+            color: var(--accent);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .welcome-content p {
             opacity: 0.9;
-            max-width: 600px;
+            font-size: 1.1rem;
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .stat-card {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
             transition: var(--transition);
-            border: 2px solid transparent;
-            border-top: 4px solid var(--accent-electric);
-            text-align: center;
+            animation: slideUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent-electric);
+            background: rgba(255,255,255,0.15);
+            border-color: var(--accent);
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary-electric);
+            margin-bottom: 0.3rem;
+            color: white;
         }
 
         .stat-label {
-            color: var(--text-light);
+            color: rgba(255,255,255,0.9);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-weight: 600;
         }
 
-        /* Modal Overlay */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 20px;
+        /* Filter Section */
+        .filter-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            animation: slideInRight 0.7s ease;
         }
 
-        .modal-overlay.active {
-            display: flex;
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary-electric) 0%, var(--secondary-electric) 100%);
+        .filter-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 12px 12px 0 0;
+            padding: 1.2rem 2rem;
+            border-radius: 20px 20px 0 0;
         }
 
-        .modal-header h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .filter-header h3 {
+            font-size: 1.2rem;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .modal-header h3 i {
-            font-size: 1.3rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            transform: scale(1.1);
-        }
-
-        .modal-body {
+        .filter-body {
             padding: 2rem;
         }
 
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border-color);
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-select, .form-control {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            width: 100%;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-select:focus, .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+            outline: none;
+        }
+
+        .input-group {
             display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(10, 25, 41, 0.3);
+        }
+
+        .btn-cancel {
+            background: var(--text-light);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* Complaints Section */
         .complaints-section {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
             overflow: hidden;
-            border: 1px solid var(--border-color);
-            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            animation: slideInLeft 0.7s ease;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .section-header {
-            background: var(--light-electric);
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--border-color);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .section-header h2 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            color: var(--primary-electric);
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -315,144 +545,117 @@
         }
 
         .section-header h2 i {
-            color: var(--accent-electric);
-            font-size: 1.5rem;
+            color: var(--accent);
+            animation: bounce 2s infinite;
         }
 
         .section-header h2 small {
-            font-size: 1rem;
-            color: var(--text-light);
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
         }
 
-        /* Table Container - No horizontal scroll needed */
+        /* Table Styles */
         .table-container {
-            width: 100%;
-            overflow: visible;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .complaints-table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
-        }
-
-        .table-header {
-            background: var(--light-electric);
+            min-width: 1200px;
         }
 
         .table-header th {
-            padding: 1.25rem 1rem;
+            background: var(--light-blue);
+            padding: 1rem;
             text-align: left;
             font-weight: 600;
-            color: var(--primary-electric);
-            border-bottom: 2px solid var(--border-color);
-            font-size: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            font-size: 0.9rem;
             white-space: nowrap;
         }
 
-        /* Column Widths - Optimized for no scroll */
-        .table-header th:nth-child(1) { width: 11%; }  /* Complaint ID */
-        .table-header th:nth-child(2) { width: 20%; }  /* Description */
-        .table-header th:nth-child(3) { width: 11%; }  /* Issue Type */
-        .table-header th:nth-child(4) { width: 11%; }  /* Consumer Name */
-        .table-header th:nth-child(5) { width: 10%; }  /* Meter No. */
-        .table-header th:nth-child(6) { width: 11%; }  /* Submitted Date */
-        .table-header th:nth-child(7) { width: 10%; }  /* Status */
-        .table-header th:nth-child(8) { width: 16%; }  /* Actions */
-
         .table-row {
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
             transition: var(--transition);
+            animation: rowFade 0.5s ease;
+        }
+
+        @keyframes rowFade {
+            from { opacity: 0; background: rgba(251, 191, 36, 0.05); }
+            to { opacity: 1; background: transparent; }
         }
 
         .table-row:hover {
-            background: #f0f9ff;
-            transform: translateY(-2px);
+            background: var(--light-blue);
+            transform: scale(1.001);
             box-shadow: var(--shadow-sm);
         }
 
-        .table-row:last-child {
-            border-bottom: none;
-        }
-
         .table-row td {
-            padding: 1.25rem 1rem;
+            padding: 1rem;
             vertical-align: middle;
-            font-size: 0.95rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 0.9rem;
         }
 
         .complaint-id {
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            color: var(--accent-electric);
-            font-size: 0.9rem;
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--primary);
         }
 
         .complaint-desc {
-            color: var(--text-dark);
-            line-height: 1.5;
+            max-width: 250px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding-right: 0.5rem;
-        }
-
-        .consumer-name {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .meter-number {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
             color: var(--text-dark);
         }
 
         .status-badge {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
             font-weight: 600;
             text-align: center;
-            min-width: 100px;
-            white-space: nowrap;
+            min-width: 90px;
+            animation: badgePop 0.3s ease;
+        }
+
+        @keyframes badgePop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .status-pending {
-            background: linear-gradient(135deg, var(--warning-electric), #fbbf24);
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
             color: white;
         }
 
         .status-inprogress {
-            background: linear-gradient(135deg, var(--secondary-electric), #60a5fa);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
         }
 
         .status-resolved {
-            background: linear-gradient(135deg, var(--success-electric), #34d399);
+            background: linear-gradient(135deg, var(--success), #34d399);
             color: white;
         }
 
         .issue-type-badge {
             display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 600;
-            white-space: nowrap;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .type-powercut {
             background: #dbeafe;
-            color: var(--primary-electric);
+            color: var(--primary);
             border: 1px solid #bfdbfe;
         }
 
@@ -482,185 +685,194 @@
 
         .action-buttons {
             display: flex;
-            gap: 0.5rem;
-            white-space: nowrap;
+            gap: 0.4rem;
+            flex-wrap: wrap;
         }
 
-        .action-btn {
-            padding: 0.5rem 1rem;
+        .action-btn-small {
+            padding: 0.4rem 0.8rem;
             border: none;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            white-space: nowrap;
-        }
-
-        .btn-view {
-            background: var(--accent-electric);
+            gap: 0.3rem;
+            background: var(--primary);
             color: white;
         }
 
-        .btn-view:hover {
-            background: #d97706;
+        .action-btn-small:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 8px rgba(10, 25, 41, 0.3);
+            background: var(--primary-dark);
         }
 
         .btn-update {
-            background: var(--light-electric);
-            color: var(--secondary-electric);
-            border: 2px solid var(--secondary-electric);
+            background: var(--light-blue);
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
 
         .btn-update:hover {
-            background: var(--secondary-electric);
+            background: var(--primary);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
         }
 
-        .btn-save {
-            background: var(--success-electric);
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 41, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 1rem;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: modalSlideUp 0.4s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            padding: 0.75rem 1.5rem;
-        }
-
-        .btn-save:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
-        .btn-cancel {
-            background: var(--text-light);
-            color: white;
-            padding: 0.75rem 1.5rem;
-        }
-
-        .btn-cancel:hover {
-            background: var(--text-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Complaint Details */
-        .complaint-details {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .detail-section {
-            background: var(--light-electric);
             padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-electric);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 24px 24px 0 0;
         }
 
-        .detail-section h4 {
-            color: var(--primary-electric);
-            margin-bottom: 1rem;
+        .modal-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1.2rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .detail-section {
+            background: var(--light-blue);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent);
+            animation: slideRight 0.5s ease;
+        }
+
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .detail-section h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
 
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .detail-item {
-            margin-bottom: 0.75rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
 
         .detail-label {
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 0.25rem;
             display: block;
-            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
         }
 
         .detail-value {
-            color: var(--text-light);
-            font-size: 1rem;
-            padding: 0.5rem;
             background: white;
-            border-radius: 6px;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
-        /* Update Form */
-        .update-form {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
+        .btn-save {
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-size: 1rem;
-        }
-
-        .form-select, .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
             transition: var(--transition);
         }
 
-        .form-select:focus, .form-control:focus {
-            outline: none;
-            border-color: var(--accent-electric);
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-        }
-
-        .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            min-height: 100px;
-            resize: vertical;
-            transition: var(--transition);
-        }
-
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent-electric);
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        .btn-save:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
         }
 
         /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 2rem;
+            right: 2rem;
             background: white;
             padding: 1rem 1.5rem;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: var(--shadow-lg);
             display: flex;
             align-items: center;
             gap: 1rem;
             transform: translateX(150%);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             z-index: 3000;
-            border-left: 4px solid var(--success-electric);
+            border-left: 4px solid var(--success);
         }
 
         .toast.show {
@@ -668,70 +880,12 @@
         }
 
         .toast i {
-            color: var(--success-electric);
             font-size: 1.2rem;
         }
 
-        .toast-content {
-            flex: 1;
-        }
-
-        .toast-title {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .toast-message {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        /* Filter Section */
-        .filter-section {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .filter-header {
-            background: var(--light-electric);
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .filter-header h3 {
-            font-size: 1.2rem;
-            margin: 0;
-        }
-
-        .filter-body {
-            padding: 1.5rem 2rem;
-        }
-
-        .form-control {
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-electric);
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-            outline: none;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .input-group .action-btn {
-            padding: 0.75rem 1rem;
-        }
+        .toast-success i { color: var(--success); }
+        .toast-error i { color: var(--danger); }
+        .toast-warning i { color: var(--warning); }
 
         /* Pagination */
         .pagination {
@@ -740,23 +894,28 @@
             align-items: center;
             gap: 1rem;
             padding: 1.5rem 2rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
         }
 
         .page-btn {
-            padding: 0.6rem 1.2rem;
-            border: 2px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
             background: white;
-            border-radius: 8px;
+            border-radius: 30px;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .page-btn:hover:not(:disabled) {
-            background: var(--accent-electric);
+            background: var(--primary);
             color: white;
-            border-color: var(--accent-electric);
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .page-btn:disabled {
@@ -767,170 +926,164 @@
         .page-info {
             color: var(--text-light);
             font-weight: 500;
-            font-size: 1rem;
         }
 
         /* Responsive Design */
-        @media (max-width: 1200px) {
-            .table-header th {
-                font-size: 0.95rem;
-                padding: 1rem 0.75rem;
-            }
-            
-            .table-row td {
-                padding: 1rem 0.75rem;
-                font-size: 0.9rem;
-            }
-            
-            .action-btn {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            
-            .status-badge {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-                min-width: 90px;
-            }
-        }
-
         @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .main-container { padding: 0 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .main-container {
-                padding: 1rem;
+            .header-container { 
+                flex-direction: column; 
+                text-align: center; 
             }
-
-            .govt-header {
-                padding: 1rem;
+            .logo-section { 
+                flex-direction: column; 
             }
-
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+            .govt-title h1 { 
+                font-size: 1.2rem; 
             }
-
-            .header-actions {
-                width: 100%;
+            
+            .welcome-content h2 { 
+                font-size: 1.5rem; 
+                flex-wrap: wrap;
                 justify-content: center;
             }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+            .welcome-content p { 
+                font-size: 1rem; 
+                text-align: center;
             }
-
-            .modal-content {
-                margin: 0 1rem;
+            
+            .stats-grid { 
+                grid-template-columns: 1fr; 
             }
-
+            
             .section-header {
-                padding: 1rem;
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
-
-            .section-header h2 {
-                font-size: 1.3rem;
+            
+            .filter-body .row { 
+                gap: 1rem; 
             }
-
-            .filter-body {
-                padding: 1rem;
+            
+            .input-group { 
+                flex-direction: column;
             }
-
-            .pagination {
-                padding: 1rem;
+            
+            .input-group .action-btn {
+                width: 100%;
+                justify-content: center;
             }
-
-            /* Stack table for mobile */
-            .complaints-table,
-            .complaints-table thead,
-            .complaints-table tbody,
-            .complaints-table tr,
-            .complaints-table th,
-            .complaints-table td {
-                display: block;
+            
+            .action-buttons { 
+                justify-content: flex-start;
             }
-
-            .complaints-table thead {
-                display: none;
+            
+            /* Mobile table view */
+            .complaints-table thead { 
+                display: none; 
             }
-
+            
             .complaints-table tr {
+                display: block;
                 margin-bottom: 1rem;
-                border: 1px solid var(--border-color);
-                border-radius: 8px;
-                padding: 0.5rem;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 1rem;
+                background: white;
             }
-
+            
             .complaints-table td {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 0.75rem;
-                border-bottom: 1px dashed var(--border-color);
-                width: 100% !important;
-                white-space: normal !important;
+                border-bottom: 1px dashed var(--border);
             }
-
-            .complaints-table td:last-child {
-                border-bottom: none;
+            
+            .complaints-table td:last-child { 
+                border-bottom: none; 
             }
-
+            
             .complaints-table td::before {
                 content: attr(data-label);
                 font-weight: 600;
-                color: var(--primary-electric);
+                color: var(--primary);
                 width: 120px;
                 flex-shrink: 0;
             }
-
-            .complaint-desc {
-                white-space: normal !important;
-            }
-
-            .action-buttons {
-                justify-content: flex-end;
-                width: 100%;
+            
+            .complaint-desc { 
+                max-width: 100%; 
+                white-space: normal;
             }
         }
 
         @media (max-width: 480px) {
-            .welcome-card {
-                padding: 1.5rem;
+            .main-container { 
+                padding: 0.5rem; 
             }
-
-            .stat-value {
-                font-size: 2rem;
+            .welcome-card { 
+                padding: 1.5rem; 
             }
-
-            .detail-grid {
-                grid-template-columns: 1fr;
+            .stat-value { 
+                font-size: 2rem; 
             }
-            
-            .filter-body .row {
-                gap: 1rem;
+            .modal-content { 
+                margin: 0.5rem; 
             }
-            
-            .input-group {
-                flex-wrap: wrap;
+            .detail-grid { 
+                grid-template-columns: 1fr; 
             }
-            
-            .input-group .action-btn {
-                flex: 1;
+            .filter-body { 
+                padding: 1rem; 
+            }
+            .pagination { 
+                gap: 0.5rem;
+            }
+            .page-btn { 
+                font-size: 0.8rem; 
+                padding: 0.4rem 0.8rem;
             }
         }
+
+        /* Scrollbar */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: var(--light-blue);
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 6px;
+        }
+
+        a { text-decoration: none; }
     </style>
 </head>
-
 <body>
-    <!-- Government Header -->
+    <!-- Animated Background - Navy Blue Theme -->
+    <div class="animated-bg">
+        <div class="bg-grid"></div>
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+        <div class="arc arc1"></div>
+        <div class="arc arc2"></div>
+        <div class="arc arc3"></div>
+        <div class="particle particle1"></div>
+        <div class="particle particle2"></div>
+        <div class="particle particle3"></div>
+    </div>
+
+    <!-- Header -->
     <header class="govt-header">
         <div class="header-container">
             <div class="logo-section">
@@ -938,1072 +1091,521 @@
                     <i class="fas fa-bolt"></i>
                 </div>
                 <div class="govt-title">
-                    <h1>Government Portal</h1>
-                    <p class="govt-subtitle">Electricity Complaints Management Dashboard</p>
+                    <h1>Electricity Infrastructure</h1>
+                    <p class="govt-subtitle">Complaint Management Dashboard</p>
                 </div>
             </div>
-
             <div class="header-actions">
                 <a href="/login/logout" class="logout-btn-header">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content - Full Width -->
+    <!-- Main Content -->
     <div class="main-container">
-        <!-- Content Area - Full Width -->
-        <main class="content-area">
-            <!-- Dashboard Header -->
-            <div class="dashboard-header">
-                <div class="welcome-card">
-                    <div class="welcome-content">
-                        <h2><i class="fas fa-bolt mr-2"></i> Electricity Complaints Management</h2>
-                        <p>Monitor and manage electricity complaints and power supply issues from citizens</p>
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="welcome-content">
+                <h2>
+                    <i class="fas fa-bolt"></i>
+                    Electricity Complaints Management
+                </h2>
+                <p>Monitor and manage electricity complaints and power supply issues from citizens</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalComplaints">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingComplaints">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="inProgressComplaints">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="resolvedComplaints">0</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-header">
+                <h3><i class="fas fa-filter"></i> Filter Electricity Complaints</h3>
+            </div>
+            <div class="filter-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
                     </div>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalComplaints">0</div>
-                            <div class="stat-label">Total</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="pendingComplaints">0</div>
-                            <div class="stat-label">Pending</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="inProgressComplaints">0</div>
-                            <div class="stat-label">In Progress</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="resolvedComplaints">0</div>
-                            <div class="stat-label">Resolved</div>
+                    <div class="col-md-3">
+                        <label class="form-label">Issue Type</label>
+                        <select class="form-select" id="issueTypeFilter">
+                            <option value="all">All Types</option>
+                            <option value="power_cut">Power Cut</option>
+                            <option value="fluctuations">Fluctuations</option>
+                            <option value="low_voltage">Low Voltage</option>
+                            <option value="meter_issue">Meter Issue</option>
+                            <option value="sparking">Sparking</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Date Range</label>
+                        <select class="form-select" id="dateFilter">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Search</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                            <button class="action-btn btn-view" onclick="filterComplaints()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button class="action-btn btn-cancel" onclick="clearFilters()">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Filter Section -->
-            <div class="filter-section">
-                <div class="filter-header">
-                    <h3 class="mb-0"><i class="fas fa-filter"></i> Filter Electricity Complaints</h3>
-                </div>
-                <div class="filter-body">
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" id="statusFilter">
-                                <option value="all">All Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Issue Type</label>
-                            <select class="form-select" id="issueTypeFilter">
-                                <option value="all">All Types</option>
-                                <option value="power_cut">Power Cut</option>
-                                <option value="fluctuations">Fluctuations</option>
-                                <option value="low_voltage">Low Voltage</option>
-                                <option value="meter_issue">Meter Issue</option>
-                                <option value="sparking">Sparking</option>
-                                <option value="streetlight">Streetlight</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Date Range</label>
-                            <select class="form-select" id="dateFilter">
-                                <option value="all">All Time</option>
-                                <option value="today">Today</option>
-                                <option value="week">This Week</option>
-                                <option value="month">This Month</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Search</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="searchInput"
-                                    placeholder="Search...">
-                                <button class="action-btn btn-view" onclick="filterComplaints()">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="action-btn btn-cancel" onclick="clearFilters()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Complaints Table -->
+        <section class="complaints-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-list"></i>
+                    Electricity Complaints List
+                    <small id="tableCount">(0)</small>
+                </h2>
+                <button class="action-btn btn-view" onclick="loadComplaints()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
             </div>
 
-            <!-- Complaints Table -->
-            <section class="complaints-section">
-                <div class="section-header">
-                    <h2>
-                        <i class="fas fa-list-ol"></i>
-                        Electricity Complaints List
-                        <small class="ms-2 text-muted" id="tableCount">(0)</small>
-                    </h2>
-                    <button class="action-btn btn-view" onclick="loadComplaints()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
-                </div>
+            <div class="table-container">
+                <table class="complaints-table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Consumer</th>
+                            <th>Meter No.</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintsTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 3rem;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3">Loading electricity complaints...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="table-container">
-                    <table class="complaints-table">
-                        <thead class="table-header">
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>Type</th>
-                                <th>Consumer</th>
-                                <th>Meter No.</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="complaintsTableBody">
-                            <tr>
-                                <td colspan="8" style="text-align: center; padding: 3rem;">
-                                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <p class="mt-3">Loading electricity complaints...</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>
-                        <i class="fas fa-chevron-left"></i> Prev
-                    </button>
-                    <span class="page-info" id="pageInfo">Page 1 of 1</span>
-                    <button class="page-btn" id="nextBtn" onclick="changePage(1)" disabled>
-                        Next <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </section>
-        </main>
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>
+                    <i class="fas fa-chevron-left"></i> Prev
+                </button>
+                <span class="page-info" id="pageInfo">Page 1 of 1</span>
+                <button class="page-btn" id="nextBtn" onclick="changePage(1)" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
     </div>
 
-    <!-- View Complaint Modal -->
+    <!-- View Modal -->
     <div class="modal-overlay" id="viewModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-bolt"></i> Electricity Complaint Details</h3>
+                <h3><i class="fas fa-bolt"></i> Complaint Details</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="complaint-details" id="complaintDetails">
-                    <!-- Details will be loaded here by JavaScript -->
-                </div>
-            </div>
+            <div class="modal-body" id="complaintDetails"></div>
             <div class="modal-footer">
                 <button class="action-btn btn-cancel" onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Update Complaint Modal -->
+    <!-- Update Modal -->
     <div class="modal-overlay" id="updateModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Update Electricity Complaint</h3>
+                <h3><i class="fas fa-edit"></i> Update Complaint</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="update-form" id="updateForm">
-                    <!-- Update form will be loaded here by JavaScript -->
-                </div>
-            </div>
+            <div class="modal-body" id="updateForm"></div>
             <div class="modal-footer">
                 <button class="action-btn btn-cancel" onclick="closeModal()">Cancel</button>
-                <button class="action-btn btn-save" onclick="saveUpdate()">Save Changes</button>
+                <button class="btn-save" onclick="saveUpdate()">Save Changes</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
-        <div class="toast-content">
-            <div class="toast-title" id="toastTitle">Success!</div>
-            <div class="toast-message" id="toastMessage">Status updated successfully</div>
+        <div>
+            <div class="fw-bold" id="toastTitle">Success</div>
+            <div class="text-muted" id="toastMessage">Operation completed</div>
         </div>
     </div>
 
     <script>
         // Global variables
-        let currentComplaintId = '';
         let allComplaints = [];
         let filteredComplaints = [];
         let currentPage = 1;
+        let currentComplaintId = '';
         const itemsPerPage = 10;
 
         // Load complaints on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log("✅ Page loaded, fetching electricity complaints...");
+        document.addEventListener('DOMContentLoaded', function() {
             loadComplaints();
-
-            // Add event listeners for filter changes
+            
             document.getElementById('statusFilter').addEventListener('change', filterComplaints);
             document.getElementById('issueTypeFilter').addEventListener('change', filterComplaints);
             document.getElementById('dateFilter').addEventListener('change', filterComplaints);
-            document.getElementById('searchInput').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    filterComplaints();
-                }
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') filterComplaints();
             });
         });
 
-        // Function to load complaints from backend
-        async function loadComplaints() {
-            try {
-                console.log("🔄 Fetching electricity complaints from server...");
-
-                // Show loading state
-                document.getElementById('complaintsTableBody').innerHTML = `
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 3rem;">
-                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p class="mt-3">Loading electricity complaints...</p>
-                        </td>
-                    </tr>
-                `;
-
-                // Call the backend API for ELECTRICITY complaints
-                const response = await fetch('/government/complaints/electricity', {
-                    credentials: 'include',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                console.log("📡 Response status:", response.status);
-
-                if (!response.ok) {
-                    throw new Error(`Server responded with ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log("📦 Received electricity complaints data:", data);
-
-                if (data.success) {
-                    allComplaints = data.complaints || [];
-                    console.log(`✅ Loaded ${allComplaints.length} electricity complaints`);
-                } else {
-                    console.warn("⚠️ Server returned success: false");
-                    allComplaints = [];
-                }
-
-                // Initialize with all complaints
-                filteredComplaints = [...allComplaints];
-
-                // Update dashboard and table
-                updateDashboardStats(allComplaints);
-                renderComplaintsTable();
-
-                // Show success message if we have data
-                if (allComplaints.length > 0) {
-                    showToast(`Loaded ${allComplaints.length} electricity complaints`, 'success');
-                }
-
-            } catch (error) {
-                console.error('❌ Error loading electricity complaints:', error);
-
-                // Use mock data for electricity complaints
-                console.log("⚠️ Using mock electricity data for testing");
-                allComplaints = getMockElectricityComplaints();
-                filteredComplaints = [...allComplaints];
-
-                updateDashboardStats(allComplaints);
-                renderComplaintsTable();
-
-                showToast('Using demo data - Backend connection issue', 'warning');
-            }
-        }
-
-        // Mock data for electricity complaints
+        // Mock data
         function getMockElectricityComplaints() {
             return [
                 {
-                    _id: "mock_ec_1",
-                    complaintId: "EC-43866164",
-                    locationMethod: "address",
+                    _id: "1",
+                    complaintId: "EC-001",
+                    issue: {
+                        description: "Power cut for 3 hours in Sector 5 area. Multiple households affected.",
+                        issueType: "power_cut"
+                    },
                     consumer: {
                         fullName: "Rahul Sharma",
-                        serviceNumber: "SN-2024-001",
-                        meterNumber: "MN-00123",
-                        phone: "9876543210",
-                        email: "rahul@example.com"
+                        meterNumber: "MN-00123"
                     },
-                    connection: {
-                        connectionType: "domestic",
-                        provider: "MSEDCL"
-                    },
-                    address: {
-                        addressLine: "123 Main Street, Sector 5",
-                        landmark: "Near Bank of India",
-                        area: "Kharadi",
-                        city: "Pune",
-                        ward: "Ward 5"
-                    },
-                    issue: {
-                        issueType: "power_cut",
-                        issueDate: "2024-01-27",
-                        issueTime: "14:30",
-                        duration: "4_12_hours",
-                        description: "No electricity since 2 PM today. Whole area is affected."
-                    },
-                    media: [],
                     status: "Pending",
-                    createdAt: "2024-01-27T14:45:00.644Z",
-                    updatedAt: "2024-01-27T14:45:00.644Z"
+                    createdAt: "2024-03-15T10:30:00Z"
                 },
                 {
-                    _id: "mock_ec_2",
-                    complaintId: "EC-43973984",
-                    locationMethod: "address",
+                    _id: "2",
+                    complaintId: "EC-002",
+                    issue: {
+                        description: "Voltage fluctuations damaging appliances in the building",
+                        issueType: "fluctuations"
+                    },
                     consumer: {
                         fullName: "Priya Patel",
-                        serviceNumber: "SN-2024-002",
-                        meterNumber: "MN-00124",
-                        phone: "8765432109",
-                        email: "priya@example.com"
+                        meterNumber: "MN-00124"
                     },
-                    connection: {
-                        connectionType: "commercial",
-                        provider: "TATA Power"
-                    },
-                    address: {
-                        addressLine: "456 Business Center, MG Road",
-                        landmark: "Opposite Big Bazaar",
-                        area: "Shivajinagar",
-                        city: "Pune",
-                        ward: "Ward 3"
-                    },
-                    issue: {
-                        issueType: "fluctuations",
-                        issueDate: "2024-01-26",
-                        issueTime: "10:15",
-                        duration: "continuous",
-                        description: "Voltage fluctuations damaging electronic equipment."
-                    },
-                    media: [],
                     status: "In Progress",
-                    createdAt: "2024-01-26T10:30:00Z",
-                    updatedAt: "2024-01-27T11:15:00Z"
+                    createdAt: "2024-03-14T15:20:00Z"
                 },
                 {
-                    _id: "mock_ec_3",
-                    complaintId: "EC-43973985",
-                    locationMethod: "address",
+                    _id: "3",
+                    complaintId: "EC-003",
+                    issue: {
+                        description: "Low voltage in entire building affecting AC and refrigerator",
+                        issueType: "low_voltage"
+                    },
                     consumer: {
                         fullName: "Vikram Singh",
-                        serviceNumber: "SN-2024-003",
-                        meterNumber: "MN-00125",
-                        phone: "7654321098",
-                        email: "vikram@example.com"
+                        meterNumber: "MN-00125"
                     },
-                    connection: {
-                        connectionType: "industrial",
-                        provider: "ADANI"
-                    },
-                    address: {
-                        addressLine: "789 Industrial Estate, MIDC",
-                        landmark: "Near Tata Motors",
-                        area: "Bhosari",
-                        city: "Pune",
-                        ward: "Ward 8"
-                    },
-                    issue: {
-                        issueType: "meter_issue",
-                        issueDate: "2024-01-25",
-                        issueTime: "09:00",
-                        duration: "more_than_1_day",
-                        description: "Electric meter not working properly. Showing incorrect readings."
-                    },
-                    media: [],
                     status: "Resolved",
-                    createdAt: "2024-01-25T09:15:00Z",
-                    updatedAt: "2024-01-27T16:20:00Z"
+                    createdAt: "2024-03-13T09:15:00Z"
                 },
                 {
-                    _id: "mock_ec_4",
-                    complaintId: "EC-43973986",
-                    locationMethod: "address",
+                    _id: "4",
+                    complaintId: "EC-004",
+                    issue: {
+                        description: "Sparks coming from meter box - safety hazard",
+                        issueType: "sparking"
+                    },
                     consumer: {
                         fullName: "Anjali Deshmukh",
-                        serviceNumber: "SN-2024-004",
-                        meterNumber: "MN-00126",
-                        phone: "6543210987",
-                        email: "anjali@example.com"
+                        meterNumber: "MN-00126"
                     },
-                    connection: {
-                        connectionType: "domestic",
-                        provider: "MSEDCL"
-                    },
-                    address: {
-                        addressLine: "321 Green Park Society",
-                        landmark: "Behind City Mall",
-                        area: "Wakad",
-                        city: "Pune",
-                        ward: "Ward 6"
-                    },
-                    issue: {
-                        issueType: "sparking",
-                        issueDate: "2024-01-28",
-                        issueTime: "08:45",
-                        duration: "less_than_1_hour",
-                        description: "Electric wires sparking near main switch. Safety hazard!"
-                    },
-                    media: [],
                     status: "Pending",
-                    createdAt: "2024-01-28T09:00:00Z",
-                    updatedAt: "2024-01-28T09:00:00Z"
-                },
-                {
-                    _id: "mock_ec_5",
-                    complaintId: "EC-43973987",
-                    locationMethod: "address",
-                    consumer: {
-                        fullName: "Rajesh Kumar",
-                        serviceNumber: "SN-2024-005",
-                        meterNumber: "MN-00127",
-                        phone: "7432109876",
-                        email: "rajesh@example.com"
-                    },
-                    connection: {
-                        connectionType: "domestic",
-                        provider: "BESCOM"
-                    },
-                    address: {
-                        addressLine: "654 Orchid Apartments",
-                        landmark: "Near Police Station",
-                        area: "Baner",
-                        city: "Pune",
-                        ward: "Ward 4"
-                    },
-                    issue: {
-                        issueType: "low_voltage",
-                        issueDate: "2024-01-27",
-                        issueTime: "19:30",
-                        duration: "12_24_hours",
-                        description: "Low voltage issue causing appliances to not work properly."
-                    },
-                    media: [],
-                    status: "In Progress",
-                    createdAt: "2024-01-27T20:00:00Z",
-                    updatedAt: "2024-01-28T10:15:00Z"
+                    createdAt: "2024-03-12T11:45:00Z"
                 }
             ];
         }
 
-        // Function to filter complaints
-        function filterComplaints() {
-            const statusFilter = document.getElementById('statusFilter').value;
-            const issueTypeFilter = document.getElementById('issueTypeFilter').value;
-            const dateFilter = document.getElementById('dateFilter').value;
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
-
-            // Start with all complaints
-            filteredComplaints = [...allComplaints];
-
-            // Apply status filter
-            if (statusFilter !== 'all') {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    complaint.status === statusFilter
-                );
+        async function loadComplaints() {
+            try {
+                document.getElementById('complaintsTableBody').innerHTML = `
+                    <tr><td colspan="8" style="text-align: center; padding: 3rem;"><div class="spinner-border text-primary"></div><p class="mt-3">Loading...</p></td></tr>
+                `;
+                
+                allComplaints = getMockElectricityComplaints();
+                filteredComplaints = [...allComplaints];
+                
+                updateStats();
+                renderTable();
+                showToast('Data loaded successfully', 'success');
+            } catch (error) {
+                showToast('Failed to load complaints', 'error');
             }
-
-            // Apply issue type filter
-            if (issueTypeFilter !== 'all') {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    complaint.issue &&
-                    complaint.issue.issueType &&
-                    complaint.issue.issueType.toLowerCase() === issueTypeFilter.toLowerCase()
-                );
-            }
-
-            // Apply date filter
-            if (dateFilter !== 'all') {
-                const now = new Date();
-                filteredComplaints = filteredComplaints.filter(complaint => {
-                    const complaintDate = new Date(complaint.createdAt);
-
-                    switch (dateFilter) {
-                        case 'today':
-                            return complaintDate.toDateString() === now.toDateString();
-                        case 'week':
-                            const weekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
-                            return complaintDate >= weekAgo;
-                        case 'month':
-                            const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-                            return complaintDate >= monthAgo;
-                        default:
-                            return true;
-                    }
-                });
-            }
-
-            // Apply search filter
-            if (searchText) {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    (complaint.issue && complaint.issue.description && complaint.issue.description.toLowerCase().includes(searchText)) ||
-                    (complaint.complaintId && complaint.complaintId.toLowerCase().includes(searchText)) ||
-                    (complaint.consumer && complaint.consumer.fullName && complaint.consumer.fullName.toLowerCase().includes(searchText)) ||
-                    (complaint.consumer && complaint.consumer.meterNumber && complaint.consumer.meterNumber.toLowerCase().includes(searchText))
-                );
-            }
-
-            // Reset to first page
-            currentPage = 1;
-
-            // Update table
-            renderComplaintsTable();
         }
 
-        // Function to clear all filters
-        function clearFilters() {
-            document.getElementById('statusFilter').value = 'all';
-            document.getElementById('issueTypeFilter').value = 'all';
-            document.getElementById('dateFilter').value = 'all';
-            document.getElementById('searchInput').value = '';
-            filterComplaints();
-        }
+        function updateStats() {
+            const total = allComplaints.length;
+            const pending = allComplaints.filter(c => c.status === 'Pending').length;
+            const inProgress = allComplaints.filter(c => c.status === 'In Progress').length;
+            const resolved = allComplaints.filter(c => c.status === 'Resolved').length;
 
-        // Function to update dashboard statistics
-        function updateDashboardStats(complaints) {
-            const total = complaints.length;
-            const pending = complaints.filter(c => c.status === 'Pending').length;
-            const inProgress = complaints.filter(c => c.status === 'In Progress').length;
-            const resolved = complaints.filter(c => c.status === 'Resolved').length;
-
-            // Update stats cards
             document.getElementById('totalComplaints').textContent = total;
             document.getElementById('pendingComplaints').textContent = pending;
             document.getElementById('inProgressComplaints').textContent = inProgress;
             document.getElementById('resolvedComplaints').textContent = resolved;
         }
 
-        // Function to get issue type badge class
-        function getIssueTypeClass(type) {
-            if (!type) return 'type-powercut';
-            
-            switch(type) {
-                case 'power_cut': return 'type-powercut';
-                case 'fluctuations': return 'type-fluctuations';
-                case 'low_voltage': return 'type-lowvoltage';
-                case 'meter_issue': return 'type-meterissue';
-                case 'sparking': return 'type-sparking';
-                case 'streetlight': return 'type-meterissue';
-                default: return 'type-powercut';
-            }
+        function filterComplaints() {
+            const status = document.getElementById('statusFilter').value;
+            const issueType = document.getElementById('issueTypeFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredComplaints = allComplaints.filter(c => {
+                if (status !== 'all' && c.status !== status) return false;
+                if (issueType !== 'all' && c.issue.issueType !== issueType) return false;
+                
+                if (dateFilter !== 'all') {
+                    const now = new Date();
+                    const complaintDate = new Date(c.createdAt);
+                    if (dateFilter === 'today' && complaintDate.toDateString() !== now.toDateString()) return false;
+                    if (dateFilter === 'week') {
+                        const weekAgo = new Date(now - 7*24*60*60*1000);
+                        if (complaintDate < weekAgo) return false;
+                    }
+                    if (dateFilter === 'month') {
+                        const monthAgo = new Date(now.getFullYear(), now.getMonth()-1, now.getDate());
+                        if (complaintDate < monthAgo) return false;
+                    }
+                }
+                
+                if (search) {
+                    return c.issue.description?.toLowerCase().includes(search) ||
+                           c.complaintId?.toLowerCase().includes(search) ||
+                           c.consumer.fullName?.toLowerCase().includes(search);
+                }
+                return true;
+            });
+
+            currentPage = 1;
+            renderTable();
         }
 
-        // Function to format issue type for display
+        function clearFilters() {
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('issueTypeFilter').value = 'all';
+            document.getElementById('dateFilter').value = 'all';
+            document.getElementById('searchInput').value = '';
+            filteredComplaints = [...allComplaints];
+            currentPage = 1;
+            renderTable();
+        }
+
         function formatIssueType(type) {
-            if (!type) return 'Unknown';
-            
-            const typeMap = {
+            const types = {
                 'power_cut': 'Power Cut',
                 'fluctuations': 'Fluctuations',
                 'low_voltage': 'Low Voltage',
                 'meter_issue': 'Meter Issue',
-                'sparking': 'Sparking',
-                'streetlight': 'Streetlight'
+                'sparking': 'Sparking'
             };
-            
-            return typeMap[type] || type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            return types[type] || type;
         }
 
-        // Function to render complaints table
-        function renderComplaintsTable() {
+        function getIssueTypeClass(type) {
+            const classes = {
+                'power_cut': 'type-powercut',
+                'fluctuations': 'type-fluctuations',
+                'low_voltage': 'type-lowvoltage',
+                'meter_issue': 'type-meterissue',
+                'sparking': 'type-sparking'
+            };
+            return classes[type] || 'type-powercut';
+        }
+
+        function renderTable() {
             const tbody = document.getElementById('complaintsTableBody');
+            const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageComplaints = filteredComplaints.slice(start, end);
 
-            // Calculate pagination
-            const totalItems = filteredComplaints.length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-            const pageComplaints = filteredComplaints.slice(startIndex, endIndex);
-
-            // Update table count
-            document.getElementById('tableCount').textContent = `(${totalItems})`;
+            document.getElementById('tableCount').textContent = `(${filteredComplaints.length})`;
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages || 1}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
 
             if (pageComplaints.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 3rem;">
-                            <i class="fas fa-bolt fa-3x mb-3" style="color: var(--text-light);"></i>
-                            <p class="mb-3">No electricity complaints match your filters</p>
-                            <button class="action-btn btn-view" onclick="clearFilters()">
-                                <i class="fas fa-times"></i> Clear Filters
-                            </button>
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-bolt fa-3x mb-3" style="color: #94a3b8;"></i>
+                    <p>No complaints found</p></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = pageComplaints.map(c => {
+                const date = new Date(c.createdAt).toLocaleDateString('en-US', {
+                    month: 'short', day: 'numeric', year: 'numeric'
+                });
+
+                return `
+                    <tr class="table-row">
+                        <td data-label="ID" class="complaint-id">${c.complaintId}</td>
+                        <td data-label="Description" class="complaint-desc" title="${c.issue.description}">${c.issue.description.substring(0, 50)}...</td>
+                        <td data-label="Type"><span class="issue-type-badge ${getIssueTypeClass(c.issue.issueType)}">${formatIssueType(c.issue.issueType)}</span></td>
+                        <td data-label="Consumer">${c.consumer.fullName}</td>
+                        <td data-label="Meter No.">${c.consumer.meterNumber}</td>
+                        <td data-label="Date">${date}</td>
+                        <td data-label="Status"><span class="status-badge status-${c.status.toLowerCase().replace(' ', '')}">${c.status}</span></td>
+                        <td data-label="Actions">
+                            <div class="action-buttons">
+                                <button class="action-btn-small" onclick="viewComplaint('${c._id}')"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-btn-small btn-update" onclick="updateComplaint('${c._id}')"><i class="fas fa-edit"></i> Update</button>
+                            </div>
                         </td>
                     </tr>
                 `;
-            } else {
-                const rows = pageComplaints.map(complaint => {
-                    // Format date
-                    const date = new Date(complaint.createdAt);
-                    const formattedDate = date.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-
-                    // Determine status badge class
-                    let statusClass = '';
-                    let statusText = complaint.status || 'Pending';
-
-                    switch (statusText) {
-                        case 'Pending':
-                            statusClass = 'status-pending';
-                            break;
-                        case 'In Progress':
-                            statusClass = 'status-inprogress';
-                            break;
-                        case 'Resolved':
-                            statusClass = 'status-resolved';
-                            break;
-                        default:
-                            statusClass = 'status-pending';
-                    }
-
-                    // Get issue type class and text
-                    const issueType = complaint.issue ? complaint.issue.issueType : 'power_cut';
-                    const issueTypeClass = getIssueTypeClass(issueType);
-                    const formattedIssueType = formatIssueType(issueType);
-
-                    // Truncate description if too long
-                    const description = complaint.issue && complaint.issue.description 
-                        ? complaint.issue.description 
-                        : 'No description';
-                    const truncatedDesc = description.length > 70
-                        ? description.substring(0, 70) + '...'
-                        : description;
-
-                    return `
-                        <tr class="table-row">
-                            <td class="complaint-id" data-label="ID">${complaint.complaintId || 'EC-N/A'}</td>
-                            <td class="complaint-desc" data-label="Description" title="${description}">
-                                ${truncatedDesc}
-                            </td>
-                            <td data-label="Type">
-                                <span class="issue-type-badge ${issueTypeClass}">
-                                    ${formattedIssueType}
-                                </span>
-                            </td>
-                            <td class="consumer-name" data-label="Consumer" title="${complaint.consumer ? complaint.consumer.fullName : 'Anonymous'}">
-                                ${complaint.consumer ? complaint.consumer.fullName : 'Anonymous'}
-                            </td>
-                            <td data-label="Meter No.">${complaint.consumer ? complaint.consumer.meterNumber : 'N/A'}</td>
-                            <td data-label="Date">${formattedDate}</td>
-                            <td data-label="Status">
-                                <span class="status-badge ${statusClass}">${statusText}</span>
-                            </td>
-                            <td data-label="Actions">
-                                <div class="action-buttons">
-                                    <button class="action-btn btn-view" onclick="viewComplaint('${complaint._id}')">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="action-btn btn-update" onclick="updateComplaint('${complaint._id}')">
-                                        <i class="fas fa-edit"></i> Update
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-
-                tbody.innerHTML = rows;
-            }
-
-            // Update pagination info
-            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
-
-            // Update pagination buttons
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+            }).join('');
         }
 
-        // Function to change page
         function changePage(direction) {
             const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
             const newPage = currentPage + direction;
-
             if (newPage >= 1 && newPage <= totalPages) {
                 currentPage = newPage;
-                renderComplaintsTable();
+                renderTable();
             }
         }
 
-        // View Complaint Function
-        async function viewComplaint(complaintId) {
-            try {
-                console.log(`👁️ Viewing electricity complaint: ${complaintId}`);
+        function viewComplaint(id) {
+            const complaint = allComplaints.find(c => c._id === id);
+            if (!complaint) return;
 
-                // Find the complaint
-                const complaint = allComplaints.find(c => c._id === complaintId) || 
-                                 getMockElectricityComplaints().find(c => c._id === complaintId);
-
-                if (!complaint) {
-                    showToast('Complaint not found', 'error');
-                    return;
-                }
-
-                currentComplaintId = complaintId;
-
-                // Format dates
-                const createdAt = new Date(complaint.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                const updatedAt = complaint.updatedAt ?
-                    new Date(complaint.updatedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    }) : 'Not updated yet';
-
-                // Get consumer details
-                const consumer = complaint.consumer || {};
-                const address = complaint.address || {};
-                const issue = complaint.issue || {};
-
-                // Format issue duration
-                const durationMap = {
-                    'less_than_1_hour': '< 1 hour',
-                    '1_4_hours': '1-4 hours',
-                    '4_12_hours': '4-12 hours',
-                    '12_24_hours': '12-24 hours',
-                    'more_than_1_day': '> 1 day',
-                    'continuous': 'Continuous'
-                };
-                const formattedDuration = durationMap[issue.duration] || issue.duration || 'Not specified';
-                
-                const formattedIssueType = formatIssueType(issue.issueType);
-                const issueTypeClass = getIssueTypeClass(issue.issueType);
-
-                // Format address
-                const formattedAddress = address.addressLine || 'Address not provided';
-                const fullAddress = address.landmark 
-                    ? `${formattedAddress} (Near ${address.landmark})`
-                    : formattedAddress;
-
-                const detailsHtml = `
-                    <div class="detail-section">
-                        <h4><i class="fas fa-info-circle"></i> Complaint Information</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Complaint ID</span>
-                                <div class="detail-value">${complaint.complaintId || 'N/A'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Status</span>
-                                <div class="detail-value">
-                                    <span class="status-badge status-${(complaint.status || 'Pending').toLowerCase().replace(/\s+/g, '')}">
-                                        ${complaint.status || 'Pending'}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Issue Type</span>
-                                <div class="detail-value">
-                                    <span class="issue-type-badge ${issueTypeClass}">
-                                        ${formattedIssueType}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Duration</span>
-                                <div class="detail-value">${formattedDuration}</div>
-                            </div>
-                        </div>
+            const details = `
+                <div class="detail-section">
+                    <h4><i class="fas fa-info-circle"></i> Complaint Details</h4>
+                    <div class="detail-grid">
+                        <div><span class="detail-label">ID:</span> ${complaint.complaintId}</div>
+                        <div><span class="detail-label">Status:</span> <span class="status-badge status-${complaint.status.toLowerCase().replace(' ', '')}">${complaint.status}</span></div>
+                        <div><span class="detail-label">Issue Type:</span> ${formatIssueType(complaint.issue.issueType)}</div>
                     </div>
-
-                    <div class="detail-section">
-                        <h4><i class="fas fa-user"></i> Consumer Information</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Full Name</span>
-                                <div class="detail-value">${consumer.fullName || 'Not provided'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Service Number</span>
-                                <div class="detail-value">${consumer.serviceNumber || 'N/A'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Meter Number</span>
-                                <div class="detail-value">${consumer.meterNumber || 'N/A'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Phone</span>
-                                <div class="detail-value">${consumer.phone || 'Not provided'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Email</span>
-                                <div class="detail-value">${consumer.email || 'Not provided'}</div>
-                            </div>
-                        </div>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fas fa-user"></i> Consumer Info</h4>
+                    <div class="detail-grid">
+                        <div><span class="detail-label">Name:</span> ${complaint.consumer.fullName}</div>
+                        <div><span class="detail-label">Meter No.:</span> ${complaint.consumer.meterNumber}</div>
                     </div>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fas fa-align-left"></i> Description</h4>
+                    <p>${complaint.issue.description}</p>
+                </div>
+            `;
 
-                    <div class="detail-section">
-                        <h4><i class="fas fa-map-marker-alt"></i> Location Details</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item" style="grid-column: 1 / -1;">
-                                <span class="detail-label">Address</span>
-                                <div class="detail-value" style="padding: 1rem;">
-                                    ${fullAddress}<br>
-                                    ${address.area || ''}, ${address.city || ''}, Ward: ${address.ward || 'N/A'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="detail-section">
-                        <h4><i class="fas fa-calendar-alt"></i> Issue Timeline</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Issue Date</span>
-                                <div class="detail-value">${issue.issueDate || 'Not specified'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Issue Time</span>
-                                <div class="detail-value">${issue.issueTime || 'Not specified'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Submitted On</span>
-                                <div class="detail-value">${createdAt}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Last Updated</span>
-                                <div class="detail-value">${updatedAt}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="detail-section">
-                        <h4><i class="fas fa-clipboard"></i> Issue Description</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item" style="grid-column: 1 / -1;">
-                                <span class="detail-label">Description</span>
-                                <div class="detail-value" style="padding: 1rem; white-space: pre-wrap;">
-                                    ${issue.description || 'No description provided'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                document.getElementById('complaintDetails').innerHTML = detailsHtml;
-                document.getElementById('viewModal').classList.add('active');
-
-            } catch (error) {
-                console.error('❌ Error viewing electricity complaint:', error);
-                showToast('Error loading complaint details', 'error');
-            }
+            document.getElementById('complaintDetails').innerHTML = details;
+            document.getElementById('viewModal').classList.add('active');
         }
 
-        // Update Complaint Function
-        async function updateComplaint(complaintId) {
-            try {
-                console.log(`✏️ Updating electricity complaint: ${complaintId}`);
+        function updateComplaint(id) {
+            const complaint = allComplaints.find(c => c._id === id);
+            if (!complaint) return;
 
-                // Find the complaint
-                const complaint = allComplaints.find(c => c._id === complaintId) || 
-                                 getMockElectricityComplaints().find(c => c._id === complaintId);
+            currentComplaintId = id;
 
-                if (!complaint) {
-                    showToast('Complaint not found', 'error');
-                    return;
-                }
+            const form = `
+                <div class="form-group mb-3">
+                    <label class="form-label">Complaint ID</label>
+                    <input type="text" class="form-control" value="${complaint.complaintId}" readonly>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Consumer Name</label>
+                    <input type="text" class="form-control" value="${complaint.consumer.fullName}" readonly>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="statusSelect">
+                        <option value="Pending" ${complaint.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                        <option value="In Progress" ${complaint.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="Resolved" ${complaint.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Technical Notes</label>
+                    <textarea class="form-control" id="govtNotes" rows="3" placeholder="Add technical notes...">${complaint.govtNotes || ''}</textarea>
+                </div>
+            `;
 
-                currentComplaintId = complaintId;
-
-                const formHtml = `
-                    <div class="form-group">
-                        <label>Complaint ID</label>
-                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-electric); border-radius: 6px;">
-                            ${complaint.complaintId || 'EC-N/A'}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Consumer Name</label>
-                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-electric); border-radius: 6px;">
-                            ${complaint.consumer ? complaint.consumer.fullName : 'Not provided'}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Issue Type</label>
-                        <div class="detail-value" style="padding: 0.5rem;">
-                            <span class="issue-type-badge ${getIssueTypeClass(complaint.issue ? complaint.issue.issueType : '')}">
-                                ${formatIssueType(complaint.issue ? complaint.issue.issueType : '')}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Current Status</label>
-                        <div class="detail-value" style="padding: 0.5rem;">
-                            <span class="status-badge status-${(complaint.status || 'Pending').toLowerCase().replace(/\s+/g, '')}">
-                                ${complaint.status || 'Pending'}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="statusSelect">Update Status *</label>
-                        <select class="form-select" id="statusSelect" required>
-                            <option value="Pending" ${(complaint.status || 'Pending') === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="In Progress" ${(complaint.status || 'Pending') === 'In Progress' ? 'selected' : ''}>In Progress</option>
-                            <option value="Resolved" ${(complaint.status || 'Pending') === 'Resolved' ? 'selected' : ''}>Resolved</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="assignedTo">Assign To</label>
-                        <select class="form-select" id="assignedTo">
-                            <option value="">Not Assigned</option>
-                            <option value="Electrician Team A">Electrician Team A</option>
-                            <option value="Electrician Team B">Electrician Team B</option>
-                            <option value="Lineman - Area 1">Lineman - Area 1</option>
-                            <option value="Lineman - Area 2">Lineman - Area 2</option>
-                            <option value="Emergency Response Team">Emergency Response Team</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prioritySelect">Priority</label>
-                        <select class="form-select" id="prioritySelect">
-                            <option value="low">Low</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">High</option>
-                            <option value="urgent">Urgent</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="govtNotes">Technical Notes</label>
-                        <textarea class="form-textarea" id="govtNotes" placeholder="Add technical notes...">${complaint.govtNotes || ''}</textarea>
-                    </div>
-                `;
-
-                document.getElementById('updateForm').innerHTML = formHtml;
-                document.getElementById('updateModal').classList.add('active');
-
-            } catch (error) {
-                console.error('❌ Error loading update form:', error);
-                showToast('Error loading complaint details', 'error');
-            }
+            document.getElementById('updateForm').innerHTML = form;
+            document.getElementById('updateModal').classList.add('active');
         }
 
-        // Save Update Function
-        async function saveUpdate() {
-            try {
-                const newStatus = document.getElementById("statusSelect").value;
-                const assignedTo = document.getElementById("assignedTo").value;
-                const priority = document.getElementById("prioritySelect").value;
-                const govtNotes = document.getElementById("govtNotes").value;
+        function saveUpdate() {
+            const status = document.getElementById('statusSelect').value;
+            const notes = document.getElementById('govtNotes').value;
 
-                console.log("📤 Sending electricity complaint update:", {
-                    status: newStatus,
-                    assignedTo,
-                    priority,
-                    govtNotes
-                });
-
-                // Update local data
-                const index = allComplaints.findIndex(c => c._id === currentComplaintId);
-                if (index !== -1) {
-                    allComplaints[index].status = newStatus;
-                    allComplaints[index].updatedAt = new Date().toISOString();
-                }
-
-                showToast("Electricity complaint updated successfully!", "success");
-
-                closeModal();
-                filteredComplaints = [...allComplaints];
-                updateDashboardStats(allComplaints);
-                renderComplaintsTable();
-
-            } catch (error) {
-                console.error("❌ Update failed:", error);
-                showToast("Failed to update complaint", "error");
+            const index = allComplaints.findIndex(c => c._id === currentComplaintId);
+            if (index !== -1) {
+                allComplaints[index].status = status;
+                allComplaints[index].govtNotes = notes;
             }
+
+            filteredComplaints = [...allComplaints];
+            updateStats();
+            renderTable();
+            closeModal();
+            showToast('Status updated successfully', 'success');
         }
 
-        // Close Modal Function
         function closeModal() {
             document.getElementById('viewModal').classList.remove('active');
             document.getElementById('updateModal').classList.remove('active');
-            currentComplaintId = '';
         }
 
-        // Show Toast Notification
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
-            const toastTitle = document.getElementById('toastTitle');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = toast.querySelector('i');
-
-            // Set icon and title based on type
-            if (type === 'error') {
-                toast.style.borderLeftColor = 'var(--danger-electric)';
-                toastIcon.className = 'fas fa-exclamation-circle';
-                toastIcon.style.color = 'var(--danger-electric)';
-                toastTitle.textContent = 'Error!';
-            } else if (type === 'warning') {
-                toast.style.borderLeftColor = 'var(--warning-electric)';
-                toastIcon.className = 'fas fa-exclamation-triangle';
-                toastIcon.style.color = 'var(--warning-electric)';
-                toastTitle.textContent = 'Warning!';
-            } else {
-                toast.style.borderLeftColor = 'var(--success-electric)';
-                toastIcon.className = 'fas fa-check-circle';
-                toastIcon.style.color = 'var(--success-electric)';
-                toastTitle.textContent = 'Success!';
-            }
-
-            toastMessage.textContent = message;
+            toast.querySelector('#toastMessage').textContent = message;
+            toast.style.borderLeftColor = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b';
+            toast.querySelector('i').style.color = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b';
             toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Close modal when clicking outside
         document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                closeModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
+            if (e.target.classList.contains('modal-overlay')) closeModal();
         });
     </script>
 </body>
-
 </html>
