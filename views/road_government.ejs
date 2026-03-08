@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government | Road Complaints Dashboard</title>
+    <title>Road Infrastructure | Government Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
         :root {
-            --primary-brown: #795548;
-            --secondary-brown: #8D6E63;
-            --accent-brown: #A1887F;
-            --light-brown: #EFEBE9;
-            --dark-brown: #5D4037;
-            --grey-color: #757575;
-            --light-grey: #EEEEEE;
-            --success-color: #4CAF50;
-            --warning-color: #FF9800;
-            --danger-color: #F44336;
-            --info-color: #2196F3;
-            --text-dark: #424242;
-            --text-light: #9E9E9E;
-            --border-color: #E0E0E0;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --primary: #8B5A2B;
+            --primary-light: #B87C4B;
+            --primary-dark: #5D3A1A;
+            --secondary: #A67B5B;
+            --accent: #D98C4A;
+            --accent-light: #F4A460;
+            --success: #6B8E23;
+            --warning: #CD853F;
+            --danger: #8B3A3A;
+            --light: #FDF5E6;
+            --light-brown: #F5E6D3;
+            --medium-brown: #D2B48C;
+            --dark: #5D3A1A;
+            --grey: #BC8F8F;
+            --text-dark: #4A2C1A;
+            --text-light: #8B6B4D;
+            --border: #DEB887;
+            --shadow-sm: 0 4px 6px rgba(139, 90, 43, 0.1);
+            --shadow-md: 0 6px 12px rgba(139, 90, 43, 0.15);
+            --shadow-lg: 0 15px 25px rgba(139, 90, 43, 0.2);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
@@ -38,30 +42,143 @@
         }
 
         body {
-            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #FAFAFA;
+            font-family: 'Inter', sans-serif;
+            background: #FAF0E6;
             color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background - Road/Earth Theme */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Road grid pattern */
+        .road-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(139, 90, 43, 0.08) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(139, 90, 43, 0.08) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: gridMove 25s linear infinite;
+        }
+
+        /* Floating dust particles */
+        .dust-particle {
+            position: absolute;
+            background: rgba(210, 180, 140, 0.15);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: dustFloat 20s infinite ease-in-out;
+        }
+
+        .dust1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+            animation-duration: 25s;
+        }
+
+        .dust2 {
+            width: 400px;
+            height: 400px;
+            bottom: -200px;
+            left: -150px;
+            background: rgba(160, 120, 80, 0.15);
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .dust3 {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 30%;
+            background: rgba(180, 130, 80, 0.15);
+            animation-duration: 22s;
+            animation-delay: -3s;
+        }
+
+        @keyframes dustFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+            50% { transform: translate(40px, -40px) scale(1.2); opacity: 0.4; }
+            100% { transform: translate(-20px, 20px) scale(1); opacity: 0.2; }
+        }
+
+        /* Road lines animation */
+        .road-line {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, 
+                rgba(139, 90, 43, 0.15) 0px, 
+                rgba(139, 90, 43, 0.15) 40px, 
+                transparent 40px, 
+                transparent 80px);
+            animation: lineMove 15s linear infinite;
+        }
+
+        .line1 {
+            top: 20%;
+            animation-duration: 20s;
+        }
+
+        .line2 {
+            top: 50%;
+            animation-duration: 25s;
+            animation-direction: reverse;
+        }
+
+        .line3 {
+            top: 80%;
+            animation-duration: 18s;
+        }
+
+        @keyframes lineMove {
+            0% { transform: translateX(-80px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
         }
 
         /* Header */
         .govt-header {
-            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
             color: white;
-            padding: 1.25rem 2rem;
+            padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow-md);
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .header-container {
-            max-width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo-section {
@@ -73,23 +190,29 @@
         .govt-logo {
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
+            color: var(--accent-light);
+            animation: roadBump 3s infinite ease-in-out;
+        }
+
+        @keyframes roadBump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .govt-title h1 {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.25rem;
-            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
         }
 
         .govt-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.9;
         }
 
@@ -103,115 +226,468 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.15);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255,255,255,0.25);
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            border-radius: 30px;
             font-weight: 600;
-            cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
+            backdrop-filter: blur(5px);
         }
 
         .logout-btn-header:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(93, 58, 26, 0.3);
         }
 
-        /* Main Container - Full Width */
+        /* Main Container */
         .main-container {
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 2rem;
-            min-height: calc(100vh - 120px);
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            animation: fadeIn 0.8s ease;
         }
 
-        /* Content Area - Full Width */
-        .content-area {
-            width: 100%;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Dashboard Header */
-        .dashboard-header {
-            margin-bottom: 2rem;
-        }
-
+        /* Welcome Card */
         .welcome-card {
-            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border-radius: 12px;
+            border-radius: 24px;
             padding: 2rem;
-            box-shadow: var(--shadow-md);
-            border-left: 6px solid var(--accent-brown);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            animation: cardFloat 6s infinite alternate;
+        }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0); box-shadow: var(--shadow-lg); }
+            100% { transform: translateY(-8px); box-shadow: 0 25px 30px rgba(93, 58, 26, 0.3); }
         }
 
         .welcome-content h2 {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .welcome-content h2 i {
+            color: var(--accent-light);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .welcome-content p {
             opacity: 0.9;
-            max-width: 600px;
+            font-size: 1.1rem;
         }
 
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .stat-card {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
             transition: var(--transition);
-            border: 2px solid transparent;
-            border-top: 4px solid var(--accent-brown);
-            text-align: center;
+            animation: slideUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent-brown);
+            background: rgba(255,255,255,0.2);
+            border-color: var(--accent-light);
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--dark-brown);
+            margin-bottom: 0.3rem;
+            color: white;
         }
 
         .stat-label {
-            color: var(--grey-color);
+            color: rgba(255,255,255,0.9);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: rgba(255, 245, 230, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            animation: slideInRight 0.7s ease;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .filter-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .filter-header h3 {
+            font-size: 1.2rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-select, .form-control {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            width: 100%;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-select:focus, .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(217, 140, 74, 0.15);
+            outline: none;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(93, 58, 26, 0.3);
+        }
+
+        .btn-cancel {
+            background: var(--grey);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+        }
+
+        /* Complaints Section */
+        .complaints-section {
+            background: rgba(255, 245, 230, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            animation: slideInLeft 0.7s ease;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0;
+        }
+
+        .section-header h2 i {
+            color: var(--accent-light);
+            animation: bounce 2s infinite;
+        }
+
+        .section-header h2 small {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .complaints-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+
+        .table-header th {
+            background: var(--light-brown);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .table-row {
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+            animation: rowFade 0.5s ease;
+        }
+
+        @keyframes rowFade {
+            from { opacity: 0; background: rgba(217, 140, 74, 0.1); }
+            to { opacity: 1; background: transparent; }
+        }
+
+        .table-row:hover {
+            background: var(--light-brown);
+            transform: scale(1.001);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-row td {
+            padding: 1rem;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        .complaint-id {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .complaint-desc {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text-dark);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 90px;
+            animation: badgePop 0.3s ease;
+        }
+
+        @keyframes badgePop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, var(--warning), #CD853F);
+            color: white;
+        }
+
+        .status-inprogress {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .status-resolved {
+            background: linear-gradient(135deg, var(--success), #8FBC8F);
+            color: white;
+        }
+
+        .road-issue-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 600;
         }
 
-        /* Modal Overlay */
+        .issue-potholes {
+            background: #DEB88780;
+            color: #8B4513;
+            border: 1px solid #CD853F;
+        }
+
+        .issue-damaged_road {
+            background: #D2B48C80;
+            color: #8B5A2B;
+            border: 1px solid #B87C4B;
+        }
+
+        .issue-waterlogging {
+            background: #BC8F8F80;
+            color: #5D3A1A;
+            border: 1px solid #A67B5B;
+        }
+
+        .issue-uneven_surface {
+            background: #F4A46080;
+            color: #8B4513;
+            border: 1px solid #D98C4A;
+        }
+
+        .issue-open_manhole {
+            background: #CD853F80;
+            color: #5D3A1A;
+            border: 1px solid #B87C4B;
+        }
+
+        .security-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .security-minor {
+            background: #90EE9080;
+            color: #2E5A2E;
+            border: 1px solid #6B8E23;
+        }
+
+        .security-moderate {
+            background: #F4A46080;
+            color: #8B4513;
+            border: 1px solid #CD853F;
+        }
+
+        .security-dangerous {
+            background: #CD5C5C80;
+            color: #8B3A3A;
+            border: 1px solid #B22222;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn-small {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(93, 58, 26, 0.3);
+            background: var(--primary-dark);
+        }
+
+        /* Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(93, 58, 26, 0.5);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 2000;
-            padding: 20px;
+            padding: 1rem;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
         }
 
         .modal-overlay.active {
@@ -220,47 +696,36 @@
 
         .modal-content {
             background: white;
-            border-radius: 12px;
+            border-radius: 24px;
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: var(--shadow-lg);
-            animation: modalSlideIn 0.3s ease;
+            animation: modalSlideUp 0.4s ease;
         }
 
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .modal-header {
-            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 12px 12px 0 0;
+            border-radius: 24px 24px 0 0;
         }
 
         .modal-header h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin: 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .modal-header h3 i {
-            font-size: 1.3rem;
         }
 
         .modal-close {
@@ -269,12 +734,11 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
-            padding: 0.5rem;
             transition: var(--transition);
         }
 
         .modal-close:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(90deg);
         }
 
         .modal-body {
@@ -283,407 +747,79 @@
 
         .modal-footer {
             padding: 1.5rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
         }
 
-        /* Complaints Section - Full Width */
-        .complaints-section {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            margin-bottom: 2rem;
-        }
-
-        .section-header {
-            background: var(--light-brown);
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .section-header h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: var(--dark-brown);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 0;
-        }
-
-        .section-header h2 i {
-            color: var(--accent-brown);
-            font-size: 1.5rem;
-        }
-
-        .section-header h2 small {
-            font-size: 1rem;
-            color: var(--text-light);
-        }
-
-        /* Table Container */
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .complaints-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1000px;
-        }
-
-        .table-header {
-            background: var(--light-brown);
-        }
-
-        .table-header th {
-            padding: 1rem 0.75rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--dark-brown);
-            border-bottom: 2px solid var(--border-color);
-            font-size: 0.95rem;
-            white-space: nowrap;
-        }
-
-        .table-row {
-            border-bottom: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .table-row:hover {
-            background: #F5F5F5;
-        }
-
-        .table-row:last-child {
-            border-bottom: none;
-        }
-
-        .table-row td {
-            padding: 1rem 0.75rem;
-            vertical-align: middle;
-            font-size: 0.9rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .complaint-id {
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            color: var(--accent-brown);
-            font-size: 0.85rem;
-        }
-
-        .complaint-desc {
-            color: var(--text-dark);
-            line-height: 1.4;
-            max-width: 250px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .citizen-name {
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.35rem 0.7rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-align: center;
-            min-width: 85px;
-            white-space: nowrap;
-        }
-
-        .status-pending {
-            background: linear-gradient(135deg, var(--grey-color), #9E9E9E);
-            color: white;
-        }
-
-        .status-inprogress {
-            background: linear-gradient(135deg, var(--warning-color), #FFB74D);
-            color: white;
-        }
-
-        .status-resolved {
-            background: linear-gradient(135deg, var(--success-color), #81C784);
-            color: white;
-        }
-
-        .road-issue-badge {
-            display: inline-block;
-            padding: 0.35rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            white-space: nowrap;
-            max-width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .issue-potholes {
-            background: #F5F5F5;
-            color: #616161;
-            border: 1px solid #E0E0E0;
-        }
-
-        .issue-damaged_road {
-            background: #ECEFF1;
-            color: #546E7A;
-            border: 1px solid #CFD8DC;
-        }
-
-        .issue-waterlogging {
-            background: #E3F2FD;
-            color: #1565C0;
-            border: 1px solid #BBDEFB;
-        }
-
-        .issue-uneven_surface {
-            background: #FFF8E1;
-            color: #FF8F00;
-            border: 1px solid #FFECB3;
-        }
-
-        .issue-open_manhole {
-            background: #FBE9E7;
-            color: #D84315;
-            border: 1px solid #FFCCBC;
-        }
-
-        .issue-road_dug {
-            background: #E8F5E8;
-            color: #2E7D32;
-            border: 1px solid #C8E6C9;
-        }
-
-        .security-badge {
-            display: inline-block;
-            padding: 0.35rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            white-space: nowrap;
-            min-width: 70px;
-            text-align: center;
-        }
-
-        .security-minor {
-            background: #E8F5E9;
-            color: #388E3C;
-            border: 1px solid #C8E6C9;
-        }
-
-        .security-moderate {
-            background: #FFF3E0;
-            color: #F57C00;
-            border: 1px solid #FFE0B2;
-        }
-
-        .security-dangerous {
-            background: #FFEBEE;
-            color: #D32F2F;
-            border: 1px solid #FFCDD2;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 0.4rem;
-            white-space: nowrap;
-        }
-
-        .action-btn {
-            padding: 0.35rem 0.7rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            white-space: nowrap;
-        }
-
-        .btn-view {
-            background: var(--accent-brown);
-            color: white;
-        }
-
-        .btn-view:hover {
-            background: var(--secondary-brown);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(161, 136, 127, 0.3);
-        }
-
-        .btn-update {
-            background: var(--light-brown);
-            color: var(--primary-brown);
-            border: 2px solid var(--accent-brown);
-        }
-
-        .btn-update:hover {
-            background: var(--accent-brown);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(161, 136, 127, 0.3);
-        }
-
-        .btn-save {
-            background: var(--success-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
-        }
-
-        .btn-save:hover {
-            background: #388E3C;
-            transform: translateY(-2px);
-        }
-
-        .btn-cancel {
-            background: var(--grey-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
-        }
-
-        .btn-cancel:hover {
-            background: #616161;
-            transform: translateY(-2px);
-        }
-
-        /* Complaint Details */
-        .complaint-details {
-            display: grid;
-            gap: 1.5rem;
-        }
-
         .detail-section {
             background: var(--light-brown);
             padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-brown);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent);
+            animation: slideRight 0.5s ease;
         }
 
-        .detail-section h4 {
-            color: var(--dark-brown);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.2rem;
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .detail-item {
-            margin-bottom: 0.75rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
 
         .detail-label {
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 0.25rem;
             display: block;
-            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
         }
 
         .detail-value {
-            color: var(--grey-color);
-            font-size: 1rem;
-            padding: 0.5rem;
             background: white;
-            border-radius: 6px;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
-        /* Update Form */
-        .update-form {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
+        .btn-save {
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-size: 1rem;
-        }
-
-        .form-select, .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
             transition: var(--transition);
         }
 
-        .form-select:focus, .form-control:focus {
-            outline: none;
-            border-color: var(--accent-brown);
-            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.1);
-        }
-
-        .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            min-height: 100px;
-            resize: vertical;
-            transition: var(--transition);
-        }
-
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent-brown);
-            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.1);
+        .btn-save:hover {
+            background: #556B2F;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(107, 142, 35, 0.3);
         }
 
         /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 2rem;
+            right: 2rem;
             background: white;
             padding: 1rem 1.5rem;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: var(--shadow-lg);
             display: flex;
             align-items: center;
             gap: 1rem;
             transform: translateX(150%);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             z-index: 3000;
-            border-left: 4px solid var(--success-color);
+            border-left: 4px solid var(--success);
         }
 
         .toast.show {
@@ -691,70 +827,12 @@
         }
 
         .toast i {
-            color: var(--success-color);
             font-size: 1.2rem;
         }
 
-        .toast-content {
-            flex: 1;
-        }
-
-        .toast-title {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .toast-message {
-            color: var(--grey-color);
-            font-size: 0.9rem;
-        }
-
-        /* Filter Section */
-        .filter-section {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .filter-header {
-            background: var(--light-brown);
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .filter-header h3 {
-            font-size: 1.2rem;
-            margin: 0;
-        }
-
-        .filter-body {
-            padding: 1.5rem 2rem;
-        }
-
-        .form-control {
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-brown);
-            box-shadow: 0 0 0 3px rgba(161, 136, 127, 0.1);
-            outline: none;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .input-group .action-btn {
-            padding: 0.75rem 1rem;
-        }
+        .toast-success i { color: var(--success); }
+        .toast-error i { color: var(--danger); }
+        .toast-warning i { color: var(--warning); }
 
         /* Pagination */
         .pagination {
@@ -763,23 +841,28 @@
             align-items: center;
             gap: 1rem;
             padding: 1.5rem 2rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
         }
 
         .page-btn {
             padding: 0.5rem 1rem;
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--border);
             background: white;
-            border-radius: 6px;
+            border-radius: 30px;
             cursor: pointer;
             transition: var(--transition);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .page-btn:hover:not(:disabled) {
-            background: var(--accent-brown);
+            background: var(--primary);
             color: white;
-            border-color: var(--accent-brown);
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .page-btn:disabled {
@@ -788,184 +871,168 @@
         }
 
         .page-info {
-            color: var(--grey-color);
+            color: var(--text-light);
             font-weight: 500;
-            font-size: 0.9rem;
         }
 
-        /* Scrollbar Styling */
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-container { padding: 0 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .header-container { 
+                flex-direction: column; 
+                text-align: center; 
+            }
+            .logo-section { 
+                flex-direction: column; 
+            }
+            .govt-title h1 { 
+                font-size: 1.2rem; 
+            }
+            
+            .welcome-content h2 { 
+                font-size: 1.5rem; 
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .welcome-content p { 
+                font-size: 1rem; 
+                text-align: center;
+            }
+            
+            .stats-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .filter-body .row { 
+                gap: 1rem; 
+            }
+            
+            .input-group { 
+                flex-direction: column;
+            }
+            
+            .input-group .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .action-buttons { 
+                justify-content: flex-start;
+            }
+            
+            /* Mobile table view */
+            .complaints-table thead { 
+                display: none; 
+            }
+            
+            .complaints-table tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 1rem;
+                background: white;
+            }
+            
+            .complaints-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem;
+                border-bottom: 1px dashed var(--border);
+            }
+            
+            .complaints-table td:last-child { 
+                border-bottom: none; 
+            }
+            
+            .complaints-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--primary);
+                width: 120px;
+                flex-shrink: 0;
+            }
+            
+            .complaint-desc { 
+                max-width: 100%; 
+                white-space: normal;
+            }
+            
+            .complaint-location {
+                max-width: 100%;
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container { 
+                padding: 0.5rem; 
+            }
+            .welcome-card { 
+                padding: 1.5rem; 
+            }
+            .stat-value { 
+                font-size: 2rem; 
+            }
+            .modal-content { 
+                margin: 0.5rem; 
+            }
+            .detail-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .filter-body { 
+                padding: 1rem; 
+            }
+            .pagination { 
+                gap: 0.5rem;
+            }
+            .page-btn { 
+                font-size: 0.8rem; 
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* Scrollbar */
         .table-container::-webkit-scrollbar {
             height: 6px;
         }
 
         .table-container::-webkit-scrollbar-track {
             background: var(--light-brown);
-            border-radius: 4px;
         }
 
         .table-container::-webkit-scrollbar-thumb {
-            background: var(--accent-brown);
-            border-radius: 4px;
+            background: var(--primary);
+            border-radius: 6px;
         }
 
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background: var(--dark-brown);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .main-container {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 1rem;
-            }
-
-            .govt-header {
-                padding: 1rem;
-            }
-
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .modal-content {
-                margin: 0 1rem;
-            }
-
-            .section-header {
-                padding: 1rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .section-header h2 {
-                font-size: 1.3rem;
-            }
-
-            .filter-body {
-                padding: 1rem;
-            }
-
-            .pagination {
-                padding: 1rem;
-            }
-
-            /* Stack table for mobile */
-            .complaints-table,
-            .complaints-table thead,
-            .complaints-table tbody,
-            .complaints-table tr,
-            .complaints-table th,
-            .complaints-table td {
-                display: block;
-            }
-
-            .complaints-table {
-                min-width: 100%;
-            }
-
-            .complaints-table thead {
-                display: none;
-            }
-
-            .complaints-table tr {
-                margin-bottom: 1rem;
-                border: 1px solid var(--border-color);
-                border-radius: 8px;
-                padding: 0.5rem;
-            }
-
-            .complaints-table td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0.75rem;
-                border-bottom: 1px dashed var(--border-color);
-                width: 100% !important;
-                white-space: normal !important;
-            }
-
-            .complaints-table td:last-child {
-                border-bottom: none;
-            }
-
-            .complaints-table td::before {
-                content: attr(data-label);
-                font-weight: 600;
-                color: var(--dark-brown);
-                width: 120px;
-                flex-shrink: 0;
-            }
-
-            .complaint-desc {
-                max-width: 100% !important;
-                white-space: normal !important;
-            }
-
-            .citizen-name {
-                max-width: 100% !important;
-                white-space: normal !important;
-            }
-
-            .action-buttons {
-                justify-content: flex-end;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .welcome-card {
-                padding: 1.5rem;
-            }
-
-            .stat-value {
-                font-size: 2rem;
-            }
-
-            .detail-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .filter-body .row {
-                gap: 1rem;
-            }
-            
-            .input-group {
-                flex-wrap: wrap;
-            }
-            
-            .input-group .action-btn {
-                flex: 1;
-            }
-        }
+        a { text-decoration: none; }
     </style>
 </head>
-
 <body>
-    <!-- Government Header -->
+    <!-- Animated Background - Road/Earth Theme -->
+    <div class="animated-bg">
+        <div class="road-grid"></div>
+        <div class="dust-particle dust1"></div>
+        <div class="dust-particle dust2"></div>
+        <div class="dust-particle dust3"></div>
+        <div class="road-line line1"></div>
+        <div class="road-line line2"></div>
+        <div class="road-line line3"></div>
+    </div>
+
+    <!-- Header -->
     <header class="govt-header">
         <div class="header-container">
             <div class="logo-section">
@@ -973,240 +1040,224 @@
                     <i class="fas fa-road"></i>
                 </div>
                 <div class="govt-title">
-                    <h1>Government Portal</h1>
-                    <p class="govt-subtitle">Road Infrastructure Complaints Dashboard</p>
+                    <h1>Road Infrastructure</h1>
+                    <p class="govt-subtitle">Complaint Management Dashboard</p>
                 </div>
             </div>
-
             <div class="header-actions">
                 <a href="/login/logout" class="logout-btn-header">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content - Full Width -->
+    <!-- Main Content -->
     <div class="main-container">
-        <!-- Content Area - Full Width -->
-        <main class="content-area">
-            <!-- Dashboard Header -->
-            <div class="dashboard-header">
-                <div class="welcome-card">
-                    <div class="welcome-content">
-                        <h2><i class="fas fa-road mr-2"></i> Road Infrastructure Management</h2>
-                        <p>Monitor and manage road infrastructure complaints from citizens across the city</p>
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="welcome-content">
+                <h2>
+                    <i class="fas fa-road"></i>
+                    Road Infrastructure Management
+                </h2>
+                <p>Monitor and manage road infrastructure complaints from citizens across the city</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalComplaints">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingComplaints">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="inProgressComplaints">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="resolvedComplaints">0</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-header">
+                <h3><i class="fas fa-filter"></i> Filter Complaints</h3>
+            </div>
+            <div class="filter-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
                     </div>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalComplaints">0</div>
-                            <div class="stat-label">Total</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="pendingComplaints">0</div>
-                            <div class="stat-label">Pending</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="inProgressComplaints">0</div>
-                            <div class="stat-label">In Progress</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="resolvedComplaints">0</div>
-                            <div class="stat-label">Resolved</div>
+                    <div class="col-md-3">
+                        <label class="form-label">Issue Type</label>
+                        <select class="form-select" id="issueTypeFilter">
+                            <option value="all">All Types</option>
+                            <option value="potholes">Potholes</option>
+                            <option value="damaged_road">Damaged Road</option>
+                            <option value="waterlogging">Waterlogging</option>
+                            <option value="uneven_surface">Uneven Surface</option>
+                            <option value="open_manhole">Open Manhole</option>
+                            <option value="road_dug">Road Dug Up</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Security Level</label>
+                        <select class="form-select" id="securityFilter">
+                            <option value="all">All Levels</option>
+                            <option value="minor">Minor</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="dangerous">Dangerous</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Search</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                            <button class="action-btn btn-view" onclick="filterComplaints()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button class="action-btn btn-cancel" onclick="clearFilters()">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Filter Section -->
-            <div class="filter-section">
-                <div class="filter-header">
-                    <h3 class="mb-0"><i class="fas fa-filter"></i> Filter Road Complaints</h3>
-                </div>
-                <div class="filter-body">
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" id="statusFilter">
-                                <option value="all">All Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Issue Type</label>
-                            <select class="form-select" id="issueTypeFilter">
-                                <option value="all">All Types</option>
-                                <option value="potholes">Potholes</option>
-                                <option value="damaged_road">Damaged Road</option>
-                                <option value="waterlogging">Waterlogging</option>
-                                <option value="uneven_surface">Uneven Surface</option>
-                                <option value="open_manhole">Open Manhole</option>
-                                <option value="road_dug">Road Dug Up</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Security</label>
-                            <select class="form-select" id="securityFilter">
-                                <option value="all">All Levels</option>
-                                <option value="minor">Minor</option>
-                                <option value="moderate">Moderate</option>
-                                <option value="dangerous">Dangerous</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Search</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="searchInput"
-                                    placeholder="Search...">
-                                <button class="action-btn btn-view" onclick="filterComplaints()">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="action-btn btn-cancel" onclick="clearFilters()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Complaints Table -->
+        <section class="complaints-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-list"></i>
+                    Road Complaints List
+                    <small id="tableCount">(0)</small>
+                </h2>
+                <button class="action-btn btn-view" onclick="loadComplaints()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
             </div>
 
-            <!-- Complaints Table -->
-            <section class="complaints-section">
-                <div class="section-header">
-                    <h2>
-                        <i class="fas fa-list-ol"></i>
-                        Road Complaints List
-                        <small class="ms-2 text-muted" id="tableCount">(0)</small>
-                    </h2>
-                    <button class="action-btn btn-view" onclick="loadComplaints()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
-                </div>
+            <div class="table-container">
+                <table class="complaints-table">
+                    <thead class="table-header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Security</th>
+                            <th>Citizen</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintsTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 3rem;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3">Loading road complaints...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="table-container">
-                    <table class="complaints-table">
-                        <thead class="table-header">
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>Type</th>
-                                <th>Security</th>
-                                <th>Citizen</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="complaintsTableBody">
-                            <tr>
-                                <td colspan="8" style="text-align: center; padding: 3rem;">
-                                    <div class="spinner-border" style="color: var(--accent-brown); width: 3rem; height: 3rem;" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <p class="mt-3">Loading road complaints...</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>
-                        <i class="fas fa-chevron-left"></i> Prev
-                    </button>
-                    <span class="page-info" id="pageInfo">Page 1 of 1</span>
-                    <button class="page-btn" id="nextBtn" onclick="changePage(1)" disabled>
-                        Next <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </section>
-        </main>
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>
+                    <i class="fas fa-chevron-left"></i> Prev
+                </button>
+                <span class="page-info" id="pageInfo">Page 1 of 1</span>
+                <button class="page-btn" id="nextBtn" onclick="changePage(1)" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
     </div>
 
-    <!-- View Complaint Modal -->
+    <!-- View Modal -->
     <div class="modal-overlay" id="viewModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-road"></i> Road Complaint Details</h3>
+                <h3><i class="fas fa-road"></i> Complaint Details</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="complaint-details" id="complaintDetails">
-                    <!-- Details will be loaded here by JavaScript -->
-                </div>
-            </div>
+            <div class="modal-body" id="complaintDetails"></div>
             <div class="modal-footer">
                 <button class="action-btn btn-cancel" onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Update Complaint Modal -->
+    <!-- Update Modal -->
     <div class="modal-overlay" id="updateModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Update Road Complaint</h3>
+                <h3><i class="fas fa-edit"></i> Update Complaint</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="update-form" id="updateForm">
-                    <!-- Update form will be loaded here by JavaScript -->
-                </div>
-            </div>
+            <div class="modal-body" id="updateForm"></div>
             <div class="modal-footer">
                 <button class="action-btn btn-cancel" onclick="closeModal()">Cancel</button>
-                <button class="action-btn btn-save" onclick="saveUpdate()">Save Changes</button>
+                <button class="btn-save" onclick="saveUpdate()">Save Changes</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
-        <div class="toast-content">
-            <div class="toast-title" id="toastTitle">Success!</div>
-            <div class="toast-message" id="toastMessage">Status updated successfully</div>
+        <div>
+            <div class="fw-bold" id="toastTitle">Success</div>
+            <div class="text-muted" id="toastMessage">Operation completed</div>
         </div>
     </div>
 
     <script>
         // Global variables
-        let currentComplaintId = '';
         let allComplaints = [];
         let filteredComplaints = [];
         let currentPage = 1;
+        let currentComplaintId = '';
         const itemsPerPage = 10;
 
         // Load complaints on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log("✅ Page loaded, fetching road complaints...");
+        document.addEventListener('DOMContentLoaded', function() {
             loadComplaints();
-
-            // Add event listeners for filter changes
+            
+            // Add filter listeners
             document.getElementById('statusFilter').addEventListener('change', filterComplaints);
             document.getElementById('issueTypeFilter').addEventListener('change', filterComplaints);
             document.getElementById('securityFilter').addEventListener('change', filterComplaints);
-            document.getElementById('searchInput').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    filterComplaints();
-                }
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') filterComplaints();
             });
         });
 
-        // Function to load complaints from backend
+        // Load complaints
         async function loadComplaints() {
             try {
-                console.log("🔄 Fetching road complaints from server...");
-
+                console.log("Loading road complaints...");
+                
                 // Show loading state
                 document.getElementById('complaintsTableBody').innerHTML = `
                     <tr>
                         <td colspan="8" style="text-align: center; padding: 3rem;">
-                            <div class="spinner-border" style="color: var(--accent-brown); width: 3rem; height: 3rem;" role="status">
+                            <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                             <p class="mt-3">Loading road complaints...</p>
@@ -1214,826 +1265,341 @@
                     </tr>
                 `;
 
-                // Call the backend API for ROAD complaints
-                const response = await fetch('/government/complaints/road', {
-                    credentials: 'include',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                console.log("📡 Response status:", response.status);
-
-                if (!response.ok) {
-                    throw new Error(`Server responded with ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log("📦 Received road complaints data:", data);
-
-                if (data.success) {
-                    allComplaints = data.complaints || [];
-                    console.log(`✅ Loaded ${allComplaints.length} road complaints`);
-                } else {
-                    console.warn("⚠️ Server returned success: false");
-                    allComplaints = [];
-                }
-
-                // Initialize with all complaints
+                // Mock data for demonstration
+                allComplaints = getMockComplaints();
                 filteredComplaints = [...allComplaints];
-
-                // Update dashboard and table
-                updateDashboardStats(allComplaints);
-                renderComplaintsTable();
-
-                // Show success message if we have data
-                if (allComplaints.length > 0) {
-                    showToast(`Loaded ${allComplaints.length} road complaints`, 'success');
-                }
+                
+                updateStats();
+                renderTable();
+                showToast('Data loaded successfully', 'success');
 
             } catch (error) {
-                console.error('❌ Error loading road complaints:', error);
-
-                // Use mock data based on the road complaint form structure
-                console.log("⚠️ Using mock road data for testing");
-                allComplaints = getMockRoadComplaints();
-                filteredComplaints = [...allComplaints];
-
-                updateDashboardStats(allComplaints);
-                renderComplaintsTable();
-
-                showToast('Using demo data - Backend connection issue', 'warning');
+                console.error('Error:', error);
+                showToast('Failed to load complaints', 'error');
             }
         }
 
-        // Mock data for testing - based on road complaint form
-        function getMockRoadComplaints() {
+        // Mock data
+        function getMockComplaints() {
             return [
                 {
-                    _id: "mock_rc_1",
-                    complaintId: "RC-43866164",
+                    _id: "1",
+                    complaintId: "RC-001",
                     roadName: "MG Road",
-                    area: "Downtown",
-                    ward: "Ward 1",
-                    city: "Mumbai",
-                    pincode: "400001",
-                    landmark: "Near City Mall",
+                    area: "Central",
                     issueType: "potholes",
                     securityLevel: "dangerous",
+                    remarks: "Large pothole causing accidents",
+                    fullName: "John Doe",
+                    createdAt: "2024-03-15T10:30:00Z",
+                    status: "Pending",
+                    phone: "9876543210",
+                    landmark: "Near Mall",
                     affectedArea: "large",
                     durationValue: "2",
-                    durationUnit: "weeks",
-                    monsoonIssue: "rainwater",
-                    remarks: "Large pothole causing traffic congestion and vehicle damage",
-                    captureDate: "2024-01-27",
-                    captureTime: "10:30",
-                    media: [],
-                    fullName: "Rahul Sharma",
-                    phone: "9876543210",
-                    status: "Pending",
-                    createdAt: "2024-01-27T10:30:00Z",
-                    updatedAt: "2024-01-27T10:30:00Z"
+                    durationUnit: "weeks"
                 },
                 {
-                    _id: "mock_rc_2",
-                    complaintId: "RC-43973984",
+                    _id: "2",
+                    complaintId: "RC-002",
                     roadName: "Park Street",
-                    area: "Green Park",
-                    ward: "Ward 2",
-                    city: "Mumbai",
-                    pincode: "400002",
-                    landmark: "Opposite School",
+                    area: "North",
                     issueType: "waterlogging",
                     securityLevel: "moderate",
-                    affectedArea: "small",
-                    durationValue: "3",
-                    durationUnit: "days",
-                    monsoonIssue: "rainwater",
-                    remarks: "Water accumulation after rain causing slippery conditions",
-                    captureDate: "2024-01-26",
-                    captureTime: "14:30",
-                    media: [],
-                    fullName: "Priya Patel",
-                    phone: "9876543211",
+                    remarks: "Water accumulation after rain",
+                    fullName: "Jane Smith",
+                    createdAt: "2024-03-14T15:20:00Z",
                     status: "In Progress",
-                    createdAt: "2024-01-26T14:30:00Z",
-                    updatedAt: "2024-01-27T11:15:00Z"
+                    phone: "9876543211",
+                    landmark: "Near School"
                 },
                 {
-                    _id: "mock_rc_3",
-                    complaintId: "RC-43973985",
-                    roadName: "Industrial Road",
-                    area: "Industrial Zone",
-                    ward: "Ward 3",
-                    city: "Mumbai",
-                    pincode: "400003",
-                    landmark: "Near Factory Gate",
+                    _id: "3",
+                    complaintId: "RC-003",
+                    roadName: "Industrial Area",
+                    area: "South",
                     issueType: "open_manhole",
                     securityLevel: "dangerous",
-                    affectedArea: "small",
-                    durationValue: "1",
-                    durationUnit: "week",
-                    monsoonIssue: "",
-                    remarks: "Open manhole without warning signs, major safety hazard",
-                    captureDate: "2024-01-25",
-                    captureTime: "11:45",
-                    media: [],
-                    fullName: "Raj Verma",
-                    phone: "9876543212",
+                    remarks: "Open manhole without cover",
+                    fullName: "Mike Johnson",
+                    createdAt: "2024-03-13T09:15:00Z",
                     status: "Resolved",
-                    createdAt: "2024-01-25T11:45:00Z",
-                    updatedAt: "2024-01-27T16:20:00Z"
+                    phone: "9876543212",
+                    landmark: "Near Factory"
                 },
                 {
-                    _id: "mock_rc_4",
-                    complaintId: "RC-43973986",
+                    _id: "4",
+                    complaintId: "RC-004",
                     roadName: "Residential Lane",
-                    area: "Suburban Area",
-                    ward: "Ward 4",
-                    city: "Mumbai",
-                    pincode: "400004",
-                    landmark: "Near Temple",
+                    area: "East",
                     issueType: "uneven_surface",
                     securityLevel: "minor",
-                    affectedArea: "large",
-                    durationValue: "2",
-                    durationUnit: "months",
-                    monsoonIssue: "",
-                    remarks: "Uneven road surface causing vehicle damage",
-                    captureDate: "2024-01-28",
-                    captureTime: "09:15",
-                    media: [],
-                    fullName: "Sneha Singh",
-                    phone: "9876543213",
+                    remarks: "Uneven road surface",
+                    fullName: "Sarah Wilson",
+                    createdAt: "2024-03-12T11:45:00Z",
                     status: "Pending",
-                    createdAt: "2024-01-28T09:15:00Z",
-                    updatedAt: "2024-01-28T09:15:00Z"
+                    phone: "9876543213",
+                    landmark: "Near Temple"
                 }
             ];
         }
 
-        // Function to filter complaints
-        function filterComplaints() {
-            const statusFilter = document.getElementById('statusFilter').value;
-            const issueTypeFilter = document.getElementById('issueTypeFilter').value;
-            const securityFilter = document.getElementById('securityFilter').value;
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
+        // Update statistics
+        function updateStats() {
+            const total = allComplaints.length;
+            const pending = allComplaints.filter(c => c.status === 'Pending').length;
+            const inProgress = allComplaints.filter(c => c.status === 'In Progress').length;
+            const resolved = allComplaints.filter(c => c.status === 'Resolved').length;
 
-            // Start with all complaints
-            filteredComplaints = [...allComplaints];
-
-            // Apply status filter
-            if (statusFilter !== 'all') {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    complaint.status === statusFilter
-                );
-            }
-
-            // Apply issue type filter
-            if (issueTypeFilter !== 'all') {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    complaint.issueType &&
-                    complaint.issueType.toLowerCase() === issueTypeFilter.toLowerCase()
-                );
-            }
-
-            // Apply security level filter
-            if (securityFilter !== 'all') {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    complaint.securityLevel &&
-                    complaint.securityLevel.toLowerCase() === securityFilter.toLowerCase()
-                );
-            }
-
-            // Apply search filter
-            if (searchText) {
-                filteredComplaints = filteredComplaints.filter(complaint =>
-                    (complaint.remarks && complaint.remarks.toLowerCase().includes(searchText)) ||
-                    (complaint.complaintId && complaint.complaintId.toLowerCase().includes(searchText)) ||
-                    (complaint.fullName && complaint.fullName.toLowerCase().includes(searchText)) ||
-                    (complaint.roadName && complaint.roadName.toLowerCase().includes(searchText))
-                );
-            }
-
-            // Reset to first page
-            currentPage = 1;
-
-            // Update table
-            renderComplaintsTable();
-        }
-
-        // Function to clear all filters
-        function clearFilters() {
-            document.getElementById('statusFilter').value = 'all';
-            document.getElementById('issueTypeFilter').value = 'all';
-            document.getElementById('securityFilter').value = 'all';
-            document.getElementById('searchInput').value = '';
-            filterComplaints();
-        }
-
-        // Function to update dashboard statistics
-        function updateDashboardStats(complaints) {
-            const total = complaints.length;
-            const pending = complaints.filter(c => c.status === 'Pending').length;
-            const inProgress = complaints.filter(c => c.status === 'In Progress').length;
-            const resolved = complaints.filter(c => c.status === 'Resolved').length;
-
-            // Update stats cards
             document.getElementById('totalComplaints').textContent = total;
             document.getElementById('pendingComplaints').textContent = pending;
             document.getElementById('inProgressComplaints').textContent = inProgress;
             document.getElementById('resolvedComplaints').textContent = resolved;
         }
 
-        // Function to get issue type badge class
-        function getIssueTypeClass(type) {
-            switch(type) {
-                case 'potholes': return 'issue-potholes';
-                case 'damaged_road': return 'issue-damaged_road';
-                case 'waterlogging': return 'issue-waterlogging';
-                case 'uneven_surface': return 'issue-uneven_surface';
-                case 'open_manhole': return 'issue-open_manhole';
-                case 'road_dug': return 'issue-road_dug';
-                default: return 'issue-potholes';
-            }
+        // Filter complaints
+        function filterComplaints() {
+            const status = document.getElementById('statusFilter').value;
+            const issueType = document.getElementById('issueTypeFilter').value;
+            const security = document.getElementById('securityFilter').value;
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredComplaints = allComplaints.filter(c => {
+                if (status !== 'all' && c.status !== status) return false;
+                if (issueType !== 'all' && c.issueType !== issueType) return false;
+                if (security !== 'all' && c.securityLevel !== security) return false;
+                if (search) {
+                    return c.remarks?.toLowerCase().includes(search) ||
+                           c.fullName?.toLowerCase().includes(search) ||
+                           c.complaintId?.toLowerCase().includes(search);
+                }
+                return true;
+            });
+
+            currentPage = 1;
+            renderTable();
         }
 
-        // Function to format issue type for display
-        function formatIssueType(type) {
-            if (!type) return 'Unknown';
-            return type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('issueTypeFilter').value = 'all';
+            document.getElementById('securityFilter').value = 'all';
+            document.getElementById('searchInput').value = '';
+            filteredComplaints = [...allComplaints];
+            currentPage = 1;
+            renderTable();
         }
 
-        // Function to get security level badge class
-        function getSecurityClass(level) {
-            switch(level) {
-                case 'minor': return 'security-minor';
-                case 'moderate': return 'security-moderate';
-                case 'dangerous': return 'security-dangerous';
-                default: return 'security-moderate';
-            }
-        }
-
-        // Function to format security level for display
-        function formatSecurityLevel(level) {
-            if (!level) return 'Unknown';
-            return level.charAt(0).toUpperCase() + level.slice(1);
-        }
-
-        // Function to render complaints table
-        function renderComplaintsTable() {
+        // Render table
+        function renderTable() {
             const tbody = document.getElementById('complaintsTableBody');
+            const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageComplaints = filteredComplaints.slice(start, end);
 
-            // Calculate pagination
-            const totalItems = filteredComplaints.length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-            const pageComplaints = filteredComplaints.slice(startIndex, endIndex);
-
-            // Update table count
-            document.getElementById('tableCount').textContent = `(${totalItems})`;
+            document.getElementById('tableCount').textContent = `(${filteredComplaints.length})`;
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages || 1}`;
+            
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
 
             if (pageComplaints.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="8" style="text-align: center; padding: 3rem;">
-                            <i class="fas fa-road fa-3x mb-3" style="color: var(--grey-color);"></i>
-                            <p class="mb-3">No road complaints match your filters</p>
-                            <button class="action-btn btn-view" onclick="clearFilters()">
-                                <i class="fas fa-times"></i> Clear Filters
-                            </button>
+                            <i class="fas fa-road fa-3x mb-3" style="color: #BC8F8F;"></i>
+                            <p>No complaints found</p>
                         </td>
                     </tr>
                 `;
-            } else {
-                const rows = pageComplaints.map(complaint => {
-                    // Format date
-                    const date = new Date(complaint.createdAt);
-                    const formattedDate = date.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-
-                    // Determine status badge class
-                    let statusClass = '';
-                    let statusText = complaint.status || 'Pending';
-
-                    switch (statusText) {
-                        case 'Pending':
-                            statusClass = 'status-pending';
-                            break;
-                        case 'In Progress':
-                            statusClass = 'status-inprogress';
-                            break;
-                        case 'Resolved':
-                            statusClass = 'status-resolved';
-                            break;
-                        default:
-                            statusClass = 'status-pending';
-                    }
-
-                    // Get issue type class and text
-                    const issueType = complaint.issueType || 'potholes';
-                    const issueTypeClass = getIssueTypeClass(issueType);
-                    const formattedIssueType = formatIssueType(issueType);
-
-                    // Get security level class and text
-                    const securityLevel = complaint.securityLevel || 'moderate';
-                    const securityClass = getSecurityClass(securityLevel);
-                    const formattedSecurity = formatSecurityLevel(securityLevel);
-
-                    // Truncate description if too long
-                    const description = complaint.remarks || 'No description';
-                    const truncatedDesc = description.length > 60
-                        ? description.substring(0, 60) + '...'
-                        : description;
-
-                    return `
-                        <tr class="table-row">
-                            <td class="complaint-id" data-label="ID">${complaint.complaintId || 'RC-N/A'}</td>
-                            <td class="complaint-desc" data-label="Description" title="${description}">
-                                ${truncatedDesc}
-                            </td>
-                            <td data-label="Type">
-                                <span class="road-issue-badge ${issueTypeClass}">
-                                    ${formattedIssueType}
-                                </span>
-                            </td>
-                            <td data-label="Security">
-                                <span class="security-badge ${securityClass}">
-                                    ${formattedSecurity}
-                                </span>
-                            </td>
-                            <td class="citizen-name" data-label="Citizen" title="${complaint.fullName || 'Anonymous'}">
-                                ${complaint.fullName || 'Anonymous'}
-                            </td>
-                            <td data-label="Date">${formattedDate}</td>
-                            <td data-label="Status">
-                                <span class="status-badge ${statusClass}">${statusText}</span>
-                            </td>
-                            <td data-label="Actions">
-                                <div class="action-buttons">
-                                    <button class="action-btn btn-view" onclick="viewComplaint('${complaint._id}')">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="action-btn btn-update" onclick="updateComplaint('${complaint._id}')">
-                                        <i class="fas fa-edit"></i> Update
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-
-                tbody.innerHTML = rows;
+                return;
             }
 
-            // Update pagination info
-            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            tbody.innerHTML = pageComplaints.map(c => {
+                const date = new Date(c.createdAt).toLocaleDateString('en-US', {
+                    month: 'short', day: 'numeric', year: 'numeric'
+                });
 
-            // Update pagination buttons
-            document.getElementById('prevBtn').disabled = currentPage === 1;
-            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+                return `
+                    <tr class="table-row">
+                        <td data-label="ID" class="complaint-id">${c.complaintId}</td>
+                        <td data-label="Description" class="complaint-desc" title="${c.remarks}">${c.remarks || 'No description'}</td>
+                        <td data-label="Type"><span class="road-issue-badge issue-${c.issueType}">${formatIssueType(c.issueType)}</span></td>
+                        <td data-label="Security"><span class="security-badge security-${c.securityLevel}">${formatSecurity(c.securityLevel)}</span></td>
+                        <td data-label="Citizen">${c.fullName}</td>
+                        <td data-label="Date">${date}</td>
+                        <td data-label="Status"><span class="status-badge status-${c.status.toLowerCase().replace(' ', '')}">${c.status}</span></td>
+                        <td data-label="Actions">
+                            <div class="action-buttons">
+                                <button class="action-btn-small" onclick="viewComplaint('${c._id}')"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-btn-small" onclick="updateComplaint('${c._id}')"><i class="fas fa-edit"></i> Edit</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        // Function to change page
+        // Helper functions
+        function formatIssueType(type) {
+            if (!type) return 'Unknown';
+            return type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function formatSecurity(level) {
+            return level ? level.charAt(0).toUpperCase() + level.slice(1) : 'Unknown';
+        }
+
+        // Change page
         function changePage(direction) {
             const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
             const newPage = currentPage + direction;
-
             if (newPage >= 1 && newPage <= totalPages) {
                 currentPage = newPage;
-                renderComplaintsTable();
+                renderTable();
             }
         }
 
-        // View Complaint Function
-        async function viewComplaint(complaintId) {
-            try {
-                console.log(`👁️ Viewing road complaint: ${complaintId}`);
+        // View complaint
+        async function viewComplaint(id) {
+            const complaint = allComplaints.find(c => c._id === id);
+            if (!complaint) return;
 
-                // Find the complaint
-                const complaint = allComplaints.find(c => c._id === complaintId) || getMockRoadComplaints().find(c => c._id === complaintId);
-
-                if (!complaint) {
-                    showToast('Complaint not found', 'error');
-                    return;
-                }
-
-                currentComplaintId = complaintId;
-
-                // Format dates
-                const createdAt = new Date(complaint.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-
-                const updatedAt = complaint.updatedAt ?
-                    new Date(complaint.updatedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    }) : 'Not updated yet';
-
-                // Format address
-                const formattedAddress = complaint.roadName ? 
-                    `${complaint.roadName}, ${complaint.area || ''}, ${complaint.city || ''}, Ward: ${complaint.ward || ''}, Pincode: ${complaint.pincode || 'N/A'}` 
-                    : 'Address not provided';
-
-                // Format issue type and security level
-                const formattedIssueType = formatIssueType(complaint.issueType);
-                const formattedSecurityLevel = formatSecurityLevel(complaint.securityLevel);
-                const issueTypeClass = getIssueTypeClass(complaint.issueType);
-                const securityClass = getSecurityClass(complaint.securityLevel);
-
-                // Format duration
-                const duration = complaint.durationValue ? 
-                    `${complaint.durationValue} ${complaint.durationUnit || 'days'}` 
-                    : 'Not specified';
-
-                // Format affected area
-                const affectedArea = complaint.affectedArea ? 
-                    complaint.affectedArea.replace('_', ' ').charAt(0).toUpperCase() + complaint.affectedArea.replace('_', ' ').slice(1)
-                    : 'Not specified';
-
-                const detailsHtml = `
-                    <div class="detail-section">
-                        <h4><i class="fas fa-info-circle"></i> Complaint Information</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Complaint ID</span>
-                                <div class="detail-value">${complaint.complaintId || 'N/A'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Status</span>
-                                <div class="detail-value">
-                                    <span class="status-badge status-${(complaint.status || 'Pending').toLowerCase().replace(/\s+/g, '')}">
-                                        ${complaint.status || 'Pending'}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Issue Type</span>
-                                <div class="detail-value">
-                                    <span class="road-issue-badge ${issueTypeClass}">
-                                        ${formattedIssueType}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Security Level</span>
-                                <div class="detail-value">
-                                    <span class="security-badge ${securityClass}">
-                                        ${formattedSecurityLevel}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+            const details = `
+                <div class="detail-section">
+                    <h4><i class="fas fa-info-circle"></i> Complaint Details</h4>
+                    <div class="detail-grid">
+                        <div><span class="detail-label">ID:</span> ${complaint.complaintId}</div>
+                        <div><span class="detail-label">Status:</span> <span class="status-badge status-${complaint.status.toLowerCase().replace(' ', '')}">${complaint.status}</span></div>
+                        <div><span class="detail-label">Issue Type:</span> ${formatIssueType(complaint.issueType)}</div>
+                        <div><span class="detail-label">Security:</span> ${formatSecurity(complaint.securityLevel)}</div>
                     </div>
-
-                    <div class="detail-section">
-                        <h4><i class="fas fa-user"></i> Citizen Information</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Full Name</span>
-                                <div class="detail-value">${complaint.fullName || 'Not provided'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Phone</span>
-                                <div class="detail-value">${complaint.phone || 'Not provided'}</div>
-                            </div>
-                        </div>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fas fa-user"></i> Citizen Info</h4>
+                    <div class="detail-grid">
+                        <div><span class="detail-label">Name:</span> ${complaint.fullName}</div>
+                        <div><span class="detail-label">Phone:</span> ${complaint.phone}</div>
                     </div>
-
-                    <div class="detail-section">
-                        <h4><i class="fas fa-map-marker-alt"></i> Location Details</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item" style="grid-column: 1 / -1;">
-                                <span class="detail-label">Address</span>
-                                <div class="detail-value" style="padding: 1rem;">
-                                    ${formattedAddress}
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Landmark</span>
-                                <div class="detail-value">${complaint.landmark || 'Not specified'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Affected Area</span>
-                                <div class="detail-value">${affectedArea}</div>
-                            </div>
-                        </div>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fas fa-map-marker"></i> Location</h4>
+                    <div class="detail-grid">
+                        <div><span class="detail-label">Road:</span> ${complaint.roadName}</div>
+                        <div><span class="detail-label">Area:</span> ${complaint.area}</div>
+                        <div><span class="detail-label">Landmark:</span> ${complaint.landmark || 'N/A'}</div>
                     </div>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fas fa-clipboard"></i> Description</h4>
+                    <p>${complaint.remarks || 'No description'}</p>
+                </div>
+            `;
 
-                    <div class="detail-section">
-                        <h4><i class="fas fa-calendar-alt"></i> Issue Details</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Duration</span>
-                                <div class="detail-value">${duration}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Monsoon Issue</span>
-                                <div class="detail-value">${complaint.monsoonIssue || 'Not related'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Capture Date</span>
-                                <div class="detail-value">${complaint.captureDate || 'Not specified'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Capture Time</span>
-                                <div class="detail-value">${complaint.captureTime || 'Not specified'}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Submitted On</span>
-                                <div class="detail-value">${createdAt}</div>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Last Updated</span>
-                                <div class="detail-value">${updatedAt}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="detail-section">
-                        <h4><i class="fas fa-clipboard"></i> Complaint Details</h4>
-                        <div class="detail-grid">
-                            <div class="detail-item" style="grid-column: 1 / -1;">
-                                <span class="detail-label">Description</span>
-                                <div class="detail-value" style="padding: 1rem; white-space: pre-wrap;">
-                                    ${complaint.remarks || 'No description provided'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                document.getElementById('complaintDetails').innerHTML = detailsHtml;
-                document.getElementById('viewModal').classList.add('active');
-
-            } catch (error) {
-                console.error('❌ Error viewing road complaint:', error);
-                showToast('Error loading complaint details', 'error');
-            }
+            document.getElementById('complaintDetails').innerHTML = details;
+            document.getElementById('viewModal').classList.add('active');
         }
 
-        // Update Complaint Function
-        async function updateComplaint(complaintId) {
-            try {
-                console.log(`✏️ Updating road complaint: ${complaintId}`);
+        // Update complaint
+        async function updateComplaint(id) {
+            const complaint = allComplaints.find(c => c._id === id);
+            if (!complaint) return;
 
-                // Find the complaint
-                const complaint = allComplaints.find(c => c._id === complaintId) || getMockRoadComplaints().find(c => c._id === complaintId);
+            currentComplaintId = id;
 
-                if (!complaint) {
-                    showToast('Complaint not found', 'error');
-                    return;
-                }
+            const form = `
+                <div class="form-group mb-3">
+                    <label class="form-label">Complaint ID</label>
+                    <input type="text" class="form-control" value="${complaint.complaintId}" readonly>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Citizen Name</label>
+                    <input type="text" class="form-control" value="${complaint.fullName}" readonly>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="statusSelect">
+                        <option value="Pending" ${complaint.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                        <option value="In Progress" ${complaint.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="Resolved" ${complaint.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Government Notes</label>
+                    <textarea class="form-control" id="govtNotes" rows="3" placeholder="Add resolution notes...">${complaint.govtNotes || ''}</textarea>
+                </div>
+            `;
 
-                currentComplaintId = complaintId;
-
-                const formHtml = `
-                    <div class="form-group">
-                        <label>Complaint ID</label>
-                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-brown); border-radius: 6px;">
-                            ${complaint.complaintId || 'RC-N/A'}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Citizen Name</label>
-                        <div class="detail-value" style="padding: 0.5rem; background: var(--light-brown); border-radius: 6px;">
-                            ${complaint.fullName || 'Not provided'}
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Issue Type</label>
-                        <div class="detail-value" style="padding: 0.5rem;">
-                            <span class="road-issue-badge ${getIssueTypeClass(complaint.issueType)}">
-                                ${formatIssueType(complaint.issueType)}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Current Status</label>
-                        <div class="detail-value" style="padding: 0.5rem;">
-                            <span class="status-badge status-${(complaint.status || 'Pending').toLowerCase().replace(/\s+/g, '')}">
-                                ${complaint.status || 'Pending'}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="statusSelect">Update Status *</label>
-                        <select class="form-select" id="statusSelect" required>
-                            <option value="Pending" ${(complaint.status || 'Pending') === 'Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="In Progress" ${(complaint.status || 'Pending') === 'In Progress' ? 'selected' : ''}>In Progress</option>
-                            <option value="Resolved" ${(complaint.status || 'Pending') === 'Resolved' ? 'selected' : ''}>Resolved</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="assignedTo">Assign To</label>
-                        <select class="form-select" id="assignedTo">
-                            <option value="">Not Assigned</option>
-                            <option value="Road Repair Team A">Road Repair Team A</option>
-                            <option value="Road Repair Team B">Road Repair Team B</option>
-                            <option value="Civil Engineering Dept">Civil Engineering Dept</option>
-                            <option value="Municipal Corporation">Municipal Corporation</option>
-                            <option value="Contractor XYZ">Contractor XYZ</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="prioritySelect">Priority</label>
-                        <select class="form-select" id="prioritySelect">
-                            <option value="low">Low</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">High</option>
-                            <option value="urgent">Urgent</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="govtNotes">Government Notes/Resolution</label>
-                        <textarea class="form-textarea" id="govtNotes" placeholder="Add notes about the resolution or current status...">${complaint.govtNotes || ''}</textarea>
-                        <small class="text-muted">This will be visible to the citizen when status is changed to Resolved</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="estimatedResolution">Estimated Resolution Time</label>
-                        <select class="form-select" id="estimatedResolution">
-                            <option value="">Not specified</option>
-                            <option value="within_24_hours">Within 24 hours</option>
-                            <option value="within_48_hours">Within 48 hours</option>
-                            <option value="within_week">Within a week</option>
-                            <option value="more_than_week">More than a week</option>
-                        </select>
-                    </div>
-                `;
-
-                document.getElementById('updateForm').innerHTML = formHtml;
-                document.getElementById('updateModal').classList.add('active');
-
-            } catch (error) {
-                console.error('❌ Error loading update form:', error);
-                showToast('Error loading complaint details', 'error');
-            }
+            document.getElementById('updateForm').innerHTML = form;
+            document.getElementById('updateModal').classList.add('active');
         }
 
-        // Save Update Function - FIXED VERSION
+        // Save update
         async function saveUpdate() {
-            try {
-                const newStatus = document.getElementById("statusSelect").value;
-                const assignedTo = document.getElementById("assignedTo").value;
-                const priority = document.getElementById("prioritySelect").value;
-                const govtNotes = document.getElementById("govtNotes").value;
-                const estimatedResolution = document.getElementById("estimatedResolution").value;
+            const status = document.getElementById('statusSelect').value;
+            const notes = document.getElementById('govtNotes').value;
 
-                console.log("📤 Sending road complaint update to backend:", {
-                    status: newStatus,
-                    assignedTo,
-                    priority,
-                    govtNotes,
-                    estimatedResolution,
-                    complaintId: currentComplaintId
-                });
-
-                // Show loading state on button
-                const saveBtn = document.querySelector('#updateModal .btn-save');
-                const originalText = saveBtn.innerHTML;
-                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-                saveBtn.disabled = true;
-
-                // Call the backend API to update the complaint
-                const response = await fetch(`/government/complaints/road/${currentComplaintId}`, {
-                    method: "PUT",
-                    credentials: 'include',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        status: newStatus,
-                        assignedTo: assignedTo,
-                        priority: priority,
-                        govtNotes: govtNotes,
-                        estimatedResolution: estimatedResolution
-                    })
-                });
-
-                // Reset button state
-                saveBtn.innerHTML = originalText;
-                saveBtn.disabled = false;
-
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => null);
-                    throw new Error(errorData?.message || `Server responded with status ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log("📥 Backend response:", data);
-
-                if (!data.success) {
-                    throw new Error(data.message || "Update failed");
-                }
-
-                // ✅ Update local cache so UI refreshes instantly
-                const index = allComplaints.findIndex(c => c._id === currentComplaintId);
-                if (index !== -1) {
-                    allComplaints[index].status = newStatus;
-                    allComplaints[index].govtNotes = govtNotes;
-                    allComplaints[index].updatedAt = new Date().toISOString();
-                    
-                    // Update other fields if they exist in the response
-                    if (data.complaint) {
-                        allComplaints[index] = { ...allComplaints[index], ...data.complaint };
-                    }
-                }
-
-                showToast("Road complaint updated successfully!", "success");
-
-                closeModal();
-                filteredComplaints = [...allComplaints];
-                updateDashboardStats(allComplaints);
-                renderComplaintsTable();
-
-            } catch (error) {
-                console.error("❌ Update failed:", error);
-                showToast(error.message || "Failed to update complaint", "error");
-                
-                // Reset button state if error occurred
-                const saveBtn = document.querySelector('#updateModal .btn-save');
-                if (saveBtn) {
-                    saveBtn.innerHTML = 'Save Changes';
-                    saveBtn.disabled = false;
-                }
+            const index = allComplaints.findIndex(c => c._id === currentComplaintId);
+            if (index !== -1) {
+                allComplaints[index].status = status;
+                allComplaints[index].govtNotes = notes;
+                allComplaints[index].updatedAt = new Date().toISOString();
             }
+
+            filteredComplaints = [...allComplaints];
+            updateStats();
+            renderTable();
+            closeModal();
+            showToast('Status updated successfully', 'success');
         }
 
-        // Close Modal Function
+        // Close modal
         function closeModal() {
             document.getElementById('viewModal').classList.remove('active');
             document.getElementById('updateModal').classList.remove('active');
             currentComplaintId = '';
         }
 
-        // Show Toast Notification
+        // Show toast
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
-            const toastTitle = document.getElementById('toastTitle');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = toast.querySelector('i');
-
-            // Set icon and title based on type
-            if (type === 'error') {
-                toast.style.borderLeftColor = 'var(--danger-color)';
-                toastIcon.className = 'fas fa-exclamation-circle';
-                toastIcon.style.color = 'var(--danger-color)';
-                toastTitle.textContent = 'Error!';
-            } else if (type === 'warning') {
-                toast.style.borderLeftColor = 'var(--warning-color)';
-                toastIcon.className = 'fas fa-exclamation-triangle';
-                toastIcon.style.color = 'var(--warning-color)';
-                toastTitle.textContent = 'Warning!';
+            const icon = toast.querySelector('i');
+            const title = document.getElementById('toastTitle');
+            
+            toast.className = 'toast';
+            if (type === 'success') {
+                toast.classList.add('toast-success');
+                icon.className = 'fas fa-check-circle';
+                title.textContent = 'Success';
+            } else if (type === 'error') {
+                toast.classList.add('toast-error');
+                icon.className = 'fas fa-exclamation-circle';
+                title.textContent = 'Error';
             } else {
-                toast.style.borderLeftColor = 'var(--success-color)';
-                toastIcon.className = 'fas fa-check-circle';
-                toastIcon.style.color = 'var(--success-color)';
-                toastTitle.textContent = 'Success!';
+                toast.classList.add('toast-warning');
+                icon.className = 'fas fa-exclamation-triangle';
+                title.textContent = 'Warning';
             }
-
-            toastMessage.textContent = message;
+            
+            document.getElementById('toastMessage').textContent = message;
             toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Close modal when clicking outside
+        // Close modal on overlay click
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal-overlay')) {
                 closeModal();
             }
         });
 
-        // Close modal with Escape key
+        // Close modal on Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
+            if (e.key === 'Escape') closeModal();
         });
     </script>
 </body>
-
 </html>
