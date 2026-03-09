@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +15,80 @@
             --text-dark: #333;
             --text-muted: #666;
         }
-        body { background: linear-gradient(145deg, #f5f5f2, #fafaf8); min-height: 100vh; color: var(--text-dark); font-family: 'Segoe UI', sans-serif; }
-        .dash-header { background: var(--off-white-card); padding: 1rem 2rem; border-bottom: 1px solid var(--off-white-border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-        .dash-header a { color: var(--text-muted); text-decoration: none; }
-        .dash-header a:hover { color: #333; }
-        .card-gray { background: var(--off-white-card); border: 1px solid var(--off-white-border); border-radius: 12px; }
-        .table-gray { color: var(--text-dark); }
-        .table-gray thead { background: var(--off-white-border); color: var(--text-dark); }
-        .table-gray tbody tr { border-color: var(--off-white-border); }
-        .table-gray input, .table-gray select { background: #fff; border-color: var(--off-white-border); color: var(--text-dark); }
-        .btn-save { background: #5a9; border-color: #5a9; color: #fff; }
-        .btn-save:hover { background: #6bb; color: #fff; }
-        .btn-del { background: #a55; border-color: #a55; color: #fff; }
-        .btn-del:hover { background: #b66; color: #fff; }
+
+        body {
+            background: linear-gradient(145deg, #f5f5f2, #fafaf8);
+            min-height: 100vh;
+            color: var(--text-dark);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .dash-header {
+            background: var(--off-white-card);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--off-white-border);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .dash-header a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .dash-header a:hover {
+            color: #333;
+        }
+
+        .card-gray {
+            background: var(--off-white-card);
+            border: 1px solid var(--off-white-border);
+            border-radius: 12px;
+        }
+
+        .table-gray {
+            color: var(--text-dark);
+        }
+
+        .table-gray thead {
+            background: var(--off-white-border);
+            color: var(--text-dark);
+        }
+
+        .table-gray tbody tr {
+            border-color: var(--off-white-border);
+        }
+
+        .table-gray input,
+        .table-gray select {
+            background: #fff;
+            border-color: var(--off-white-border);
+            color: var(--text-dark);
+        }
+
+        .btn-save {
+            background: #5a9;
+            border-color: #5a9;
+            color: #fff;
+        }
+
+        .btn-save:hover {
+            background: #6bb;
+            color: #fff;
+        }
+
+        .btn-del {
+            background: #a55;
+            border-color: #a55;
+            color: #fff;
+        }
+
+        .btn-del:hover {
+            background: #b66;
+            color: #fff;
+        }
     </style>
 </head>
+
 <body>
     <div class="dash-header d-flex justify-content-between align-items-center">
         <div>
@@ -57,7 +117,9 @@
                     </tr>
                 </thead>
                 <tbody id="routesBody">
-                    <tr><td colspan="5" class="text-center text-muted">Loading...</td></tr>
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Loading...</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -126,4 +188,5 @@
         load();
     </script>
 </body>
+
 </html>
