@@ -1248,11 +1248,34 @@
             });
         });
 
-        // Load complaints
+        function _capWords(str) {
+            return String(str || '')
+                .split(' ')
+                .filter(Boolean)
+                .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                .join(' ');
+        }
+
+        function mapRoadComplaint(raw) {
+            return {
+                ...raw,
+                complaintId: raw.complaintId || raw._id,
+                roadName: raw.roadName || raw.address?.roadName || 'N/A',
+                area: raw.area || raw.address?.area || 'N/A',
+                landmark: raw.landmark || raw.address?.landmark || null,
+                issueType: raw.issueType || raw.issue?.issueType || null,
+                securityLevel: raw.securityLevel || raw.issue?.securityLevel || null,
+                remarks: raw.remarks || raw.issue?.remarks || null,
+                status: _capWords(raw.status || 'Pending'),
+                createdAt: raw.createdAt || new Date().toISOString()
+            };
+        }
+
+        // Load complaints (from dataset)
         async function loadComplaints() {
             try {
                 console.log("Loading road complaints...");
-                
+
                 // Show loading state
                 document.getElementById('complaintsTableBody').innerHTML = `
                     <tr>
@@ -1265,17 +1288,31 @@
                     </tr>
                 `;
 
-                // Mock data for demonstration
-                allComplaints = getMockComplaints();
+                const basePath = window.location.pathname.replace(/\/$/, '');
+                const response = await fetch(basePath, {
+                    credentials: 'include',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+
+                const data = await response.json();
+                const complaints = (data.complaints || []).map(mapRoadComplaint);
+
+                allComplaints = complaints;
                 filteredComplaints = [...allComplaints];
-                
+
                 updateStats();
                 renderTable();
                 showToast('Data loaded successfully', 'success');
 
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Failed to load complaints', 'error');
+                showToast('Failed to load complaints (showing demo data)', 'error');
+                allComplaints = getMockComplaints();
+                filteredComplaints = [...allComplaints];
+                updateStats();
+                renderTable();
             }
         }
 
@@ -1536,23 +1573,53 @@
             document.getElementById('updateModal').classList.add('active');
         }
 
-        // Save update
+        // Save update (persist to dataset)
         async function saveUpdate() {
-            const status = document.getElementById('statusSelect').value;
-            const notes = document.getElementById('govtNotes').value;
+            try {
+                const statusUi = document.getElementById('statusSelect').value;
+                const notes = document.getElementById('govtNotes').value;
 
-            const index = allComplaints.findIndex(c => c._id === currentComplaintId);
-            if (index !== -1) {
-                allComplaints[index].status = status;
-                allComplaints[index].govtNotes = notes;
-                allComplaints[index].updatedAt = new Date().toISOString();
+                const basePath = window.location.pathname.replace(/\/$/, '');
+                const status = statusUi.toLowerCase(); // road dataset uses lowercase by default
+
+                const isMock = String(currentComplaintId).length < 10;
+                if (isMock) {
+                    const index = allComplaints.findIndex(c => c._id === currentComplaintId);
+                    if (index !== -1) {
+                        allComplaints[index].status = statusUi;
+                        allComplaints[index].govtNotes = notes;
+                        allComplaints[index].updatedAt = new Date().toISOString();
+                    }
+                } else {
+                    const response = await fetch(`${basePath}/${currentComplaintId}`, {
+                        method: 'PUT',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ status, govtNotes: notes })
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || `Update failed (${response.status})`);
+                    }
+
+                    const updated = mapRoadComplaint(data.complaint);
+                    const index = allComplaints.findIndex(c => String(c._id) === String(currentComplaintId));
+                    if (index !== -1) allComplaints[index] = updated;
+                }
+
+                filteredComplaints = [...allComplaints];
+                updateStats();
+                renderTable();
+                closeModal();
+                showToast('Updated successfully', 'success');
+            } catch (error) {
+                console.error(error);
+                showToast(error.message || 'Failed to update complaint', 'error');
             }
-
-            filteredComplaints = [...allComplaints];
-            updateStats();
-            renderTable();
-            closeModal();
-            showToast('Status updated successfully', 'success');
         }
 
         // Close modal

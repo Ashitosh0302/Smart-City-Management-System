@@ -1224,20 +1224,70 @@
             ];
         }
 
+        function _capWords(str) {
+            return String(str || '')
+                .split(' ')
+                .filter(Boolean)
+                .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                .join(' ');
+        }
+
+        function mapWaterComplaint(raw) {
+            const location =
+                raw.location ||
+                (raw.locationMethod === 'gps'
+                    ? (raw.gpsAddress || 'GPS location')
+                    : [
+                        raw.address?.houseNo,
+                        raw.address?.street,
+                        raw.address?.ward,
+                        raw.address?.city,
+                        raw.address?.pincode
+                    ].filter(Boolean).join(', ')
+                );
+
+            return {
+                ...raw,
+                complaintId: raw.complaintId || raw.complainId || raw._id,
+                citizenName: raw.citizenName || raw.fullName || 'Citizen',
+                issueType: raw.issueType || raw.issue?.issueType || 'N/A',
+                priority: raw.priority || 'Medium',
+                location: location || 'Not provided',
+                status: _capWords(raw.status || 'Pending'),
+                createdAt: raw.createdAt || new Date().toISOString()
+            };
+        }
+
         async function loadComplaints() {
             try {
                 document.getElementById('complaintsTableBody').innerHTML = `
                     <tr><td colspan="5" style="text-align: center; padding: 3rem;"><div class="spinner-border text-primary"></div><p class="mt-3">Loading...</p></td></tr>
                 `;
-                
-                allComplaints = getMockWaterComplaints();
+
+                const basePath = window.location.pathname.replace(/\/$/, '');
+                const response = await fetch(basePath, {
+                    credentials: 'include',
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+
+                const data = await response.json();
+                const complaints = (data.complaints || []).map(mapWaterComplaint);
+
+                allComplaints = complaints;
                 filteredComplaints = [...allComplaints];
-                
+
                 updateStats();
                 renderTable();
                 showToast('Data loaded successfully', 'success');
             } catch (error) {
-                showToast('Failed to load complaints', 'error');
+                console.error(error);
+                showToast('Failed to load complaints (showing demo data)', 'error');
+                allComplaints = getMockWaterComplaints();
+                filteredComplaints = [...allComplaints];
+                updateStats();
+                renderTable();
             }
         }
 
@@ -1431,21 +1481,51 @@
             document.getElementById('updateModal').classList.add('active');
         }
 
-        function saveUpdate() {
-            const status = document.getElementById('statusSelect').value;
-            const notes = document.getElementById('govtNotes').value;
+        async function saveUpdate() {
+            try {
+                const status = document.getElementById('statusSelect').value;
+                const notes = document.getElementById('govtNotes').value;
 
-            const index = allComplaints.findIndex(c => c._id === currentComplaintId);
-            if (index !== -1) {
-                allComplaints[index].status = status;
-                allComplaints[index].govtNotes = notes;
+                const basePath = window.location.pathname.replace(/\/$/, '');
+
+                // If using demo data, update only locally
+                const isMock = String(currentComplaintId).length < 10;
+                if (isMock) {
+                    const index = allComplaints.findIndex(c => c._id === currentComplaintId);
+                    if (index !== -1) {
+                        allComplaints[index].status = status;
+                        allComplaints[index].govtNotes = notes;
+                    }
+                } else {
+                    const response = await fetch(`${basePath}/${currentComplaintId}`, {
+                        method: 'PUT',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ status, govtNotes: notes })
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || `Update failed (${response.status})`);
+                    }
+
+                    const updated = mapWaterComplaint(data.complaint);
+                    const index = allComplaints.findIndex(c => String(c._id) === String(currentComplaintId));
+                    if (index !== -1) allComplaints[index] = updated;
+                }
+
+                filteredComplaints = [...allComplaints];
+                updateStats();
+                renderTable();
+                closeModal();
+                showToast('Updated successfully', 'success');
+            } catch (error) {
+                console.error(error);
+                showToast(error.message || 'Failed to update complaint', 'error');
             }
-
-            filteredComplaints = [...allComplaints];
-            updateStats();
-            renderTable();
-            closeModal();
-            showToast('Status updated successfully', 'success');
         }
 
         function closeModal() {
