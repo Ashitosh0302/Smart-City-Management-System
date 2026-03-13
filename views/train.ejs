@@ -1108,10 +1108,10 @@
                     </div>
                 </div>
                 
-                <h4 style="margin: 20px 0 10px; color: #00695c;">Available Classes</h4>
+                <h4 style="margin: 20px 0 10px; color: #00695c;">Select Class (Required)</h4>
                 <div class="train-classes" id="classes-${train.number}">
                     ${train.classes.map(cls => `
-                        <div class="class-card" onclick="selectClass(${train.number}, '${cls.code}')">
+                        <div class="class-card" data-class="${cls.code}" onclick="selectClass('${train.number}', '${cls.code}', ${cls.price})">
                             <div class="class-name">${cls.name}</div>
                             <div class="class-price">₹${cls.price}</div>
                             <div class="class-availability">${cls.availability} seats left</div>
@@ -1125,7 +1125,7 @@
                             <div class="amenity">✓ ${amenity}</div>
                         `).join('')}
                     </div>
-                    <button class="book-button" onclick="bookTrain(${train.number})" id="book-${train.number}" disabled>
+                    <button class="book-button" id="book-${train.number}" disabled>
                         Select Class First
                     </button>
                 </div>
@@ -1134,32 +1134,31 @@
             return card;
         }
 
-        function selectClass(trainNumber, classCode) {
-            selectedTrainClass = { trainNumber, classCode };
+        function selectClass(trainNumber, classCode, price) {
+            selectedTrainClass = { trainNumber, classCode, price };
             
             // Reset all class selections for this train
-            const classCards = document.querySelectorAll(`#classes-${trainNumber} .class-card`);
+            const container = document.getElementById(`classes-${trainNumber}`);
+            if (!container) return;
+            const classCards = container.querySelectorAll('.class-card');
             classCards.forEach(card => {
                 card.classList.remove('selected');
             });
             
-            // Find and mark selected class
-            classCards.forEach(card => {
-                if (card.querySelector('.class-name').textContent.includes(classCode)) {
-                    card.classList.add('selected');
-                }
-            });
+            // Mark selected class
+            const selectedCard = container.querySelector(`[data-class="${classCode}"]`);
+            if (selectedCard) selectedCard.classList.add('selected');
             
             // Enable book button
             const bookButton = document.getElementById(`book-${trainNumber}`);
             if (bookButton) {
                 bookButton.disabled = false;
                 bookButton.textContent = 'Book Now';
-                bookButton.onclick = () => bookTrain(trainNumber, classCode);
+                bookButton.onclick = function() { bookTrain(trainNumber, classCode, price); };
             }
         }
 
-        function bookTrain(trainNumber, classCode) {
+        function bookTrain(trainNumber, classCode, price) {
             const city = document.getElementById('city').value;
             const fromStation = document.getElementById('fromStation').value;
             const toStation = document.getElementById('toStation').value;
@@ -1167,18 +1166,18 @@
             const ticketType = document.getElementById('ticketType').value;
             const passengers = document.getElementById('passengers').value;
             
-            const classDetail = classDetails[classCode];
+            const classDetail = classDetails[classCode] || { name: classCode };
             const cityName = cityStations[city].name;
+            const totalPrice = price ? price * parseInt(passengers) : 0;
             
-            alert(`🎫 City Train Ticket Confirmed!\n\n` +
-                  `Train #${trainNumber}\n` +
-                  `City: ${cityName}\n` +
+            alert(`Ticket booked successfully!\n\n` +
+                  `Train: ${trainNumber}\n` +
                   `Route: ${fromStation.split('(')[0]} → ${toStation.split('(')[0]}\n` +
                   `Date: ${new Date(date).toDateString()}\n` +
-                  `Ticket Type: ${ticketType.charAt(0).toUpperCase() + ticketType.slice(1)}\n` +
                   `Class: ${classDetail.name}\n` +
-                  `Passengers: ${passengers}\n\n` +
-                  `Please proceed to collect your ticket/token.`);
+                  `Passengers: ${passengers}\n` +
+                  (totalPrice ? `Amount: ₹${totalPrice}\n` : '') +
+                  `\nProceed to payment.`);
         }
 
         // Initialize date to today
