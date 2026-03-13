@@ -362,7 +362,7 @@
     <!-- Main Form -->
     <div class="form-container">
         <div class="form-card">
-            <form id="roadComplaintForm" enctype="multipart/form-data" method="POST" action="/api/road-complaints">
+            <form id="roadComplaintForm" enctype="multipart/form-data" method="POST" action="/citizen/complaints/roads">
                 <!-- Location Details -->
                 <div class="form-section">
                     <h3 class="section-title">
@@ -784,36 +784,20 @@
                     formData.append('media', mediaInput.files[i]);
                 }
                 
-                // For demo purposes, show success modal
-                document.getElementById('complaintId').textContent = complaintId;
-                document.getElementById('successModal').classList.add('show');
-                
-                console.log('Form submitted successfully with data:', Object.fromEntries(formData));
-                
-                // Uncomment below for actual server submission
-                /*
                 // Send data to server
                 const response = await fetch('/citizen/complaints/roads', {
                     method: 'POST',
                     body: formData
                 });
                 
-                if (!response.ok) {
-                    throw new Error('Server error');
-                }
-                
                 const result = await response.json();
                 
-                if (result.success) {
-                    // Show success modal with actual complaint ID from server
+                if (response.ok && result.success) {
                     document.getElementById('complaintId').textContent = result.complaintId || complaintId;
                     document.getElementById('successModal').classList.add('show');
-                    
-                    console.log('Complaint submitted successfully:', result);
                 } else {
-                    alert('Failed to submit complaint: ' + result.message);
+                    alert('Failed to submit complaint: ' + (result.message || result.error || 'Please try again.'));
                 }
-                */
             } catch (error) {
                 console.error('Error submitting form:', error);
                 alert('Failed to submit complaint. Please try again.');
