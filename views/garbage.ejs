@@ -1119,8 +1119,12 @@
         }
 
 
-        // Get GPS Location
-
+        // Get GPS Location - wrapped in function to avoid load-time errors (form uses address only)
+        function getGpsLocation() {
+            const status = document.getElementById('locationStatus');
+            const gpsButton = document.getElementById('gpsButton');
+            const locationDisplay = document.getElementById('locationDisplay');
+            if (!status || !gpsButton || !locationDisplay) return;
             // Show loading state
             status.textContent = 'Getting location... Please allow permission if prompted';
             status.style.color = '#f39c12';
@@ -1128,7 +1132,6 @@
             gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
             locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning location...';
             locationDisplay.classList.add('active');
-            
             // Geolocation options
             const options = {
                 enableHighAccuracy: true,
