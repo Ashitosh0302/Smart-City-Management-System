@@ -1028,347 +1028,18 @@
             }
         }
 
-
-        // Select location method - FIXED
-        function selectLocationMethod(method) {
-            locationMethod = method;
-            
-            // Reset location status when switching methods
-            const locationDisplay = document.getElementById('locationDisplay');
-            const locationStatus = document.getElementById('locationStatus');
-            
-            // Reset GPS section
-            if (method === 'gps') {
-                locationStatus.textContent = 'Click to get your location';
-                locationStatus.style.color = '';
-                locationDisplay.innerHTML = 
-                    '<i class="fas fa-map-marker-alt text-muted"></i> Location will appear here after scanning';
-                locationDisplay.classList.remove('active');
-                
-                // Hide map if it exists
-                if (map) {
-                    document.getElementById('locationMap').style.display = 'none';
-                }
-                
-                // Reset GPS button
-                const gpsButton = document.getElementById('gpsButton');
-                gpsButton.disabled = false;
-                gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-            }
-            
-            // Reset address section
-            if (method === 'address') {
-                document.getElementById('streetAddress').value = '';
-                document.getElementById('city').value = '';
-                document.getElementById('zipCode').value = '';
-                document.getElementById('ward').value = '';
-                document.getElementById('locationDetails').value = '';
-            }
-            
-            // Update button states
-
-        // Select location method
-        function selectLocationMethod(event, method) {
-            locationMethod = method;
-            
-
-            document.querySelectorAll('.method-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Add active class to clicked button
-            event.currentTarget.classList.add('active');
-            
-            // Show/hide sections
-            document.getElementById('gpsSection').classList.remove('active');
-            document.getElementById('addressSection').classList.remove('active');
-            document.getElementById(method + 'Section').classList.add('active');
-            
-
-            // Show notification
-            if (method === 'gps') {
-
-            // Reset location status when switching methods
-            const locationDisplay = document.getElementById('locationDisplay');
-            const locationStatus = document.getElementById('locationStatus');
-            
-            if (method === 'gps') {
-                locationStatus.textContent = 'Click to get your location';
-                locationStatus.style.color = '';
-                locationDisplay.innerHTML = 
-                    '<i class="fas fa-map-marker-alt text-muted"></i> Location will appear here after scanning';
-                locationDisplay.classList.remove('active');
-                
-                // Hide map
-                const locationMap = document.getElementById('locationMap');
-                if (locationMap) {
-                    locationMap.style.display = 'none';
-                }
-                
-                // Reset GPS button
-                const gpsButton = document.getElementById('gpsButton');
-                if (gpsButton) {
-                    gpsButton.disabled = false;
-                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-                }
-                
-                showNotification('Click "Get Current Location" to use your GPS', 'info');
-            } else {
-                showNotification('Please fill in the address details below', 'info');
-            }
-        }
-
-
-        // Get GPS Location - wrapped in function to avoid load-time errors (form uses address only)
-        function getGpsLocation() {
-            const status = document.getElementById('locationStatus');
-            const gpsButton = document.getElementById('gpsButton');
-            const locationDisplay = document.getElementById('locationDisplay');
-            if (!status || !gpsButton || !locationDisplay) return;
-            // Show loading state
-            status.textContent = 'Getting location... Please allow permission if prompted';
-            status.style.color = '#f39c12';
-            gpsButton.disabled = true;
-            gpsButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
-            locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning location...';
-            locationDisplay.classList.add('active');
-            // Geolocation options
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 20000,
-                maximumAge: 0
-            };
-            
-            navigator.geolocation.getCurrentPosition(
-                // Success callback
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const accuracy = position.coords.accuracy;
-                    
-                    // Store coordinates
-                    gpsCoordinates = { lat, lng, accuracy };
-                    
-                    // Update UI
-                    status.textContent = 'Location captured successfully!';
-                    status.style.color = '#27ae60';
-                    gpsButton.disabled = false;
-                    gpsButton.innerHTML = '<i class="fas fa-sync-alt"></i> Update Location';
-                    
-                    // Initialize map
-                    initMap(lat, lng);
-                    
-                    // Get address from coordinates
-                    getAddressFromCoordinates(lat, lng);
-                    
-                    // Show success notification
-                    showNotification('Location captured successfully!', 'success');
-                },
-                // Error callback
-                (error) => {
-                    gpsButton.disabled = false;
-                    gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-                    
-                    let errorMessage = 'Unable to get location. ';
-                    
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMessage = 'Location permission denied. Please allow access in browser settings.';
-                            showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = 
-                                '<i class="fas fa-exclamation-triangle text-warning"></i> Location permission denied.<br>' +
-                                '<small class="text-muted">Please allow location access in your browser settings or use address method.</small>';
-                            locationDisplay.classList.add('active');
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMessage = 'Location unavailable. Check GPS/internet connection.';
-                            showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = 
-                                '<i class="fas fa-wifi-slash text-danger"></i> Location unavailable.<br>' +
-                                '<small class="text-muted">Please check your GPS/internet connection.</small>';
-                            locationDisplay.classList.add('active');
-                            break;
-                        case error.TIMEOUT:
-                            errorMessage = 'Location request timed out. Please try again.';
-                            showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = 
-                                '<i class="fas fa-clock text-danger"></i> Location request timed out.<br>' +
-                                '<small class="text-muted">Please try again or use address method.</small>';
-                            locationDisplay.classList.add('active');
-                            break;
-                        default:
-                            errorMessage = 'Location error. Please try again.';
-                            showNotification(errorMessage, 'error');
-                            locationDisplay.innerHTML = 
-                                '<i class="fas fa-exclamation-circle text-danger"></i> Location error.<br>' +
-                                '<small class="text-muted">Please try again or use address method.</small>';
-                            locationDisplay.classList.add('active');
-                            break;
-                    }
-                    
-                    status.textContent = errorMessage;
-                    status.style.color = '#e74c3c';
-                },
-                options
-            );
-        }
-
-        // Initialize map
-        function initMap(lat, lng) {
-            const mapElement = document.getElementById('locationMap');
-            if (!mapElement) return;
-            
-            mapElement.style.display = 'block';
-            
-            // Initialize map if not exists
-            if (!map) {
-                map = L.map('locationMap').setView([lat, lng], 16);
-                
-                // Add OpenStreetMap tiles
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
-            } else {
-                map.setView([lat, lng], 16);
-            }
-            
-            // Add or update marker
-            if (marker) {
-                marker.setLatLng([lat, lng]);
-            } else {
-                marker = L.marker([lat, lng], {
-                    draggable: true,
-                    title: 'Garbage Location'
-                }).addTo(map);
-                
-                // Update coordinates if marker is dragged
-                marker.on('dragend', function(e) {
-                    const newPos = marker.getLatLng();
-                    gpsCoordinates = { lat: newPos.lat, lng: newPos.lng };
-                    getAddressFromCoordinates(newPos.lat, newPos.lng);
-                });
-            }
-        }
-
-        // Get address from coordinates using Nominatim
-        async function getAddressFromCoordinates(lat, lng) {
-            const locationDisplay = document.getElementById('locationDisplay');
-            if (!locationDisplay) return;
-            
-            try {
-                locationDisplay.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting address...';
-                
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-                );
-                
-                if (!response.ok) throw new Error('Geocoding failed');
-                
-                const data = await response.json();
-                
-                if (data && data.display_name) {
-                    // Format address
-                    let address = data.display_name;
-                    // Shorten if too long
-                    if (address.length > 100) {
-                        address = address.substring(0, 100) + '...';
-                    }
-                    
-                    locationDisplay.innerHTML = `
-                        <div class="text-start">
-                            <div class="d-flex align-items-center mb-1">
-                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                                <strong>Location Found:</strong>
-                            </div>
-                            <div class="small">${address}</div>
-                            <div class="text-muted mt-2">
-                                <small>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</small>
-                            </div>
-                        </div>
-                    `;
-                    locationDisplay.classList.add('active');
-                    
-                    // Update form fields for reference
-                    if (data.address) {
-                        const streetAddress = document.getElementById('streetAddress');
-                        const city = document.getElementById('city');
-                        const zipCode = document.getElementById('zipCode');
-                        
-                        if (streetAddress) streetAddress.value = 
-                            data.address.road || data.address.neighbourhood || '';
-                        if (city) city.value = 
-                            data.address.city || data.address.town || data.address.village || '';
-                        if (zipCode) zipCode.value = 
-                            data.address.postcode || '';
-                    }
-                    
-                    showNotification('Address found and mapped!', 'success');
-                } else {
-                    throw new Error('No address found');
-                }
-            } catch (error) {
-                console.error('Geocoding error:', error);
-                locationDisplay.innerHTML = `
-                    <div class="text-center">
-                        <i class="fas fa-exclamation-triangle text-warning mb-2"></i>
-                        <div>Location coordinates captured</div>
-                        <small class="text-muted">${lat.toFixed(6)}, ${lng.toFixed(6)}</small>
-                        <div class="mt-2"><small>Unable to fetch address details</small></div>
-                    </div>
-                `;
-                locationDisplay.classList.add('active');
-                showNotification('Coordinates captured but address not found', 'warning');
-            }
-        }
-
-        // Show notification
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            const text = document.getElementById('notificationText');
-            if (!notification || !text) return;
-            
-            // Set icon and color based on type
-            let icon = 'fa-info-circle';
-            let color = 'var(--primary)';
-            
-            switch(type) {
-                case 'success':
-                    icon = 'fa-check-circle';
-                    color = '#27ae60';
-                    break;
-                case 'error':
-                    icon = 'fa-exclamation-circle';
-                    color = '#e74c3c';
-                    break;
-                case 'warning':
-                    icon = 'fa-exclamation-triangle';
-                    color = '#f39c12';
-                    break;
-            }
-            
-            notification.innerHTML = `<i class="fas ${icon}" style="color: ${color}"></i><span>${message}</span>`;
-            notification.classList.add('show');
-            
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-        }
-
-        // Garbage type selection
+        // FIXED: Garbage type selection
         function selectGarbageType(cardEl, type) {
+            // Update hidden input
             const garbageTypeInput = document.getElementById('garbageType');
             if (garbageTypeInput) {
                 garbageTypeInput.value = type;
             }
             
-            // Remove active class from all cards in this section
-            const cardsContainer = cardEl.closest('.category-grid');
-            if (cardsContainer) {
-                cardsContainer.querySelectorAll('.category-card').forEach(card => {
-                    card.classList.remove('active');
-                });
-            }
+            // Remove active class from ALL category cards in the entire form
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('active');
+            });
             
             // Add active class to clicked card
             cardEl.classList.add('active');
@@ -1383,47 +1054,49 @@
                 if (otherInput) otherInput.style.display = 'none';
                 if (otherGarbage) otherGarbage.required = false;
             }
+            
+            // Show feedback
+            showNotification(`Selected: ${type} garbage type`, 'success');
         }
 
-        // Quantity selection
+        // FIXED: Quantity selection
         function selectQuantity(cardEl, type) {
+            // Update hidden input
             const quantityInput = document.getElementById('quantity');
             if (quantityInput) {
                 quantityInput.value = type;
             }
             
-            // Remove active class from all quantity cards
-            const container = cardEl.closest('.quantity-cards');
-            if (container) {
-                container.querySelectorAll('.quantity-card').forEach(card => {
-                    card.classList.remove('active');
-                });
-            }
+            // Remove active class from ALL quantity cards
+            document.querySelectorAll('.quantity-card').forEach(card => {
+                card.classList.remove('active');
+            });
             
             // Add active class to clicked card
             cardEl.classList.add('active');
+            
+            // Show feedback
+            showNotification(`Selected: ${type} quantity`, 'success');
         }
 
-        // Issue type selection
+        // FIXED: Issue type selection
         function selectIssueType(cardEl, type) {
+            // Update hidden input
             const issueTypeInput = document.getElementById('issueType');
             if (issueTypeInput) {
                 issueTypeInput.value = type;
             }
             
-            // Remove active class from all cards in this specific grid
-            const parentContainer = cardEl.closest('.form-group');
-            if (parentContainer) {
-                const issueGrid = parentContainer.querySelector('.category-grid');
-                if (issueGrid) {
-                    issueGrid.querySelectorAll('.category-card').forEach(card => {
-                        card.classList.remove('active');
-                    });
-                }
-            }
+            // Remove active class from ALL issue type cards
+            document.querySelectorAll('[data-issue]').forEach(card => {
+                card.classList.remove('active');
+            });
             
             // Add active class to clicked card
             cardEl.classList.add('active');
+            
+            // Show feedback
+            showNotification(`Selected: ${type} issue type`, 'success');
         }
 
         // Media upload functions
@@ -1495,10 +1168,43 @@
             showNotification('File removed', 'info');
         }
 
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            if (!notification || !text) return;
+            
+            // Set icon and color based on type
+            let icon = 'fa-info-circle';
+            let color = 'var(--primary)';
+            
+            switch(type) {
+                case 'success':
+                    icon = 'fa-check-circle';
+                    color = '#27ae60';
+                    break;
+                case 'error':
+                    icon = 'fa-exclamation-circle';
+                    color = '#e74c3c';
+                    break;
+                case 'warning':
+                    icon = 'fa-exclamation-triangle';
+                    color = '#f39c12';
+                    break;
+            }
+            
+            notification.innerHTML = `<i class="fas ${icon}" style="color: ${color}"></i><span>${message}</span>`;
+            notification.classList.add('show');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
         // Form submission
         document.getElementById('garbageComplaintForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
 
             // Basic validation
             const requiredFields = [
@@ -1515,80 +1221,7 @@
                 if (!element.value.trim()) {
                     showNotification(field.message, 'error');
                     element.focus();
-                    return false;
-
-            // Validate location based on selected method
-            if (locationMethod === 'gps') {
-                if (!gpsCoordinates) {
-                    showNotification('Please get your location first! Click "Get Current Location".', 'error');
-
-                    document.getElementById('locationStatus').style.color = '#e74c3c';
-                    document.getElementById('locationStatus').textContent = 'Location is required!';
-                    document.getElementById('gpsButton').focus();
-
-                    const locationStatus = document.getElementById('locationStatus');
-                    if (locationStatus) {
-                        locationStatus.style.color = '#e74c3c';
-                        locationStatus.textContent = 'Location is required!';
-                    }
-                    const gpsButton = document.getElementById('gpsButton');
-                    if (gpsButton) gpsButton.focus();
-
                     return;
-                }
-            } else {
-                // Validate address fields
-
-                const streetAddress = document.getElementById('streetAddress').value.trim();
-                const city = document.getElementById('city').value.trim();
-                const zipCode = document.getElementById('zipCode').value.trim();
-                const ward = document.getElementById('ward').value;
-                
-                if (!streetAddress) {
-                    showNotification('Please enter street address!', 'error');
-                    document.getElementById('streetAddress').focus();
-
-                const streetAddress = document.getElementById('streetAddress')?.value.trim();
-                const city = document.getElementById('city')?.value.trim();
-                const zipCode = document.getElementById('zipCode')?.value.trim();
-                const ward = document.getElementById('ward')?.value;
-                
-                if (!streetAddress) {
-                    showNotification('Please enter street address!', 'error');
-                    document.getElementById('streetAddress')?.focus();
-
-                    return;
-                }
-                
-                if (!city) {
-                    showNotification('Please enter city!', 'error');
-
-                    document.getElementById('city').focus();
-
-                    document.getElementById('city')?.focus();
-
-                    return;
-                }
-                
-                if (!zipCode) {
-                    showNotification('Please enter ZIP code!', 'error');
-
-                    document.getElementById('zipCode').focus();
-
-                    document.getElementById('zipCode')?.focus();
-
-                    return;
-                }
-                
-                if (!ward) {
-                    showNotification('Please select ward number!', 'error');
-
-                    document.getElementById('ward').focus();
-
-                    document.getElementById('ward')?.focus();
-
-                    return;
-
                 }
             }
 
@@ -1597,7 +1230,7 @@
             if (!/^\d{10}$/.test(phone)) {
                 showNotification('Please enter valid 10-digit phone number!', 'error');
                 document.querySelector('input[name="phone"]').focus();
-                return false;
+                return;
             }
 
             // Address validation
@@ -1608,7 +1241,7 @@
 
             if (!street || !city || !zipCode || !ward) {
                 showNotification('Please fill all address fields correctly!', 'error');
-                return false;
+                return;
             }
 
             // Other garbage type validation if selected
@@ -1617,11 +1250,7 @@
                 const otherGarbage = document.querySelector('input[name="otherGarbageDetail"]')?.value.trim();
                 if (!otherGarbage) {
                     showNotification('Please specify the garbage type', 'error');
-
-                    document.getElementById('otherGarbage').focus();
-
-                    document.getElementById('otherGarbage')?.focus();
-
+                    document.querySelector('input[name="otherGarbageDetail"]')?.focus();
                     return;
                 }
             }
@@ -1632,13 +1261,11 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
             submitBtn.disabled = true;
 
-            // Prepare form data - MATCH BACKEND EXPECTATIONS
+            // Prepare form data
             const formData = new FormData();
             
-            // Add location method (always "address")
+            // Add address fields
             formData.append('locationMethod', 'address');
-            
-            // Add address fields (as flat fields, not nested)
             formData.append('street', document.querySelector('input[name="street"]').value);
             formData.append('city', document.querySelector('input[name="city"]').value);
             formData.append('zipCode', document.querySelector('input[name="zipCode"]').value);
@@ -1655,7 +1282,6 @@
             if (document.getElementById('garbageType').value === 'other') {
                 const otherGarbage = document.querySelector('input[name="otherGarbageDetail"]').value;
                 if (otherGarbage) {
-                    // Store in description or as separate field if needed
                     const description = otherGarbage + ". " + document.querySelector('textarea[name="description"]').value;
                     formData.append('description', description);
                 }
@@ -1677,10 +1303,10 @@
                 formData.append('email', email);
             }
             
-            // Add media files - IMPORTANT: field name must be "media" to match multer config
+            // Add media files
             if (uploadedMedia.length > 0) {
                 uploadedMedia.forEach((file) => {
-                    formData.append('media', file); // Field name MUST be "media"
+                    formData.append('media', file);
                 });
             }
             
@@ -1696,7 +1322,6 @@
                 const response = await fetch('/citizen/complaints/garbage', {
                     method: 'POST',
                     body: formData
-                    // Don't set Content-Type header when using FormData
                 });
 
                 console.log('Response status:', response.status);
@@ -1706,7 +1331,7 @@
                 submitBtn.disabled = false;
 
                 if (response.ok) {
-                    const result = await response.json(); // Assuming backend sends JSON
+                    const result = await response.json();
                     console.log('Form submitted successfully:', result);
                     
                     // Show success modal
@@ -1722,7 +1347,6 @@
                         document.getElementById('successModal').classList.remove('show');
                     }, 5000);
                 } else {
-                    // Handle server errors
                     const error = await response.text();
                     console.error('Server error:', error);
                     throw new Error(`Server error: ${response.status} - ${error}`);
@@ -1739,60 +1363,13 @@
             }
         });
 
-
         // Reset form
-        function resetForm() {
-            // Reset the form
-
-        // Submit complaint
-        function submitComplaint() {
-            // Generate complaint ID
-            const complaintId = 'GC-' + Date.now().toString().slice(-8);
-            const complaintIdElement = document.getElementById('complaintId');
-            if (complaintIdElement) {
-                complaintIdElement.textContent = complaintId;
-            }
-            
-            // Show success modal
-            const successModal = document.getElementById('successModal');
-            if (successModal) {
-                successModal.classList.add('show');
-            }
-            
-            // Prepare form data for demo (in real app, send to server)
-            console.log('Complaint submitted successfully!');
-            console.log('Complaint ID:', complaintId);
-            
-            if (locationMethod === 'gps') {
-                console.log('Location from GPS:', gpsCoordinates);
-            } else {
-                console.log('Address entered:', {
-
-                    street: document.getElementById('streetAddress').value,
-                    city: document.getElementById('city').value,
-                    zip: document.getElementById('zipCode').value,
-                    ward: document.getElementById('ward').value
-
-                    street: document.getElementById('streetAddress')?.value,
-                    city: document.getElementById('city')?.value,
-                    zip: document.getElementById('zipCode')?.value,
-                    ward: document.getElementById('ward')?.value
-
-                });
-            }
-            
-            // Show notification
-            showNotification('Complaint submitted successfully! Tracking ID: ' + complaintId, 'success');
-        }
-
-        // Reset form - FIXED
         function resetForm() {
             // Close success modal
             const successModal = document.getElementById('successModal');
             if (successModal) successModal.classList.remove('show');
             
-
-            // Reset address section (form uses street, city, zipCode, ward, details)
+            // Reset form
             const form = document.getElementById('garbageComplaintForm');
             form.reset();
             
@@ -1826,13 +1403,15 @@
             }
             
             // Reset issue type cards
+            document.querySelectorAll('[data-issue]').forEach(card => {
+                card.classList.remove('active');
+            });
             const notCollectedIssue = document.querySelector('[data-issue="not_collected"]');
             if (notCollectedIssue) {
                 notCollectedIssue.classList.add('active');
                 const issueTypeInput = document.getElementById('issueType');
                 if (issueTypeInput) issueTypeInput.value = 'not_collected';
             }
-
             
             // Clear media
             uploadedMedia = [];
@@ -1874,5 +1453,4 @@
         });
     </script>
 </body>
-
 </html>
