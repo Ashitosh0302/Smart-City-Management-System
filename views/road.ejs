@@ -145,14 +145,14 @@
             color: var(--primary);
         }
 
-        /* Security Cards */
-        .security-cards {
+        /* Selection Cards (for both security and area) */
+        .selection-container {
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
         }
 
-        .security-card {
+        .selection-card {
             flex: 1;
             background: white;
             border: 2px solid #ddd;
@@ -163,22 +163,37 @@
             transition: all 0.3s;
         }
 
-        .security-card.minor {
-            border-color: #27ae60;
+        .selection-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .security-card.moderate {
-            border-color: #f39c12;
-        }
-
-        .security-card.dangerous {
-            border-color: #e74c3c;
-        }
-
-        .security-card.active {
+        .selection-card.active {
             transform: translateY(-5px);
             background-color: #e0e7de;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Security level specific colors */
+        .security-minor {
+            border-color: #27ae60;
+        }
+
+        .security-moderate {
+            border-color: #f39c12;
+        }
+
+        .security-dangerous {
+            border-color: #e74c3c;
+        }
+
+        /* Area specific colors */
+        .area-small {
+            border-color: #27ae60;
+        }
+
+        .area-large {
+            border-color: #e74c3c;
         }
 
         /* Upload Area */
@@ -311,7 +326,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .security-cards {
+            .selection-container {
                 flex-direction: column;
             }
             
@@ -416,32 +431,32 @@
                     <div class="mb-4">
                         <label class="form-label">Type of Road Issue *</label>
                         <div class="issue-grid">
-                            <div class="issue-card active" onclick="selectIssue('potholes')">
+                            <div class="issue-card active" onclick="selectIssue('potholes', this)">
                                 <i class="fas fa-crutch issue-icon"></i>
                                 <div>Potholes</div>
                             </div>
                             
-                            <div class="issue-card" onclick="selectIssue('damaged_road')">
+                            <div class="issue-card" onclick="selectIssue('damaged_road', this)">
                                 <i class="fas fa-road issue-icon"></i>
                                 <div>Damaged Road</div>
                             </div>
                             
-                            <div class="issue-card" onclick="selectIssue('waterlogging')">
+                            <div class="issue-card" onclick="selectIssue('waterlogging', this)">
                                 <i class="fas fa-water issue-icon"></i>
                                 <div>Waterlogging</div>
                             </div>
                             
-                            <div class="issue-card" onclick="selectIssue('uneven_surface')">
+                            <div class="issue-card" onclick="selectIssue('uneven_surface', this)">
                                 <i class="fas fa-mountain issue-icon"></i>
                                 <div>Uneven Surface</div>
                             </div>
                             
-                            <div class="issue-card" onclick="selectIssue('open_manhole')">
+                            <div class="issue-card" onclick="selectIssue('open_manhole', this)">
                                 <i class="fas fa-person-falling issue-icon"></i>
                                 <div>Open Manhole</div>
                             </div>
                             
-                            <div class="issue-card" onclick="selectIssue('road_dug')">
+                            <div class="issue-card" onclick="selectIssue('road_dug', this)">
                                 <i class="fas fa-dig issue-icon"></i>
                                 <div>Road Dug Up</div>
                             </div>
@@ -451,20 +466,21 @@
 
                     <!-- Security Level & Area -->
                     <div class="row mb-4">
+                        <!-- Security Level -->
                         <div class="col-md-6">
                             <label class="form-label">Security Level *</label>
-                            <div class="security-cards">
-                                <div class="security-card minor" onclick="selectSecurity('minor')">
+                            <div class="selection-container" id="securityLevelContainer">
+                                <div class="selection-card security-minor" onclick="selectSecurity('minor', this)">
                                     <i class="fas fa-check-circle" style="color:#27ae60;"></i>
                                     <div>Minor</div>
                                 </div>
                                 
-                                <div class="security-card moderate active" onclick="selectSecurity('moderate')">
+                                <div class="selection-card security-moderate active" onclick="selectSecurity('moderate', this)">
                                     <i class="fas fa-exclamation-triangle" style="color:#f39c12;"></i>
                                     <div>Moderate</div>
                                 </div>
                                 
-                                <div class="security-card dangerous" onclick="selectSecurity('dangerous')">
+                                <div class="selection-card security-dangerous" onclick="selectSecurity('dangerous', this)">
                                     <i class="fas fa-skull-crossbones" style="color:#e74c3c;"></i>
                                     <div>Dangerous</div>
                                 </div>
@@ -472,15 +488,16 @@
                             <input type="hidden" name="securityLevel" id="securityLevel" value="moderate">
                         </div>
                         
+                        <!-- Affected Area -->
                         <div class="col-md-6">
                             <label class="form-label">Affected Area *</label>
-                            <div class="security-cards">
-                                <div class="security-card active" onclick="selectArea('small')">
+                            <div class="selection-container" id="affectedAreaContainer">
+                                <div class="selection-card area-small active" onclick="selectAffectedArea('small', this)">
                                     <i class="fas fa-square" style="color:#27ae60;"></i>
                                     <div>Small Patch</div>
                                 </div>
                                 
-                                <div class="security-card" onclick="selectArea('large')">
+                                <div class="selection-card area-large" onclick="selectAffectedArea('large', this)">
                                     <i class="fas fa-road" style="color:#e74c3c;"></i>
                                     <div>Large Area</div>
                                 </div>
@@ -613,30 +630,42 @@
         }
 
         // Select road issue
-        function selectIssue(type) {
+        function selectIssue(type, element) {
             document.getElementById('issueType').value = type;
             document.querySelectorAll('.issue-card').forEach(card => {
                 card.classList.remove('active');
             });
-            event.currentTarget.classList.add('active');
+            element.classList.add('active');
         }
 
         // Select security level
-        function selectSecurity(level) {
+        function selectSecurity(level, element) {
             document.getElementById('securityLevel').value = level;
-            document.querySelectorAll('.security-card').forEach(card => {
+            
+            // Remove active class from all security level cards
+            document.querySelectorAll('#securityLevelContainer .selection-card').forEach(card => {
                 card.classList.remove('active');
             });
-            event.currentTarget.classList.add('active');
+            
+            // Add active class to clicked card
+            element.classList.add('active');
+            
+            console.log('Security level selected:', level); // For debugging
         }
 
         // Select affected area
-        function selectArea(area) {
+        function selectAffectedArea(area, element) {
             document.getElementById('affectedArea').value = area;
-            document.querySelectorAll('.security-card').forEach(card => {
+            
+            // Remove active class from all affected area cards
+            document.querySelectorAll('#affectedAreaContainer .selection-card').forEach(card => {
                 card.classList.remove('active');
             });
-            event.currentTarget.classList.add('active');
+            
+            // Add active class to clicked card
+            element.classList.add('active');
+            
+            console.log('Affected area selected:', area); // For debugging
         }
 
         // Handle media upload
@@ -714,6 +743,10 @@
                 return;
             }
             
+            // Validate that selections are made
+            console.log('Security Level:', document.getElementById('securityLevel').value);
+            console.log('Affected Area:', document.getElementById('affectedArea').value);
+            
             // Generate complaint ID
             const complaintId = 'RC-' + Date.now().toString().slice(-8);
             
@@ -751,6 +784,14 @@
                     formData.append('media', mediaInput.files[i]);
                 }
                 
+                // For demo purposes, show success modal
+                document.getElementById('complaintId').textContent = complaintId;
+                document.getElementById('successModal').classList.add('show');
+                
+                console.log('Form submitted successfully with data:', Object.fromEntries(formData));
+                
+                // Uncomment below for actual server submission
+                /*
                 // Send data to server
                 const response = await fetch('/citizen/complaints/roads', {
                     method: 'POST',
@@ -772,6 +813,7 @@
                 } else {
                     alert('Failed to submit complaint: ' + result.message);
                 }
+                */
             } catch (error) {
                 console.error('Error submitting form:', error);
                 alert('Failed to submit complaint. Please try again.');
@@ -783,10 +825,26 @@
             document.getElementById('successModal').classList.remove('show');
             document.getElementById('roadComplaintForm').reset();
             
-            // Reset selections
-            selectIssue('potholes');
-            selectSecurity('moderate');
-            selectArea('small');
+            // Reset issue selection
+            document.querySelectorAll('.issue-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector('.issue-card').classList.add('active');
+            document.getElementById('issueType').value = 'potholes';
+            
+            // Reset security level
+            document.querySelectorAll('#securityLevelContainer .selection-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector('#securityLevelContainer .selection-card.security-moderate').classList.add('active');
+            document.getElementById('securityLevel').value = 'moderate';
+            
+            // Reset affected area
+            document.querySelectorAll('#affectedAreaContainer .selection-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector('#affectedAreaContainer .selection-card.area-small').classList.add('active');
+            document.getElementById('affectedArea').value = 'small';
             
             // Clear media
             uploadedFiles = [];
@@ -818,6 +876,10 @@
             const time = now.getHours().toString().padStart(2, '0') + ':' + 
                          now.getMinutes().toString().padStart(2, '0');
             document.querySelector('input[name="captureTime"]').value = time;
+            
+            // Log initial values
+            console.log('Initial security level:', document.getElementById('securityLevel').value);
+            console.log('Initial affected area:', document.getElementById('affectedArea').value);
         });
     </script>
 </body>
