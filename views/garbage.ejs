@@ -286,6 +286,8 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            z-index: 1;
+            pointer-events: auto;
         }
 
         .category-card:hover {
@@ -316,6 +318,7 @@
             justify-content: center;
             font-size: 0.8rem;
             font-weight: bold;
+            pointer-events: none;
         }
 
         /* Quantity Cards */
@@ -336,6 +339,8 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            z-index: 1;
+            pointer-events: auto;
         }
 
         .quantity-card:hover {
@@ -366,6 +371,7 @@
             justify-content: center;
             font-size: 0.8rem;
             font-weight: bold;
+            pointer-events: none;
         }
 
         /* Form Controls */
@@ -1106,7 +1112,6 @@
                     gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
                 }
                 
->>>>>>> 9a83744c9bdf3d877cf536c7a4e4756506719b1a
                 showNotification('Click "Get Current Location" to use your GPS', 'info');
             } else {
                 showNotification('Please fill in the address details below', 'info');
@@ -1313,7 +1318,6 @@
             }
         }
 
->>>>>>> ad756c58742f7673bf7d763ebb3eac30b2d5b0fc
         // Show notification
         function showNotification(message, type = 'info') {
             const notification = document.getElementById('notification');
@@ -1785,39 +1789,7 @@
             if (successModal) successModal.classList.remove('show');
             
 
-            // Reset location sections
-            document.getElementById('locationStatus').textContent = 'Click to get your location';
-            document.getElementById('locationStatus').style.color = '';
-            document.getElementById('locationDisplay').innerHTML = 
-                '<i class="fas fa-map-marker-alt text-muted"></i> Location will appear here after scanning';
-            document.getElementById('locationDisplay').classList.remove('active');
-            
-            // Reset GPS section
-            if (map) {
-                document.getElementById('locationMap').style.display = 'none';
-                map = null;
-                marker = null;
-            }
-            
-            const gpsButton = document.getElementById('gpsButton');
-            gpsButton.disabled = false;
-            gpsButton.innerHTML = '<i class="fas fa-location-arrow"></i> Get Current Location';
-            
-            gpsCoordinates = null;
-            
-            // Reset address section
-            document.getElementById('streetAddress').value = '';
-            document.getElementById('city').value = '';
-            document.getElementById('zipCode').value = '';
-            document.getElementById('ward').value = '';
-            document.getElementById('locationDetails').value = '';
-            
-            // Reset selections
-            selectGarbageType('household');
-            selectQuantity('small');
-            selectIssueType('not_collected');
-            selectLocationMethod('gps');
-
+            // Reset address section (form uses street, city, zipCode, ward, details)
             const form = document.getElementById('garbageComplaintForm');
             form.reset();
             
@@ -1875,24 +1847,11 @@
             document.querySelector('input[name="photoTime"]').value = currentTime;
             
             // Hide other garbage input
-            document.getElementById('otherGarbageInput').style.display = 'none';
+            const otherInput = document.getElementById('otherGarbageInput');
+            if (otherInput) otherInput.style.display = 'none';
             
-            // Show notification
             showNotification('Form has been reset. Ready for new complaint.', 'info');
-            
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            
-            showNotification('Form reset successfully', 'info');
-
-            
-            showNotification('Form reset successfully. Ready for new complaint.', 'info');
-        }
-
-        // Initialize on load
-        document.addEventL
-
         }
 
         // Initialize on load
