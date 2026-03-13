@@ -116,92 +116,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Main Container */
+        /* Main Container - centered single column */
         .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: flex;
-            gap: 2rem;
-            min-height: calc(100vh - 120px);
-        }
-
-        /* Sidebar */
-        .govt-sidebar {
-            width: 250px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        .sidebar-header {
-            background: var(--primary-blue);
-            color: white;
-            padding: 1.25rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-item:last-child {
-            border-bottom: none;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            color: var(--text-dark);
-            text-decoration: none;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .nav-link:hover {
-            background: var(--light-blue);
-            color: var(--accent-blue);
-        }
-
-        .nav-link.active {
-            background: var(--light-blue);
-            color: var(--accent-blue);
-            border-left: 4px solid var(--accent-blue);
-        }
-
-        .nav-link i {
-            width: 20px;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-
-        .badge {
-            background: var(--danger-red);
-            color: white;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 10px;
-            margin-left: auto;
-        }
-
-        /* Content Area */
-        .content-area {
-            flex: 1;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem 2rem;
         }
 
         /* Dashboard Header */
@@ -390,14 +309,6 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .main-container {
-                flex-direction: column;
-            }
-            
-            .govt-sidebar {
-                width: 100%;
-            }
-            
             .categories-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -469,55 +380,7 @@
 
     <!-- Main Content -->
     <div class="main-container">
-        <!-- Sidebar Navigation -->
-        <aside class="govt-sidebar">
-            <div class="sidebar-card">
-                <div class="sidebar-header">
-                    <i class="fas fa-bars"></i>
-                    Navigation
-                </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/government/complaints" class="nav-link">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>All Complaints</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Analytics</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-users"></i>
-                            <span>Citizen Management</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-cog"></i>
-                            <span>System Settings</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-file-export"></i>
-                            <span>Reports</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-
-        <!-- Content Area -->
+        <!-- Centered Content Area -->
         <main class="content-area">
             <!-- Dashboard Header -->
             <div class="dashboard-header">
@@ -528,15 +391,21 @@
                     </div>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-value" style="color: #3182ce;">154</div>
+                            <div class="stat-value" style="color: #3182ce;">
+                                <%= stats && stats.totalComplaints !== undefined ? stats.totalComplaints : 0 %>
+                            </div>
                             <div class="stat-label">Total Complaints</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" style="color: #38a169;">87</div>
+                            <div class="stat-value" style="color: #38a169;">
+                                <%= stats && stats.resolvedComplaints !== undefined ? stats.resolvedComplaints : 0 %>
+                            </div>
                             <div class="stat-label">Resolved</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" style="color: #ed8936;">42</div>
+                            <div class="stat-value" style="color: #ed8936;">
+                                <%= stats && stats.inProgressComplaints !== undefined ? stats.inProgressComplaints : 0 %>
+                            </div>
                             <div class="stat-label">In Progress</div>
                         </div>
                     </div>
@@ -564,7 +433,9 @@
                                 Manage water supply issues, pipeline complaints, and water quality concerns
                             </p>
                             <span class="complaint-count">
-                                24 Active
+                                <%= stats && stats.categories && stats.categories.water
+                                    ? stats.categories.water.active
+                                    : 0 %> Active
                             </span>
                         </div>
                     </a>
@@ -580,7 +451,9 @@
                                 Handle waste management issues and sanitation concerns
                             </p>
                             <span class="complaint-count">
-                                18 Active
+                                <%= stats && stats.categories && stats.categories.garbage
+                                    ? stats.categories.garbage.active
+                                    : 0 %> Active
                             </span>
                         </div>
                     </a>
@@ -596,7 +469,9 @@
                                 Address power outages, electrical faults, and supply interruptions
                             </p>
                             <span class="complaint-count">
-                                32 Active
+                                <%= stats && stats.categories && stats.categories.electricity
+                                    ? stats.categories.electricity.active
+                                    : 0 %> Active
                             </span>
                         </div>
                     </a>
@@ -612,7 +487,9 @@
                                 Monitor traffic congestion, road damages, and parking issues
                             </p>
                             <span class="complaint-count">
-                                15 Active
+                                <%= stats && stats.categories && stats.categories.roads
+                                    ? stats.categories.roads.active
+                                    : 0 %> Active
                             </span>
                         </div>
                     </a>

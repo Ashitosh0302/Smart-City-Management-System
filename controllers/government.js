@@ -7,7 +7,89 @@ const { ObjectId } = require("mongodb");
 // =====================
 async function government_home(req, res)
 {
-    return res.render("government");
+    try
+    {
+        const mongoose = require("mongoose");
+        const db = mongoose.connection.db;
+
+        if(!db)
+        {
+            throw new Error("Database not connected");
+        }
+
+        const collectionNames = [
+            "watercomplaints",
+            "garbagecomplaints",
+            "electricitycomplaints",
+            "roadcomplaints"
+        ];
+
+        let totalComplaints = 0;
+        let resolvedComplaints = 0;
+        let inProgressComplaints = 0;
+
+        const categoryStats = {};
+
+        for(const name of collectionNames)
+        {
+            const collection = db.collection(name);
+
+            const [totalCount, resolvedCount, inProgressCount] = await Promise.all([
+                collection.countDocuments({}),
+                collection.countDocuments({ status: "resolved" }),
+                collection.countDocuments({ status: "in_progress" })
+            ]);
+
+            totalComplaints += totalCount;
+            resolvedComplaints += resolvedCount;
+            inProgressComplaints += inProgressCount;
+
+            categoryStats[name] =
+            {
+                total: totalCount,
+                active: totalCount - resolvedCount
+            };
+        }
+
+        return res.render("government",
+        {
+            stats:
+            {
+                totalComplaints,
+                resolvedComplaints,
+                inProgressComplaints,
+                categories:
+                {
+                    water: categoryStats["watercomplaints"] || { total: 0, active: 0 },
+                    garbage: categoryStats["garbagecomplaints"] || { total: 0, active: 0 },
+                    electricity: categoryStats["electricitycomplaints"] || { total: 0, active: 0 },
+                    roads: categoryStats["roadcomplaints"] || { total: 0, active: 0 }
+                }
+            }
+        });
+    }
+    catch(error)
+    {
+        console.error(error);
+
+        return res.render("government",
+        {
+            stats:
+            {
+                totalComplaints: 0,
+                resolvedComplaints: 0,
+                inProgressComplaints: 0,
+                categories:
+                {
+                    water: { total: 0, active: 0 },
+                    garbage: { total: 0, active: 0 },
+                    electricity: { total: 0, active: 0 },
+                    roads: { total: 0, active: 0 }
+                }
+            },
+            error: error.message
+        });
+    }
 }
 
 async function government_register_page(req, res)
