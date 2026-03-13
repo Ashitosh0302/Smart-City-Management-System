@@ -726,27 +726,27 @@
                             Type of Garbage
                         </label>
                         <div class="category-grid">
-                            <div class="category-card active" data-type="household" onclick="selectGarbageType(event, 'household')">
+                            <div class="category-card active" data-type="household" onclick="selectGarbageType(this, 'household')">
                                 <i class="fas fa-home category-icon" style="color: #3498db;"></i>
                                 <div class="category-name">Household Waste</div>
                             </div>
-                            <div class="category-card" data-type="construction" onclick="selectGarbageType(event, 'construction')">
+                            <div class="category-card" data-type="construction" onclick="selectGarbageType(this, 'construction')">
                                 <i class="fas fa-hard-hat category-icon" style="color: #e67e22;"></i>
                                 <div class="category-name">Construction Debris</div>
                             </div>
-                            <div class="category-card" data-type="plastic" onclick="selectGarbageType(event, 'plastic')">
+                            <div class="category-card" data-type="plastic" onclick="selectGarbageType(this, 'plastic')">
                                 <i class="fas fa-recycle category-icon" style="color: #9b59b6;"></i>
                                 <div class="category-name">Plastic/Dry Waste</div>
                             </div>
-                            <div class="category-card" data-type="wet" onclick="selectGarbageType(event, 'wet')">
+                            <div class="category-card" data-type="wet" onclick="selectGarbageType(this, 'wet')">
                                 <i class="fas fa-apple-alt category-icon" style="color: #e74c3c;"></i>
                                 <div class="category-name">Wet Waste</div>
                             </div>
-                            <div class="category-card" data-type="overflowing" onclick="selectGarbageType(event, 'overflowing')">
+                            <div class="category-card" data-type="overflowing" onclick="selectGarbageType(this, 'overflowing')">
                                 <i class="fas fa-trash-restore category-icon" style="color: #f39c12;"></i>
                                 <div class="category-name">Overflowing Dustbin</div>
                             </div>
-                            <div class="category-card" data-type="other" onclick="selectGarbageType(event, 'other')">
+                            <div class="category-card" data-type="other" onclick="selectGarbageType(this, 'other')">
                                 <i class="fas fa-ellipsis-h category-icon" style="color: #7f8c8d;"></i>
                                 <div class="category-name">Other Type</div>
                             </div>
@@ -770,17 +770,17 @@
                             Quantity
                         </label>
                         <div class="quantity-cards">
-                            <div class="quantity-card active" data-quantity="small" onclick="selectQuantity(event, 'small')">
+                            <div class="quantity-card active" data-quantity="small" onclick="selectQuantity(this, 'small')">
                                 <i class="fas fa-dumpster" style="color: #2ecc71; font-size: 2rem; margin-bottom: 10px;"></i>
                                 <div class="category-name">Small Pile</div>
                                 <small class="text-muted">Less than 1 meter</small>
                             </div>
-                            <div class="quantity-card" data-quantity="large" onclick="selectQuantity(event, 'large')">
+                            <div class="quantity-card" data-quantity="large" onclick="selectQuantity(this, 'large')">
                                 <i class="fas fa-dumpster-fire" style="color: #e74c3c; font-size: 2rem; margin-bottom: 10px;"></i>
                                 <div class="category-name">Large Heap</div>
                                 <small class="text-muted">More than 1 meter</small>
                             </div>
-                            <div class="quantity-card" data-quantity="spread" onclick="selectQuantity(event, 'spread')">
+                            <div class="quantity-card" data-quantity="spread" onclick="selectQuantity(this, 'spread')">
                                 <i class="fas fa-road" style="color: #f39c12; font-size: 2rem; margin-bottom: 10px;"></i>
                                 <div class="category-name">Spread Across Road</div>
                                 <small class="text-muted">Covering road area</small>
@@ -818,19 +818,19 @@
                             Issue Type
                         </label>
                         <div class="category-grid">
-                            <div class="category-card active" data-issue="not_collected" onclick="selectIssueType(event, 'not_collected')">
+                            <div class="category-card active" data-issue="not_collected" onclick="selectIssueType(this, 'not_collected')">
                                 <i class="fas fa-truck-loading category-icon" style="color: #3498db;"></i>
                                 <div class="category-name">Garbage Not Collected</div>
                             </div>
-                            <div class="category-card" data-issue="irregular" onclick="selectIssueType(event, 'irregular')">
+                            <div class="category-card" data-issue="irregular" onclick="selectIssueType(this, 'irregular')">
                                 <i class="fas fa-calendar-times category-icon" style="color: #e67e22;"></i>
                                 <div class="category-name">Irregular Collection</div>
                             </div>
-                            <div class="category-card" data-issue="illegal" onclick="selectIssueType(event, 'illegal')">
+                            <div class="category-card" data-issue="illegal" onclick="selectIssueType(this, 'illegal')">
                                 <i class="fas fa-ban category-icon" style="color: #e74c3c;"></i>
                                 <div class="category-name">Illegal Dumping</div>
                             </div>
-                            <div class="category-card" data-issue="smell" onclick="selectIssueType(event, 'smell')">
+                            <div class="category-card" data-issue="smell" onclick="selectIssueType(this, 'smell')">
                                 <i class="fas fa-skull-crossbones category-icon" style="color: #8e44ad;"></i>
                                 <div class="category-name">Bad Smell/Health Risk</div>
                             </div>
@@ -1356,14 +1356,14 @@
         }
 
         // Garbage type selection
-        function selectGarbageType(event, type) {
+        function selectGarbageType(cardEl, type) {
             const garbageTypeInput = document.getElementById('garbageType');
             if (garbageTypeInput) {
                 garbageTypeInput.value = type;
             }
             
             // Remove active class from all cards in this section
-            const cardsContainer = event.currentTarget.closest('.category-grid');
+            const cardsContainer = cardEl.closest('.category-grid');
             if (cardsContainer) {
                 cardsContainer.querySelectorAll('.category-card').forEach(card => {
                     card.classList.remove('active');
@@ -1371,7 +1371,7 @@
             }
             
             // Add active class to clicked card
-            event.currentTarget.classList.add('active');
+            cardEl.classList.add('active');
             
             // Handle "other" type input
             const otherInput = document.getElementById('otherGarbageInput');
@@ -1386,14 +1386,14 @@
         }
 
         // Quantity selection
-        function selectQuantity(event, type) {
+        function selectQuantity(cardEl, type) {
             const quantityInput = document.getElementById('quantity');
             if (quantityInput) {
                 quantityInput.value = type;
             }
             
             // Remove active class from all quantity cards
-            const container = event.currentTarget.closest('.quantity-cards');
+            const container = cardEl.closest('.quantity-cards');
             if (container) {
                 container.querySelectorAll('.quantity-card').forEach(card => {
                     card.classList.remove('active');
@@ -1401,18 +1401,18 @@
             }
             
             // Add active class to clicked card
-            event.currentTarget.classList.add('active');
+            cardEl.classList.add('active');
         }
 
         // Issue type selection
-        function selectIssueType(event, type) {
+        function selectIssueType(cardEl, type) {
             const issueTypeInput = document.getElementById('issueType');
             if (issueTypeInput) {
                 issueTypeInput.value = type;
             }
             
             // Remove active class from all cards in this specific grid
-            const parentContainer = event.currentTarget.closest('.form-group');
+            const parentContainer = cardEl.closest('.form-group');
             if (parentContainer) {
                 const issueGrid = parentContainer.querySelector('.category-grid');
                 if (issueGrid) {
@@ -1423,7 +1423,7 @@
             }
             
             // Add active class to clicked card
-            event.currentTarget.classList.add('active');
+            cardEl.classList.add('active');
         }
 
         // Media upload functions
