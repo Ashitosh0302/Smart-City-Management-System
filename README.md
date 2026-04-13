@@ -19,7 +19,7 @@ The platform enables authorities to efficiently manage **Bus, Train, and Metro s
 ## 📂 Project Folder Structure
 
 ```bash
-SmartOS-AA/
+SmartOS/
 │
 ├── config/
 │   ├── constants.js
@@ -192,6 +192,7 @@ SmartOS-AA/
 ---
 
 ## Authors
+
 ### Anushka Wagh
 ### Chinmay patil
 ### Mrunal Gurhale
