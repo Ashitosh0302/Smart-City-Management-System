@@ -7,11 +7,11 @@ import random
 
 def TEST_COURT_REGISTRATION():
     
-    PORT = "5000"
-    URL = f"http://localhost:{PORT}/court-register"   # change if needed
+    PORT = "3070"
+    URL = f"http://localhost:{PORT}/court/court_register"   # change if needed
     
     service = Service("chromedriver")  # update path if needed
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome()
     driver.maximize_window()
 
     # ✅ Dynamic Data (to avoid duplicate emails)

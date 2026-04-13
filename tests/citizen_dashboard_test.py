@@ -1,48 +1,75 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-import time
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def TEST_CITIZEN_DASHBOARD():
-    
+
     PORT = "3070"
     LOGIN_URL = f"http://localhost:{PORT}/login"
     DASHBOARD_URL = f"http://localhost:{PORT}/citizen"
 
-    service = Service("chromedriver")
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
 
-    # ✅ Test Data (existing user)
+    driver.set_window_size(1920, 1080)
+
+    wait = WebDriverWait(driver, 15)
+
+    # ✅ Test Data
     login_data = {
-        "user": "testuser1",   # OR "testuser1@gmail.com"
+        "user": "testuser1",   # OR email
         "password": "Test@123"
     }
 
     try:
-        # 🔹 Step 1: Open login page
+        # ===============================
+        # 🔹 STEP 1: Open Login Page
+        # ===============================
         driver.get(LOGIN_URL)
-        time.sleep(2)
 
-        # 🔹 Step 2: Enter Email/Username
-        driver.find_element(By.NAME, "email").send_keys(login_data["user"])
+        # ===============================
+        # 🔹 STEP 2: Enter Username/Email
+        # ===============================
+        email_input = wait.until(EC.visibility_of_element_located((By.NAME, "email")))
+        email_input.clear()
+        email_input.send_keys(login_data["user"])
 
-        # 🔹 Step 3: Enter Password
-        driver.find_element(By.NAME, "password").send_keys(login_data["password"])
+        # ===============================
+        # 🔹 STEP 3: Enter Password
+        # ===============================
+        password_input = driver.find_element(By.NAME, "password")
+        password_input.clear()
+        password_input.send_keys(login_data["password"])
 
-        # 🔹 Step 4: Click Login
-        driver.find_element(By.XPATH, "//button[contains(text(),'Login')]").click()
-        time.sleep(3)
+        # ===============================
+        # 🔹 STEP 4: Click Login
+        # ===============================
+        login_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
+        driver.execute_script("arguments[0].click();", login_btn)
 
-        # 🔹 Step 5: Open Dashboard
+        # ===============================
+        # 🔹 STEP 5: Wait for Login Success
+        # ===============================
+        wait.until(lambda d: "login" not in d.current_url.lower())
+
+        # ===============================
+        # 🔹 STEP 6: Open Dashboard
+        # ===============================
         driver.get(DASHBOARD_URL)
-        time.sleep(2)
 
-        # 🔹 Step 6: Check Dashboard Loaded
-        page_text = driver.find_element(By.TAG_NAME, "body").text
+        # ===============================
+        # 🔹 STEP 7: Validate Dashboard
+        # ===============================
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-        if "dashboard" in driver.current_url.lower() or "welcome" in page_text.lower():
+        current_url = driver.current_url.lower()
+        page_text = driver.find_element(By.TAG_NAME, "body").text.lower()
+
+        if "citizen" in current_url or "dashboard" in page_text or "welcome" in page_text:
             print("✅ Citizen dashboard loaded successfully")
         else:
             print("❌ Dashboard not loaded properly")

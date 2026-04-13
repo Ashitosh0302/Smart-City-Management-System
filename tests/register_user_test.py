@@ -1,76 +1,79 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import Select
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import random
 
 
 def TEST_USER_REGISTRATION():
     
-    PORT = "5000"
-    URL = f"http://localhost:{PORT}/register"
+    PORT = "3070"
+    URL = f"http://localhost:{PORT}/citizen/citizen_register"
     
-    service = Service("chromedriver")  # update path if needed
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome()
     driver.maximize_window()
+    
+    wait = WebDriverWait(driver, 10)
 
-    # ✅ Dynamic Test Data (avoids duplicate user error)
     rand = random.randint(1000, 9999)
-
-    user_data = {
-        "first_name": "Anushka",
-        "last_name": "Wagh",
-        "username": f"user{rand}",
-        "email": f"user{rand}@gmail.com",
-        "mobile": f"98765{rand}",
-        "gender": "female",   # change if needed
-        "city": "Mumbai",     # change if dropdown
-        "password": "Test@123",
-        "confirm_password": "Test@123"
-    }
 
     try:
         driver.get(URL)
-        time.sleep(2)
 
-        # ✅ Fill Form Fields
-        # ⚠️ Change locators based on your HTML
+        # ✅ Wait for form
+        wait.until(EC.presence_of_element_located((By.ID, "firstName")))
 
-        driver.find_element(By.NAME, "first_name").send_keys(user_data["first_name"])
-        driver.find_element(By.NAME, "last_name").send_keys(user_data["last_name"])
-        driver.find_element(By.NAME, "username").send_keys(user_data["username"])
-        driver.find_element(By.NAME, "email").send_keys(user_data["email"])
-        driver.find_element(By.NAME, "mobile").send_keys(user_data["mobile"])
+        # ✅ Fill form (using IDs → BEST PRACTICE)
+        driver.find_element(By.ID, "firstName").send_keys("Anushka")
+        driver.find_element(By.ID, "lastName").send_keys("Wagh")
+        driver.find_element(By.ID, "username").send_keys(f"user{rand}")
+        driver.find_element(By.ID, "email").send_keys(f"user{rand}@gmail.com")
 
-        # ✅ Gender (Radio Button)
-        driver.find_element(By.XPATH, f"//input[@name='gender' and @value='{user_data['gender']}']").click()
+        # ✅ FIXED (correct name from HTML)
+        driver.find_element(By.NAME, "phone_number").send_keys(f"98765{rand}")
 
-        # ✅ City (Dropdown OR Input)
-        try:
-            Select(driver.find_element(By.NAME, "city")).select_by_visible_text(user_data["city"])
-        except:
-            driver.find_element(By.NAME, "city").send_keys(user_data["city"])
+        # ✅ Gender
+        driver.find_element(By.ID, "female").click()
 
-        # ✅ Password Fields
-        driver.find_element(By.NAME, "password").send_keys(user_data["password"])
-        driver.find_element(By.NAME, "confirm_password").send_keys(user_data["confirm_password"])
+        # ✅ City
+        driver.find_element(By.ID, "city").send_keys("Mumbai")
 
-        # ✅ Submit Form
-        driver.find_element(By.TAG_NAME, "button").click()
-        time.sleep(3)
+        # ✅ Password
+        driver.find_element(By.ID, "password").send_keys("Test@123")
+        driver.find_element(By.ID, "confirmPassword").send_keys("Test@123")
 
-        # ✅ Check Result
-        current_url = driver.current_url
-        page_text = driver.find_element(By.TAG_NAME, "body").text
+        # ✅ Scroll to checkbox
+        checkbox = driver.find_element(By.ID, "terms")
+        driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
 
-        if "login" in current_url.lower() or "success" in page_text.lower():
-            print("✅ User registration successful")
+        # ✅ BEST FIX → JS CLICK (avoids intercepted error)
+        driver.execute_script("arguments[0].click();", checkbox)
+
+        # ✅ Scroll to button
+        button = driver.find_element(By.XPATH, "//button[@type='submit']")
+        driver.execute_script("arguments[0].scrollIntoView(true);", button)
+
+        # ✅ Click submit
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
+        button.click()
+
+        # ✅ Wait for response
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+
+        current_url = driver.current_url.lower()
+        page_text = driver.find_element(By.TAG_NAME, "body").text.lower()
+
+        if "login" in current_url or "citizen" in current_url:
+            print("✅ Registration SUCCESS")
+
+        elif "error" in page_text:
+            print("❌ Registration FAILED (error shown)")
+
         else:
-            print("❌ Registration may have failed")
+            print("⚠️ Check manually")
 
     except Exception as e:
-        print("❌ Error during registration:", e)
+        print("❌ Error:", e)
 
     finally:
         driver.quit()

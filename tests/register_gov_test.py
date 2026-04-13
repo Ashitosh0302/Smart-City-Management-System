@@ -7,11 +7,11 @@ import random
 
 def TEST_GOV_REGISTRATION():
     
-    PORT = "5000"
-    URL = f"http://localhost:{PORT}/gov-register"   # change route if needed
+    PORT = "3070"
+    URL = f"http://localhost:{PORT}/government/government_register"   # change route if needed
     
     service = Service("chromedriver")  # update path if needed
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome()
     driver.maximize_window()
 
     # ✅ Dynamic Test Data

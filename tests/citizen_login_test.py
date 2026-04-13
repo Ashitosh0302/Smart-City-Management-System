@@ -1,50 +1,61 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def TEST_USER_LOGIN():
     
-    PORT = "5000"
-    URL = f"http://localhost:{PORT}/login"   # change if needed
+    PORT = "3070"
+    URL = f"http://localhost:{PORT}/login"
     
-    service = Service("chromedriver")  # update path if needed
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome()
     driver.maximize_window()
-
-    # ✅ Test Data (use existing registered user)
-    login_data = {
-        "user": "testuser1",   # OR "testuser1@gmail.com"
-        "password": "Test@123"
-    }
+    
+    wait = WebDriverWait(driver, 10)
 
     try:
         driver.get(URL)
-        time.sleep(2)
 
-        # ✅ Enter Email / Username
-        # ⚠️ Change locator based on your HTML
+        # ✅ Wait for login form
+        wait.until(EC.presence_of_element_located((By.NAME, "email")))
 
-        driver.find_element(By.NAME, "email").send_keys(login_data["user"])
-        # OR if your field is username:
-        # driver.find_element(By.NAME, "username").send_keys(login_data["user"])
+        # ✅ Enter credentials
+        driver.find_element(By.NAME, "email").send_keys("admin@gmail.com")  
+        driver.find_element(By.NAME, "password").send_keys("Test@123")
 
-        # ✅ Enter Password
-        driver.find_element(By.NAME, "password").send_keys(login_data["password"])
+        # ✅ Click login
+        login_btn = driver.find_element(By.XPATH, "//button[@type='submit']")
+        driver.execute_script("arguments[0].scrollIntoView(true);", login_btn)
+        driver.execute_script("arguments[0].click();", login_btn)
 
-        # ✅ Click Login Button
-        driver.find_element(By.TAG_NAME, "button").click()
-        time.sleep(3)
+        # ✅ Wait for page load
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-        # ✅ Check Login Success
-        if "dashboard" in driver.current_url.lower():
-            print("✅ User (Citizen) login successful")
+        current_url = driver.current_url.lower()
+        page_text = driver.find_element(By.TAG_NAME, "body").text.lower()
+
+        print("👉 Current URL:", current_url)
+
+        # ✅ SUCCESS CONDITIONS
+        if "/citizen" in current_url:
+            print("✅ Login SUCCESS → /citizen")
+
+        elif "dashboard" in current_url:
+            print("✅ Login SUCCESS → dashboard")
+
+        elif "welcome" in page_text or "logout" in page_text:
+            print("✅ Login SUCCESS (content detected)")
+
+        # ❌ FAILURE
+        elif "invalid" in page_text or "error" in page_text:
+            print("❌ Login FAILED (invalid credentials)")
+
         else:
-            print("❌ Login failed")
+            print("⚠️ Login result unclear → check UI")
 
     except Exception as e:
-        print("❌ Error during login:", e)
+        print("❌ Error:", e)
 
     finally:
         driver.quit()
