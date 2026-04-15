@@ -1,25 +1,24 @@
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 import time
-import random
+
 
 def TEST_WEATHER_ALERTS():
+    
     PORT = "3070"
     LOGIN_URL = f"http://localhost:{PORT}/login"
     DASHBOARD_URL = f"http://localhost:{PORT}/citizen/alerts/weather"
 
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
+    service = Service("chromedriver")
+    driver = webdriver.Chrome()
     driver.maximize_window()
-    wait = WebDriverWait(driver, 10)
+
+    # ✅ Test Data
+    login_data = {
+        "user": "testuser1",   # OR email
+        "password": "Test@123"
+    }
 
     try:
         # 🔹 Step 1: Login

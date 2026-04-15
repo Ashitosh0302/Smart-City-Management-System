@@ -5,22 +5,22 @@ import time
 import random
 
 
-def TEST_COURT_REGISTRATION():
+def TEST_GOV_REGISTRATION():
     
-    PORT = "3070"
-    URL = f"http://localhost:{PORT}/court/court_register"   # change if needed
+    PORT = "5000"
+    URL = f"http://localhost:{PORT}/gov-register"   # change route if needed
     
     service = Service("chromedriver")  # update path if needed
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=service)
     driver.maximize_window()
 
-    # ✅ Dynamic Data (to avoid duplicate emails)
+    # ✅ Dynamic Test Data
     rand = random.randint(1000, 9999)
 
-    court_data = {
-        "email": f"court{rand}@gmail.com",
-        "password": "Court@123",
-        "confirm_password": "Court@123"
+    gov_data = {
+        "email": f"gov{rand}@gmail.com",
+        "password": "Gov@123",
+        "confirm_password": "Gov@123"
     }
 
     try:
@@ -28,9 +28,9 @@ def TEST_COURT_REGISTRATION():
         time.sleep(2)
 
         # ✅ Fill Form (update locators if needed)
-        driver.find_element(By.NAME, "email").send_keys(court_data["email"])
-        driver.find_element(By.NAME, "password").send_keys(court_data["password"])
-        driver.find_element(By.NAME, "confirm_password").send_keys(court_data["confirm_password"])
+        driver.find_element(By.NAME, "email").send_keys(gov_data["email"])
+        driver.find_element(By.NAME, "password").send_keys(gov_data["password"])
+        driver.find_element(By.NAME, "confirm_password").send_keys(gov_data["confirm_password"])
 
         # ✅ Submit Form
         driver.find_element(By.TAG_NAME, "button").click()
@@ -41,15 +41,16 @@ def TEST_COURT_REGISTRATION():
         page_text = driver.find_element(By.TAG_NAME, "body").text
 
         if "login" in current_url.lower() or "success" in page_text.lower():
-            print("✅ Court authority registration successful")
+            print("✅ Government authority registration successful")
         else:
             print("❌ Registration may have failed")
 
     except Exception as e:
-        print("❌ Error during court registration:", e)
+        print("❌ Error during government registration:", e)
 
     finally:
         driver.quit()
 
+
 if __name__ == "__main__":
-    TEST_COURT_REGISTRATION()
+    TEST_GOV_REGISTRATION()

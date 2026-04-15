@@ -1,4 +1,5 @@
 from selenium import webdriver
+<<<<<<< HEAD
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
@@ -9,10 +10,22 @@ import time
 import random
 
 def TEST_CITIZEN_DASHBOARD():
+=======
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+def TEST_CITIZEN_DASHBOARD():
+
+>>>>>>> 61c3cc00a000f2204436b07de06d74944b8999ba
     PORT = "3070"
     LOGIN_URL = f"http://localhost:{PORT}/login"
     DASHBOARD_URL = f"http://localhost:{PORT}/citizen"
 
+<<<<<<< HEAD
     edge_options = Options()
     edge_options.add_argument("--headless")
     edge_options.add_argument("--no-sandbox")
@@ -20,6 +33,20 @@ def TEST_CITIZEN_DASHBOARD():
     driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
     driver.maximize_window()
     wait = WebDriverWait(driver, 10)
+=======
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+
+    driver.set_window_size(1920, 1080)
+
+    wait = WebDriverWait(driver, 15)
+
+    # ✅ Test Data
+    login_data = {
+        "user": "testuser1",   # OR email
+        "password": "Test@123"
+    }
+>>>>>>> 61c3cc00a000f2204436b07de06d74944b8999ba
 
     try:
         # ===============================
@@ -76,5 +103,11 @@ def TEST_CITIZEN_DASHBOARD():
     finally:
         driver.quit()
 
+<<<<<<< HEAD
 if __name__ == "__main__":
     TEST_CITIZEN_DASHBOARD()
+=======
+
+if __name__ == "__main__":
+    TEST_CITIZEN_DASHBOARD()
+>>>>>>> 61c3cc00a000f2204436b07de06d74944b8999ba

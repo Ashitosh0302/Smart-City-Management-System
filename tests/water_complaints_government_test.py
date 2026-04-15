@@ -1,25 +1,24 @@
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 import time
-import random
 
+# ================= CONFIG =================
+PORT = "3070"
+BASE_URL = f"http://localhost:{PORT}/government/complaints/water"   # change route if needed
+
+# ================= SETUP =================
+driver = webdriver.Chrome()
+driver.maximize_window()
+
+
+# ================= HELPERS =================
 def wait():
-    PORT = "3070"
-    BASE_URL = f"http://localhost:{PORT}/government/complaints/water"
+    time.sleep(2)
 
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
-    driver.maximize_window()
-    wait = WebDriverWait(driver, 10)
 
+# ================= TEST 1: LOAD PAGE =================
+def test_load_page():
     driver.get(BASE_URL)
     wait()
     assert "Water Infrastructure" in driver.title
@@ -43,6 +42,7 @@ def test_search():
     assert len(rows) >= 1
     print("✅ Search Working")
 
+
 # ================= TEST 4: FILTER STATUS =================
 def test_filter_status():
     dropdown = driver.find_element(By.ID, "statusFilter")
@@ -54,6 +54,7 @@ def test_filter_status():
     assert len(rows) >= 0
     print("✅ Status Filter Working")
 
+
 # ================= TEST 5: VIEW MODAL =================
 def test_view_modal():
     view_btn = driver.find_element(By.CSS_SELECTOR, ".btn-view")
@@ -63,6 +64,7 @@ def test_view_modal():
     modal = driver.find_element(By.ID, "viewModal")
     assert "active" in modal.get_attribute("class")
     print("✅ View Modal Opened")
+
 
 # ================= TEST 6: CLOSE MODAL =================
 def test_close_modal():
@@ -74,6 +76,7 @@ def test_close_modal():
     assert "active" not in modal.get_attribute("class")
     print("✅ Modal Closed")
 
+
 # ================= TEST 7: UPDATE MODAL =================
 def test_update_modal():
     edit_btn = driver.find_elements(By.CSS_SELECTOR, ".fa-edit")[0]
@@ -83,6 +86,7 @@ def test_update_modal():
     modal = driver.find_element(By.ID, "updateModal")
     assert "active" in modal.get_attribute("class")
     print("✅ Update Modal Opened")
+
 
 # ================= TEST 8: CHANGE STATUS =================
 def test_change_status():
@@ -99,6 +103,7 @@ def test_change_status():
     wait()
     print("✅ Status Updated")
 
+
 # ================= TEST 9: PAGINATION =================
 def test_pagination():
     next_btn = driver.find_element(By.ID, "nextBtn")
@@ -114,3 +119,25 @@ def test_pagination():
 
 if __name__ == "__main__":
     try:
+
+# ================= RUN ALL TESTS =================
+if __name__ == "__main__":
+    try:
+        test_load_page()
+        test_table_load()
+        test_search()
+        test_filter_status()
+        test_view_modal()
+        test_close_modal()
+        test_update_modal()
+        test_change_status()
+        test_pagination()
+
+        print("\n🎉 ALL TESTS PASSED")
+
+    except Exception as e:
+        print("❌ TEST FAILED:", e)
+
+    finally:
+        time.sleep(3)
+        driver.quit()

@@ -1,24 +1,27 @@
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 import time
 import random
 
-def TEST_TRANSPORT_REGISTRATION():
-    PORT = "3070"
-    URL = f"http://localhost:{PORT}/transport/transpose_register"
 
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
+def TEST_TRANSPORT_REGISTRATION():
+    
+    PORT = "3070"
+    URL = f"http://localhost:{PORT}/transport/transpose_register"   # change if needed
+    
+    service = Service("chromedriver")  # update path if needed
+    driver = webdriver.Chrome()
     driver.maximize_window()
-    wait = WebDriverWait(driver, 10)
+
+    # ✅ Dynamic Test Data
+    rand = random.randint(1000, 9999)
+
+    transport_data = {
+        "email": f"transport{rand}@gmail.com",
+        "password": "Trans@123",
+        "confirm_password": "Trans@123"
+    }
 
     try:
         driver.get(URL)

@@ -1,4 +1,5 @@
 from selenium import webdriver
+<<<<<<< HEAD
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
@@ -18,6 +19,21 @@ def TEST_USER_LOGIN():
     edge_options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
     driver.maximize_window()
+=======
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+def TEST_USER_LOGIN():
+    
+    PORT = "3070"
+    URL = f"http://localhost:{PORT}/login"
+    
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+    
+>>>>>>> 61c3cc00a000f2204436b07de06d74944b8999ba
     wait = WebDriverWait(driver, 10)
 
     try:
@@ -66,5 +82,11 @@ def TEST_USER_LOGIN():
     finally:
         driver.quit()
 
+<<<<<<< HEAD
 if __name__ == "__main__":
     TEST_USER_LOGIN()
+=======
+
+if __name__ == "__main__":
+    TEST_USER_LOGIN()
+>>>>>>> 61c3cc00a000f2204436b07de06d74944b8999ba

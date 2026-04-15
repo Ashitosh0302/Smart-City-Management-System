@@ -1,31 +1,28 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 import time
-import random
 
-@pytest.fixture
-def driver():
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
-    yield driver
-    driver.quit()
-
-import time
-import random
-
-import time
 
 BASE_URL = "http://localhost:3070/government/complaints/electricity"  # change as needed
 
+
+@pytest.fixture
+def driver():
+    options = webdriver.ChromeOptions()
+    options.add_argument("--start-maximized")
+
+    driver = webdriver.Chrome()
+    driver.get(BASE_URL)
+
+    yield driver
+    driver.quit()
+
+
+# -------------------------
+# 1. Page Load Test
+# -------------------------
 def test_page_load(driver):
     assert "Electricity Infrastructure" in driver.title
     time.sleep(2)

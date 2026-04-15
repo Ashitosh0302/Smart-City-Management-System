@@ -1,23 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
 import time
-import random
+from config import GET_DRIVER, BASE_URL
 
 def TEST_FIRE_SERVICE():
-    PORT = "3070"
-
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
-    driver.maximize_window()
-    wait = WebDriverWait(driver, 10)
+    
+    driver = GET_DRIVER()
 
     try:
         driver.get(BASE_URL)
@@ -37,6 +24,7 @@ def TEST_FIRE_SERVICE():
 
     finally:
         driver.quit()
+
 
 if __name__ == "__main__":
     TEST_FIRE_SERVICE()

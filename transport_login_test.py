@@ -4,19 +4,19 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 
-def TEST_HOSPITAL_LOGIN():
+def TEST_TRANSPORT_LOGIN():
     
     PORT = "3070"
     URL = f"http://localhost:{PORT}/login"
 
     service = Service("chromedriver")
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=service)
     driver.maximize_window()
 
     # ✅ Test Data
     login_data = {
-        "user": "hospitaluser1",   # OR "hospitaluser1@gmail.com"
-        "password": "Hosp@123"
+        "user": "transportuser1",   # OR "transportuser1@gmail.com"
+        "password": "Trans@123"
     }
 
     try:
@@ -27,8 +27,8 @@ def TEST_HOSPITAL_LOGIN():
         driver.find_element(By.XPATH, "//*[text()='Authority']").click()
         time.sleep(1)
 
-        # ✅ Step 2: Select "Hospital"
-        driver.find_element(By.XPATH, "//*[text()='Hospital']").click()
+        # ✅ Step 2: Select "Transport"
+        driver.find_element(By.XPATH, "//*[text()='Transport']").click()
         time.sleep(1)
 
         # ✅ Step 3: Enter Email / Username
@@ -37,21 +37,22 @@ def TEST_HOSPITAL_LOGIN():
         # ✅ Step 4: Enter Password
         driver.find_element(By.NAME, "password").send_keys(login_data["password"])
 
-        # ✅ Step 5: Click Login Button
+        # ✅ Step 5: Click Login
         driver.find_element(By.XPATH, "//button[contains(text(),'Login')]").click()
         time.sleep(3)
 
         # ✅ Step 6: Check Success
         if "dashboard" in driver.current_url.lower():
-            print("✅ Hospital authority login successful")
+            print("✅ Transport authority login successful")
         else:
-            print("❌ Hospital authority login failed")
+            print("❌ Transport authority login failed")
 
     except Exception as e:
-        print("❌ Error during hospital login:", e)
+        print("❌ Error during transport login:", e)
 
     finally:
         driver.quit()
 
+
 if __name__ == "__main__":
-    TEST_HOSPITAL_LOGIN()
+    TEST_TRANSPORT_LOGIN()
