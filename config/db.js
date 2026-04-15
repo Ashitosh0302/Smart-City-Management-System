@@ -16,11 +16,12 @@ db.connect((error) =>
 {
     if(error)
     {
-        console.error("MySQL connection failed:", error.message);
+        console.error("❌ MySQL connection failed:", error.message);
+        console.warn("⚠️ Continuing without MySQL. Admin and Citizen data may be unavailable.");
     }
     else
     {
-        console.log("MySQL connected to Aiven Cloud");
+        console.log("🚀 MySQL connected to Aiven Cloud");
     }
 });
 

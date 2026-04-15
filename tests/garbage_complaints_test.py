@@ -1,127 +1,78 @@
-from selenium import webdriver
+import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
+def test_garbage_complaint_submission(citizen_driver, base_url):
+    print(f"Starting Complaint Test...")
+    
+    wait = WebDriverWait(citizen_driver, 10)
 
-def TEST_GARBAGE_COMPLAINT_FULL():
 
-    PORT = "3070"
-    LOGIN_URL = f"http://localhost:{PORT}/login"
-    GARBAGE_URL = f"http://localhost:{PORT}/citizen/complaints/garbage"
+    # Open Garbage Complaint Page
+    citizen_driver.get(f"{base_url}/citizen/complaints/garbage")
+    time.sleep(3)
 
-    service = Service("chromedriver")
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+    # Location Details
+    citizen_driver.find_element(By.NAME, "street").send_keys("MG Road")
+    citizen_driver.find_element(By.NAME, "city").send_keys("Ahmedabad")
+    citizen_driver.find_element(By.NAME, "zipCode").send_keys("380001")
+    Select(citizen_driver.find_element(By.NAME, "ward")).select_by_visible_text("Ward 1")
+    citizen_driver.find_element(By.NAME, "details").send_keys("Garbage is dumped near the corner of the street.")
 
-    # ✅ Login Data
-    login_data = {
-        "user": "testuser1",
-        "password": "Test@123"
-    }
+    # Garbage Type
+    elem1 = citizen_driver.find_element(By.XPATH, "//div[@data-type='plastic']")
+    citizen_driver.execute_script("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", elem1)
+    time.sleep(0.5)
+    citizen_driver.execute_script("arguments[0].click();", elem1)
+    time.sleep(1)
 
-    try:
-        # 🔹 Step 1: Login
-        driver.get(LOGIN_URL)
-        time.sleep(2)
+    # Quantity
+    elem2 = citizen_driver.find_element(By.XPATH, "//div[@data-quantity='large']")
+    citizen_driver.execute_script("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", elem2)
+    time.sleep(0.5)
+    citizen_driver.execute_script("arguments[0].click();", elem2)
+    time.sleep(1)
 
-        driver.find_element(By.NAME, "email").send_keys(login_data["user"])
-        driver.find_element(By.NAME, "password").send_keys(login_data["password"])
-        driver.find_element(By.XPATH, "//button[contains(text(),'Login')]").click()
-        time.sleep(3)
+    # Duration
+    Select(citizen_driver.find_element(By.NAME, "duration")).select_by_visible_text("3 Days")
 
-        # 🔹 Step 2: Open Garbage Complaint Page
-        driver.get(GARBAGE_URL)
-        time.sleep(3)
+    # Issue Type
+    elem3 = citizen_driver.find_element(By.XPATH, "//div[@data-issue='illegal']")
+    citizen_driver.execute_script("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", elem3)
+    time.sleep(0.5)
+    citizen_driver.execute_script("arguments[0].click();", elem3)
+    time.sleep(1)
 
-        # ==========================
-        # 🔹 LOCATION DETAILS
-        # ==========================
-        driver.find_element(By.NAME, "street").send_keys("MG Road")
-        driver.find_element(By.NAME, "city").send_keys("Ahmedabad")
-        driver.find_element(By.NAME, "zipCode").send_keys("380001")
+    # Description
+    citizen_driver.find_element(By.NAME, "description").send_keys("Large amount of plastic waste dumped illegally on roadside.")
 
-        Select(driver.find_element(By.NAME, "ward")).select_by_visible_text("Ward 1")
+    # Photo Date & Time
+    citizen_driver.find_element(By.NAME, "photoDate").send_keys("2026-04-13")
+    citizen_driver.find_element(By.NAME, "photoTime").send_keys("10:30")
 
-        driver.find_element(By.NAME, "details").send_keys(
-            "Garbage is dumped near the corner of the street."
-        )
+    # Contact Info
+    citizen_driver.find_element(By.NAME, "fullName").send_keys("Test User")
+    citizen_driver.find_element(By.NAME, "phone").send_keys("9876543210")
+    citizen_driver.find_element(By.NAME, "email").send_keys("testuser@gmail.com")
 
-        # ==========================
-        # 🔹 GARBAGE TYPE (click card)
-        # ==========================
-        driver.find_element(
-            By.XPATH, "//div[@data-type='plastic']"
-        ).click()
-        time.sleep(1)
+    # Submit Form
+    submit_btn = citizen_driver.find_element(By.ID, "submitBtn")
+    citizen_driver.execute_script("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", submit_btn)
+    time.sleep(0.5)
+    citizen_driver.execute_script("arguments[0].click();", submit_btn)
+    time.sleep(5)
 
-        # ==========================
-        # 🔹 QUANTITY
-        # ==========================
-        driver.find_element(
-            By.XPATH, "//div[@data-quantity='large']"
-        ).click()
-        time.sleep(1)
+    # Check Success Modal
+    success_modal = citizen_driver.find_element(By.ID, "successModal")
+    assert success_modal is not None
+    print(f"Complaint Test PASSED")
 
-        # ==========================
-        # 🔹 DURATION
-        # ==========================
-        Select(driver.find_element(By.NAME, "duration")).select_by_visible_text("3 Days")
 
-        # ==========================
-        # 🔹 ISSUE TYPE
-        # ==========================
-        driver.find_element(
-            By.XPATH, "//div[@data-issue='illegal']"
-        ).click()
-        time.sleep(1)
 
-        # ==========================
-        # 🔹 DESCRIPTION
-        # ==========================
-        driver.find_element(By.NAME, "description").send_keys(
-            "Large amount of plastic waste dumped illegally on roadside."
-        )
 
-        # ==========================
-        # 🔹 PHOTO DATE & TIME
-        # ==========================
-        driver.find_element(By.NAME, "photoDate").send_keys("2026-04-13")
-        driver.find_element(By.NAME, "photoTime").send_keys("10:30")
-
-        # ==========================
-        # 🔹 CONTACT INFO
-        # ==========================
-        driver.find_element(By.NAME, "fullName").send_keys("Test User")
-        driver.find_element(By.NAME, "phone").send_keys("9876543210")
-        driver.find_element(By.NAME, "email").send_keys("testuser@gmail.com")
-
-        # ==========================
-        # 🔹 SUBMIT FORM
-        # ==========================
-        driver.find_element(By.ID, "submitBtn").click()
-        time.sleep(5)
-
-        # ==========================
-        # 🔹 CHECK SUCCESS MODAL
-        # ==========================
-        try:
-            success_modal = driver.find_element(By.ID, "successModal")
-
-            if success_modal.is_displayed():
-                print("✅ Garbage complaint submitted successfully")
-            else:
-                print("❌ Submission failed")
-
-        except:
-            print("❌ Success modal not found")
-
-    except Exception as e:
-        print("❌ Error:", e)
-
-    finally:
-        driver.quit()
 
 if __name__ == "__main__":
-    TEST_GARBAGE_COMPLAINT_FULL()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

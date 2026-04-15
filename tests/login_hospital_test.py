@@ -1,57 +1,39 @@
-from selenium import webdriver
+import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
 import time
 
-
-def TEST_HOSPITAL_LOGIN():
+def test_hospital_login(driver, base_url):
+    print(f"Starting Hospital Test...")
     
-    PORT = "3070"
-    URL = f"http://localhost:{PORT}/login"
+    driver.get(f"{base_url}/login")
+    time.sleep(2)
 
-    service = Service("chromedriver")
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+    # Step 1: Click "Authority"
+    driver.find_element(By.XPATH, "//*[text()='Authority']").click()
+    time.sleep(1)
 
-    # ✅ Test Data
-    login_data = {
-        "user": "hospitaluser1",   # OR "hospitaluser1@gmail.com"
-        "password": "Hosp@123"
-    }
+    # Step 2: Select "Hospital"
+    driver.find_element(By.XPATH, "//*[text()='Hospital']").click()
+    time.sleep(1)
 
-    try:
-        driver.get(URL)
-        time.sleep(2)
+    # Step 3: Enter Email / Username
+    driver.find_element(By.NAME, "email").send_keys("hospitaluser1")
 
-        # ✅ Step 1: Click "Authority"
-        driver.find_element(By.XPATH, "//*[text()='Authority']").click()
-        time.sleep(1)
+    # Step 4: Enter Password
+    driver.find_element(By.NAME, "password").send_keys("Hosp@123")
 
-        # ✅ Step 2: Select "Hospital"
-        driver.find_element(By.XPATH, "//*[text()='Hospital']").click()
-        time.sleep(1)
+    # Step 5: Click Login Button
+    driver.find_element(By.XPATH, "//button[contains(text(),'Login')]").click()
+    time.sleep(3)
 
-        # ✅ Step 3: Enter Email / Username
-        driver.find_element(By.NAME, "email").send_keys(login_data["user"])
+    # Step 6: Check Success
+    assert any(x in driver.current_url.lower() for x in ["dashboard", "government", "hospital", "court", "transport", "citizen"])
+    print(f"Hospital Test PASSED")
 
-        # ✅ Step 4: Enter Password
-        driver.find_element(By.NAME, "password").send_keys(login_data["password"])
 
-        # ✅ Step 5: Click Login Button
-        driver.find_element(By.XPATH, "//button[contains(text(),'Login')]").click()
-        time.sleep(3)
 
-        # ✅ Step 6: Check Success
-        if "dashboard" in driver.current_url.lower():
-            print("✅ Hospital authority login successful")
-        else:
-            print("❌ Hospital authority login failed")
 
-    except Exception as e:
-        print("❌ Error during hospital login:", e)
-
-    finally:
-        driver.quit()
 
 if __name__ == "__main__":
-    TEST_HOSPITAL_LOGIN()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

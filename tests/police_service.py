@@ -1,30 +1,20 @@
+import pytest
 from selenium.webdriver.common.by import By
 import time
-from config import GET_DRIVER, BASE_URL
 
-def TEST_POLICE_SERVICE():
+def test_police_service(government_driver, base_url):
+    print(f"Starting Police Service Test...")
     
-    driver = GET_DRIVER()
+    government_driver.get(f"{base_url}/government")
+    time.sleep(2)
 
-    try:
-        driver.get(BASE_URL)
-        time.sleep(2)
+    assert "police" in government_driver.current_url.lower() or "police" in government_driver.page_source.lower()
+    print(f"Police Service Test PASSED")
 
-        police_btn = driver.find_element(By.ID, "police")
-        police_btn.click()
 
-        time.sleep(2)
 
-        assert "police" in driver.current_url.lower() or "police" in driver.page_source.lower()
-
-        print("Police Service Test PASSED")
-
-    except Exception as e:
-        print("Police Service Test FAILED:", e)
-
-    finally:
-        driver.quit()
 
 
 if __name__ == "__main__":
-    TEST_POLICE_SERVICE()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

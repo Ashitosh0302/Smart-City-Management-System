@@ -1,52 +1,41 @@
-from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
 import time
 import random
 
-def TEST_GOV_REGISTRATION():
-    PORT = "3070"
-    URL = f"http://localhost:{PORT}/gov-register"
+def test_gov_authority_registration(driver, base_url):
+    print(f"Starting Government Test...")
+    
+    driver.get(f"{base_url}/gov-register")
+    time.sleep(2)
 
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
-    driver.maximize_window()
-    wait = WebDriverWait(driver, 10)
+    # Dynamic Test Data
+    rand = random.randint(1000, 9999)
+    email = f"gov_auth{rand}@gmail.com"
+    password = "Gov@123"
 
-    try:
-        driver.get(URL)
-        time.sleep(2)
+    # Fill Form
+    driver.find_element(By.NAME, "email").send_keys(email)
+    driver.find_element(By.NAME, "password").send_keys(password)
+    driver.find_element(By.NAME, "confirm_password").send_keys(password)
 
-        # ✅ Fill Form (update locators if needed)
-        driver.find_element(By.NAME, "email").send_keys(gov_data["email"])
-        driver.find_element(By.NAME, "password").send_keys(gov_data["password"])
-        driver.find_element(By.NAME, "confirm_password").send_keys(gov_data["confirm_password"])
+    # Submit Form
+    submit_btn = driver.find_element(By.TAG_NAME, "button")
+    driver.execute_script("arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});", submit_btn)
+    driver.execute_script("arguments[0].click();", submit_btn)
+    time.sleep(3)
 
-        # ✅ Submit Form
-        driver.find_element(By.TAG_NAME, "button").click()
-        time.sleep(3)
+    # Check Result
+    current_url = driver.current_url.lower()
+    page_text = driver.find_element(By.TAG_NAME, "body").text.lower()
 
-        # ✅ Check Result
-        current_url = driver.current_url
-        page_text = driver.find_element(By.TAG_NAME, "body").text
+    assert ("login" in current_url or "success" in page_text)
+    print(f"Government Test PASSED")
 
-        if "login" in current_url.lower() or "success" in page_text.lower():
-            print("✅ Government authority registration successful")
-        else:
-            print("❌ Registration may have failed")
 
-    except Exception as e:
-        print("❌ Error during government registration:", e)
 
-    finally:
-        driver.quit()
+
 
 if __name__ == "__main__":
-    TEST_GOV_REGISTRATION()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

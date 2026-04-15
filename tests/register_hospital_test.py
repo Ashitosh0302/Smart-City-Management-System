@@ -1,52 +1,39 @@
-from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
 import time
 import random
 
-def TEST_HOSPITAL_REGISTRATION():
-    PORT = "3070"
-    URL = f"http://localhost:{PORT}/hospital/hospital_register"
+def test_hospital_registration(hospital_driver, base_url):
+    print(f"Starting Hospital Test...")
+    
+    hospital_driver.get(f"{base_url}/hospital/hospital_register")
+    time.sleep(2)
 
-    edge_options = Options()
-    edge_options.add_argument("--headless")
-    edge_options.add_argument("--no-sandbox")
-    edge_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=edge_options)
-    driver.maximize_window()
-    wait = WebDriverWait(driver, 10)
+    # Dynamic Data
+    rand = random.randint(1000, 9999)
+    email = f"hospital{rand}@gmail.com"
+    password = "Hosp@123"
 
-    try:
-        driver.get(URL)
-        time.sleep(2)
+    # Fill Form
+    hospital_driver.find_element(By.NAME, "email").send_keys(email)
+    hospital_driver.find_element(By.NAME, "password").send_keys(password)
+    hospital_driver.find_element(By.NAME, "confirm_password").send_keys(password)
 
-        # ✅ Fill Form (update if your field names differ)
-        driver.find_element(By.NAME, "email").send_keys(hospital_data["email"])
-        driver.find_element(By.NAME, "password").send_keys(hospital_data["password"])
-        driver.find_element(By.NAME, "confirm_password").send_keys(hospital_data["confirm_password"])
+    # Submit Form
+    hospital_driver.find_element(By.TAG_NAME, "button").click()
+    time.sleep(3)
 
-        # ✅ Submit Form
-        driver.find_element(By.TAG_NAME, "button").click()
-        time.sleep(3)
+    # Check Result
+    current_url = hospital_driver.current_url.lower()
+    page_text = hospital_driver.find_element(By.TAG_NAME, "body").text.lower()
 
-        # ✅ Check Result
-        current_url = driver.current_url
-        page_text = driver.find_element(By.TAG_NAME, "body").text
+    assert ("login" in current_url or "success" in page_text)
+    print(f"Hospital Test PASSED")
 
-        if "login" in current_url.lower() or "success" in page_text.lower():
-            print("✅ Hospital authority registration successful")
-        else:
-            print("❌ Registration may have failed")
 
-    except Exception as e:
-        print("❌ Error during hospital registration:", e)
 
-    finally:
-        driver.quit()
+
 
 if __name__ == "__main__":
-    TEST_HOSPITAL_REGISTRATION()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

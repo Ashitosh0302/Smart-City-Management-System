@@ -1,39 +1,34 @@
+import pytest
 from selenium.webdriver.common.by import By
 import time
-from config import GET_DRIVER, BASE_URL
 
-def TEST_ADMIN_BUS_DASHBOARD():
+def test_admin_bus_dashboard(transport_driver, base_url):
+    print(f"Starting Bus Transport Test...")
+    
+    transport_driver.get(base_url)
+    time.sleep(2)
 
-    driver = GET_DRIVER()
+    transport_driver.find_element(By.ID, "admin-login").click()
+    time.sleep(2)
 
-    try:
-        driver.get(BASE_URL)
-        time.sleep(2)
+    transport_driver.find_element(By.ID, "admin-bus").click()
+    time.sleep(2)
 
-        driver.find_element(By.ID, "admin-login").click()
-        time.sleep(2)
+    transport_driver.find_element(By.ID, "add-route").click()
+    time.sleep(2)
 
-        driver.find_element(By.ID, "admin-bus").click()
-        time.sleep(2)
+    transport_driver.find_element(By.ID, "route-name").send_keys("Bus Route A")
+    transport_driver.find_element(By.ID, "submit-route").click()
 
-        driver.find_element(By.ID, "add-route").click()
-        time.sleep(2)
+    time.sleep(2)
 
-        driver.find_element(By.ID, "route-name").send_keys("Bus Route A")
-        driver.find_element(By.ID, "submit-route").click()
+    assert "bus" in transport_driver.page_source.lower()
+    print(f"Bus Transport Test PASSED")
 
-        time.sleep(2)
 
-        assert "bus" in driver.page_source.lower()
 
-        print("Admin Bus Dashboard Test PASSED")
-
-    except Exception as e:
-        print("Admin Bus Dashboard Test FAILED:", e)
-
-    finally:
-        driver.quit()
 
 
 if __name__ == "__main__":
-    TEST_ADMIN_BUS_DASHBOARD()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

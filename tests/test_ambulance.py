@@ -1,30 +1,20 @@
+import pytest
 from selenium.webdriver.common.by import By
 import time
-from config import GET_DRIVER, BASE_URL
 
-def TEST_AMBULANCE_SERVICE():
+def test_ambulance_service(hospital_driver, base_url):
+    print(f"Starting Ambulance Service Test...")
     
-    driver = GET_DRIVER()
+    hospital_driver.get(f"{base_url}/hospital")
+    time.sleep(2)
 
-    try:
-        driver.get(BASE_URL)
-        time.sleep(2)
+    assert "ambulance" in hospital_driver.current_url.lower() or "ambulance" in hospital_driver.page_source.lower()
+    print(f"Ambulance Service Test PASSED")
 
-        ambulance_btn = driver.find_element(By.ID, "ambulance")
-        ambulance_btn.click()
 
-        time.sleep(2)
 
-        assert "ambulance" in driver.current_url.lower() or "ambulance" in driver.page_source.lower()
-
-        print("Ambulance Service Test PASSED")
-
-    except Exception as e:
-        print("Ambulance Service Test FAILED:", e)
-
-    finally:
-        driver.quit()
 
 
 if __name__ == "__main__":
-    TEST_AMBULANCE_SERVICE()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

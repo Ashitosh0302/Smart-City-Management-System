@@ -1,30 +1,20 @@
+import pytest
 from selenium.webdriver.common.by import By
 import time
-from config import GET_DRIVER, BASE_URL
 
-def TEST_TRAIN_SERVICE():
+def test_train_service(transport_driver, base_url):
+    print(f"Starting Train Transport Test...")
+    
+    transport_driver.get(f"{base_url}/transport")
+    time.sleep(2)
 
-    driver = GET_DRIVER()
+    assert "train" in transport_driver.current_url.lower() or "train" in transport_driver.page_source.lower()
+    print(f"Train Transport Test PASSED")
 
-    try:
-        driver.get(BASE_URL)
-        time.sleep(2)
 
-        train_btn = driver.find_element(By.ID, "train")
-        train_btn.click()
 
-        time.sleep(2)
-
-        assert "train" in driver.current_url.lower() or "train" in driver.page_source.lower()
-
-        print("Train Service Test PASSED")
-
-    except Exception as e:
-        print("Train Service Test FAILED:", e)
-
-    finally:
-        driver.quit()
 
 
 if __name__ == "__main__":
-    TEST_TRAIN_SERVICE()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

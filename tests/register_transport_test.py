@@ -1,55 +1,39 @@
-from selenium import webdriver
+import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
 import time
 import random
 
-
-def TEST_TRANSPORT_REGISTRATION():
+def test_transport_registration(transport_driver, base_url):
+    print(f"Starting Registration Test...")
     
-    PORT = "3070"
-    URL = f"http://localhost:{PORT}/transport/transpose_register"   # change if needed
-    
-    service = Service("chromedriver")  # update path if needed
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+    transport_driver.get(f"{base_url}/transport/transpose_register")
+    time.sleep(2)
 
-    # ✅ Dynamic Test Data
+    # Dynamic Test Data
     rand = random.randint(1000, 9999)
+    email = f"transport{rand}@gmail.com"
+    password = "Trans@123"
 
-    transport_data = {
-        "email": f"transport{rand}@gmail.com",
-        "password": "Trans@123",
-        "confirm_password": "Trans@123"
-    }
+    # Fill Form
+    transport_driver.find_element(By.NAME, "email").send_keys(email)
+    transport_driver.find_element(By.NAME, "password").send_keys(password)
+    transport_driver.find_element(By.NAME, "confirm_password").send_keys(password)
 
-    try:
-        driver.get(URL)
-        time.sleep(2)
+    # Submit Form
+    transport_driver.find_element(By.TAG_NAME, "button").click()
+    time.sleep(3)
 
-        # ✅ Fill Form (update locators if needed)
-        driver.find_element(By.NAME, "email").send_keys(transport_data["email"])
-        driver.find_element(By.NAME, "password").send_keys(transport_data["password"])
-        driver.find_element(By.NAME, "confirm_password").send_keys(transport_data["confirm_password"])
+    # Check Result
+    current_url = transport_driver.current_url.lower()
+    page_text = transport_driver.find_element(By.TAG_NAME, "body").text.lower()
 
-        # ✅ Submit Form
-        driver.find_element(By.TAG_NAME, "button").click()
-        time.sleep(3)
+    assert ("login" in current_url or "success" in page_text)
+    print(f"Registration Test PASSED")
 
-        # ✅ Check Result
-        current_url = driver.current_url
-        page_text = driver.find_element(By.TAG_NAME, "body").text
 
-        if "login" in current_url.lower() or "success" in page_text.lower():
-            print("✅ Transport authority registration successful")
-        else:
-            print("❌ Registration may have failed")
 
-    except Exception as e:
-        print("❌ Error during transport registration:", e)
 
-    finally:
-        driver.quit()
 
 if __name__ == "__main__":
-    TEST_TRANSPORT_REGISTRATION()
+    import pytest
+    pytest.main([__file__, "-s", "-v"])

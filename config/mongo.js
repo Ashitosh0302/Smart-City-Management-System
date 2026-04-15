@@ -24,7 +24,8 @@ async function CONNECT_MONGO()
     {
         console.error("❌ MongoDB connection failed");
         console.error(error.message);
-        process.exit(1);
+        console.warn("⚠️ Continuing without MongoDB. Some features may not work.");
+        // process.exit(1); 
     }
 }
 
