@@ -78,6 +78,9 @@ SmartOS/
 ├── routes/
 │   └── citizen.js
 │
+├── tests/
+│   ├── all_test_files.py
+│
 ├── views/
 │   ├── court.ejs
 │   ├── electricity_government.ejs
